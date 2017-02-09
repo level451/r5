@@ -37,9 +37,6 @@ exports.saveSettings = function(callback){
 }
 exports.loadWiz = function(callback){
 
-    var prop = '';
-    var val = '';
-
     // default wiz values go here
     global.wiz={
         Baudrate:115200,
@@ -59,12 +56,10 @@ exports.loadWiz = function(callback){
     } else
     {
         console.log('Invalid line colon not found - ignoring:'+line);
-
     }
-
 });
     rl.on('close',()=> {
-        if (callback){callback()}
+        if (callback){callback();}
     })
 }
 
