@@ -1,4 +1,5 @@
-var debug =  (log.webserver) ? 1:0;
+//var debug =  (log.webserver) ? 1:0;
+var debug = true;
 var console = {}
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('cyan','Webserver ') + x + '\n');}}})();
 
@@ -10,10 +11,10 @@ var request = require('request');
 
 var  app = express();
 var ejs = require('ejs');
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 
 app.use(express.static('public')); // set up the public directory as web accessible
-app.use(bodyParser.json()); // lets us get the json body out
+//app.use(bodyParser.json()); // lets us get the json body out
 
 app.use(function(err, req, res, next) {
     console.log(err.stack);
@@ -22,7 +23,7 @@ app.use(function(err, req, res, next) {
 
 app.get('/', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
-    res.render('lights.ejs', { title: 'LED' });
+    res.render('r5.ejs', {wiz:gobal.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
 });
 app.get('/main', function (req, res) {
     res.render('main.ejs',{options:global.settings.options,things:global.things,wsport:settings.options.websocket.listenport});
@@ -31,11 +32,11 @@ app.use(function(req, res, next) {
     res.status(404).send('Sorry cant find that!');
 });
 
-var server = app.listen(settings.options.webserver.listenport, function () {
+var server = app.listen(settings.webServer.listenPort, function () {
     var host = server.address().address;
     var port = server.address().port;
     //console.log('Http server listening at http://%s:%s', host, port);
-    console.log(ll.ansi('brightBlue','Webserver listening at http://'+settings.info.externalipaddress+':'+settings.options.webserver.listenport));
+    console.log(ll.ansi('brightBlue','Webserver listening at http://localhost:'+settings.webServer.listenPort));
 });
 
 

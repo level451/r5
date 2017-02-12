@@ -1,0 +1,10 @@
+{
+  "name": "R5",
+  "version": "0.0.1",
+  "dependencies": {
+    "ejs": "^2.5.5",
+    "express": "^4.14.1",
+    "request": "^2.79.0",
+    "ws": "^2.0.3"
+  }
+}

@@ -8,7 +8,16 @@ const readline = require('readline');
 exports.loadSettings = function(callback){
     fs.readFile('settings.txt', 'utf8', (err,filetxt) =>{
         if (err) {
-        global.settings = {};
+        global.settings = {
+            webServer:{
+                listenPort:3111
+            },
+            webSocket:{
+              listenPort:3112,
+              maxConnections:10,
+              showConnectioninfo:false
+            }
+        };
         exports.saveSettings(callback)
         }
         else{
@@ -21,7 +30,7 @@ exports.loadSettings = function(callback){
         });
 }
 exports.saveSettings = function(callback){
-    fs.writeFile('settings.txt', JSON.stringify(global.settings),'utf8',function(err,filetxt){
+    fs.writeFile('settings.txt', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
         if (err ) {
             console.log('Failed to write config file.'+ err)
         }

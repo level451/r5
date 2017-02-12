@@ -7,4 +7,6 @@ function settingsLoaded(){
 function wizLoaded(){
 //    console.log(JSON.stringify(global.wiz))
     console.log('wiz.dat file loaded to global.wiz');
+    webserver = require('./webserver')
+    ws = require('./websocket')
 }

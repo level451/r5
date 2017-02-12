@@ -1,0 +1,25 @@
+<html>
+<script src="/javascripts/reconnectingWebsocket.js"> </script>
+<script src="/javascripts/r5.js"> </script>
+
+
+<head>
+    <style type="text/css">
+        body { margin:0; }
+    </style>
+
+</head>
+<body onload="load()">
+<div>
+    <canvas id ='canvas' style="border:1px solid #000000;width:100%"></canvas>
+</div>
+
+<div id='body'>
+    Waiting for Events...
+</div>
+</body>
+</html>
+<script>
+        settings=<%-JSON.stringify(settings)%>
+        wiz=<%-JSON.stringify(wiz)%>
+</script>
