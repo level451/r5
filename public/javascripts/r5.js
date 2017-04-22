@@ -5,7 +5,6 @@ var offset = 0;
 
 
 
-
 function load() {
 
     canvas = document.getElementById('canvas')
