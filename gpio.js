@@ -2,15 +2,15 @@
  * Created by steve on 4/26/2017.
  */
 
-var Gpio = require('pigpio').Gpio;
+var gpio = require('pigpio').gpio;
 
 exports.gpiotest = function () {
-    switch1 = new Gpio(4,{
-        mode: Gpio.INPUT,
-        pullUpDown: Gpio.PUD_UP,
-        edge: Gpio.EITHER_EDGE
+    switch1 = new gpio(4,{
+        mode: gpio.INPUT,
+        pullUpDown: gpio.PUD_UP,
+        edge: gpio.EITHER_EDGE
     }),
-    led1 = new Gpio(17,{mode: Gpio.OUTPUT});
+    led1 = new gpio(17,{mode: gpio.OUTPUT});
 
     switch1.on('interrupt', function(level){
         led1.digitalWrite(level);
