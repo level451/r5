@@ -1,3 +1,4 @@
+gpiomodule = require("./gpio");
 const debug = 1;
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
@@ -28,7 +29,7 @@ exports.loadSettings = function(callback){
 
 
         });
-    gpio.gpiotest();
+    gpiomodule.gpiotest();
 }
 exports.saveSettings = function(callback){
     fs.writeFile('settings.txt', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
