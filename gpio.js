@@ -21,7 +21,7 @@ exports.pintest = function () {
 
 exports.pwm = function(){
 
-    var Gpio = require('rpio').Gpio,
+    var Gpio = require('pigpio').Gpio,
         led = new Gpio(17, {mode: Gpio.OUTPUT});
 
     setInterval(function () {
