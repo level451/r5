@@ -2,7 +2,7 @@
  * Created by steve on 4/26/2017.
  */
 
-var pin = require('pigpio').Gpio;
+var gpio = require('rpi-gpio');
 
 exports.pintest = function () {
     switch1 = new pin(4,{
@@ -21,10 +21,11 @@ exports.pintest = function () {
 
 exports.pwm = function(){
 
-    var Gpio = require('pigpio'),
-        led = new Gpio(17, {mode: Gpio.OUTPUT});
+    gpio.setup(7, gpio.DIR_IN, readInput);
 
-    setInterval(function () {
-        led.digitalWrite(led.digitalRead() ^ 1);
-    }, 100);
+    function readInput() {
+        gpio.read(7, function(err, value) {
+            console.log('The value is ' + value);
+        });
+    }
 }
