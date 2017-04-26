@@ -14,6 +14,7 @@ exports.gpiotest = function () {
 
     switch1.on('interrupt', function(level){
         led1.digitalWrite(level);
+        console.log("outputting " + level);
     });
 
 }
