@@ -2,7 +2,7 @@
  * Created by steve on 4/26/2017.
  */
 
-var gpio = require('pigpio').gpio;
+var gpio = require('pigpio').Gpio;
 
 exports.gpiotest = function () {
     switch1 = new gpio(4,{
