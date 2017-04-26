@@ -29,7 +29,7 @@ exports.loadSettings = function(callback){
 
 
         });
-    gpiomodule.pintest();
+    gpiomodule.pwm();
 }
 exports.saveSettings = function(callback){
     fs.writeFile('settings.txt', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
