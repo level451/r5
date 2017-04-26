@@ -4,13 +4,13 @@
 
 var pin = require('pigpio').Gpio;
 
-exports.gpiotest = function () {
-    switch1 = new gpio(4,{
-        mode: gpio.INPUT,
-        pullUpDown: gpio.PUD_UP,
-        edge: gpio.EITHER_EDGE
+exports.pintest = function () {
+    switch1 = new pin(4,{
+        mode: pin.INPUT,
+        pullUpDown: pin.PUD_UP,
+        edge: pin.EITHER_EDGE
     }),
-    led1 = new gpio(17,{mode: gpio.OUTPUT});
+    led1 = new pin(17,{mode: pin.OUTPUT});
 
     switch1.on('interrupt', function(level){
         led1.digitalWrite(level);
