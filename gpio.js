@@ -36,8 +36,8 @@ exports.pwm = function(){
         led = new Gpio(59, 'out'),
         button = new Gpio(4, 'in', 'both');
 
-    console.log("writing "+ 0)
-    led.writeSync(0);
+    console.log("writing "+ 1)
+    led.writeSync(1);
 
     button.watch(function (err, value) {
         if (err) {
