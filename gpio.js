@@ -9,30 +9,12 @@
 
 exports.pwm = function(){
 
-    led = new Gpio(27, 'out');         // Export GPIO #14 as an output.
+    var Gpio = require('onoff').Gpio,
+        led = new Gpio(78, 'out'),
+        button = new Gpio(4, 'in', 'both');
 
-// Toggle the state of the LED on GPIO #14 every 200ms 'count' times.
-// Here asynchronous methods are used. Synchronous methods are also available.
-    (function blink(count) {
-        if (count <= 0) {
-            return led.unexport();
-        }
+     console.log("writing  0");
+        led.writeSync(0);
 
-        led.read(function (err, value) { // Asynchronous read.
-            if (err) {
-                throw err;
-            }
-
-            led.write(value ^ 1, function (err) { // Asynchronous write.
-                if (err) {
-                    throw err;
-                }
-            });
-        });
-
-        setTimeout(function () {
-            blink(count - 1);
-        }, 200);
-    }(25));
 
 }
