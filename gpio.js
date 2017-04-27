@@ -14,7 +14,7 @@ exports.pwm = function(){
         button = new Gpio(4, 'in', 'both');
 
      console.log("writing  0");
-        led.writeSync(0);
+        led.writeSync(1);
 
 
 }
