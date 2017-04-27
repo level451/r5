@@ -1,9 +1,9 @@
 /**
  * Created by steve on 4/26/2017.
  */
-if(os.type() != 'Windows_NT') {
+//if(os.type() != 'Windows_NT') {
     var Gpio = require('onoff').Gpio;
-}
+//}
 
 
 
