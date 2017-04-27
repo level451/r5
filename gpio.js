@@ -1,32 +1,38 @@
 /**
  * Created by steve on 4/26/2017.
  */
-
-var gpio = require('rpi-gpio');
-
-exports.pintest = function () {
-    switch1 = new pin(4,{
-        mode: pin.INPUT,
-        pullUpDown: pin.PUD_UP,
-        edge: pin.EITHER_EDGE
-    }),
-    led1 = new pin(17,{mode: pin.OUTPUT});
-
-    switch1.on('interrupt', function(level){
-        led1.digitalWrite(level);
-        console.log("outputting " + level);
-    });
-
+if(os.type() != 'Windows_NT') {
+    var Gpio = require('onoff').Gpio;
 }
+
+
 
 exports.pwm = function(){
 
-    gpio.setup(7, gpio.DIR_OUT, write);
+    led = new Gpio(27, 'out');         // Export GPIO #14 as an output.
 
-    function write() {
-        gpio.write(7, true, function(err) {
-            if (err) throw err;
-            console.log('Written to pin');
+// Toggle the state of the LED on GPIO #14 every 200ms 'count' times.
+// Here asynchronous methods are used. Synchronous methods are also available.
+    (function blink(count) {
+        if (count <= 0) {
+            return led.unexport();
+        }
+
+        led.read(function (err, value) { // Asynchronous read.
+            if (err) {
+                throw err;
+            }
+
+            led.write(value ^ 1, function (err) { // Asynchronous write.
+                if (err) {
+                    throw err;
+                }
+            });
         });
-    }
+
+        setTimeout(function () {
+            blink(count - 1);
+        }, 200);
+    }(25));
+
 }
