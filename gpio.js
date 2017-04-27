@@ -33,8 +33,8 @@
 exports.pwm = function(){
 
     var Gpio = require('onoff').Gpio,
-        led = new Gpio(59, 'out'),
-        button = new Gpio(78, 'in', 'both');
+        led = new Gpio(78, 'out'),
+        button = new Gpio(59, 'in', 'both');
 
 
     button.watch(function (err, value) {
