@@ -4,7 +4,13 @@
 //if(os.type() != 'Windows_NT') {
     var Gpio = require('onoff').Gpio;
 //}
-
+//Nanopi S2 GPIO addresses
+// GPIOA: 0
+// GPIOE: 128
+// GPIOALV: 160
+// GPIOB: 32
+// GPIOC: 64
+// GPIOD: 96
 
 
 exports.pwm = function(){
