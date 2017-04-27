@@ -34,17 +34,15 @@ exports.pwm = function(){
 
     var Gpio = require('onoff').Gpio,
         led = new Gpio(59, 'out'),
-        button = new Gpio(4, 'in', 'both');
+        button = new Gpio(78, 'in', 'both');
 
-    console.log("writing "+ 1)
-    led.writeSync(1);
 
     button.watch(function (err, value) {
         if (err) {
             throw err;
         }
-        console.log("writing "+ 0)
-        led.writeSync(0);
+        console.log("writing "+ value)
+        led.writeSync(value);
     });
 
 }
