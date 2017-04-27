@@ -33,11 +33,15 @@
 exports.pwm = function(){
 
     var Gpio = require('onoff').Gpio,
-        led = new Gpio(59, 'out'),//pin 16 of nanopi s2 is gpioc14.  port c is offest by 64, so gpioc14 is gpio # 78
-        button = new Gpio(78, 'in', 'both');
+        led = new Gpio(59, 'out'),
+        button = new Gpio(4, 'in', 'both');
 
-     console.log("writing  0");
-        led.writeSync(1);
-
+    button.watch(function (err, value) {
+        if (err) {
+            throw err;
+        }
+        console.log("writing "+ 0)
+        led.writeSync(0);
+    });
 
 }
