@@ -13,9 +13,21 @@ function load() {
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
     // draw the welcome image
     ctx = canvas.getContext('2d');
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function(evt) {
+        switch (evt.key){
+            case 'a':
+                switchPress(1);
+                break;
+            case 'z':
+                switchPress(2);
+                break;
+            case ' ':
+                switchPress(3);
+                break;
 
-        console.log('key')
+
+        }
+
 
     }, false);
     var welcomeImage = new Image();
@@ -24,9 +36,11 @@ function load() {
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
         languageList = getLanguages();
         var t0 = performance.now();
-        drawMenuText(languageList,3);
-        var t1 = performance.now();
-        console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+        menuItem = 1;
+        drawMenuText(languageList,menuItem);
+        sysState = 'languageMenu'
+
+
 
 
         //  int = setInterval(function(){
@@ -45,6 +59,35 @@ function load() {
 
 
 }
+function switchPress(s){
+    console.log(s)
+
+    switch (sysState){
+        case 'languageMenu':
+            switch(s){
+                case 1:
+                    --menuItem
+                    if (menuItem<1){
+                        menuItem=1;
+                    }
+                    console.log('menuitem:'+menuItem)
+                    drawMenuText(languageList,menuItem);
+
+                    break;
+                case 2:
+                    ++menuItem
+                    if (menuItem>languageList.length){
+                        menuItem=languageList.length;
+                    }
+                    console.log('menuitem:'+menuItem)
+                    drawMenuText(languageList,menuItem);
+
+                    break;
+            }
+
+
+    }
+}
 function getLanguages(){
     var rv = []
     for (var key in wiz) {
@@ -61,26 +104,32 @@ function drawMenu(offset){
 
 
 function drawMenuText(list,item){
-const itemsToDisplay = 7
-    ;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+const itemsToDisplay = 5;
 var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
 
-for (var i = item-(Math.floor(itemsToDisplay/2));i<itemsToDisplay-(Math.floor(itemsToDisplay/2));++i)
-    //for (var i = 0;i<list.length;++i)
+//for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
+    for (var i = item-(Math.floor(itemsToDisplay/2))-1;i<list.length;++i)
 
 {
     if(list[i] != undefined){
         ctx.fillText(list[i],(canvas.width/2)-(ctx.measureText(list[i]).width/2),(counter*(canvas.height/(itemsToDisplay+1)))+20*scale);
         console.log((canvas.width/2)-(ctx.measureText(list[i]).width/2))
     }
+    if (i==item-1){
+        console.log('== '+languageList[i-1])
+        ctx.rect(0,((counter*(canvas.height/(itemsToDisplay+1)))+20*scale)+27,canvas.width,-134);
+        ctx.stroke();
+console.log('x1:'+ctx.measureText(list[i]).height)
 
+    }
 
     console.log(list[i])
     ++counter
 }
 //menu = ctx.getImageData(0,0,canvas.width,list.length*(canvas.height/(itemsToDisplay+1)));
-  //  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 }
 function getFont(fontSize) {
