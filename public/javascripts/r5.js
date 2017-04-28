@@ -13,26 +13,31 @@ function load() {
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
     // draw the welcome image
     ctx = canvas.getContext('2d');
+    document.addEventListener('keydown', function(event) {
+
+        console.log('key')
+
+    }, false);
     var welcomeImage = new Image();
 
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
         languageList = getLanguages();
         var t0 = performance.now();
-        drawMenuText(languageList,0);
+        drawMenuText(languageList,3);
         var t1 = performance.now();
         console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
 
 
-         int = setInterval(function(){
-            offset+=1;
-             var t0 = performance.now();
-             drawMenu(offset);
-             var t1 = performance.now();
-            // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
-
-            if (offset > 100){clearInterval(int)}
-        },20)
+        //  int = setInterval(function(){
+        //     offset+=1;
+        //      var t0 = performance.now();
+        //      drawMenu(offset);
+        //      var t1 = performance.now();
+        //     // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+        //
+        //     if (offset > 100){clearInterval(int)}
+        // },20)
     }
     //welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
     welcomeImage.src = 'show/Welcome.jpg'
@@ -56,7 +61,7 @@ function drawMenu(offset){
 
 
 function drawMenuText(list,item){
-const itemsToDisplay = 5
+const itemsToDisplay = 7
     ;
 var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
