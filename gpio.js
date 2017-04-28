@@ -36,23 +36,25 @@
 //   32          92
 //   33          77
 
-
-
+var os = require('os');
+console.log("Operating system is: " + os.type().toString());
 
 
 exports.pwm = function(){
+    if(os.type() != 'Windows_NT') {
+        console.log(os.type().toString());
+        var Gpio = require('onoff').Gpio,
+            led = new Gpio(59, 'out'),
+            button = new Gpio(78, 'in', 'both');
 
-    var Gpio = require('onoff').Gpio,
-        led = new Gpio(59, 'out'),
-        button = new Gpio(78, 'in', 'both');
 
-
-    button.watch(function (err, value) {
-        if (err) {
-            throw err;
-        }
-        console.log("writing "+ value)
-        led.writeSync(value);
-    });
+        button.watch(function (err, value) {
+            if (err) {
+                throw err;
+            }
+            console.log("writing " + value)
+            led.writeSync(value);
+        });
+    }
 
 }
