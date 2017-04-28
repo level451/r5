@@ -94,7 +94,6 @@ function getLanguages(){
         if (key.indexOf('Service') == 0  ){
             rv.push(wiz[key])
         }
-
     }
     return rv
 }
