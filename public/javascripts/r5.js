@@ -114,16 +114,23 @@ var counter = 1;
 
 {
     if(list[i] != undefined){
+
+        if (i==item-1){
+            ctx.fillStyle = "#ff0000";
+        } else
+        {
+            ctx.fillStyle = "#000000";
+        }
         ctx.fillText(list[i],(canvas.width/2)-(ctx.measureText(list[i]).width/2),(counter*(canvas.height/(itemsToDisplay+1)))+20*scale);
         console.log((canvas.width/2)-(ctx.measureText(list[i]).width/2))
     }
-    if (i==item-1){
-        console.log('== '+languageList[i-1])
-        ctx.rect(0,((counter*(canvas.height/(itemsToDisplay+1)))+20*scale)+27,canvas.width,-134);
-        ctx.stroke();
-console.log('x1:'+ctx.measureText(list[i]).height)
-
-    }
+    // if (i==item-1){
+    //     console.log('== '+languageList[i-1])
+    //     ctx.rect(0,((counter*(canvas.height/(itemsToDisplay+1)))+20*scale)+27,canvas.width,-134);
+    //     ctx.stroke();
+    //
+    //
+    // }
 
     console.log(list[i])
     ++counter
