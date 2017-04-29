@@ -83,6 +83,29 @@ function switchPress(s){
                     drawMenuText(languageList,menuItem);
 
                     break;
+                case 3:
+                    var speed = 150;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawMenuText(languageList,menuItem,true);
+                    setTimeout(function(){
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    },speed *1)
+                    setTimeout(function(){
+                        drawMenuText(languageList,menuItem,true);
+                    },speed *2)
+                    setTimeout(function(){
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    },speed *3)
+                    setTimeout(function(){
+                        drawMenuText(languageList,menuItem,true);
+                    },speed *4)
+                    setTimeout(function(){
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    },speed *5)
+                    setTimeout(function(){
+                        drawMenuText(languageList,menuItem,true);
+                    },speed *6)
+                    break;
             }
 
 
@@ -102,18 +125,18 @@ function drawMenu(offset){
 }
 
 
-function drawMenuText(list,item){
+function drawMenuText(list,item,itemonly){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 const itemsToDisplay = 7;
 var counter = 1;
-    ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
-
+ //   ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
+    ctx.font = (200/itemsToDisplay)*scale+'px Verdana'
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
     for (var i = item-(Math.floor(itemsToDisplay/2))-1;i<list.length;++i)
 
 {
-    if(list[i] != undefined){
+    if((list[i] != undefined && !itemonly)|| (itemonly && i==item-1)){
 
         if (i==item-1){
             ctx.fillStyle = "#ff0000";
