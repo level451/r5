@@ -152,7 +152,6 @@ function cueAuto(){
     document.getElementById('cuenumber').value =  parseInt(document.getElementById('cuenumber').value) + 1; //increment counter
 
     autocount = setTimeout(function(){cueAuto()}, parseInt(document.getElementById('cuetime').value)*1000);
-
     if(parseInt(document.getElementById('cuenumber').value)> 1000){
         document.getElementById('cuenumber').value = 1; //count to 1000 then repeat
     }
