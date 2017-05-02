@@ -23,7 +23,7 @@ app.use(function(err, req, res, next) {
 
 app.get('/', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
-    res.render('r5.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
+    res.render('r6.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
 });
 app.get('/cue', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });

@@ -1,4 +1,4 @@
-var pagename ='r5';
+var pagename ='r6';
 var events = [];
 var inttimer = null;
 var offset = 0;
@@ -201,7 +201,8 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
-                    case "things":
+                    case "cue":
+                        console.log('cue - data:'+x.data)
                         break;
 
                     case  "pageupdate":
