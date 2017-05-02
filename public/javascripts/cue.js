@@ -106,7 +106,7 @@ function sendcuebutton() {
 
     totalpacket = "          " + showname + " " + "GO" + " " + packet + "\n\r";
     output.innerHTML = totalpacket + "<BR>" + output.innerHTML;
-    websocketsend(cue, totalpacket);
+    websocketsend("cue", totalpacket);
 
     document.getElementById('cuenumber').value =  parseInt(document.getElementById('cuenumber').value) + 1; //increment counter
 }
@@ -147,7 +147,7 @@ function cueAuto(){
 
     totalpacket = "          " + showname + " " + "GO" + " " + packet + "\n\r";
     output.innerHTML = totalpacket + "<BR>" + output.innerHTML;
-    websocketsend(cue, totalpacket);
+    websocketsend("cue", totalpacket);
 
     document.getElementById('cuenumber').value =  parseInt(document.getElementById('cuenumber').value) + 1; //increment counter
 
