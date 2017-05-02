@@ -1,0 +1,27 @@
+<html>
+<script src="/javascripts/reconnectingWebsocket.js"> </script>
+<script src="/javascripts/cue.js"> </script>
+
+
+<head>
+    <style type="text/css">
+        body { margin:0; }
+    </style>
+
+</head>
+<body onload="load()">
+
+
+<div id='body'>
+    <button onclick="websocketsend('cue',this.innerText)">AUDA1.mp3</button>
+    <button onclick="websocketsend('cue',this.innerText)">AUDA2.mp3</button>
+    <button onclick="websocketsend('cue',this.innerText)">Slide1.mp3</button>
+</div>
+</body>
+</html>
+<script>
+        settings=<%-JSON.stringify(settings)%>
+        wiz=<%-JSON.stringify(wiz)%>
+        wsUri = "ws://" + window.location.hostname + ":<%=wsport%>";
+
+</script>

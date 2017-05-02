@@ -9,7 +9,7 @@ function load() {
 
     canvas = document.getElementById('canvas')
     canvas.width=window.outerWidth
-    canvas.height=(window.outerWidth*(3/4)); // aspect ratio set to 16/9
+    canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
     // draw the welcome image
     ctx = canvas.getContext('2d');
@@ -85,6 +85,9 @@ function switchPress(s){
                     break;
                 case 3:
                     var speed = 150;
+                    console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    var audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    audio.play();
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     drawMenuText(languageList,menuItem,true);
                     setTimeout(function(){
@@ -145,7 +148,7 @@ var counter = 1;
             ctx.fillStyle = "#000000";
         }
         ctx.fillText(list[i],(canvas.width/2)-(ctx.measureText(list[i]).width/2),(counter*(canvas.height/(itemsToDisplay+1)))+20*scale);
-        console.log((canvas.width/2)-(ctx.measureText(list[i]).width/2))
+
     }
     // if (i==item-1){
     //     console.log('== '+languageList[i-1])
@@ -155,7 +158,7 @@ var counter = 1;
     //
     // }
 
-    console.log(list[i])
+  //  console.log(list[i])
     ++counter
 }
 //menu = ctx.getImageData(0,0,canvas.width,list.length*(canvas.height/(itemsToDisplay+1)));
