@@ -201,7 +201,8 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
-                    case "things":
+                    case "cue":
+                        console.log('cue - data:'+x.data)
                         break;
 
                     case  "pageupdate":

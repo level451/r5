@@ -20,6 +20,9 @@ c= wiz.ShowName+' '+'GO '+c
     switch (c[1])
     {
         case 'GO':
+            // need to verify fire exists and check for text override
+
+            ws.send(JSON.stringify({object:'cue',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
             break;
         default:
             process.stdout.write(ll.ansitime('red','Cue           Command not known:'+c[1])+'\n'); // show error
