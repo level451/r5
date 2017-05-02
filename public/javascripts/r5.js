@@ -131,7 +131,7 @@ function drawMenu(offset){
 function drawMenuText(list,item,itemonly){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-const itemsToDisplay = 7;
+const itemsToDisplay =10;
 var counter = 1;
  //   ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana'

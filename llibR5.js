@@ -22,8 +22,8 @@ exports.loadSettings = function(callback){
         exports.saveSettings(callback)
         }
         else{
-            global.settings = JSON.parse(filetxt)
-            callback()
+            global.settings = JSON.parse(filetxt);
+            callback();
 
         }
 
@@ -34,7 +34,7 @@ exports.loadSettings = function(callback){
 exports.saveSettings = function(callback){
     fs.writeFile('settings.txt', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
         if (err ) {
-            console.log('Failed to write config file.'+ err)
+            console.log('Failed to write config file.'+ err);
         }
         else{
            // global.settings = JSON.parse(filetxt.toString())
