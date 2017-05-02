@@ -8,7 +8,7 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 
 exports.incommingCue = function(c){
     //temp line for testing - remove when cue sended is fixed
-c= wiz.ShowName+' '+'GO '+c
+//c= wiz.ShowName+' '+'GO '+c
 
     c = c.match(/\S+/g); // breaks string into array at the spaces so s[0] is showname etc.
     // verify the showname is the correct showname
