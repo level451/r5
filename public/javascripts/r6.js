@@ -1,4 +1,4 @@
-var pagename ='r5';
+var pagename ='r6';
 var events = [];
 var inttimer = null;
 var offset = 0;
