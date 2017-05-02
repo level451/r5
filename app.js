@@ -1,5 +1,6 @@
 ll = require('./llibR5');
-ll.loadSettings(settingsLoaded)
+cp = require('./cueprocessor');
+ll.loadSettings(settingsLoaded);
 function settingsLoaded(){
     console.log('settings.txt file loaded to global.settings');
     ll.loadWiz(wizLoaded)

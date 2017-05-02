@@ -120,7 +120,10 @@ function wsData(data,id){
             //console.log(util.inspect(websock));
             console.log(websocket[id].pagename+':'+id )
             break;
-        default:
+        case "cue":
+            cp.incommingCue(data.data)
+            break;
+            default:
             console.log('unknown datatype '+data.type)
     }
 
