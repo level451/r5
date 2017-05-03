@@ -27,6 +27,10 @@ exports.incommingCue = function(c){
                 case 'jpg':
                     ws.send(JSON.stringify({object:'cue',type:'slide',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
                     break;
+                case 'mp3':
+                    ws.send(JSON.stringify({object:'cue',type:'audio',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
+                    break;
+
                 default:
                     process.stdout.write(ll.ansitime('red','Cue           Unhandled file extension:'+c[2].split('.').pop())+'\n'); // show error
                     break;

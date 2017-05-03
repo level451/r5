@@ -2,7 +2,7 @@ var pagename ='r6';
 var events = [];
 var inttimer = null;
 var offset = 0;
-
+var audio
 
 
 function load() {
@@ -86,7 +86,7 @@ function switchPress(s){
                 case 3:
                     var speed = 150;
                     console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
-                    var audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     audio.play();
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     drawMenuText(languageList,menuItem,true);
@@ -108,6 +108,9 @@ function switchPress(s){
                     setTimeout(function(){
                         drawMenuText(languageList,menuItem,true);
                     },speed *6)
+                    setTimeout(function(){
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    },speed *7)
                     break;
             }
 
@@ -207,7 +210,10 @@ function websockstart(){
                         switch (x.type)
                         {
                             case 'slide':
-                               displayslide(x.data);
+                               displaySlide(x.data);
+                                break;
+                            case 'audio':
+                                playAudio(x.data);
                                 break;
 
                             default:
@@ -251,7 +257,7 @@ function websocketsend(type,data){
     ws.send(JSON.stringify(sendobj));
 
 }
-function displayslide(d){
+function displaySlide(d){
     console.log ('display slide:'+d)
     sysState = 'show'; // set mode to show
     ctx.fillStyle="black";
@@ -263,6 +269,16 @@ function displayslide(d){
         ctx.drawImage(img, 0, 0, img.width, img.height);
     }
     img.src = '/show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d;
+}
+function playAudio(d){
+    console.log(typeof(audio))
+    if (typeof(audio) == 'object'){
+        audio.pause();
+    }
+
+    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d);
+
+    audio.play();
 
 
 
