@@ -1,9 +1,9 @@
-Service3: Spanish
+Service3: English
 Service1: DScriptive
 Service2: German
 Service4: Japanese
 Service5: Portuguese
-Service6: English
+Service6: Spanish
 StartUp: 1
 Looping_Remote: 0
 Looping_Master: 0

@@ -85,9 +85,11 @@ function switchPress(s){
                     break;
                 case 3:
                     var speed = 150;
-                    console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
-                    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA0.mp3');
                     audio.play();
+
+
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     drawMenuText(languageList,menuItem,true);
                     setTimeout(function(){
@@ -105,12 +107,12 @@ function switchPress(s){
                     setTimeout(function(){
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     },speed *5)
-                    setTimeout(function(){
-                        drawMenuText(languageList,menuItem,true);
-                    },speed *6)
-                    setTimeout(function(){
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    },speed *7)
+                    // setTimeout(function(){
+                    //     drawMenuText(languageList,menuItem,true);
+                    // },speed *6)
+                    // setTimeout(function(){
+                    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // },speed *7)
                     break;
             }
 
@@ -260,16 +262,26 @@ function websocketsend(type,data){
 function displaySlide(d){
     console.log ('display slide:'+d)
     sysState = 'show'; // set mode to show
-    ctx.fillStyle="black";
+    ctx.fillStyle="red";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     var img = new Image();
     console.log('image:'+'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d)
     img.onload =function(){
       console.log('onload')
-        ctx.drawImage(img, 0, 0, img.width, img.height);
+        //ctx.drawImage(img, 0, 0, img.width, img.height);
+
+
+        x2 = img.width*(canvas.height/img.height)
+        x1 = (canvas.width-x2)/2
+
+        console.log(img.width,img.height,canvas.width,canvas.height)
+        ctx.drawImage(img, x1, 0, x2, canvas.height);
     }
     img.src = '/show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d;
 }
+
+
+
 function playAudio(d){
     console.log(typeof(audio))
     if (typeof(audio) == 'object'){
