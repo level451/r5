@@ -92,13 +92,13 @@ function sendcuebutton() {
        packet = "Slide" + cue + ".jpg";
    }
     if (document.getElementById('auda').checked){
-        packet = "AudA" + cue + ".mp3";
+        packet = "AUDA" + cue + ".mp3";
     }
     if (document.getElementById('audb').checked){
-        packet = "AudB" + cue + ".mp3";
+        packet = "AUDB" + cue + ".mp3";
     }
     if (document.getElementById('audc').checked){
-        packet = "AudC" + cue + ".mp3";
+        packet = "AUDC" + cue + ".mp3";
     }
     if (document.getElementById('video').checked){
         packet = "Slide" + cue + ".mp4";
@@ -133,13 +133,13 @@ function cueAuto(){
         packet = "Slide" + cue + ".jpg";
     }
     if (document.getElementById('auda').checked){
-        packet = "AudA" + cue + ".mp3";
+        packet = "AUDA" + cue + ".mp3";
     }
     if (document.getElementById('audb').checked){
-        packet = "AudB" + cue + ".mp3";
+        packet = "AUDB" + cue + ".mp3";
     }
     if (document.getElementById('audc').checked){
-        packet = "AudC" + cue + ".mp3";
+        packet = "AUDC" + cue + ".mp3";
     }
     if (document.getElementById('video').checked){
         packet = "Slide" + cue + ".mp4";
