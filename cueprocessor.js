@@ -21,8 +21,17 @@ exports.incommingCue = function(c){
     {
         case 'GO':
             // need to verify fire exists and check for text override
+            switch (c[2].split('.').pop()) // c[2] contains the filename - the switch is on thje filename extension
 
-            ws.send(JSON.stringify({object:'cue',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
+            {
+                case 'jpg':
+                    ws.send(JSON.stringify({object:'cue',type:'slide',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
+                    break;
+                default:
+                    process.stdout.write(ll.ansitime('red','Cue           Unhandled file extension:'+c[2].split('.').pop())+'\n'); // show error
+                    break;
+            }
+
             break;
         default:
             process.stdout.write(ll.ansitime('red','Cue           Command not known:'+c[1])+'\n'); // show error

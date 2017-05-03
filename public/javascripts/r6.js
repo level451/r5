@@ -31,6 +31,7 @@ function load() {
 
     }, false);
     var welcomeImage = new Image();
+    welcomeImage.src = 'show/Welcome.jpg'
 
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
@@ -54,7 +55,6 @@ function load() {
         // },20)
     }
     //welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
-    welcomeImage.src = 'show/Welcome.jpg'
     websockstart();
 
 
@@ -129,7 +129,8 @@ function drawMenu(offset){
 
 
 function drawMenuText(list,item,itemonly){
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 const itemsToDisplay =10;
 var counter = 1;
@@ -203,8 +204,19 @@ function websockstart(){
                 switch(x.object){
                     case "cue":
                         console.log('cue - data:'+x.data)
-                        break;
+                        switch (x.type)
+                        {
+                            case 'slide':
+                               displayslide(x.data);
+                                break;
 
+                            default:
+                               console.log('Unhandled extension:'+x.type)
+                                break;
+
+
+                        }
+                        break;
                     case  "pageupdate":
                         document.getElementById("body").innerHTML = x.data.html
                         console.log('HTML BODY UPDATE')
@@ -237,5 +249,21 @@ function websocketsend(type,data){
     sendobj.type = type;
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
+
+}
+function displayslide(d){
+    console.log ('display slide:'+d)
+    sysState = 'show'; // set mode to show
+    ctx.fillStyle="black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    var img = new Image();
+    console.log('image:'+'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d)
+    img.onload =function(){
+      console.log('onload')
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+    }
+    img.src = '/show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d;
+
+
 
 }
