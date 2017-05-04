@@ -262,9 +262,11 @@ function websocketsend(type,data){
 function displaySlide(d){
     console.log ('display slide:'+d)
     sysState = 'show'; // set mode to show
-    ctx.fillStyle="red";
+    ctx.fillStyle="black";
+    ctx.globalAlpha = 1
+
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
-    var img = new Image();
+    img = new Image();
     console.log('image:'+'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d)
     img.onload =function(){
       console.log('onload')
@@ -273,14 +275,28 @@ function displaySlide(d){
 
         x2 = img.width*(canvas.height/img.height)
         x1 = (canvas.width-x2)/2
-
-        console.log(img.width,img.height,canvas.width,canvas.height)
-        ctx.drawImage(img, x1, 0, x2, canvas.height);
+        ctx.globalAlpha = 0
+        fadeTime = 5000
+        startTime = false
+        fadeIn();
     }
     img.src = '/show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d;
 }
 
+function fadeIn(t){
+    if (!startTime) {
+        startTime = t
+    console.log('starttime'+startTime)
+    }
+    ctx.globalAlpha = (t-startTime) /fadeTime
+    ctx.drawImage(img, x1, 0, x2, canvas.height);
+    if (!startTime || t-startTime < fadeTime ){
+        requestAnimationFrame(fadeIn)
+    } else{
+        console.log (t-startTime)
+    }
 
+}
 
 function playAudio(d){
     console.log(typeof(audio))
