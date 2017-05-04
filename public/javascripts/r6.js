@@ -115,7 +115,22 @@ function switchPress(s){
                     // },speed *7)
                     break;
             }
-
+        case 'adjustingvolume':
+        case 'playaudio':
+            sysState = 'adjustingvolume'
+            switch(s){
+                case 1:
+                    wiz.Volume = (wiz.Volume*1) + 10
+                    break;
+                case 2:
+                    wiz.Volume = (wiz.Volume*1) - 10
+                    break;
+            }
+            if (typeof(audio) == 'object'){
+                audio.volume = wiz.Volume/100;
+            }
+            console.log('Volume:'+wiz.Volume)
+            break;
 
     }
 }
@@ -261,7 +276,7 @@ function websocketsend(type,data){
 }
 function displaySlide(d){
     console.log ('display slide:'+d)
-    sysState = 'show'; // set mode to show
+    sysState = 'displayslide'; // set mode to show
     ctx.fillStyle="black";
     ctx.globalAlpha = 1
 
@@ -276,7 +291,7 @@ function displaySlide(d){
         x2 = img.width*(canvas.height/img.height)
         x1 = (canvas.width-x2)/2
         ctx.globalAlpha = 0
-        fadeTime = 5000
+        fadeTime = 30000
         startTime = false
         fadeIn();
     }
@@ -299,12 +314,20 @@ function fadeIn(t){
 }
 
 function playAudio(d){
-    console.log(typeof(audio))
+    sysState = 'playaudio'; // set mode to audio -
     if (typeof(audio) == 'object'){
         audio.pause();
     }
 
     audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d);
+    audio.onended=function(){
+        console.log('playback ended')
+        sysState = 'show'; // set mode to show
+    }
+    audio.onerror=function(){
+        console.log('playback error')
+        sysState = 'show'; // set mode to show
+    }
 
     audio.play();
 
