@@ -156,3 +156,9 @@ function cueAuto(){
         document.getElementById('cuenumber').value = 1; //count to 1000 then repeat
     }
 }
+
+function sendbutton(button){
+
+    websocketsend("button", button);
+
+}
