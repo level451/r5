@@ -222,6 +222,9 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
+                    case "simbutton":
+                        switchPress(x.data);
+                        break;
                     case "cue":
                         console.log('cue - data:'+x.data)
                         switch (x.type)

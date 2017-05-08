@@ -159,6 +159,6 @@ function cueAuto(){
 
 function sendbutton(button){
 
-    websocketsend("button", button);
+    websocketsend("simbutton", button);
 
 }
