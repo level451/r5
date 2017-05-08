@@ -115,6 +115,7 @@ function switchPress(s){
                     // },speed *7)
                     break;
             }
+            break;
         case 'adjustingvolume':
         case 'playaudio':
             sysState = 'adjustingvolume'
