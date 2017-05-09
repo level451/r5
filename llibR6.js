@@ -56,7 +56,7 @@ exports.loadWiz = function(callback){
     };
 
     const rl = readline.createInterface({
-        input: fs.createReadStream('wiz.dat')
+        input: fs.createReadStream('show/wiz.dat')
     });
 
     rl.on('line', (line) => {
