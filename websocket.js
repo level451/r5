@@ -24,6 +24,7 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
             var open = require("open");
             open("localhost:3111", "chromium-browser");
+            console.log("browser started");
         }
     }
 });
