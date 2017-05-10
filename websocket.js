@@ -1,10 +1,12 @@
 var debug =  true
 console.log = {}
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('blue','websocket ') + x + '\n');}}})();/**
+
  * Created by todd on 1/22/14.
  */
 websocket = {};
 var request = require('request');
+var os = require('os');
 
 //Set up Web socket for a connection
 //exports.start = function(wscallback,port){
@@ -19,6 +21,10 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
     else
     {
         console.log("Websocket Server Listening on Port:"+settings.webSocket.listenPort);
+        if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
+            var open = require("open");
+            open("localhost:3111", "chromium-browser");
+        }
     }
 });
 wss.on('connection', function(ws) {
