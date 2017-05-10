@@ -24,7 +24,7 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
             const execSeries = require('exec-series');
 
-            execSeries(['chromium-browser --kiosk'], (err, stdouts, stderrs) => {
+            execSeries(['sudo -u chromium-browser --kiosk'], (err, stdouts, stderrs) => {
                 if (err) {
                     console.log(err);
                     throw err;
