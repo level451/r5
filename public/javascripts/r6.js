@@ -372,7 +372,7 @@ function drawVolume() {
     ctx.fillStyle = "#00FF00";
 
     var displayText = "Volume:" + wiz.Volume
-    ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .80);
+    ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .9);
 
     clearTimeout(volTimer)
     volTimer = setTimeout(function(){
