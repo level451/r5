@@ -3,16 +3,17 @@ var events = [];
 var inttimer = null;
 var offset = 0;
 var audio
-
-
+const itemsToDisplay =10;
+const volumeTimeout = 3000;
+var volTimer = 0;
 function load() {
 
     canvas = document.getElementById('canvas')
     canvas.width=window.outerWidth
     canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
-    // draw the welcome image
     ctx = canvas.getContext('2d');
+
     document.addEventListener('keydown', function(evt) {
         switch (evt.key){
             case 'a':
@@ -30,6 +31,8 @@ function load() {
 
 
     }, false);
+    // draw the welcome image
+
     var welcomeImage = new Image();
     welcomeImage.src = 'show/Welcome.jpg'
 
@@ -89,23 +92,27 @@ function switchPress(s){
                     audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA0.mp3');
                     audio.play();
 
-
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
                     drawMenuText(languageList,menuItem,true);
                     setTimeout(function(){
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = "#000000";
+
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
                     },speed *1)
                     setTimeout(function(){
                         drawMenuText(languageList,menuItem,true);
                     },speed *2)
                     setTimeout(function(){
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
                     },speed *3)
                     setTimeout(function(){
                         drawMenuText(languageList,menuItem,true);
                     },speed *4)
                     setTimeout(function(){
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
                     },speed *5)
                     // setTimeout(function(){
                     //     drawMenuText(languageList,menuItem,true);
@@ -127,9 +134,11 @@ function switchPress(s){
                     wiz.Volume = (wiz.Volume*1) - 10
                     break;
             }
+
             if (typeof(audio) == 'object'){
                 audio.volume = wiz.Volume/100;
             }
+            drawVolume();
             console.log('Volume:'+wiz.Volume)
             break;
 
@@ -150,10 +159,10 @@ function drawMenu(offset){
 
 
 function drawMenuText(list,item,itemonly){
+    ctx.fillStyle = "#000000";
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-const itemsToDisplay =10;
 var counter = 1;
  //   ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana'
@@ -167,7 +176,7 @@ var counter = 1;
             ctx.fillStyle = "#ff0000";
         } else
         {
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#FFFFFF";
         }
         ctx.fillText(list[i],(canvas.width/2)-(ctx.measureText(list[i]).width/2),(counter*(canvas.height/(itemsToDisplay+1)))+20*scale);
 
@@ -292,8 +301,7 @@ function displaySlide(d){
         //ctx.drawImage(img, 0, 0, img.width, img.height);
 
 
-        x2 = img.width*(canvas.height/img.height)
-        x1 = (canvas.width-x2)/2
+
         ctx.globalAlpha = 0
         fadeTime = 30000
         startTime = false
@@ -303,12 +311,16 @@ function displaySlide(d){
 }
 
 function fadeIn(t){
+    if (fadeTime == 0 ){
+        return
+    }
+
     if (!startTime) {
         startTime = t
     console.log('starttime'+startTime)
     }
     ctx.globalAlpha = (t-startTime) /fadeTime
-    ctx.drawImage(img, x1, 0, x2, canvas.height);
+    drawImage();
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeIn)
     } else{
@@ -324,6 +336,9 @@ function playAudio(d){
     }
 
     audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d);
+    //if (typeof(audio) == 'object'){
+        audio.volume = wiz.Volume/100;
+    //}
     audio.onended=function(){
         console.log('playback ended')
         sysState = 'show'; // set mode to show
@@ -338,3 +353,38 @@ function playAudio(d){
 
 
 }
+function drawImage(){
+    x2 = img.width*(canvas.height/img.height)
+    x1 = (canvas.width-x2)/2
+    ctx.drawImage(img, x1, 0, x2, canvas.height);
+
+
+}
+function drawVolume() {
+    fadeTime = 0; // stop the fading
+    ctx.globalAlpha = 1
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    if (typeof(img) == "object") {
+        drawImage()
+    }
+    ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana'
+    ctx.fillStyle = "#00FF00";
+
+    var displayText = "Volume:" + wiz.Volume
+    ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .80);
+
+    clearTimeout(volTimer)
+    volTimer = setTimeout(function(){
+        ctx.globalAlpha = 1
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+        if (typeof(img) == "object") {
+            drawImage()
+        }
+
+        console.log('volume timeout')
+    },volumeTimeout)
+}
+
+
