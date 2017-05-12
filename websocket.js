@@ -30,7 +30,7 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
 function startBrowser(){
     const execSeries = require('exec-series');
 
-    execSeries(['sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {
+    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {
         if (err) {
             console.log(err);
             throw err;
