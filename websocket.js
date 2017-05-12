@@ -22,7 +22,7 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
     {
         console.log("Websocket Server Listening on Port:"+settings.webSocket.listenPort);
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
-            // setTimeout(startBrowser,30000);
+             setTimeout(startBrowser,1000);
         }
     }
 });
