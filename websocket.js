@@ -22,21 +22,26 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
     {
         console.log("Websocket Server Listening on Port:"+settings.webSocket.listenPort);
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
-            const execSeries = require('exec-series');
-
-            execSeries(['sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-                console.log(stdouts); // yields: ['foo\n', 'bar\n']
-                console.log(stderrs); // yields: ['', '']
-            });
-            console.log("browser started");
+             setTimeout(startBrowser,1000);
         }
     }
 });
+
+function startBrowser(){
+    const execSeries = require('exec-series');
+
+    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+
+        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+        console.log(stderrs); // yields: ['', '']
+    });
+    console.log("browser started");
+}
+
 wss.on('connection', function(ws) {
     var i = 0;
     while (true)
