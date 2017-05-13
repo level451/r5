@@ -6,6 +6,8 @@ var audio
 const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
+var fadeOutTimer = -1;
+
 function load() {
 
     canvas = document.getElementById('canvas')
@@ -287,31 +289,32 @@ function websocketsend(type,data){
     ws.send(JSON.stringify(sendobj));
 
 }
-function displaySlide(d){
-    console.log ('display slide:'+d)
-    sysState = 'displayslide'; // set mode to show
-    ctx.fillStyle="black";
+function displaySlide(d) {
+    console.log('display slide:' + d)
+    sysState = 'fadeinslide'; // set mode to fadein
+    ctx.fillStyle = "black";
     ctx.globalAlpha = 1
 
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     img = new Image();
-    console.log('image:'+'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d)
-    img.onload =function(){
-      console.log('onload')
+    console.log('image:' + 'show/' + wiz.ShowName + '/' + languageList[menuItem - 1] + '/' + d)
+    img.onload = function () {
+        console.log('onload')
         //ctx.drawImage(img, 0, 0, img.width, img.height);
 
 
-
         ctx.globalAlpha = 0
-        fadeTime = 30000
+        fadeTime = wiz.FadeIn * 1000;
         startTime = false
         fadeIn();
-    }
-    img.src = '/show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d;
-}
+        console.log('fading in')
 
+
+    }
+    img.src = '/show/' + wiz.ShowName + '/' + languageList[menuItem - 1] + '/' + d;
+}
 function fadeIn(t){
-    if (fadeTime == 0 ){
+        if (fadeTime == 0 ){
         return
     }
 
@@ -319,16 +322,63 @@ function fadeIn(t){
         startTime = t
     console.log('starttime'+startTime)
     }
+    ctx.globalAlpha =1
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     ctx.globalAlpha = (t-startTime) /fadeTime
     drawImage();
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeIn)
     } else{
+        console.log ('fade done displayslide')
+        sysState = 'displayslide'; // set mode to show
+        clearTimeout(fadeOutTimer); // clear the fade if it is already set from another slide
+        fadeOutTimer = setTimeout(function(){
+           console.log('fadeout timer set')
+            if (sysState == 'displayslide')
+            {
+                sysState = 'fadeoutslide'; // set mode to fadein
+                ctx.globalAlpha = 1
+                fadeTime = wiz.FadeOut*1000;
+                startTime = false
+                console.log('fade out');
+
+                fadeOut();
+
+
+            }
+
+        },(wiz.OnTime*1000))
+    }
+
+
+
+}
+function fadeOut(t){
+
+    if (fadeTime == 0 ){
+        return
+    }
+
+    if (!startTime) {
+        startTime = t
+        console.log('starttime'+startTime)
+    }
+    ctx.globalAlpha =1
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1.01- ((t-startTime) /fadeTime)
+
+    drawImage();
+    if (!startTime || t-startTime < fadeTime ){
+        requestAnimationFrame(fadeOut)
+    } else{
         console.log (t-startTime)
+        sysState = 'show'; // set mode to fadein
     }
 
 }
-
 function playAudio(d){
     sysState = 'playaudio'; // set mode to audio -
     if (typeof(audio) == 'object'){

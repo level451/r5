@@ -17,8 +17,8 @@ Baudrate: 115200
 Test: 0
 PanID: 301
 Backlight: 80
-OnTime: 15
-FadeIn: 10
+OnTime: 5
+FadeIn: 5
 FadeOut: 15
 Directory: English
 ShowName: TEST
