@@ -341,7 +341,22 @@ function playAudio(d){
     //}
     audio.onended=function(){
         console.log('playback ended')
-        sysState = 'show'; // set mode to show
+        if (sysState == 'adjustingvolume'){
+            setTimeout(function(){
+                if (sysState == 'adjustingvolume'){
+
+                    sysState = 'show'
+                }
+
+                },5000)
+
+
+
+        } else
+        {
+            sysState = 'show'; // set mode to show
+        }
+
     }
     audio.onerror=function(){
         console.log('playback error')
