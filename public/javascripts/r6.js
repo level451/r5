@@ -10,7 +10,8 @@ var fadeOutTimer = -1;
 
 function load() {
 
-    canvas = document.getElementById('canvas')
+    canvas = document.getElementById('canvas');
+    video = document.getElementById('video');
     canvas.width=window.outerWidth
     canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
@@ -247,7 +248,9 @@ function websockstart(){
                             case 'audio':
                                 playAudio(x.data);
                                 break;
-
+                            case 'video':
+                                playVideo(x.data);
+                                break;
                             default:
                                console.log('Unhandled extension:'+x.type)
                                 break;
@@ -377,6 +380,12 @@ function fadeOut(t){
         console.log (t-startTime)
         sysState = 'show'; // set mode to fadein
     }
+
+}
+function playVideo(d){
+    sysState = 'playvideo'; // set mode to video -
+    video.type = "video/mp4";
+    video.src = 'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d
 
 }
 function playAudio(d){
