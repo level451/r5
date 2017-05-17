@@ -164,6 +164,7 @@ function drawMenu(offset){
 function drawMenuText(list,item,itemonly){
     ctx.fillStyle = "#000000";
 
+
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var counter = 1;
