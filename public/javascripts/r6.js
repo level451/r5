@@ -12,8 +12,10 @@ function load() {
 
     canvas = document.getElementById('canvas');
     video = document.getElementById('video');
+
+
     canvas.width=window.outerWidth
-    canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
+   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
     ctx = canvas.getContext('2d');
 

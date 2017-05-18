@@ -7,19 +7,33 @@ const readline = require('readline');
 
 
 exports.loadSettings = function(callback){
-    fs.readFile('settings.txt', 'utf8', (err,filetxt) =>{
+    fs.readFile('settings', 'utf8', (err,filetxt) =>{
         if (err) {
-        global.settings = {
-            webServer:{
-                listenPort:3111
-            },
-            webSocket:{
-              listenPort:3112,
-              maxConnections:10,
-              showConnectioninfo:false
-            }
-        };
-        exports.saveSettings(callback)
+            console.log ('settings not found - attemting to load from settings.default')
+            fs.readFile('settings.default', 'utf8', (err,filetxt) =>{
+                if (err) {
+
+
+                    global.settings = {
+                        webServer: {
+                            listenPort: 3111
+                        },
+                        webSocket: {
+                            listenPort: 3112,
+                            maxConnections: 10,
+                            showConnectioninfo: false
+                        }
+                    }
+                    exports.saveSettings(callback)
+                } else
+                {
+                    global.settings = JSON.parse(filetxt);
+                    exports.saveSettings(callback)
+
+
+                }
+
+            });
         }
         else{
             global.settings = JSON.parse(filetxt);
@@ -32,13 +46,13 @@ exports.loadSettings = function(callback){
   //  gpiomodule.pwm();
 }
 exports.saveSettings = function(callback){
-    fs.writeFile('settings.txt', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
+    fs.writeFile('settings', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
         if (err ) {
             console.log('Failed to write config file.'+ err);
         }
         else{
            // global.settings = JSON.parse(filetxt.toString())
-            console.log('settings.txt not found - created');
+            console.log('settings not found - created');
             callback();
 
         }
