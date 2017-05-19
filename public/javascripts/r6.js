@@ -12,11 +12,15 @@ function load() {
 
     canvas = document.getElementById('canvas');
     video = document.getElementById('video');
+    display = document.getElementById('display');
 
 
-    canvas.width=window.outerWidth
-   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
-    scale = window.outerWidth/320 // //320 is the default indow size - everything will be scaled according to this
+
+    canvas.width=settings.webPage.width;
+    canvas.height=settings.webPage.height;
+    //    canvas.width=window.outerWidth
+//   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
+    scale = settings.webPage.width/320 ;// //320 is the default indow size - everything will be scaled according to this
     ctx = canvas.getContext('2d');
 
     document.addEventListener('keydown', function(evt) {
@@ -184,7 +188,7 @@ var counter = 1;
         {
             ctx.fillStyle = "#FFFFFF";
         }
-        ctx.fillText(list[i],(canvas.width/2)-(ctx.measureText(list[i]).width/2),(counter*(canvas.height/(itemsToDisplay+1)))+20*scale);
+        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),(counter*(settings.webPage.height/(itemsToDisplay+1)))+20*scale);
 
     }
     // if (i==item-1){

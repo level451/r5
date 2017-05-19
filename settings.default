@@ -5,5 +5,10 @@
     "webSocket": {
         "listenPort": 3112,
         "maxConnections": 10
+    },
+    "webPage":{
+        "height":600,
+        "width":1200,
+        "rotation":0
     }
 }

@@ -28,7 +28,9 @@ exports.loadSettings = function(callback){
                 } else
                 {
                     global.settings = JSON.parse(filetxt);
-                    exports.saveSettings(callback)
+                    callback();
+
+                    // exports.saveSettings(callback)
 
 
                 }
