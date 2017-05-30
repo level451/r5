@@ -13,7 +13,7 @@ function load() {
     canvas = document.getElementById('canvas');
     video = document.getElementById('video');
     display = document.getElementById('display');
-
+    ctx = canvas.getContext('2d');
 
 
     canvas.width=settings.webPage.width;
@@ -21,7 +21,7 @@ function load() {
     //    canvas.width=window.outerWidth
 //   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = settings.webPage.width/320 ;// //320 is the default indow size - everything will be scaled according to this
-    ctx = canvas.getContext('2d');
+
 
     document.addEventListener('keydown', function(evt) {
         switch (evt.key){
@@ -47,11 +47,21 @@ function load() {
 
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
-        languageList = getLanguages();
-        var t0 = performance.now();
-        menuItem = 1;
-        drawMenuText(languageList,menuItem);
-        sysState = 'languageMenu'
+        if (wiz.Directory && wiz.Directory != ''){
+            sysState = 'idle'
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        } else
+        {
+            languageList = getLanguages();
+            var t0 = performance.now();
+            menuItem = 1;
+            drawMenuText(languageList,menuItem);
+            sysState = 'languageMenu'
+
+
+        }
 
 
 
@@ -98,7 +108,8 @@ function switchPress(s){
                 case 3:
                     var speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
-                    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA0.mp3');
+                    wiz.Directory = languageList[menuItem-1]
+                    audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
                     audio.play();
 
                     ctx.fillStyle = "#000000";
@@ -307,7 +318,7 @@ function displaySlide(d) {
 
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     img = new Image();
-    console.log('image:' + 'show/' + wiz.ShowName + '/' + languageList[menuItem - 1] + '/' + d)
+    console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d)
     img.onload = function () {
         console.log('onload')
         //ctx.drawImage(img, 0, 0, img.width, img.height);
@@ -321,7 +332,7 @@ function displaySlide(d) {
 
 
     }
-    img.src = '/show/' + wiz.ShowName + '/' + languageList[menuItem - 1] + '/' + d;
+    img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
 }
 function fadeIn(t){
         if (fadeTime == 0 ){
@@ -392,7 +403,7 @@ function fadeOut(t){
 function playVideo(d){
     sysState = 'playvideo'; // set mode to video -
     video.type = "video/mp4";
-    video.src = 'show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d
+    video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
 
 }
 function playAudio(d){
@@ -401,7 +412,7 @@ function playAudio(d){
         audio.pause();
     }
 
-    audio = new Audio('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/'+d);
+    audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d);
     //if (typeof(audio) == 'object'){
         audio.volume = wiz.Volume/100;
     //}
