@@ -20,5 +20,5 @@ Backlight: 80
 OnTime: 5
 FadeIn: 5
 FadeOut: 15
-Directory:
+Directory: English
 ShowName: TEST
