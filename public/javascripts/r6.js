@@ -303,12 +303,10 @@ function websockstart(){
 
 }
 function websocketsend(type,data){
-
     var sendobj = {};
     sendobj.type = type;
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
-
 }
 function displaySlide(d) {
     console.log('display slide:' + d)
