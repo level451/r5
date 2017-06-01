@@ -7,7 +7,7 @@ const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
-const systemMenu = ['test','option2','option3','exit']
+const systemMenu = ['Select Language','test','option2','option3','Exit']
 
 function load() {
 
@@ -120,7 +120,7 @@ function switchPress(s){
                 case 3:
                     // langauge selected
                     sysState = 'idle'
-                    var speed = 75;
+                    var speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -147,6 +147,20 @@ function switchPress(s){
                     setTimeout(function(){
                             console.log('systemMenu selection:'+systemMenu[menuItem-1])
                             // add code for menuFuntion here:
+                            switch(systemMenu[menuItem-1]){
+                                case 'Exit':
+                                    sysState = 'idle';
+                                    break;
+                                case 'Select Language':
+                                    menuItem = 1;
+                                    drawMenuText(languageList,menuItem);
+                                    sysState = 'languageMenu'
+                                    break;
+                                default:
+                                    console.log('unprocessed system menu item:'+systemMenu[menuItem-1])
+
+
+                            }
 
                     },speed *6)
                     // setTimeout(function(){
