@@ -93,6 +93,8 @@ function switchPress(s){
                 // special menu code - go to system menu
                 menuItem = 1;
                 sysState = 'systemMenu';
+                ctx.globalAlpha =1
+
                 drawMenuText(systemMenu,menuItem);
 
 
@@ -522,7 +524,7 @@ function playAudio(d){
     }
     audio.onerror=function(){
         console.log('playback error')
-        sysState = 'show'; // set mode to show
+        sysState = 'idle'; // set mode to show
     }
 
     audio.play();
