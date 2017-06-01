@@ -7,6 +7,7 @@ const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
+const systemMenu = ['test','option2','option3','exit']
 
 function load() {
 
@@ -34,8 +35,9 @@ function load() {
             case ' ':
                 switchPress(3);
                 break;
-
-
+            case 'q':
+                switchPress(4);
+                break;
         }
 
 
@@ -85,6 +87,75 @@ function switchPress(s){
     console.log(s)
 
     switch (sysState){
+        case 'idle':
+        //case 'languageMenu':
+            if (s == 4){
+                // special menu code - go to system menu
+                menuItem = 1;
+                sysState = 'systemMenu';
+                drawMenuText(systemMenu,menuItem);
+
+
+            }
+        case 'systemMenu':
+            switch(s){
+                case 1:
+                    --menuItem
+                    if (menuItem<1){
+                        menuItem=1;
+                    }
+
+                    drawMenuText(systemMenu,menuItem);
+
+                    break;
+                case 2:
+                    ++menuItem
+                    if (menuItem>systemMenu.length){
+                        menuItem=systemMenu.length;
+                    }
+                    console.log('menuitem:'+menuItem)
+                    drawMenuText(systemMenu,menuItem);
+
+                    break;
+                case 3:
+                    // langauge selected
+                    sysState = 'idle'
+                    var speed = 75;
+                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    drawMenuText(systemMenu,menuItem,true);
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *1)
+                    setTimeout(function(){
+                        drawMenuText(systemMenu,menuItem,true);
+                    },speed *2)
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *3)
+                    setTimeout(function(){
+                        drawMenuText(systemMenu,menuItem,true);
+                    },speed *4)
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *5)
+                    setTimeout(function(){
+                            console.log('systemMenu selection:'+systemMenu[menuItem-1])
+                            // add code for menuFuntion here:
+
+                    },speed *6)
+                    // setTimeout(function(){
+                    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // },speed *7)
+                    break;
+            }
+            break;
+
         case 'languageMenu':
             switch(s){
                 case 1:
@@ -106,6 +177,8 @@ function switchPress(s){
 
                     break;
                 case 3:
+                    // langauge selected
+                    sysState = 'idle'
                     var speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     wiz.Directory = languageList[menuItem-1]
