@@ -481,7 +481,7 @@ function fadeOut(t){
         requestAnimationFrame(fadeOut)
     } else{
         console.log (t-startTime)
-        sysState = 'show'; // set mode to fadein
+        sysState = 'idle'; // set mode to idle
     }
 
 }
@@ -507,7 +507,7 @@ function playAudio(d){
             setTimeout(function(){
                 if (sysState == 'adjustingvolume'){
 
-                    sysState = 'show'
+                    sysState = 'idle'
                 }
 
                 },5000)
@@ -516,7 +516,7 @@ function playAudio(d){
 
         } else
         {
-            sysState = 'show'; // set mode to show
+            sysState = 'idle'; // set mode to idle
         }
 
     }
