@@ -14,15 +14,14 @@ function load() {
     angle = parseInt(settings.webPage.rotation) ;
 
     disp.style.position = "absolute";
-    disp.style.top = (settings.webPage.width - settings.webPage.height)/2 + "px";
-   // disp.style.top = "160px";
-    if(settings.webPage.rotation < 0){
-        disp.style.left = -1*((settings.webPage.width - settings.webPage.height)/2) + "px";
+    if(settings.webPage.rotation== -90 || settings.webPage.rotation == 90) {
+        disp.style.top = (settings.webPage.width - settings.webPage.height) / 2 + "px";
+        disp.style.left = -1 * ((settings.webPage.width - settings.webPage.height) / 2) + "px";
     }
     else{
-        disp.style.left = ((settings.webPage.width - settings.webPage.height)/2) + "px";
+        disp.style.top = 0 + "px";
+        disp.style.left = 0 + "px";
     }
-    disp.style.left = "-160px";
     disp.style.width = settings.webPage.width + "px";
     disp.style.height = settings.webPage.height +"px";
 
