@@ -10,6 +10,23 @@ var fadeOutTimer = -1;
 const systemMenu = ['Select Language','test','option2','option3','Exit']
 
 function load() {
+    disp = document.getElementById('display');
+    angle = parseInt(settings.webPage.rotation) ;
+
+    disp.style.position = "absolute";
+    disp.style.top = (settings.webPage.width - settings.webPage.height)/2 + "px";
+   // disp.style.top = "160px";
+    if(settings.webPage.rotation < 0){
+        disp.style.left = -1*((settings.webPage.width - settings.webPage.height)/2) + "px";
+    }
+    else{
+        disp.style.left = ((settings.webPage.width - settings.webPage.height)/2) + "px";
+    }
+    disp.style.left = "-160px";
+    disp.style.width = settings.webPage.width + "px";
+    disp.style.height = settings.webPage.height +"px";
+
+    disp.style.transform = "rotate(" + settings.webPage.rotation + "deg)";
 
     canvas = document.getElementById('canvas');
     video = document.getElementById('video');

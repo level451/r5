@@ -9,6 +9,6 @@
     "webPage":{
         "height":480,
         "width":800,
-        "rotation":0
+        "rotation":90
     }
 }
