@@ -145,7 +145,6 @@ exports.loadWiz = function(callback){
             if(os.type() != "Windows_NT"){
                 const com = require('serialport');
                 openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
-
             }
 
             if (callback){callback();}
