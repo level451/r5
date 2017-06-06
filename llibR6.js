@@ -4,11 +4,7 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 const fs = require('fs');
 const os = require('os');
 const readline = require('readline');
-if(os.type() != "Windows_NT"){
-    const com = require('serialport');
-    openSerialPort('/dev/ttyUSB2',cp.incommingCue); // send all data from serialport to the cue processor
 
-}
 
 function openSerialPort(portname,scb)
 {
@@ -146,6 +142,12 @@ exports.loadWiz = function(callback){
             })
 
             console.log(data)
+            if(os.type() != "Windows_NT"){
+                const com = require('serialport');
+                openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
+
+            }
+
             if (callback){callback();}
 
         })
