@@ -8,6 +8,8 @@
     "ws": "^2.0.3",
     "serialport": "^4.0.7",
     "onoff": "*",
-    "exec-series": "*"
+    "exec-series": "*",
+    "serialport": "^4.0.6"
+
   }
 }

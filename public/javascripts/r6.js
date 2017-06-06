@@ -7,7 +7,7 @@ const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
-const systemMenu = ['Select Language','test','option2','option3','Exit']
+const systemMenu = ['Select Language','Select Show','test','option2','option3','Exit']
 
 function load() {
 
@@ -158,6 +158,12 @@ function switchPress(s){
                                     drawMenuText(languageList,menuItem);
                                     sysState = 'languageMenu'
                                     break;
+                                case 'Select Show':
+                                    menuItem = 1;
+                                    drawMenuText(wiz.allShowsAvailable,menuItem);
+                                    sysState = 'selectShowMenu'
+                                    break;
+
                                 default:
                                     console.log('unprocessed system menu item:'+systemMenu[menuItem-1])
 

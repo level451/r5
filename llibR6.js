@@ -4,8 +4,53 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 const fs = require('fs');
 const os = require('os');
 const readline = require('readline');
+if(os.type() != "Windows_NT"){
+    const com = require('serialport');
+    openSerialPort('/dev/ttyUSB2',cp.incommingCue); // send all data from serialport to the cue processor
+
+}
+
+function openSerialPort(portname,scb)
+{
+    // console.log("Attempting to open serial port "+portname);
+    // serialport declared with the var to make it module global
+    if (portname == undefined) {
+        console.log("Serial port not specified as command line - no serial port open");
+        return;
+
+    }
+    //serialPort = new com.SerialPort(portname, {
+    serialPort = new com(portname, {
+        baudrate: 115200,
+// Set the object to fire an event after a \r (chr 13 I think)  is in the serial buffer
+        parser: com.parsers.readline("\r")
+    });
 
 
+    serialPort.on("open", function (err,res) {
+        serialPort.set({dtr:true,rts:false});
+        console.log("Port open success:"+portname);
+
+
+        //serialPort.write('r\r')
+        //serialPort.write("VLD# 1 65 1 0\r");
+    });
+
+    serialPort.on('data', function(data) {
+        timeout = new Date();
+        if (cb != null){
+
+            cb(data)
+        }
+        // console.log(data);
+    });
+
+
+    serialPort.on('error', function(error) {
+        console.error("serial port failed to open:"+error);
+
+    });
+}
 exports.loadSettings = function(callback){
     fs.readFile('settings', 'utf8', (err,filetxt) =>{
         if (err) {
@@ -86,7 +131,26 @@ exports.loadWiz = function(callback){
     }
 });
     rl.on('close',()=> {
-        if (callback){callback();}
+        // add a list of available shows to wiz
+        fs.readdir('public/show',(err,data) => {
+            wiz.allShowsAvailable = [];
+            data.forEach(function(data){
+                if (fs.lstatSync('public/show/'+data).isDirectory()){
+                 console.log('Show found:'+data)
+                    wiz.allShowsAvailable.unshift(data);
+                } else
+                {
+                    console.log('NON Show found:'+data)
+                }
+
+            })
+
+            console.log(data)
+            if (callback){callback();}
+
+        })
+
+
     })
 }
 
