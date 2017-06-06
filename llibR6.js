@@ -7,7 +7,7 @@ const readline = require('readline');
 const com = require('serialport');
 
 
-function openSerialPort(portname,scb)
+function openSerialPort(portname,cb)
 {
     // console.log("Attempting to open serial port "+portname);
     // serialport declared with the var to make it module global
@@ -39,7 +39,7 @@ function openSerialPort(portname,scb)
 
             cb(data)
         }
-        // console.log(data);
+         console.log('Serial Data:'+data);
     });
 
 
