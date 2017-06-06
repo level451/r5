@@ -10,9 +10,9 @@
 
 </head>
 <body onload="load()">
-<div id = 'display' style="transform: rotate(<%-settings.webPage.rotation%>deg);position: absolute;
-        left: <%-((settings.webPage.rotation == 0)?0:settings.webPage.height*-.5)%>px;top:<%-((settings.webPage.rotation == 0)?0:settings.webPage.height*.5)%>px;width:<%-settings.webPage.width%>px;height:<%-settings.webPage.height%>px ;">
-<div id = 'canvasdiv' style="position: absolute;left: 0px;top: 0px;z-index: -1;">
+<div id = 'display' >
+
+<div id = 'canvasdiv' style="position: absolute; left:0px; top:0px; z-index: -1;">
     <canvas id ='canvas' style="border:1px solid #000000"></canvas>
 </div>
 <div id = 'videodiv' style="position: absolute;left: 0px;top: 0px;z-index: 1;">
