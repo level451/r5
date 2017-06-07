@@ -55,6 +55,7 @@ exports.setupSwitches = function(){
 
 
         switch1.watch(function (err,value){
+            console.log("switch 1 something foing on");
             if(err){
                 console.log(err);
             }
