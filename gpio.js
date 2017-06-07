@@ -37,6 +37,7 @@
 //   33          77
 websocket = require("./websocket.js");
 var os = require('os');
+var switch3Timeout;
 var switch4Timeout;
 console.log("Operating system is: " + os.type().toString());
 
@@ -98,7 +99,7 @@ exports.setupSwitches = function(){
                     break;
                 case 1:
                     sendSwitchData(300);
-                    clearTimeout(switch4Timeout);
+                    clearTimeout(switch3Timeout);
                     break;
             }
 

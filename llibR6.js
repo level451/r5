@@ -145,7 +145,7 @@ exports.loadWiz = function(callback){
             console.log(data)
             if(os.type() != "Windows_NT"){
                 openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
-                gpiomodule.setupSwitches();
+              //  gpiomodule.setupSwitches();
             }
 
             if (callback){callback();}
