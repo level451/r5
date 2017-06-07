@@ -40,6 +40,10 @@ console.log('At cue processor')
                     ws.send(JSON.stringify({object:'cue',type:'audio',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
                     break;
                 case 'mp4':
+                    console.log('Received Filename:'+c[2])
+                    c[2]=c[2].substring(0,1).toUpperCase()+c[2].substring(1).toLowerCase()
+                    console.log('Modified Filename:'+c[2])
+
                     ws.send(JSON.stringify({object:'cue',type:'video',data:c[2]}),'r6'); // send the cue data to all the 'r6' webpages
                     break;
 

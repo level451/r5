@@ -222,8 +222,8 @@ function switchPress(s){
                     var speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     wiz.Directory = languageList[menuItem-1]
-                    audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
-                    audio.play();
+                 //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
+                 //   audio.play();
 
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
