@@ -41,90 +41,83 @@ var switch1;
 var switch2;
 var switch3;
 var switch4;
+var Gpio = require('onoff').Gpio,
+    //  led = new Gpio(59, 'out'),
+    //   button = new Gpio(78, 'in', 'both');
+    switch1 = new Gpio(63, 'in', 'both'); //left
+switch2 = new Gpio(59, 'in', 'both'); // right
+switch3 = new Gpio(58, 'in', 'both'); //center
+switch4 = new Gpio(62, 'in', 'both'); //extra
 var switch3Timeout;
 var switch4Timeout;
 console.log("Operating system is: " + os.type().toString());
 
 
 exports.setupSwitches = function(){
-    if(os.type() != 'Windows_NT') {
-        console.log("Set up switches starting");
-        var Gpio = require('onoff').Gpio,
-          //  led = new Gpio(59, 'out'),
-          //   button = new Gpio(78, 'in', 'both');
-        switch1 = new Gpio(63, 'in', 'both'); //left
-        switch2 = new Gpio(59, 'in', 'both'); // right
-        switch3 = new Gpio(58, 'in', 'both'); //center
-        switch4 = new Gpio(62, 'in', 'both'); //extra
 
+    console.log("Set up switches starting");
 
-        switch1.watch(function (err,value){
-            console.log("switch 1 something foing on");
-            if(err){
-                console.log(err);
-            }
-            switch(value){
-                case 0:
-                    sendSwitchData(1);
-                    break;
-                case 1:
-                    sendSwitchData(200);
-                    break;
-            }
+    switch1.watch(function (err,value){
+        console.log("switch 1 something foing on");
+        if(err){
+            console.log(err);
+        }
+        switch(value){
+            case 0:
+                sendSwitchData(1);
+                break;
+            case 1:
+                sendSwitchData(200);
+                break;
+        }
 
-        });
-        switch2.watch(function (err,value){
-            if(err){
-                console.log(err);
-            }
-            switch(value){
-                case 0:
-                    sendSwitchData(2);
-                    break;
-                case 1:
-                    sendSwitchData(200);
-                    break;
-            }
+    });
+    switch2.watch(function (err,value){
+        if(err){
+            console.log(err);
+        }
+        switch(value){
+            case 0:
+                sendSwitchData(2);
+                break;
+            case 1:
+                sendSwitchData(200);
+                break;
+        }
 
-        });
-        switch3.watch(function (err,value){
-            if(err){
-                console.log(err);
-            }
-            switch(value){
-                case 0:
-                    sendSwitchData(3);
-                    switch3Timeout = setTimeout(readAllSwitches,5000);
-                    break;
-                case 1:
-                    sendSwitchData(300);
-                    clearTimeout(switch3Timeout);
-                    break;
-            }
+    });
+    switch3.watch(function (err,value){
+        if(err){
+            console.log(err);
+        }
+        switch(value){
+            case 0:
+                sendSwitchData(3);
+                switch3Timeout = setTimeout(readAllSwitches,5000);
+                break;
+            case 1:
+                sendSwitchData(300);
+                clearTimeout(switch3Timeout);
+                break;
+        }
 
-        });
-        switch4.watch(function (err,value){
-            if(err){
-                console.log(err);
-            }
-            switch(value){
-                case 0:
+    });
+    switch4.watch(function (err,value){
+        if(err){
+            console.log(err);
+        }
+        switch(value){
+            case 0:
 
-                    switch4Timeout = setTimeout(readAllSwitches,5000);
-                    break;
-                case 1:
+                switch4Timeout = setTimeout(readAllSwitches,5000);
+                break;
+            case 1:
 
-                    clearTimeout(switch4Timeout);
-                    break;
-            }
+                clearTimeout(switch4Timeout);
+                break;
+        }
 
-        });
-
-
-
-
-
-    }
+    });
 
 }
 
