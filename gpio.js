@@ -47,7 +47,7 @@ exports.setupSwitches = function(){
         console.log("Set up switches starting");
         var Gpio = require('onoff').Gpio,
           //  led = new Gpio(59, 'out'),
-          //  button = new Gpio(78, 'in', 'both');
+          //   button = new Gpio(78, 'in', 'both');
         switch1 = new Gpio(63, 'in', 'both'); //left
         switch2 = new Gpio(59, 'in', 'both'); // right
         switch3 = new Gpio(58, 'in', 'both'); //center
