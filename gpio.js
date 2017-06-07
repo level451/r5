@@ -102,22 +102,6 @@ exports.setupSwitches = function(){
         }
 
     });
-    switch4.watch(function (err,value){
-        if(err){
-            console.log(err);
-        }
-        switch(value){
-            case 0:
-
-                switch4Timeout = setTimeout(readAllSwitches,5000);
-                break;
-            case 1:
-
-                clearTimeout(switch4Timeout);
-                break;
-        }
-
-    });
 
 }
 
