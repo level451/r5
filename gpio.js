@@ -56,7 +56,6 @@ exports.setupSwitches = function(){
     console.log("Set up switches starting");
 
     switch1.watch(function (err,value){
-        console.log("switch 1 something foing on");
         if(err){
             console.log(err);
         }
@@ -104,7 +103,7 @@ exports.setupSwitches = function(){
 }
 
 function readAllSwitches(){//switch 3 is down and timed out
-   var switchStatus = switch1.readSync()*0x01 + switch2.readSync()*0x10 + switch3.readSync()*0x100;
+   var switchStatus = switch1.readSync()*1 + switch2.readSync()*2 + switch3.readSync()*4;
     console.log("realAllSwitches: " + switchStatus)
     switch(switchStatus){
         case 4: //switches 1 and 2 are down
