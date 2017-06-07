@@ -5,7 +5,7 @@ const fs = require('fs');
 const os = require('os');
 const readline = require('readline');
 if(os.type() != "Windows_NT") {
-    const com = require('serialport');
+    var com = require('serialport');
 }
 
 
