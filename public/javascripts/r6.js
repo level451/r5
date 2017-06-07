@@ -105,6 +105,7 @@ function switchPress(s){
     switch (sysState){
         case 'idle':
         //case 'languageMenu':
+
             if (s == 6){
                 // special menu code - go to system menu
                 menuItem = 1;
@@ -115,7 +116,8 @@ function switchPress(s){
 
 
             }
-        case 'systemMenu':
+            break;
+            case 'systemMenu':
             switch(s){
                 case 1:
                     --menuItem
