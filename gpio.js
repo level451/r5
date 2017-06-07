@@ -37,6 +37,10 @@
 //   33          77
 //websocket = require("./websocket.js");
 var os = require('os');
+var switch1;
+var switch2;
+var switch3;
+var switch4;
 var switch3Timeout;
 var switch4Timeout;
 console.log("Operating system is: " + os.type().toString());
