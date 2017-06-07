@@ -47,9 +47,7 @@ var Gpio = require('onoff').Gpio,
 switch1 = new Gpio(63, 'in', 'both'); //left
 switch2 = new Gpio(58, 'in', 'both'); // right
 switch3 = new Gpio(59, 'in', 'both'); //center
-
 var switch3Timeout;
-var switch4Timeout;
 console.log("Operating system is: " + os.type().toString());
 
 
@@ -107,6 +105,7 @@ exports.setupSwitches = function(){
 
 function readAllSwitches(){//switch 3 is down and timed out
    var switchStatus = switch1.readSync()*0x01 + switch2.readSync()*0x10 + switch3.readSync()*0x100;
+    console.log("realAllSwitches: " + switchStatus)
     switch(switchStatus){
         case 4: //switches 1 and 2 are down
             sendSwitchData(7);
