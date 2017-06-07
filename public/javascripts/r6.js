@@ -52,7 +52,7 @@ function load() {
                 switchPress(3);
                 break;
             case 'q':
-                switchPress(4);
+                switchPress(6);
                 break;
         }
 
@@ -105,7 +105,7 @@ function switchPress(s){
     switch (sysState){
         case 'idle':
         //case 'languageMenu':
-            if (s == 4){
+            if (s == 6){
                 // special menu code - go to system menu
                 menuItem = 1;
                 sysState = 'systemMenu';
@@ -438,7 +438,6 @@ function displaySlide(d) {
         startTime = false
         fadeIn();
         console.log('fading in')
-
 
     }
     img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
