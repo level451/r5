@@ -87,7 +87,7 @@ exports.loadSettings = function(callback){
 
 
         });
-  //  gpiomodule.pwm();
+
 }
 exports.saveSettings = function(callback){
     fs.writeFile('settings', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
@@ -145,6 +145,7 @@ exports.loadWiz = function(callback){
             console.log(data)
             if(os.type() != "Windows_NT"){
                 openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
+                gpiomodule.setupSwitches();
             }
 
             if (callback){callback();}
