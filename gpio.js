@@ -53,13 +53,7 @@ exports.setupSwitches = function(){
         switch3 = new Gpio(58, 'in', 'both'); //center
         switch4 = new Gpio(62, 'in', 'both'); //extra
 
-        button.watch(function (err, value) {
-            if (err) {
-                throw err;
-            }
-            console.log("writing " + value)
-            led.writeSync(value);
-        });
+
         switch1.watch(function (err,value){
             if(err){
                 console.log(err);
