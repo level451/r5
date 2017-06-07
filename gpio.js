@@ -35,6 +35,10 @@
 //   31          71
 //   32          92
 //   33          77
+    //physical layout:
+    //  switch1         switch3               switch2
+    //     X               X                     X
+
 //websocket = require("./websocket.js");
 var os = require('os');
 var switch1;
@@ -103,22 +107,18 @@ exports.setupSwitches = function(){
 }
 
 function readAllSwitches(){//switch 3 is down and timed out
-   var switchStatus = switch1.readSync()*1 + switch2.readSync()*2 + switch3.readSync()*4;
-    console.log("realAllSwitches: " + switchStatus)
-    console.log("sw1 status: " + switch1.readSync());
-    console.log("sw2 status: " + switch2.readSync());
-    console.log("sw3 status: " + switch3.readSync());
+   var switchStatus = switch1.readSync()*1 + switch2.readSync()*2;
     switch(switchStatus){
-        case 4: //switches 1 and 2 are down
+        case 0: //switches 1 and 2 are down
             sendSwitchData(7);
             break;
-        case 5: //switch 2 is down
+        case 1: //switch 2 is down
             sendSwitchData(6);
             break;
-        case 6: //switch 1 is down
+        case 2: //switch 1 is down
             sendSwitchData(5);
             break;
-        case 7: // no switches are down
+        case 3: // no switches are down
             sendSwitchData(4);
             break;
     }
