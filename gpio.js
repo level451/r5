@@ -44,7 +44,7 @@ console.log("Operating system is: " + os.type().toString());
 
 exports.setupSwitches = function(){
     if(os.type() != 'Windows_NT') {
-        console.log(os.type().toString());
+        console.log("Set up switches starting");
         var Gpio = require('onoff').Gpio,
             led = new Gpio(59, 'out'),
             button = new Gpio(78, 'in', 'both');
