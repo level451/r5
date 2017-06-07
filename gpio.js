@@ -40,14 +40,14 @@ var os = require('os');
 var switch1;
 var switch2;
 var switch3;
-var switch4;
+
 var Gpio = require('onoff').Gpio,
     //  led = new Gpio(59, 'out'),
     //   button = new Gpio(78, 'in', 'both');
-    switch1 = new Gpio(63, 'in', 'both'); //left
+switch1 = new Gpio(63, 'in', 'both'); //left
 switch2 = new Gpio(59, 'in', 'both'); // right
 switch3 = new Gpio(58, 'in', 'both'); //center
-switch4 = new Gpio(62, 'in', 'both'); //extra
+
 var switch3Timeout;
 var switch4Timeout;
 console.log("Operating system is: " + os.type().toString());
@@ -67,7 +67,7 @@ exports.setupSwitches = function(){
                 sendSwitchData(1);
                 break;
             case 1:
-                sendSwitchData(200);
+                sendSwitchData(100);
                 break;
         }
 
@@ -121,21 +121,9 @@ exports.setupSwitches = function(){
 
 }
 
-function readAllSwitches(){//switch 4 is down and timed out
+function readAllSwitches(){//switch 3 is down and timed out
    var switchStatus = switch1.readSync()*0x01 + switch2.readSync()*0x10 + switch3.readSync()*0x100;
     switch(switchStatus){
-        case 0://all three switches dowm
-
-            break;
-        case 1: //switches 2 and 3 are down
-
-            break;
-        case 2: //switches 1 and 3 are down
-
-            break;
-        case 3:  //switch 3 is down
-
-            break;
         case 4: //switches 1 and 2 are down
             sendSwitchData(7);
             break;
