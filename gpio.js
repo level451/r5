@@ -44,14 +44,15 @@ var os = require('os');
 var switch1;
 var switch2;
 var switch3;
-
-var Gpio = require('onoff').Gpio,
-    //  led = new Gpio(59, 'out'),
-    //   button = new Gpio(78, 'in', 'both');
-switch1 = new Gpio(63, 'in', 'both'); //left
-switch2 = new Gpio(58, 'in', 'both'); // right
-switch3 = new Gpio(59, 'in', 'both'); //center
-var switch3Timeout;
+if(os.type() != "Windows_NT") {
+    var Gpio = require('onoff').Gpio,
+        //  led = new Gpio(59, 'out'),
+        //   button = new Gpio(78, 'in', 'both');
+        switch1 = new Gpio(63, 'in', 'both'); //left
+    switch2 = new Gpio(58, 'in', 'both'); // right
+    switch3 = new Gpio(59, 'in', 'both'); //center
+    var switch3Timeout;
+}
 console.log("Operating system is: " + os.type().toString());
 
 
