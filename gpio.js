@@ -58,8 +58,6 @@ console.log("Operating system is: " + os.type().toString());
 
 exports.setupSwitches = function(){
 
-    console.log("Set up switches starting");
-
     switch1.watch(function (err,value){
         if(err){
             console.log(err);
@@ -128,5 +126,5 @@ function readAllSwitches(){//switch 3 is down and timed out
 
 function sendSwitchData(data){
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
-    console.log("The switch value is: " + data);
+   // console.log("The switch value is: " + data);
 }
