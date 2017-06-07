@@ -4,7 +4,9 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 const fs = require('fs');
 const os = require('os');
 const readline = require('readline');
-const com = require('serialport');
+if(os.type() != "Windows_NT") {
+    const com = require('serialport');
+}
 
 
 function openSerialPort(portname,cb)

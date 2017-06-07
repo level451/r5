@@ -51,6 +51,6 @@ console.log('At cue processor')
 
     }
 
-    console.log('parsed que data'+c)
+    console.log('parsed que data:'+c)
 
 }
