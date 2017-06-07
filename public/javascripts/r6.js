@@ -117,7 +117,7 @@ function switchPress(s){
 
             }
             break;
-            case 'systemMenu':
+        case 'systemMenu':
             switch(s){
                 case 1:
                     --menuItem
