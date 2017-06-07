@@ -35,7 +35,7 @@
 //   31          71
 //   32          92
 //   33          77
-websocket = require("./websocket.js");
+//websocket = require("./websocket.js");
 var os = require('os');
 var switch3Timeout;
 var switch4Timeout;
