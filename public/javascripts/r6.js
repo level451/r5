@@ -442,7 +442,7 @@ function displaySlide(d) {
         console.log('fading in')
 
     }
-    img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
+    img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + "-i" + d;
 }
 function fadeIn(t){
         if (fadeTime == 0 ){
