@@ -61,7 +61,7 @@ function load() {
     // draw the welcome image
 
     var welcomeImage = new Image();
-    welcomeImage.src = 'show/Welcome.jpg'
+    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
 
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)

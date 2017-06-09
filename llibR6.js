@@ -113,9 +113,10 @@ exports.loadWiz = function(callback){
         PanID:301,
         Scroll:'up'
     };
-
+    settings.ShowName = fs.readFileSync('./public/show/show.def');
+    console.log('Showname from show.def:'+settings.ShowName);
     const rl = readline.createInterface({
-        input: fs.createReadStream('./wiz.dat')
+        input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
     });
 
     rl.on('line', (line) => {
@@ -145,6 +146,7 @@ exports.loadWiz = function(callback){
 
             console.log(data)
 
+            console.log('wiz.dat file from ./public/show/'+settings.ShowName+' loaded to global.wiz');
 
             if (callback){callback();}
 
