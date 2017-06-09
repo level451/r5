@@ -1,4 +1,3 @@
-gpiomodule = require("./gpio");
 const debug = 1;
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
@@ -9,7 +8,7 @@ if(os.type() != "Windows_NT") {
 }
 
 
-function openSerialPort(portname,cb)
+exports.openSerialPort = function(portname,cb)
 {
     // console.log("Attempting to open serial port "+portname);
     // serialport declared with the var to make it module global
@@ -145,10 +144,7 @@ exports.loadWiz = function(callback){
             })
 
             console.log(data)
-            if(os.type() != "Windows_NT"){
-                openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
-                gpiomodule.setupSwitches();
-            }
+
 
             if (callback){callback();}
 
