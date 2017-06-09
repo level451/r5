@@ -117,6 +117,66 @@ function switchPress(s){
 
             }
             break;
+        case 'selectShowMenu':
+            switch(s){
+                case 1:
+                    --menuItem
+                    if (menuItem<1){
+                        menuItem=1;
+                    }
+
+                    drawMenuText(wiz.allShowsAvailable,menuItem);
+
+                    break;
+                case 2:
+                    ++menuItem
+                    if (menuItem>wiz.allShowsAvailable.length){
+                        menuItem=wiz.allShowsAvailable.length;
+                    }
+                    console.log('menuitem:'+menuItem)
+                    drawMenuText(wiz.allShowsAvailable,menuItem);
+
+                    break;
+                case 3:
+                    // show selected
+                    sysState = 'idle'
+                    var speed = 150;
+                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    drawMenuText(wiz.allShowsAvailable,menuItem,true);
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *1)
+                    setTimeout(function(){
+                        drawMenuText(wiz.allShowsAvailable,menuItem,true);
+                    },speed *2)
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *3)
+                    setTimeout(function(){
+                        drawMenuText(wiz.allShowsAvailable,menuItem,true);
+                    },speed *4)
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *5)
+                    setTimeout(function(){
+                        console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1])
+                        // add code for new show selected  here:
+                        sysState='idle'
+
+                    },speed *6)
+                    // setTimeout(function(){
+                    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // },speed *7)
+                    break;
+            }
+            break;
+
         case 'systemMenu':
             switch(s){
                 case 1:
