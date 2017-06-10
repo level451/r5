@@ -1,4 +1,4 @@
-Service3: Spanish
+Service3: Show-3
 Service1: DScriptive
 Service2: German
 Service4: Japanese
@@ -20,5 +20,6 @@ Backlight: 80
 OnTime: 5
 FadeIn: 5
 FadeOut: 15
-Directory: English
-ShowName: TEST
+Directory:
+ShowName: Show 3
+

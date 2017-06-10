@@ -148,8 +148,21 @@ function wsData(data,id){
         case "cue":
             cp.incommingCue(data.data)
             break;
-            default:
+        case "selectshow":
+            var fs=require('fs');
+            fs.writeFileSync('./public/show/show.def',data.data.ShowName)
+
+
+            ll.loadWiz(function(){
+                console.log('New show selected:'+settings.ShowName)
+                ws.send(JSON.stringify({object:'reload'}),'r6'); // send the reload to all the 'r6' webpages
+
+            })
+            break;
+
+       default:
             console.log('unknown datatype '+data.type)
+
     }
 
 }

@@ -63,9 +63,16 @@ function load() {
     var welcomeImage = new Image();
     welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
 
+    welcomeImage.onerror = function(){
+        console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
+
+
+    }
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
         if (wiz.Directory && wiz.Directory != ''){
+            console.log('here')
+
             sysState = 'idle'
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -73,7 +80,6 @@ function load() {
         } else
         {
             languageList = getLanguages();
-            var t0 = performance.now();
             menuItem = 1;
             drawMenuText(languageList,menuItem);
             sysState = 'languageMenu'
@@ -167,6 +173,8 @@ function switchPress(s){
                     setTimeout(function(){
                         console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1])
                         // add code for new show selected  here:
+                        websocketsend('selectshow',{ShowName:wiz.allShowsAvailable[menuItem-1]});
+
                         sysState='idle'
 
                     },speed *6)
@@ -426,6 +434,9 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
+                    case "reload":
+                        location.reload();
+                        break;
                     case "simbutton":
                         switchPress(x.data);
                         break;
