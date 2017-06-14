@@ -2,6 +2,7 @@ const debug = 1;
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
 const os = require('os');
+const xbee = require("./Xbee");
 const readline = require('readline');
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
@@ -36,7 +37,7 @@ exports.openSerialPort = function(portname,cb)
 
     serialPort.on('data', function(data) {
         if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
-           xbeeReceivedData(data); // send it to the xbee module
+           xbee.xbeeReceivedData(data); // send it to the xbee module
         }
         else {
             timeout = new Date();
@@ -54,6 +55,16 @@ exports.openSerialPort = function(portname,cb)
 
     });
 }
+
+exports.serialWrite = function(data) {
+    serialPort.write(data,function(err, results)
+    {
+
+    });
+};
+
+
+
 exports.loadSettings = function(callback){
     fs.readFile('settings', 'utf8', (err,filetxt) =>{
         if (err) {

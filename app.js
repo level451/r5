@@ -1,6 +1,6 @@
 ll = require('./llibR6');
 cp = require('./cueprocessor');
-gpiomodule = require("./gpio");
+const gpiomodule = require("./gpio");
 const os = require('os');
 
 
