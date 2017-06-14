@@ -35,10 +35,15 @@ exports.openSerialPort = function(portname,cb)
     });
 
     serialPort.on('data', function(data) {
-        timeout = new Date();
-        if (cb != null){
+        if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
+           xbeeReceivedData(data); // send it to the xbee module
+        }
+        else {
+            timeout = new Date();
+            if (cb != null) {
 
-            cb(data)
+                cb(data)
+            }
         }
          console.log('Serial Data:'+data);
     });
