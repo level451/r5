@@ -21,7 +21,6 @@ exports.xbeeReceivedData = function(returnedData){
             break;
     }
 
-
 }
 
 exports.xbeeGetsignalStrength = function(st,data){
