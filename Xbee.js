@@ -2,7 +2,7 @@
  * Created by steve on 6/14/2017.
  */
 const llib = require("./llibR6");
-var state;
+var state = 1000;
 var timer;   setTimeout(timedout, 1000);
 var data;
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
@@ -132,6 +132,7 @@ function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
     setTimeout(timedout, 1000);
+    console.log("sending data: "+ data + "  -current state: "+ st);
 }
 
 
