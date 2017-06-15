@@ -96,7 +96,7 @@ exports.setupSwitches = function(){
         switch(value){
             case 0:
                 sendSwitchData(3);
-                xbee.xbeeSetPanID(0,0,400);
+                xbee.xbeeSetPanID(0,0,301);
                 switch3Timeout = setTimeout(readAllSwitches,5000);
                 break;
             case 1:
