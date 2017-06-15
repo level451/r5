@@ -5,6 +5,7 @@ const llib = require("./llibR6");
 var state = "start";
 var timer;   setTimeout(timedout, 1000);
 var data;
+var newPanID;
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
 
 exports.xbeeReceivedData = function(returnedData){
@@ -17,7 +18,7 @@ exports.xbeeReceivedData = function(returnedData){
             exports.xbeeGetPanID(state, returnedData);
             break;
         case "si":
-            exports.xbeeSetPanID(state, returnedData);
+            exports.xbeeSetPanID(state, returnedData, newPanID);
             break;
     }
 
@@ -79,6 +80,7 @@ exports.xbeeGetPanID = function(st,data){
 }
 
 exports.xbeeSetPanID = function(st,data,id){
+    newPanID = id;
     switch(st){
         case 666:
             console.log("ERROR from XBEE SI");
@@ -88,8 +90,8 @@ exports.xbeeSetPanID = function(st,data,id){
             break;
         case "si1":
             if(data == "OK"){
-                sendXbeeData("si2","ATID" + id + "\r"); // send out the new pan id
-                console.log(" at si2 getting ready to send data: ")
+                sendXbeeData("si2","ATID" + newPanID + "\r"); // send out the new pan id
+                console.log(" at si2 getting ready to send data: " +newPanID);
             }
             else{
                 exports.xbeeGetsignalStrength(666,"error"); //if we dont get ok then something is wrong
