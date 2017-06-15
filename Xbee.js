@@ -89,6 +89,7 @@ exports.xbeeSetPanID = function(st,data,id){
         case "si1":
             if(data == "OK"){
                 sendXbeeData("si2","ATID" + id + "\r"); // send out the new pan id
+                console.log(" at si2 getting ready to send data: ")
             }
             else{
                 exports.xbeeGetsignalStrength(666,"error"); //if we dont get ok then something is wrong
