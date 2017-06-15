@@ -137,7 +137,8 @@ function sendXbeeData(st, data){
 
 
 function timedout(){ // we are here because the timer timed out - must be an error
-    switch (state.substr(0,2)){
+    var s = state.substr(0,2);
+    switch (s){
         case ss:
             exports.xbeeGetsignalStrength(666);
             break;
