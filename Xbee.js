@@ -3,7 +3,7 @@
  */
 const llib = require("./llibR6");
 var state = "start";
-var timer;   setTimeout(timedout, 1000);
+var timer;
 var data;
 var newPanID;
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
@@ -46,7 +46,6 @@ exports.xbeeGetsignalStrength = function(st,data){
             console.log("The Signal Strength is: " + data);
             sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
-
     }
 
 
@@ -73,8 +72,6 @@ exports.xbeeGetPanID = function(st,data){
             console.log("The Pan ID is: " + data);
             sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
-
-
     }
 
 }
@@ -122,11 +119,7 @@ exports.xbeeSetPanID = function(st,data,id){
                 exports.xbeeSetPanID(666,"error"); //if we dont get ok then something is wrong
             }
             break;
-
-
-
     }
-
 
 }
 
@@ -135,7 +128,6 @@ function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
     timer =setTimeout(timedout, 1000);
-    console.log("sending data: "+ data + "  -current state: "+ st);
 }
 
 
@@ -152,7 +144,4 @@ function timedout(){ // we are here because the timer timed out - must be an err
             exports.xbeeSetPanID(666);
             break;
     }
-}
-function setTimedout(){
-    timer = setTimeout(timedout,1000);
 }
