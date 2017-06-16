@@ -2,12 +2,12 @@ var pagename ='r6';
 var events = [];
 var inttimer = null;
 var offset = 0;
-var audio
+var audio;
 const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
-const systemMenu = ['Select Language','Select Show','test','option2','option3','Exit']
+const systemMenu = ['Select Language','Select Show','test','option2','option3','Exit'];
 
 function load() {
     disp = document.getElementById('display');
@@ -61,19 +61,19 @@ function load() {
     // draw the welcome image
 
     var welcomeImage = new Image();
-    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
+    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
 
     welcomeImage.onerror = function(){
         console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
 
 
-    }
+    };
     welcomeImage.onload = function(){
    //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
         if (wiz.Directory && wiz.Directory != ''){
-            console.log('here')
+            console.log('here');
 
-            sysState = 'idle'
+            sysState = 'idle';
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -106,8 +106,8 @@ function load() {
 
 }
 function switchPress(s){
-    console.log(s)
-
+    console.log(s);
+    var speed;
     switch (sysState){
         case 'idle':
         //case 'languageMenu':
@@ -116,7 +116,7 @@ function switchPress(s){
                 // special menu code - go to system menu
                 menuItem = 1;
                 sysState = 'systemMenu';
-                ctx.globalAlpha =1
+                ctx.globalAlpha =
 
                 drawMenuText(systemMenu,menuItem);
 
@@ -126,7 +126,7 @@ function switchPress(s){
         case 'selectShowMenu':
             switch(s){
                 case 1:
-                    --menuItem
+                    --menuItem;
                     if (menuItem<1){
                         menuItem=1;
                     }
@@ -135,18 +135,18 @@ function switchPress(s){
 
                     break;
                 case 2:
-                    ++menuItem
+                    ++menuItem;
                     if (menuItem>wiz.allShowsAvailable.length){
                         menuItem=wiz.allShowsAvailable.length;
                     }
-                    console.log('menuitem:'+menuItem)
+                    console.log('menuitem:'+menuItem);
                     drawMenuText(wiz.allShowsAvailable,menuItem);
 
                     break;
                 case 3:
                     // show selected
-                    sysState = 'idle'
-                    var speed = 150;
+                    sysState = 'idle';
+                    speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -155,29 +155,29 @@ function switchPress(s){
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1)
+                    },speed *1);
                     setTimeout(function(){
                         drawMenuText(wiz.allShowsAvailable,menuItem,true);
-                    },speed *2)
+                    },speed *2);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3)
+                    },speed *3);
                     setTimeout(function(){
                         drawMenuText(wiz.allShowsAvailable,menuItem,true);
-                    },speed *4)
+                    },speed *4);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5)
+                    },speed *5);
                     setTimeout(function(){
-                        console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1])
+                        console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1]);
                         // add code for new show selected  here:
                         websocketsend('selectshow',{ShowName:wiz.allShowsAvailable[menuItem-1]});
 
                         sysState='idle'
 
-                    },speed *6)
+                    },speed *6);
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
@@ -188,7 +188,7 @@ function switchPress(s){
         case 'systemMenu':
             switch(s){
                 case 1:
-                    --menuItem
+                    --menuItem;
                     if (menuItem<1){
                         menuItem=1;
                     }
@@ -197,18 +197,18 @@ function switchPress(s){
 
                     break;
                 case 2:
-                    ++menuItem
+                    ++menuItem;
                     if (menuItem>systemMenu.length){
                         menuItem=systemMenu.length;
                     }
-                    console.log('menuitem:'+menuItem)
+                    console.log('menuitem:'+menuItem);
                     drawMenuText(systemMenu,menuItem);
 
                     break;
                 case 3:
                     // langauge selected
-                    sysState = 'idle'
-                    var speed = 150;
+                    sysState = 'idle';
+                    speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -217,23 +217,23 @@ function switchPress(s){
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1)
+                    },speed *1);
                     setTimeout(function(){
                         drawMenuText(systemMenu,menuItem,true);
-                    },speed *2)
+                    },speed *2);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3)
+                    },speed *3);
                     setTimeout(function(){
                         drawMenuText(systemMenu,menuItem,true);
-                    },speed *4)
+                    },speed *4);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5)
+                    },speed *5);
                     setTimeout(function(){
-                            console.log('systemMenu selection:'+systemMenu[menuItem-1])
+                            console.log('systemMenu selection:'+systemMenu[menuItem-1]);
                             // add code for menuFuntion here:
                             switch(systemMenu[menuItem-1]){
                                 case 'Exit':
@@ -242,12 +242,12 @@ function switchPress(s){
                                 case 'Select Language':
                                     menuItem = 1;
                                     drawMenuText(languageList,menuItem);
-                                    sysState = 'languageMenu'
+                                    sysState = 'languageMenu';
                                     break;
                                 case 'Select Show':
                                     menuItem = 1;
                                     drawMenuText(wiz.allShowsAvailable,menuItem);
-                                    sysState = 'selectShowMenu'
+                                    sysState = 'selectShowMenu';
                                     break;
 
                                 default:
@@ -256,7 +256,7 @@ function switchPress(s){
 
                             }
 
-                    },speed *6)
+                    },speed *6);
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
@@ -267,29 +267,29 @@ function switchPress(s){
         case 'languageMenu':
             switch(s){
                 case 1:
-                    --menuItem
+                    --menuItem;
                     if (menuItem<1){
                         menuItem=1;
                     }
-                    console.log('menuitem:'+menuItem)
+                    console.log('menuitem:'+menuItem);
                     drawMenuText(languageList,menuItem);
 
                     break;
                 case 2:
-                    ++menuItem
+                    ++menuItem;
                     if (menuItem>languageList.length){
                         menuItem=languageList.length;
                     }
-                    console.log('menuitem:'+menuItem)
+                    console.log('menuitem:'+menuItem);
                     drawMenuText(languageList,menuItem);
 
                     break;
                 case 3:
                     // langauge selected
-                    sysState = 'idle'
-                    var speed = 150;
+                    sysState = 'idle';
+                    speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
-                    wiz.Directory = languageList[menuItem-1]
+                    wiz.Directory = languageList[menuItem-1];
                  //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
                  //   audio.play();
 
@@ -300,17 +300,17 @@ function switchPress(s){
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1)
+                    },speed *1);
                     setTimeout(function(){
                         drawMenuText(languageList,menuItem,true);
-                    },speed *2)
+                    },speed *2);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3)
+                    },speed *3);
                     setTimeout(function(){
                         drawMenuText(languageList,menuItem,true);
-                    },speed *4)
+                    },speed *4);
                     setTimeout(function(){
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -326,13 +326,13 @@ function switchPress(s){
             break;
         case 'adjustingvolume':
         case 'playaudio':
-            sysState = 'adjustingvolume'
+            sysState = 'adjustingvolume';
             switch(s){
                 case 1:
-                    wiz.Volume = (wiz.Volume*1) + 10
+                    wiz.Volume = (wiz.Volume*1) + 10;
                     break;
                 case 2:
-                    wiz.Volume = (wiz.Volume*1) - 10
+                    wiz.Volume = (wiz.Volume*1) - 10;
                     break;
             }
 
@@ -340,13 +340,13 @@ function switchPress(s){
                 audio.volume = wiz.Volume/100;
             }
             drawVolume();
-            console.log('Volume:'+wiz.Volume)
+            console.log('Volume:'+wiz.Volume);
             break;
 
     }
 }
 function getLanguages(){
-    var rv = []
+    var rv = [];
     for (var key in wiz) {
         if (key.indexOf('Service') == 0  ){
             rv.push(wiz[key])
@@ -367,7 +367,7 @@ function drawMenuText(list,item,itemonly){
 
 var counter = 1;
  //   ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
-    ctx.font = (200/itemsToDisplay)*scale+'px Verdana'
+    ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
     for (var i = item-(Math.floor(itemsToDisplay/2))-1;i<list.length;++i)
 
@@ -441,7 +441,7 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
-                        console.log('cue - data:'+x.data)
+                        console.log('cue - data:'+x.data);
                         switch (x.type)
                         {
                             case 'slide':
@@ -454,15 +454,15 @@ function websockstart(){
                                 playVideo(x.data);
                                 break;
                             default:
-                               console.log('Unhandled extension:'+x.type)
+                               console.log('Unhandled extension:'+x.type);
                                 break;
 
 
                         }
                         break;
                     case  "pageupdate":
-                        document.getElementById("body").innerHTML = x.data.html
-                        console.log('HTML BODY UPDATE')
+                        document.getElementById("body").innerHTML = x.data.html;
+                        console.log('HTML BODY UPDATE');
                         break;
                     case "fully":
                         if (x.parms){
@@ -473,6 +473,7 @@ function websockstart(){
                             fully[x.cmd]();
 
                         }
+                        break;
                     default:
                         console.log(x.object);
                     //  alert(x.object);
@@ -493,26 +494,26 @@ function websocketsend(type,data){
     ws.send(JSON.stringify(sendobj));
 }
 function displaySlide(d) {
-    console.log('display slide:' + d)
+    console.log('display slide:' + d);
     sysState = 'fadeinslide'; // set mode to fadein
     ctx.fillStyle = "black";
-    ctx.globalAlpha = 1
+    ctx.globalAlpha = 1;
 
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     img = new Image();
-    console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d)
+    console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d);
     img.onload = function () {
-        console.log('onload')
+        console.log('onload');
         //ctx.drawImage(img, 0, 0, img.width, img.height);
 
 
-        ctx.globalAlpha = 0
+        ctx.globalAlpha = 0;
         fadeTime = wiz.FadeIn * 1000;
-        startTime = false
+        startTime = false;
         fadeIn();
         console.log('fading in')
 
-    }
+    };
     img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
 }
 function fadeIn(t){
@@ -521,29 +522,29 @@ function fadeIn(t){
     }
 
     if (!startTime) {
-        startTime = t
+        startTime = t;
     console.log('starttime'+startTime)
     }
-    ctx.globalAlpha =1
+    ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.globalAlpha = (t-startTime) /fadeTime
+    ctx.globalAlpha = (t-startTime) /fadeTime;
     drawImage();
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeIn)
     } else{
-        console.log ('fade done displayslide')
+        console.log ('fade done displayslide');
         sysState = 'displayslide'; // set mode to show
         clearTimeout(fadeOutTimer); // clear the fade if it is already set from another slide
         fadeOutTimer = setTimeout(function(){
-           console.log('fadeout timer set')
+           console.log('fadeout timer set');
             if (sysState == 'displayslide')
             {
                 sysState = 'fadeoutslide'; // set mode to fadein
-                ctx.globalAlpha = 1
+                ctx.globalAlpha = 1;
                 fadeTime = wiz.FadeOut*1000;
-                startTime = false
+                startTime = false;
                 console.log('fade out');
 
                 fadeOut();
@@ -564,19 +565,19 @@ function fadeOut(t){
     }
 
     if (!startTime) {
-        startTime = t
+        startTime = t;
         console.log('starttime'+startTime)
     }
-    ctx.globalAlpha =1
+    ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1.01- ((t-startTime) /fadeTime)
+    ctx.globalAlpha = 1.01- ((t-startTime) /fadeTime);
 
     drawImage();
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeOut)
     } else{
-        console.log (t-startTime)
+        console.log (t-startTime);
         sysState = 'idle'; // set mode to idle
     }
 
@@ -598,7 +599,7 @@ function playAudio(d){
         audio.volume = wiz.Volume/100;
     //}
     audio.onended=function(){
-        console.log('playback ended')
+        console.log('playback ended');
         if (sysState == 'adjustingvolume'){
             setTimeout(function(){
                 if (sysState == 'adjustingvolume'){
@@ -615,11 +616,11 @@ function playAudio(d){
             sysState = 'idle'; // set mode to idle
         }
 
-    }
+    };
     audio.onerror=function(){
-        console.log('playback error')
+        console.log('playback error');
         sysState = 'idle'; // set mode to show
-    }
+    };
 
     audio.play();
 
@@ -627,29 +628,29 @@ function playAudio(d){
 
 }
 function drawImage(){
-    x2 = img.width*(canvas.height/img.height)
-    x1 = (canvas.width-x2)/2
+    x2 = img.width*(canvas.height/img.height);
+    x1 = (canvas.width-x2)/2;
     ctx.drawImage(img, x1, 0, x2, canvas.height);
 
 
 }
 function drawVolume() {
     fadeTime = 0; // stop the fading
-    ctx.globalAlpha = 1
+    ctx.globalAlpha = 1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     if (typeof(img) == "object") {
         drawImage()
     }
-    ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana'
+    ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana';
     ctx.fillStyle = "#00FF00";
 
-    var displayText = "Volume:" + wiz.Volume
+    var displayText = "Volume:" + wiz.Volume;
     ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .9);
 
-    clearTimeout(volTimer)
+    clearTimeout(volTimer);
     volTimer = setTimeout(function(){
-        ctx.globalAlpha = 1
+        ctx.globalAlpha = 1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
         if (typeof(img) == "object") {
