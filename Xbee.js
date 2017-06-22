@@ -90,6 +90,7 @@ exports.xbeeGetPanID = function(st,data,cb){
         case "gi2"://this data is the pan ID
             console.log("The Pan ID is: " + data);
             sendXbeeData("gi3","ATCN\r");//clear AT mode
+
             if (global.xbeePanCallBack) {
                 global.xbeePanCallBack(data);
             }
