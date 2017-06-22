@@ -51,7 +51,10 @@ exports.xbeeGetsignalStrength = function(st,data){
 
 }
 
-exports.xbeeGetPanID = function(st,data){
+exports.xbeeGetPanID = function(st,data,cb){
+    if (cb){
+        global.xbeePanCallBack = cb;
+    }
     switch(st){
         case 666:
             console.log("ERROR from XBEE GI");
@@ -71,7 +74,7 @@ exports.xbeeGetPanID = function(st,data){
 
         case "gi2"://this data is the pan ID
             console.log("The Pan ID is: " + data);
-            return(data);
+            global.xbeePanCallBack(data);
             sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
     }

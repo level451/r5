@@ -285,12 +285,14 @@ exports.getUnitSettings = function(){
                 Battery = filetxt;
                 console.log("Temperature: "+ Battery);
             }
-            var Pan = xbee.xbeeGetPanID();
+            var Pan = xbee.xbeeGetPanID(0,0,function(Pan){
+                console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan );
+            });
 
         });
 
     });
 
-    console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan );
+
 
 }
