@@ -292,7 +292,7 @@ exports.getUnitSettings = function(){
                 console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan );
                 ws.send(JSON.stringify({object:'unitStatus',data:{Battery:global.Battery,Pan: global.Pan,Signal:Sig,Temperature:global.Temperature}}),'r6');
 
-            })
+
 
             });
 
