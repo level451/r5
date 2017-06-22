@@ -259,7 +259,6 @@ function switchPress(s){
                                     menuItem = 1;
                                     drawMenuText(wiz.allShowsAvailable,menuItem);
                                     sysState = 'Unit Status';
-                                    websocketsend('requestunitstatus',{ShowName:wiz.allShowsAvailable[menuItem-1]});
                                     drawUnitStatus();
 
 
@@ -542,20 +541,22 @@ function displaySlide(d) {
 }
 function drawUnitStatus(unitinfo,data){
     if (unitinfo){
+        console.log('got unit info from server')
         ctx.globalAlpha = 1;
-        drawImage();
+        //drawImage();
         ctx.font = '17px Verdana';
         ctx.fillStyle = "#00FF00";
-        ctx.fillText(data.Battery, 500,260);
-        ctx.fillText(data.Pan, 500,303); // service
-        ctx.fillText(data.Signal, 500,346);
-        ctx.fillText(data.Temperature, 500,389);
+        ctx.fillText(data.Battery, 670,260);
+        ctx.fillText(data.Pan, 670,303); // service
+        ctx.fillText(data.Signal, 670,346);
+        ctx.fillText(data.Temperature, 670,389);
 
     }else
     {
         img = new Image();
         console.log('Loading Unit Status Image');
         img.onload = function () {
+            websocketsend('requestunitstatus',{ShowName:wiz.allShowsAvailable[menuItem-1]});
             console.log('unit status image loaded');
             ctx.globalAlpha = 1;
             drawImage();
