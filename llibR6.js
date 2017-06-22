@@ -290,6 +290,6 @@ exports.getUnitSettings = function(){
 
     });
 
-    console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan);
+    console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan );
 
 }
