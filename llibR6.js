@@ -285,9 +285,14 @@ exports.getUnitSettings = function(){
                 global.Temperature = filetxt;
                 console.log("Temperature: "+ global.Temperature);
             }
-            var Pan = xbee.xbeeGetPanID(0,0,function(Pan){
-                console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + Pan );
-                ws.send(JSON.stringify({object:'unitStatus',data:{Battery:global.Battery,Pan: Pan,Signal:'NA',Temperature:global.Temperature}}),'r6');
+            xbee.xbeeGetPanID(0,0,function(Pan){
+
+                global.Pan = Pan;
+            xbee.xbeeGetsignalStrength(0,0,function(Sig){
+                console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan );
+                ws.send(JSON.stringify({object:'unitStatus',data:{Battery:global.Battery,Pan: global.Pan,Signal:'sig,Temperature:global.Temperature}}),'r6');
+
+            })
 
             });
 

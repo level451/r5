@@ -24,11 +24,17 @@ exports.xbeeReceivedData = function(returnedData){
 
 }
 
-exports.xbeeGetsignalStrength = function(st,data){
-
+exports.xbeeGetsignalStrength = function(st,data,cb){
+    if (cb){
+        global.xbeeSignalCallBack = cb;
+    }
     switch(st){
         case 666:
             console.log("ERROR from XBEE SS");
+            if (global.xbeeSignalCallBack){
+                global.xbeeSignalCallBack('ERROR from XBEE GI');
+            }
+
             break;
         case 0:
             sendXbeeData("ss1","+++");
@@ -44,7 +50,10 @@ exports.xbeeGetsignalStrength = function(st,data){
 
         case "ss2"://this data is the signal strength
             console.log("The Signal Strength is: " + data);
-            sendXbeeData("ss3","ATCN\r");//clear AT mode
+            if (global.xbeeSignalCallBack){
+                global.xbeeSignalCallBack(data);
+            }
+        sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
     }
 
@@ -80,7 +89,9 @@ exports.xbeeGetPanID = function(st,data,cb){
 
         case "gi2"://this data is the pan ID
             console.log("The Pan ID is: " + data);
-            global.xbeePanCallBack(data);
+            if (global.xbeePanCallBack) {
+                global.xbeePanCallBack(data);
+            }
             sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
     }
