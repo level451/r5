@@ -4,6 +4,9 @@ const fs = require('fs');
 const os = require('os');
 const xbee = require("./Xbee");
 const readline = require('readline');
+const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
+const sysTemp = " /sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
+
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
 }
@@ -103,7 +106,7 @@ exports.loadSettings = function(callback){
         }
 
 
-        });
+    });
 
 }
 exports.saveSettings = function(callback){
@@ -255,4 +258,38 @@ String.prototype.rpad = function(length) {
     while (str.length < length)
         str = str + ' ';
     return str;
+}
+
+exports.getUnitSettings = function(){
+    if(os.type() == "Windows_NT"){// if a windows system, then we can return nothing
+        ws.send(JSON.stringify({object:'unitStatus',data:"NA"}),'r6');
+        return;
+    }
+    var Battery;
+    var Temperature;
+    var Pan;
+    fs.readFile(battADC, 'utf8', (err,filetxt) =>{
+        if(err){
+            console.log("Battery: " + err);
+        }
+        else {
+            Battery = filetxt;
+            console.log("Battery: "+ Battery);
+        }
+        fs.readFile(sysTemp, 'utf8', (err,filetxt) =>{
+            if(err){
+                console.log("Temperature: " + err);
+            }
+            else {
+                Battery = filetxt;
+                console.log("Temperature: "+ Battery);
+            }
+            var Pan = xbee.xbeeGetPanID();
+
+        });
+
+    });
+
+    console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan);
+
 }

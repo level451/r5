@@ -55,6 +55,7 @@ exports.xbeeGetPanID = function(st,data){
     switch(st){
         case 666:
             console.log("ERROR from XBEE GI");
+            return("Error");
             break;
         case 0:
             sendXbeeData("gi1","+++");
@@ -70,6 +71,7 @@ exports.xbeeGetPanID = function(st,data){
 
         case "gi2"://this data is the pan ID
             console.log("The Pan ID is: " + data);
+            return(data);
             sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
     }
