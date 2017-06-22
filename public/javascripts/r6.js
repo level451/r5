@@ -7,7 +7,7 @@ const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
-const systemMenu = ['Select Language','Select Show','test','option2','option3','Exit'];
+const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
 
 function load() {
     disp = document.getElementById('display');
@@ -116,12 +116,18 @@ function switchPress(s){
                 // special menu code - go to system menu
                 menuItem = 1;
                 sysState = 'systemMenu';
-                ctx.globalAlpha =
+                ctx.globalAlpha = 1;
 
                 drawMenuText(systemMenu,menuItem);
 
 
             }
+            break;
+        case 'Unit Status':
+            // any switch press in unit status will exit to idle
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            sysState='idle';
             break;
         case 'selectShowMenu':
             switch(s){
@@ -248,6 +254,12 @@ function switchPress(s){
                                     menuItem = 1;
                                     drawMenuText(wiz.allShowsAvailable,menuItem);
                                     sysState = 'selectShowMenu';
+                                    break;
+                                case 'Unit Status':
+                                    menuItem = 1;
+                                    drawMenuText(wiz.allShowsAvailable,menuItem);
+                                    sysState = 'Unit Status';
+                                    websocketsend('requestunitstatus',{ShowName:wiz.allShowsAvailable[menuItem-1]});
                                     break;
 
                                 default:

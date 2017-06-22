@@ -159,6 +159,9 @@ function wsData(data,id){
 
             })
             break;
+        case "requestunitstatus":
+            ll.getUnitSettings();
+            break;
 
        default:
             console.log('unknown datatype '+data.type)
