@@ -67,7 +67,7 @@ exports.xbeeGetPanID = function(st,data,cb){
     switch(st){
         case 666:
             console.log("ERROR from XBEE GI");
-            console.log('error - here'+global.xbeePanCallBack)
+            console.log('error - here')
             if (global.xbeePanCallBack){
                 global.xbeePanCallBack('ERROR from XBEE GI');
             }
@@ -92,7 +92,7 @@ exports.xbeeGetPanID = function(st,data,cb){
             if (global.xbeePanCallBack) {
                 global.xbeePanCallBack(data);
             }
-            sendXbeeData("gi3","ATCN\r");//clear AT mode
+            //sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
     }
 
