@@ -290,7 +290,7 @@ exports.getUnitSettings = function(){
                 global.Pan = Pan;
             xbee.xbeeGetsignalStrength(0,0,function(Sig){
                 console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan );
-                ws.send(JSON.stringify({object:'unitStatus',data:{Battery:global.Battery,Pan: global.Pan,Signal:'sig,Temperature:global.Temperature}}),'r6');
+                ws.send(JSON.stringify({object:'unitStatus',data:{Battery:global.Battery,Pan: global.Pan,Signal:sig,Temperature:global.Temperature}}),'r6');
 
             })
 
