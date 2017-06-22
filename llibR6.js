@@ -264,6 +264,7 @@ exports.getUnitSettings = function(){
     console.log("We are getUnitSettings");
     if(os.type() == "Windows_NT"){// if a windows system, then we can return nothing
         ws.send(JSON.stringify({object:'unitStatus',data:"NA"}),'r6');
+        console.log("Windows --NA");
         return;
     }
     var Battery;
