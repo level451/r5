@@ -274,7 +274,7 @@ exports.getUnitSettings = function(){
             console.log("Battery: " + err);
         }
         else {
-            Battery = filetxt;
+            global.Battery = filetxt;
             console.log("Battery: "+ Battery);
         }
         fs.readFile(sysTemp, 'utf8', (err,filetxt) =>{
@@ -282,11 +282,11 @@ exports.getUnitSettings = function(){
                 console.log("Temperature: " + err);
             }
             else {
-                Battery = filetxt;
-                console.log("Temperature: "+ Battery);
+                global.Temperature = filetxt;
+                console.log("Temperature: "+ global.Temperature);
             }
             var Pan = xbee.xbeeGetPanID(0,0,function(Pan){
-                console.log("Battery: " + Battery + " Temperature: " + Temperature + " Pan ID: " + Pan );
+                console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + Pan );
             });
 
         });
