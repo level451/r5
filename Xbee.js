@@ -54,13 +54,14 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
         case "ss2"://this data is the signal strength
             SIGNALstrength = data;
             console.log("The Signal Strength is: " + data);
+            sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
         case "ss3":
             console.log("The Signal Strength is: " + SIGNALstrength);
             if (global.xbeeSignalCallBack){
                 global.xbeeSignalCallBack(SIGNALstrength);
             }
-        sendXbeeData("ss3","ATCN\r");//clear AT mode
+
             break;
     }
 
