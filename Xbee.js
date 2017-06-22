@@ -6,6 +6,9 @@ var state = "start";
 var timer;
 var data;
 var newPanID;
+var PANid;
+var SIGNALstrength;
+
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
 
 exports.xbeeReceivedData = function(returnedData){
@@ -49,9 +52,13 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
             break;
 
         case "ss2"://this data is the signal strength
+            SIGNALstrength = data;
             console.log("The Signal Strength is: " + data);
+            break;
+        case "ss3":
+            console.log("The Signal Strength is: " + SIGNALstrength);
             if (global.xbeeSignalCallBack){
-                global.xbeeSignalCallBack(data);
+                global.xbeeSignalCallBack(SIGNALstrength);
             }
         sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
@@ -88,11 +95,13 @@ exports.xbeeGetPanID = function(st,data,cb){
             break;
 
         case "gi2"://this data is the pan ID
-            console.log("The Pan ID is: " + data);
+            PANid = data;
             sendXbeeData("gi3","ATCN\r");//clear AT mode
-
+            break;
+        case "gi3":
+            console.log("The Pan ID is: " + PANid);
             if (global.xbeePanCallBack) {
-                global.xbeePanCallBack(data);
+                global.xbeePanCallBack(PANid);
             }
 
             break;
