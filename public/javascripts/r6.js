@@ -260,6 +260,9 @@ function switchPress(s){
                                     drawMenuText(wiz.allShowsAvailable,menuItem);
                                     sysState = 'Unit Status';
                                     websocketsend('requestunitstatus',{ShowName:wiz.allShowsAvailable[menuItem-1]});
+                                    drawUnitStatus();
+
+
                                     break;
 
                                 default:
@@ -527,6 +530,32 @@ function displaySlide(d) {
 
     };
     img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
+}
+function drawUnitStatus(){
+
+    img = new Image();
+    console.log('Loading Unit Status Image');
+    img.onload = function () {
+        console.log('unit status image loaded');
+        ctx.globalAlpha = 1;
+        drawImage();
+        ctx.font = '17px Verdana';
+        ctx.fillStyle = "#00FF00";
+
+
+        ctx.fillText(wiz.ShowName, 250,260);
+        ctx.fillText(wiz.Directory, 250,303); // service
+        ctx.fillText(wiz.Volume, 250,346);
+        ctx.fillText(wiz.Backlight, 250,389);
+
+
+
+
+
+    };
+    img.src = '/show/icaption status screen.jpg';
+
+
 }
 function fadeIn(t){
         if (fadeTime == 0 ){

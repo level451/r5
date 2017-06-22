@@ -160,6 +160,7 @@ function wsData(data,id){
             })
             break;
         case "requestunitstatus":
+             return;
             ll.getUnitSettings();
             break;
 
