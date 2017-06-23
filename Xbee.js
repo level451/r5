@@ -165,7 +165,7 @@ exports.xbeeSetPanID = function(st,data,id){
 function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
-    timer =setTimeout(timedout, 1000);
+    timer =setTimeout(timedout, 4000);
 }
 
 
