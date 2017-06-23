@@ -7,6 +7,7 @@ const itemsToDisplay =10;
 const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
+var specialMode = '';
 const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
@@ -106,7 +107,36 @@ function load() {
 
 }
 function switchPress(s){
-    console.log(s);
+    if (specialMode){
+        switch (specialMode){
+            case 'volume':
+                switch(s){
+                    case 1:
+                        wiz.Volume = (wiz.Volume*1) + 10;
+                        break;
+                    case 2:
+                        wiz.Volume = (wiz.Volume*1) - 10;
+                        break;
+                }
+
+                if (typeof(audio) == 'object'){
+                    audio.volume = wiz.Volume/100;
+                }
+                drawVolume();
+                console.log('Volume:'+wiz.Volume);
+
+            break;
+
+
+        }
+
+
+
+
+        return;
+    }
+
+
     var speed;
     switch (sysState){
         case 'userMenu':
@@ -131,44 +161,19 @@ function switchPress(s){
                 case 3:
                     // usermenu item selected
                     sysState = 'idle';
-                    speed = 150;
-                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    drawMenuText(userMenu,menuItem,true);
-                    setTimeout(function(){
-                        ctx.fillStyle = "#000000";
-
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1);
-                    setTimeout(function(){
-                        drawMenuText(userMenu,menuItem,true);
-                    },speed *2);
-                    setTimeout(function(){
-                        ctx.fillStyle = "#000000";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3);
-                    setTimeout(function(){
-                        drawMenuText(userMenu,menuItem,true);
-                    },speed *4);
-                    setTimeout(function(){
-                        ctx.fillStyle = "#000000";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5);
-                    setTimeout(function(){
                        // code here for user selection
-                        switch(systemMenu[menuItem-1]){
+                        switch(userMenu[menuItem-1]){
                             case 'Exit':
                                 sysState = 'idle';
                                 break;
                             case 'Volume':
+                                specialMode = 'volume';
+                                drawVolume();
                                 break;
                             case 'Brightness':
                                 break;
-
-
-
-
                             default:
                                 sysState = 'idle';
                                 console.log('unprocessed user menu item:'+systemMenu[menuItem-1])
@@ -177,7 +182,7 @@ function switchPress(s){
                         }
 
 
-                    },speed *6);
+
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
@@ -422,22 +427,11 @@ function switchPress(s){
             }
             break;
         case 'adjustingvolume':
+            console.log('should not happen - adjust volume')
         case 'playaudio':
-            sysState = 'adjustingvolume';
-            switch(s){
-                case 1:
-                    wiz.Volume = (wiz.Volume*1) + 10;
-                    break;
-                case 2:
-                    wiz.Volume = (wiz.Volume*1) - 10;
-                    break;
-            }
-
-            if (typeof(audio) == 'object'){
-                audio.volume = wiz.Volume/100;
-            }
+            // key pressed in playaudio
+            specialMode = 'volume';
             drawVolume();
-            console.log('Volume:'+wiz.Volume);
             break;
 
     }
@@ -796,7 +790,7 @@ function drawVolume() {
         if (typeof(img) == "object") {
             drawImage()
         }
-
+        specialMode = '';
         console.log('volume timeout')
     },volumeTimeout)
 }
