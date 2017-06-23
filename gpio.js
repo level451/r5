@@ -44,6 +44,7 @@ var os = require('os');
 var switch1;
 var switch2;
 var switch3;
+var switchBlock;
 if(os.type() != "Windows_NT") {
     var Gpio = require('onoff').Gpio,
         //  led = new Gpio(59, 'out'),
@@ -93,11 +94,11 @@ exports.setupSwitches = function(){
         }
         switch(value){
             case 0:
-                sendSwitchData(300);
+                sendSwitchData(3);
                 switch3Timeout = setTimeout(readAllSwitches,5000);
                 break;
             case 1:
-                sendSwitchData(3);
+                sendSwitchData(300);
                 clearTimeout(switch3Timeout);
                 break;
         }
@@ -126,6 +127,17 @@ function readAllSwitches(){//switch 3 is down and timed out
 }
 
 function sendSwitchData(data){
+    if(switchBlock == 1){
+        return;
+    }
+    if((switchBlock == 0) && (data == 5)){ //after long press combination block everything else for 1 second
+        switchBlock = 1;
+        setTimeout(function(){switchBlock=0}, 1000);
+    }
+    if(data == 5){
+      switchBlock = 1
+    }
+
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
    // console.log("The switch value is: " + data);
 }
