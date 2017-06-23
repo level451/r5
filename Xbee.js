@@ -174,7 +174,7 @@ function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
     timer =setTimeout(timedout, 1000);
-    console.log("setting timeout: State: "+ st + " Data: "+ data);
+    console.log("setting timeout: State: "+ st + " Data: "+ data) ;
 }
 
 
