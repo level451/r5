@@ -92,7 +92,9 @@ exports.xbeeGetPanID = function(st,data,cb){
             return("Error");
             break;
         case 0:
-            sendXbeeData("gi1","+++");
+            setTimeout(function(){
+                sendXbeeData("gi1","+++");
+            }, 1000);
             break;
         case "gi1":
             if(data == "OK"){
