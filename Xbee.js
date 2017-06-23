@@ -80,7 +80,6 @@ exports.xbeeGetPanID = function(st,data,cb){
     switch(st){
         case 666:
             console.log("ERROR from XBEE GI");
-            console.log('error - here')
             if (global.xbeePanCallBack){
                 global.xbeePanCallBack('ERROR from XBEE GI');
             }
