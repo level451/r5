@@ -43,13 +43,10 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
 
             break;
         case 0:
-            console.log('Entering AT mode')
-            setTimeout(function(){
-                sendXbeeData("ss1","+++");
-            }, 1200);
-
-
+            console.log('Entering AT mode') ;
+            sendXbeeData("ss1","+++");
             break;
+
         case "ss1":
             if(data == "OK"){
                 console.log('got OK')
@@ -96,7 +93,7 @@ exports.xbeeGetPanID = function(st,data,cb){
         case 0:
             setTimeout(function(){
                 sendXbeeData("gi1","+++");
-            }, 100);
+            }, 1200);
             break;
         case "gi1":
             if(data == "OK"){
