@@ -35,7 +35,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
         case 666:
             console.log("ERROR from XBEE SS");
             if (global.xbeeSignalCallBack){
-                global.xbeeSignalCallBack('ERROR from XBEE GI');
+                global.xbeeSignalCallBack('ERROR from XBEE SS');
             }
 
             break;
@@ -47,13 +47,12 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
               sendXbeeData("ss2","ATDB\r");
             }
             else{
-                exports.xbeeGetsignalStrength(666,"error"); //if we dont get ok then something is wrong
+                exports.xbeeGetsignalStrength(666,"error"); //if we don't get ok then something is wrong
             }
             break;
 
         case "ss2"://this data is the signal strength
             SIGNALstrength = data;
-            console.log("The Signal Strength is: " + data);
             sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
         case "ss3":
