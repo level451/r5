@@ -292,15 +292,7 @@ exports.getUnitSettings = function(){
 
                 xbee.xbeeGetPanID(0, 0, function (Pan) {
                     console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan);
-                    ws.send(JSON.stringify({
-                        object: 'unitStatus',
-                        data: {
-                            Battery: global.Battery,
-                            Pan: global.Pan,
-                            Signal: global.Sig,
-                            Temperature: global.Temperature
-                        }
-                    }), 'r6');
+                    ws.send(JSON.stringify({object: 'unitStatus',data: {Battery: global.Battery, Pan: Pan, Signal: global.Sig,Temperature: global.Temperature}}), 'r6');
                 })
 
             });
