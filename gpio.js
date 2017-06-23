@@ -129,10 +129,11 @@ function readAllSwitches(){//switch 3 is down and timed out
 function sendSwitchData(data){
     if(switchBlock == 1){
         return;
+        console.log("switch block = " + switchBlock)
     }
     if((switchBlock == 0) && (data == 5)){ //after long press combination block everything else for 1 second
         switchBlock = 1;
-        setTimeout(function(){switchBlock=0}, 1000);
+        setTimeout(switchBlock=0, 1000);
     }
     if(data == 5){
       switchBlock = 1
