@@ -135,7 +135,7 @@ function sendSwitchData(data){
     if((switchBlock == 0) && (data == 6)){ //after long press combination block everything else for 1 second
         switchBlock = 1;
         console.log("data = 5, switchblock = "+ switchBlock);
-        setTimeout(switchBlock=0, 5000);
+        setTimeout(function(){switchBlock=0}, 1400);
     }
 
     console.log("data is: " + data + " switch block is: "+ switchBlock);
