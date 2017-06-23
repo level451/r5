@@ -277,29 +277,35 @@ exports.getUnitSettings = function(){
             global.Battery = filetxt;
             console.log("Battery Voltage: "+ global.Battery);
         }
-      //  xbee.xbeeGetsignalStrength(0,0,function(Sig){
+      //  xbee.xbeeGetsignalStrength(0,0,function(Sig) {
 
-      //      global.Sig = Sig;
-        fs.readFile(sysTemp, 'utf8', (err,filetxt) =>{
-            if(err){
-                console.log("Temperature: " + err);
-            }
-            else {
-                global.Temperature = filetxt;
-                console.log("Temperature: "+ global.Temperature);
-            }
+       //     global.Sig = Sig;
 
-                xbee.xbeeGetPanID(0,0,function(Pan) {
+            fs.readFile(sysTemp, 'utf8', (err, filetxt) => {
+                if (err) {
+                    console.log("Temperature: " + err);
+                }
+                else {
+                    global.Temperature = filetxt;
+                    console.log("Temperature: " + global.Temperature);
+                }
+
+                xbee.xbeeGetPanID(0, 0, function (Pan) {
                     console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan);
                     ws.send(JSON.stringify({
-                       object: 'unitStatus',
-                       data: {Battery: global.Battery, Pan: global.Pan, Signal: global.Sig, Temperature: global.Temperature}
-                   }), 'r6');
+                        object: 'unitStatus',
+                        data: {
+                            Battery: global.Battery,
+                            Pan: global.Pan,
+                            Signal: global.Sig,
+                            Temperature: global.Temperature
+                        }
+                    }), 'r6');
                 })
 
             });
 
-        });
+      //  });
 
     });
 
