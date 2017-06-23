@@ -44,7 +44,7 @@ var os = require('os');
 var switch1;
 var switch2;
 var switch3;
-var switchBlock;
+var switchBlock = 0;
 if(os.type() != "Windows_NT") {
     var Gpio = require('onoff').Gpio,
         //  led = new Gpio(59, 'out'),
