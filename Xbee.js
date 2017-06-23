@@ -45,7 +45,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
             console.log('Entering AT mode')
             setTimeout(function(){
                 sendXbeeData("ss1","+++");
-            }, 5000);
+            }, 500);
 
 
             break;
@@ -169,7 +169,7 @@ exports.xbeeSetPanID = function(st,data,id){
 function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
-    timer =setTimeout(timedout, 4000);
+    timer =setTimeout(timedout, 1000);
 }
 
 
