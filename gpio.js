@@ -134,13 +134,11 @@ function sendSwitchData(data){
     }
     if((switchBlock == 0) && (data == 6)){ //after long press combination block everything else for 1 second
         switchBlock = 1;
-        consloe.log("data = 5, switchblock = "+ switchBlock);
+        console.log("data = 5, switchblock = "+ switchBlock);
         setTimeout(switchBlock=0, 5000);
     }
-    if(data == 5){
-      switchBlock = 1
-    }
 
+consloe.log("data is: " + data);
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
    // console.log("The switch value is: " + data);
 }
