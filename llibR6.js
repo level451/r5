@@ -288,7 +288,7 @@ exports.getUnitSettings = function(){
                 global.Temperature = filetxt;
                 console.log("Temperature: "+ global.Temperature);
             }
-
+            xbee.xbeeGetPanID(0,0,function(Pan) {});
                 xbee.xbeeGetPanID(0,0,function(Pan) {
                     console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan);
                     ws.send(JSON.stringify({
