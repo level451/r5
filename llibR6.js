@@ -277,9 +277,9 @@ exports.getUnitSettings = function(){
             global.Battery = filetxt;
             console.log("Battery Voltage: "+ global.Battery);
         }
-        xbee.xbeeGetPanID(0,0,function(Pan){
+        xbee.xbeeGetsignalStrength(0,0,function(Sig){
 
-            global.Pan = Pan;
+            global.Sig = Sig;
         fs.readFile(sysTemp, 'utf8', (err,filetxt) =>{
             if(err){
                 console.log("Temperature: " + err);
@@ -289,7 +289,7 @@ exports.getUnitSettings = function(){
                 console.log("Temperature: "+ global.Temperature);
             }
 
-                xbee.xbeeGetsignalStrength(0,0,function(Sig) {
+                xbee.xbeeGetPanID(0,0,function(Pan) {
                     console.log("Battery: " + global.Battery + " Temperature: " + global.Temperature + " Pan ID: " + global.Pan);
                     ws.send(JSON.stringify({
                        object: 'unitStatus',
