@@ -40,13 +40,17 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
 
             break;
         case 0:
+            console.log('sending ss1 - request signal strength')
             sendXbeeData("ss1","+++");
             break;
         case "ss1":
-            if(data = "OK"){
-              sendXbeeData("ss2","ATDB\r");
+            if(data == "OK"){
+                console.log('got OK')
+
+                sendXbeeData("ss2","ATDB\r");
             }
             else{
+                console.log('expecting ok - got '+data)
                 exports.xbeeGetsignalStrength(666,"error"); //if we don't get ok then something is wrong
             }
             break;
