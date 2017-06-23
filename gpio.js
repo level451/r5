@@ -138,7 +138,7 @@ function sendSwitchData(data){
         setTimeout(switchBlock=0, 5000);
     }
 
-    console.log("data is: " + data);
+    console.log("data is: " + data + " switch block is: "+ switchBlock);
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
    // console.log("The switch value is: " + data);
 }
