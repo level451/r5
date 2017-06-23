@@ -12,7 +12,9 @@ var SIGNALstrength;
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
 
 exports.xbeeReceivedData = function(returnedData){
+
     clearTimeout(timer); //clear the timer as we have data
+    console.log('Timer Cleared:'+timer)
     switch (state.substr(0,2)){
         case "ss":
             exports.xbeeGetsignalStrength(state, returnedData);
@@ -40,7 +42,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
 
             break;
         case 0:
-            console.log('sending ss1 - request signal strength')
+            console.log('Entering AT mode')
             sendXbeeData("ss1","+++");
             break;
         case "ss1":
