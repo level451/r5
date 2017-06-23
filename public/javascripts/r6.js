@@ -8,7 +8,7 @@ const volumeTimeout = 3000;
 var volTimer = 0;
 var fadeOutTimer = -1;
 const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
-
+const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -109,19 +109,102 @@ function switchPress(s){
     console.log(s);
     var speed;
     switch (sysState){
+        case 'userMenu':
+            switch(s){
+                case 1:
+                    --menuItem;
+                    if (menuItem<1){
+                        menuItem=1;
+                    }
+
+                    drawMenuText(userMenu,menuItem);
+
+                    break;
+                case 2:
+                    ++menuItem;
+                    if (menuItem>userMenu.length){
+                        menuItem=userMenu.length;
+                    }
+                    drawMenuText(userMenu,menuItem);
+
+                    break;
+                case 3:
+                    // usermenu item selected
+                    sysState = 'idle';
+                    speed = 150;
+                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    drawMenuText(userMenu,menuItem,true);
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *1);
+                    setTimeout(function(){
+                        drawMenuText(userMenu,menuItem,true);
+                    },speed *2);
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *3);
+                    setTimeout(function(){
+                        drawMenuText(userMenu,menuItem,true);
+                    },speed *4);
+                    setTimeout(function(){
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    },speed *5);
+                    setTimeout(function(){
+                       // code here for user selection
+                        switch(systemMenu[menuItem-1]){
+                            case 'Exit':
+                                sysState = 'idle';
+                                break;
+                            case 'Volume':
+                                break;
+                            case 'Brightness':
+                                break;
+
+
+
+
+                            default:
+                                sysState = 'idle';
+                                console.log('unprocessed user menu item:'+systemMenu[menuItem-1])
+
+
+                        }
+
+
+                    },speed *6);
+                    // setTimeout(function(){
+                    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // },speed *7)
+                    break;
+            }
+            break;
         case 'idle':
         //case 'languageMenu':
+            switch(s){
+                case 3:
+                    // enter pressed while idle - goto userMenu
+                    menuItem = 1;
+                    sysState = 'userMenu';
+                    ctx.globalAlpha = 1;
 
-            if (s == 6){
-                // special menu code - go to system menu
-                menuItem = 1;
-                sysState = 'systemMenu';
-                ctx.globalAlpha = 1;
+                    drawMenuText(userMenu,menuItem);
+                    break;
 
-                drawMenuText(systemMenu,menuItem);
+                case 6:
+                    // special menu code - go to system menu
+                    menuItem = 1;
+                    sysState = 'systemMenu';
+                    ctx.globalAlpha = 1;
 
-
-            }
+                    drawMenuText(systemMenu,menuItem);
+                    break;
+                    }
             break;
         case 'Unit Status':
             // any switch press in unit status will exit to idle
