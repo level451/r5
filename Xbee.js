@@ -30,7 +30,7 @@ exports.xbeeReceivedData = function(returnedData){
 }
 
 exports.xbeeGetsignalStrength = function(st,data,cb){
-    console.log("at xbeegetsignalstrength");
+    console.log("at xbeegetsignalstrength: " + st);
     if (cb){
         global.xbeeSignalCallBack = cb;
     }
@@ -79,7 +79,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
 }
 
 exports.xbeeGetPanID = function(st,data,cb){
-    console.log("at xbeegetpanid");
+    console.log("at xbeegetpanid:" + st);
     if (cb){
         global.xbeePanCallBack = cb;
     }
