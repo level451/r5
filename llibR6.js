@@ -275,7 +275,7 @@ exports.getUnitSettings = function(){
         }
         else {
             global.Battery = filetxt;
-            console.log("Battery: "+ Battery);
+            console.log("Battery Voltage: "+ Battery);
         }
         fs.readFile(sysTemp, 'utf8', (err,filetxt) =>{
             if(err){
