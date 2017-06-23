@@ -43,7 +43,11 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
             break;
         case 0:
             console.log('Entering AT mode')
-            sendXbeeData("ss1","+++");
+            setTimeout(function(){
+                sendXbeeData("ss1","+++");
+            }, 5000);
+
+
             break;
         case "ss1":
             if(data == "OK"){
