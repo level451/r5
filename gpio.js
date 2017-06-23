@@ -132,7 +132,7 @@ function sendSwitchData(data){
         return;
 
     }
-    if((switchBlock == 0) && (data == 5)){ //after long press combination block everything else for 1 second
+    if((switchBlock == 0) && (data == 6)){ //after long press combination block everything else for 1 second
         switchBlock = 1;
         consloe.log("data = 5, switchblock = "+ switchBlock);
         setTimeout(switchBlock=0, 5000);
