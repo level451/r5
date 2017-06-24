@@ -212,12 +212,12 @@ function switchPress(s){
             }
             break;
         case 'Unit Status':
-            switch(s) {
+            switch(s) { // any switch press of switch 1, 2 or 3 in unit status will exit to idle
                 case 1:
                 case 2:
                 case 3:
 
-                // any switch press in unit status will exit to idle
+
                 ctx.
                     fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
