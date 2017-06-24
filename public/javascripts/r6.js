@@ -209,13 +209,21 @@ function switchPress(s){
 
                     drawMenuText(systemMenu,menuItem);
                     break;
-                    }
+            }
             break;
         case 'Unit Status':
-            // any switch press in unit status will exit to idle
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            sysState='idle';
+            switch(s) {
+                case 1:
+                case 2:
+                case 3:
+
+                // any switch press in unit status will exit to idle
+                ctx.
+                    fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    sysState = 'idle';
+                    break;
+            }
             break;
         case 'selectShowMenu':
             switch(s){
