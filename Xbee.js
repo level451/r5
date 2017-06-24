@@ -17,7 +17,7 @@ var PanIDBlock;
 exports.xbeeReceivedData = function(returnedData){
 
     clearTimeout(timer); //clear the timer as we have data
-   // console.log('Timer Cleared:'+timer)
+    console.log('Timer Cleared:'+timer)
     switch (state.substr(0,2)){
         case "ss":
             exports.xbeeGetsignalStrength(state, returnedData);
@@ -40,7 +40,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
         ssBlock = 1;
         setTimeout(function(){ssBlock=0}, 1400);
     }
-   // console.log("at xbeegetsignalstrength: " + st);
+    console.log("at xbeegetsignalstrength: " + st + " ssBlock: " + ssBlock);
     if (cb){
         global.xbeeSignalCallBack = cb;
     }
@@ -93,7 +93,7 @@ exports.xbeeGetPanID = function(st,data,cb){
         PanIDBlock = 1;
         setTimeout(function(){PanIDBlock=0}, 1400);
     }
-   // console.log("at xbeegetpanid:" + st);
+    console.log("at xbeegetpanid:" + st + " panidbloce: " + PanIDBlock);
     if (cb){
         global.xbeePanCallBack = cb;
     }
