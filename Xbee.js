@@ -8,8 +8,8 @@ var data;
 var newPanID;
 var PANid;
 var SIGNALstrength;
-var ssBlock;
-var PanIDBlock;
+var ssBlock = 0;
+var PanIDBlock = 0;
 
 
 // state ss1 - signal strength 1 - waiting for confirmation that xbee is in AT mode
