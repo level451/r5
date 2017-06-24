@@ -128,17 +128,13 @@ function readAllSwitches(){//switch 3 is down and timed out
 
 function sendSwitchData(data){
     if(switchBlock == 1){
-        console.log("switch block = " + switchBlock);
         return;
-
     }
     if((switchBlock == 0) && (data == 6)){ //after long press combination block everything else for 1 second
         switchBlock = 1;
-        console.log("data = 5, switchblock = "+ switchBlock);
         setTimeout(function(){switchBlock=0}, 1400);
     }
 
-    console.log("data is: " + data + " switch block is: "+ switchBlock);
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
    // console.log("The switch value is: " + data);
 }

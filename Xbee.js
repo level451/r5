@@ -17,7 +17,7 @@ var PanIDBlock;
 exports.xbeeReceivedData = function(returnedData){
 
     clearTimeout(timer); //clear the timer as we have data
-    console.log('Timer Cleared:'+timer)
+   // console.log('Timer Cleared:'+timer)
     switch (state.substr(0,2)){
         case "ss":
             exports.xbeeGetsignalStrength(state, returnedData);
@@ -40,31 +40,31 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
         ssBlock = 1;
         setTimeout(function(){ssBlock=0}, 1400);
     }
-    console.log("at xbeegetsignalstrength: " + st);
+   // console.log("at xbeegetsignalstrength: " + st);
     if (cb){
         global.xbeeSignalCallBack = cb;
     }
     switch(st){
         case 666:
-            console.log("ERROR from XBEE SS");
+          //  console.log("ERROR from XBEE SS");
             if (global.xbeeSignalCallBack){
                 global.xbeeSignalCallBack('ERROR from XBEE SS');
             }
 
             break;
         case 0:
-            console.log('Entering AT mode') ;
+          //  console.log('Entering AT mode') ;
             sendXbeeData("ss1","+++");
             break;
 
         case "ss1":
             if(data == "OK"){
-                console.log('got OK')
+              //  console.log('got OK')
 
                 sendXbeeData("ss2","ATDB\r");
             }
             else{
-                console.log('expecting ok - got '+data)
+             //   console.log('expecting ok - got '+data)
                 exports.xbeeGetsignalStrength(666,"error"); //if we don't get ok then something is wrong
             }
             break;
@@ -74,7 +74,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
             sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
         case "ss3":
-            console.log("The Signal Strength is: " + SIGNALstrength);
+          //  console.log("The Signal Strength is: " + SIGNALstrength);
             if (global.xbeeSignalCallBack){
                 global.xbeeSignalCallBack(SIGNALstrength);
             }
@@ -93,13 +93,13 @@ exports.xbeeGetPanID = function(st,data,cb){
         PanIDBlock = 1;
         setTimeout(function(){PanIDBlock=0}, 1400);
     }
-    console.log("at xbeegetpanid:" + st);
+   // console.log("at xbeegetpanid:" + st);
     if (cb){
         global.xbeePanCallBack = cb;
     }
     switch(st){
         case 666:
-            console.log("ERROR from XBEE GI");
+          //  console.log("ERROR from XBEE GI");
             if (global.xbeePanCallBack){
                 global.xbeePanCallBack('ERROR from XBEE GI');
             }
@@ -126,7 +126,7 @@ exports.xbeeGetPanID = function(st,data,cb){
             sendXbeeData("gi3","ATCN\r");//clear AT mode
             break;
         case "gi3":
-            console.log("The Pan ID is: " + PANid);
+          //  console.log("The Pan ID is: " + PANid);
             if (global.xbeePanCallBack) {
                 global.xbeePanCallBack(PANid);
             }
