@@ -216,12 +216,10 @@ function switchPress(s){
                 case 1:
                 case 2:
                 case 3:
-
-
-                ctx.
-                    fillStyle = "#000000";
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    sysState = 'idle';
+                    ctx.
+                        fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        sysState = 'idle';
                     break;
             }
             break;
