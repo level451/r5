@@ -325,6 +325,7 @@ exports.backlight = function(value,direction){
     console.log("fadeout:" + wiz.FadeOut);
     console.log("wiz.Backlight * backlightNanoPimax " + wiz.Backlight*backlightNanoPiMax);
     console.log("Backlight request: " + backlightLevel + "  direction is: " + direction)
+    return;
     if(direction == 'up'){
        backlightLevel +=1;
         if(backlightLevel >= wiz.Backlight*backlightNanoPiMax){
