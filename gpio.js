@@ -73,7 +73,7 @@ exports.setupSwitches = function(){
                 break;
             case 1:
                 sendSwitchData(100);
-                llibR6.backlightOn();
+
                 break;
         }
 
@@ -85,6 +85,7 @@ exports.setupSwitches = function(){
         switch(value){
             case 0:
                 sendSwitchData(2);
+                llibR6.backlightOn();
                 break;
             case 1:
                 sendSwitchData(200);
