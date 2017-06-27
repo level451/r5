@@ -6,6 +6,11 @@ const xbee = require("./Xbee");
 const readline = require('readline');
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
+var timerBacklightOn;
+var timerBacklightOff;
+var timerBacklightTime;
+var backlightLevel = 0;
+var backlightNanoPiMax = 100;
 
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
@@ -312,13 +317,54 @@ exports.getUnitSettings = function(){
     });
 }
 
-exports.backlight = function(value){
-    fs.writeFile('/dev/backlight-1wire', value, (err) => {
-        if (err){
-            console.log("error in writing to baacklight");
+exports.backlight = function(value,direction){
+    backlightLevel = value;
+    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction)
+    if(direction == 'up'){
+       backlightLevel +=1;
+        if(backlightLevel > wiz.Backlight*backlightNanoPiMax){
+            clearInterval(timerBacklightOn);
         }
-        else {
-            console.log('The backlight value is now: ' + value);
+    }
+    else if(direction == 'down'){
+        backlightLevel -=1;
+        if(backlightLevel < 0){
+            clearInterval(timerBacklightOff);
         }
-    });
+    }
+
+    if(os.type() != "Windows_NT") {//don't do this on windows
+        fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
+            if (err) {
+                console.log("error in writing to baacklight");
+            }
+            else {
+                console.log('The backlight value is now: ' + value);
+                console.log('The backlight max value is now: ');
+                console.log('The backlight value is now: ' + value);
+            }
+        });
+    }
+}
+
+exports.backlightOn = function(value){
+
+    clearInterval(timerBacklightOff);  //clear the off timer
+    if(value !=null){
+        llibR6.backlight(value); // if no parameter just turn on backlight and leave it on
+    }
+    else {  //called without a value
+        timerBacklightOn = setInterval(function () {
+            llibR6.backlight(backlightLevel, 'up')
+        }, wiz.FadeIn);
+
+        timerBacklightTime = setTimeout(function () {
+            llibR6.backlightOff()
+        }, wiz.onTime * 1000);// set the timer to time things out and turn off
+    }
+}
+
+exports.backlightOff = function(){
+    clearInterval(timerBacklightOn);
+    timerBacklightOff = setInterval(function(){llibR6.backlight(backlightLevel,'down')}, wiz.FadeOut);
 }
