@@ -329,14 +329,20 @@ exports.backlight = function(value,direction){
     if(direction == 'up'){
        backlightLevel +=1;
         if(backlightLevel >= wiz.Backlight*backlightNanoPiMax/100){
-            clearInterval(timerBacklightOn);
+           // clearInterval(timerBacklightOn);
+        }
+        else{
+            setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn);
         }
     }
     else if(direction == 'down'){
         backlightLevel -=1;
         if(backlightLevel <=0){
             //console.log("truning off backlight timer");
-            clearInterval(timerBacklightOff);
+           // clearInterval(timerBacklightOff);
+        }
+        else{
+            setTimeout(function(){exports.backlight(backlightLevel, "down")}, wiz.FadeOut);
         }
     }
 
@@ -357,15 +363,13 @@ exports.backlight = function(value,direction){
 
 exports.backlightOn = function(value){
     console.log("just arrived at backinght up")
-    clearInterval(timerBacklightOff);  //clear the off timer
+  //  clearInterval(timerBacklightOff);  //clear the off timer
     if(value !=null){
         exports.backlight(value); // if no parameter just turn on backlight and leave it on
     }
     else {  //called without a value
-        timerBacklightOn = setInterval(function () {
-            exports.backlight(backlightLevel, 'up')
-        }, wiz.FadeIn*10);
-
+      //  timerBacklightOn = setInterval(function () {exports.backlight(backlightLevel, 'up')}, wiz.FadeIn*10);
+        exports.backlight(backlightLevel,"up");
         timerBacklightTime = setTimeout(function () {
             exports.backlightOff()
         }, wiz.OnTime * 10000);// set the timer to time things out and turn off
@@ -375,6 +379,7 @@ exports.backlightOn = function(value){
 exports.backlightOff = function(){
     console.log("just arrived at backinght DOWN");
     clearTimeout(timerBacklightTime); // already going off, so cleat this timer
-    clearInterval(timerBacklightOn);
-    timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut*10);
+  //  clearInterval(timerBacklightOn);
+    exports.backlight(backlightLevel,"down");
+    //timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut*10);
 };
