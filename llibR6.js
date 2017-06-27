@@ -333,7 +333,7 @@ exports.backlight = function(value,direction){
     }
     else if(direction == 'down'){
         backlightLevel -=1;
-        if(backlightLevel < 0){
+        if(backlightLevel <=0){
             clearInterval(timerBacklightOff);
         }
     }
@@ -366,7 +366,7 @@ exports.backlightOn = function(value){
 
         timerBacklightTime = setTimeout(function () {
             exports.backlightOff()
-        }, wiz.OnTime * 1000);// set the timer to time things out and turn off
+        }, wiz.OnTime * 10000);// set the timer to time things out and turn off
     }
 };
 
