@@ -332,7 +332,7 @@ exports.backlight = function(value,direction){
            // clearInterval(timerBacklightOn);
         }
         else{
-            setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn);
+            setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn*20);
         }
     }
     else if(direction == 'down'){
@@ -342,7 +342,7 @@ exports.backlight = function(value,direction){
            // clearInterval(timerBacklightOff);
         }
         else{
-            setTimeout(function(){exports.backlight(backlightLevel, "down")}, wiz.FadeOut);
+            setTimeout(function(){exports.backlight(backlightLevel, "down")}, wiz.FadeOut*20);
         }
     }
 
