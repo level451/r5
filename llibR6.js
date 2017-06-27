@@ -335,6 +335,7 @@ exports.backlight = function(value,direction){
     else if(direction == 'down'){
         backlightLevel -=1;
         if(backlightLevel <=0){
+            consloe.log("truning off backlight timer");
             clearInterval(timerBacklightOff);
         }
     }
@@ -372,7 +373,8 @@ exports.backlightOn = function(value){
 };
 
 exports.backlightOff = function(){
-    console.log("just arrived at backinght DOWN")
+    console.log("just arrived at backinght DOWN");
+    clearTimeout(timerBacklightTime); // already going off, so cleat this timer
     clearInterval(timerBacklightOn);
     timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut*10);
 };
