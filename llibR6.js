@@ -349,20 +349,20 @@ exports.backlightOn = function(value){
 
     clearInterval(timerBacklightOff);  //clear the off timer
     if(value !=null){
-        llibR6.backlight(value); // if no parameter just turn on backlight and leave it on
+        exports.backlight(value); // if no parameter just turn on backlight and leave it on
     }
     else {  //called without a value
         timerBacklightOn = setInterval(function () {
-            backlight(backlightLevel, 'up')
+            exports.backlight(backlightLevel, 'up')
         }, wiz.FadeIn);
 
         timerBacklightTime = setTimeout(function () {
-            llibR6.backlightOff()
+            exports.backlightOff()
         }, wiz.onTime * 1000);// set the timer to time things out and turn off
     }
 }
 
 exports.backlightOff = function(){
     clearInterval(timerBacklightOn);
-    timerBacklightOff = setInterval(function(){backlight(backlightLevel,'down')}, wiz.FadeOut);
+    timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut);
 }
