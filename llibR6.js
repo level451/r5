@@ -336,11 +336,9 @@ exports.backlight = function(value,direction){
     if(os.type() != "Windows_NT") {//don't do this on windows
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-                console.log("error in writing to baacklight");
+                console.log("error in writing to backlight");
             }
             else {
-                console.log('The backlight value is now: ' + value);
-                console.log('The backlight max value is now: ');
                 console.log('The backlight value is now: ' + value);
             }
         });
@@ -355,7 +353,7 @@ exports.backlightOn = function(value){
     }
     else {  //called without a value
         timerBacklightOn = setInterval(function () {
-            llibR6.backlight(backlightLevel, 'up')
+            backlight(backlightLevel, 'up')
         }, wiz.FadeIn);
 
         timerBacklightTime = setTimeout(function () {
@@ -366,5 +364,5 @@ exports.backlightOn = function(value){
 
 exports.backlightOff = function(){
     clearInterval(timerBacklightOn);
-    timerBacklightOff = setInterval(function(){llibR6.backlight(backlightLevel,'down')}, wiz.FadeOut);
+    timerBacklightOff = setInterval(function(){backlight(backlightLevel,'down')}, wiz.FadeOut);
 }
