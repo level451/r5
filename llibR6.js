@@ -357,7 +357,9 @@ exports.backlight = function(value,direction){
 
 exports.backlightOn = function(value){
     console.log("just arrived at backinght up")
-  //  clearInterval(timerBacklightOff);  //clear the off timer
+    clearTimeout(timerBacklightTime); // already going off, so cleat this timer
+    clearTimeout(timerBacklightOn);
+    clearTimeout(timerBacklightOff);
     if(value !=null){
         exports.backlight(value); // if no parameter just turn on backlight and leave it on
     }
@@ -370,5 +372,7 @@ exports.backlightOn = function(value){
 exports.backlightOff = function(){
     console.log("just arrived at backinght DOWN");
     clearTimeout(timerBacklightTime); // already going off, so cleat this timer
+    clearTimeout(timerBacklightOn);
+    clearTimeout(timerBacklightOff);
     exports.backlight(backlightLevel,"down");
 };
