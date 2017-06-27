@@ -328,20 +328,14 @@ exports.backlight = function(value,direction){
 
     if(direction == 'up'){
        backlightLevel +=1;
-        if(backlightLevel >= wiz.Backlight*backlightNanoPiMax/100){
-           // clearInterval(timerBacklightOn);
-        }
-        else{
+        if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
             setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn*20);
         }
+
     }
     else if(direction == 'down'){
         backlightLevel -=1;
-        if(backlightLevel <=0){
-            //console.log("truning off backlight timer");
-           // clearInterval(timerBacklightOff);
-        }
-        else{
+        if(backlightLevel > 0){
             setTimeout(function(){exports.backlight(backlightLevel, "down")}, wiz.FadeOut*20);
         }
     }
@@ -368,18 +362,13 @@ exports.backlightOn = function(value){
         exports.backlight(value); // if no parameter just turn on backlight and leave it on
     }
     else {  //called without a value
-      //  timerBacklightOn = setInterval(function () {exports.backlight(backlightLevel, 'up')}, wiz.FadeIn*10);
         exports.backlight(backlightLevel,"up");
-        timerBacklightTime = setTimeout(function () {
-            exports.backlightOff()
-        }, wiz.OnTime * 10000);// set the timer to time things out and turn off
+        timerBacklightTime = setTimeout(function () {exports.backlightOff()}, wiz.OnTime * 10000);// set the timer to time things out and turn off
     }
 };
 
 exports.backlightOff = function(){
     console.log("just arrived at backinght DOWN");
     clearTimeout(timerBacklightTime); // already going off, so cleat this timer
-  //  clearInterval(timerBacklightOn);
     exports.backlight(backlightLevel,"down");
-    //timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut*10);
 };
