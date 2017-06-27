@@ -329,7 +329,7 @@ exports.backlight = function(value,direction){
     if(direction == 'up'){
        backlightLevel +=1;
         if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
-            setTimeout(function(){exports.backlight(backlightLevel, "up")}, 10*wiz.FadeIn*Math.exp(1/wiz.FadeIn));
+            setTimeout(function(){exports.backlight(backlightLevel, "up")}, 10*wiz.FadeIn*(Math.exp(1/wiz.FadeIn))^2);
         }
 
     }
