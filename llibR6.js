@@ -323,11 +323,11 @@ exports.backlight = function(value,direction){
     console.log("ontime:" + wiz.OnTime);
     console.log("fadein:" + wiz.FadeIn);
     console.log("fadeout:" + wiz.FadeOut);
-
+    console.log("wiz.Backlight * backlightNanoPimax " + wiz.Backlight*backlightNanoPiMax);
     console.log("Backlight request: " + backlightLevel + "  direction is: " + direction)
     if(direction == 'up'){
        backlightLevel +=1;
-        if(backlightLevel > wiz.Backlight*backlightNanoPiMax){
+        if(backlightLevel >= wiz.Backlight*backlightNanoPiMax){
             clearInterval(timerBacklightOn);
         }
     }
