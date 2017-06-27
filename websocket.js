@@ -7,6 +7,7 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 websocket = {};
 var request = require('request');
 var os = require('os');
+var llibR6 = require('./llibR6');
 
 //Set up Web socket for a connection
 //exports.start = function(wscallback,port){
