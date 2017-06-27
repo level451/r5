@@ -55,6 +55,7 @@ if(os.type() != "Windows_NT") {
     var switch3Timeout;
 }
 const xbee = require("./Xbee");
+const llibR6 = require("./llibR6");
 console.log("Operating system is: " + os.type().toString());
 
 
@@ -67,9 +68,12 @@ exports.setupSwitches = function(){
         switch(value){
             case 0:
                 sendSwitchData(1);
+                llibR6.backlight(100);
+
                 break;
             case 1:
                 sendSwitchData(100);
+                llibR6.backlight(10);
                 break;
         }
 

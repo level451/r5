@@ -310,7 +310,15 @@ exports.getUnitSettings = function(){
       //  });
 
     });
+}
 
-
-
+exports.backlight = function(value){
+    fs.writeFile('/dev/backlight-1wire', value, (err) => {
+        if (err){
+            console.log("error in writing to baacklight");
+        }
+        else {
+            console.log('The backlight value is now: ' + value);
+        }
+    });
 }
