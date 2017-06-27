@@ -363,7 +363,7 @@ exports.backlightOn = function(value){
     else {  //called without a value
         timerBacklightOn = setInterval(function () {
             exports.backlight(backlightLevel, 'up')
-        }, wiz.FadeIn);
+        }, wiz.FadeIn*10);
 
         timerBacklightTime = setTimeout(function () {
             exports.backlightOff()
@@ -374,5 +374,5 @@ exports.backlightOn = function(value){
 exports.backlightOff = function(){
     console.log("just arrived at backinght DOWN")
     clearInterval(timerBacklightOn);
-    timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut);
+    timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut*10);
 };
