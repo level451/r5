@@ -351,7 +351,7 @@ exports.backlight = function(value,direction){
             }
         });
     }
-}
+};
 
 exports.backlightOn = function(value){
     console.log("just arrived at backinght up")
@@ -368,10 +368,10 @@ exports.backlightOn = function(value){
             exports.backlightOff()
         }, wiz.onTime * 1000);// set the timer to time things out and turn off
     }
-}
+};
 
 exports.backlightOff = function(){
     console.log("just arrived at backinght DOWN")
     clearInterval(timerBacklightOn);
     timerBacklightOff = setInterval(function(){exports.backlight(backlightLevel,'down')}, wiz.FadeOut);
-}
+};
