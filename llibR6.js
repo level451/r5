@@ -319,6 +319,11 @@ exports.getUnitSettings = function(){
 
 exports.backlight = function(value,direction){
     backlightLevel = value;
+    console.log("backlight:" + wiz.Backlight);
+    console.log("ontime:" + wiz.onTime);
+    console.log("fadein:" + wiz.FadeIn);
+    console.log("fadeout:" + wiz.FadeOut);
+
     console.log("Backlight request: " + backlightLevel + "  direction is: " + direction)
     if(direction == 'up'){
        backlightLevel +=1;
