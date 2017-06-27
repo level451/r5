@@ -60,7 +60,7 @@ console.log("Operating system is: " + os.type().toString());
 
 
 exports.setupSwitches = function(){
-
+    llibR6.backlight(100);
     switch1.watch(function (err,value){
         if(err){
             console.log(err);
