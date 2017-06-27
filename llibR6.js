@@ -335,7 +335,7 @@ exports.backlight = function(value,direction){
     else if(direction == 'down'){
         backlightLevel -=1;
         if(backlightLevel <=0){
-            console.log("truning off backlight timer");
+            //console.log("truning off backlight timer");
             clearInterval(timerBacklightOff);
         }
     }
