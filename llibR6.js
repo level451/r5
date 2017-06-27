@@ -320,7 +320,7 @@ exports.getUnitSettings = function(){
 exports.backlight = function(value,direction){
     backlightLevel = value;
     console.log("backlight:" + wiz.Backlight);
-    console.log("ontime:" + wiz.onTime);
+    console.log("ontime:" + wiz.OnTime);
     console.log("fadein:" + wiz.FadeIn);
     console.log("fadeout:" + wiz.FadeOut);
 
@@ -366,7 +366,7 @@ exports.backlightOn = function(value){
 
         timerBacklightTime = setTimeout(function () {
             exports.backlightOff()
-        }, wiz.onTime * 1000);// set the timer to time things out and turn off
+        }, wiz.OnTime * 1000);// set the timer to time things out and turn off
     }
 };
 
