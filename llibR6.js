@@ -386,6 +386,8 @@ exports.wifiCheck = function(){
     if(wiz.Pass == null){
         wiz.Pass = "None";
     }
+    wiz.Ssid = wiz.Ssid.trim();
+    wiz.Pass = wiz.Pass.trim();
     console.log("wiz.ssid " + wiz.Ssid);
     console.log("wiz.Pass "+ wiz.Pass);
     const rl = readline.createInterface({
@@ -395,11 +397,11 @@ exports.wifiCheck = function(){
     rl.on('line', (line) => {
         console.log(line);
         if(line.includes("ssid")){
-            currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"'));
+            currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"')).trim();
             console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
         }
         if(line.includes("psk")) {
-            currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"'));
+            currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"')).trim();
             console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
         }
 
@@ -415,12 +417,13 @@ exports.wifiCheck = function(){
     rl.on('close',()=> {
         console.log("End of File")
 
-        if((currentSSID != wiz.SsId) || (currentPASSWORD != wiz.Pass)){
+        if((currentSSID == wiz.SsId) && (currentPASSWORD == wiz.Pass)){
 
-            console.log("need to change wifi stuff here");
+            console.log("there is nothing in wifi that needs to be changed");
         }
         else{
-            console.log("there is nothing in wifi that needs to be changed");
+
+            console.log("need to change wifi stuff here");
         }
 
     });
