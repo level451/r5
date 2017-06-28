@@ -380,7 +380,7 @@ exports.backlightOff = function(){
 exports.wifiCheck = function(){
     var currentSSID;
     var currentPASSWORD;
-    if(wiz.SSid == null){
+    if(wiz.Ssid == null){
         wiz.Ssid = "None";
     }
     if(wiz.Pass == null){
