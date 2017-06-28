@@ -387,7 +387,7 @@ exports.wifiCheck = function(){
         wiz.Pass = "None";
     }
     console.log("wiz.ssid " + wiz.Ssid);
-    console.log("wiz.Pass "+ wiz.Pas);
+    console.log("wiz.Pass "+ wiz.Pass);
     const rl = readline.createInterface({
         input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
     });
