@@ -415,7 +415,7 @@ exports.wifiCheck = function(){
     rl.on('close',()=> {
         console.log("End of File")
 
-        if((currentSSID != wiz.SSId) || (currentPASSWORD != wiz.Pass)){
+        if((currentSSID != wiz.SsId) || (currentPASSWORD != wiz.Pass)){
 
             console.log("need to change wifi stuff here");
         }
