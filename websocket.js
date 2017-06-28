@@ -32,7 +32,7 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
 function startBrowser(){
     const execSeries = require('exec-series');
 
-    execSeries(['unclutter &'], (err, stdouts, stderrs) => {//
+    execSeries(['DISPLAY=:0 sudo  -u fa unclutter &'], (err, stdouts, stderrs) => {//
         if (err) {
             console.log(err);
             throw err;
