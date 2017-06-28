@@ -376,3 +376,39 @@ exports.backlightOff = function(){
     clearTimeout(timerBacklightOff);
     exports.backlight(backlightLevel,"down");
 };
+
+exports.wifiCheck = function(ssid, password){
+
+        const rl = readline.createInterface({
+            input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
+        });
+
+        rl.on('line', (line) => {
+            console.log(line);
+            // if (line.indexOf(':') != -1){ // make sure there is a :
+            //     // update the global.wiz object
+            //     global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+            //
+            // } else
+            // {
+            //     console.log('Invalid line colon not found - ignoring:'+line);
+            // }
+        });
+        rl.on('close',()=> {
+            // add a list of available shows to wiz
+
+
+                console.log("End of File")
+
+
+
+
+
+
+
+        });
+
+
+
+
+}

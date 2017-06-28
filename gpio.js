@@ -69,7 +69,7 @@ exports.setupSwitches = function(){
             case 0:
                 sendSwitchData(1);
               //  llibR6.backlightOff(); //for testing only
-
+                    llibR6.wifiCheck();
                 break;
             case 1:
                 sendSwitchData(100);
