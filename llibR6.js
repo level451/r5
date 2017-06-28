@@ -336,7 +336,7 @@ exports.backlight = function(value,direction){
     else if(direction == 'down'){
         backlightLevel -=1;
         if(backlightLevel > 0){
-            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},1* wiz.FadeOut*Math.exp(1/(backlightLevel+1)));
+            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},10* wiz.FadeOut*Math.exp(1/(backlightLevel+1)));
         }
     }
 
