@@ -380,8 +380,14 @@ exports.backlightOff = function(){
 exports.wifiCheck = function(ssid, password){
     var currentSSID;
     var currentPASSWORD;
-    if(wiz.)
-
+    if(wiz.SSid == null){
+        wiz.Ssid = "None";
+    }
+    if(wiz.Pass == null){
+        wiz.Pass = "None";
+    }
+    console.log("wiz.ssid " + wiz.Ssid);
+    console.log("wiz.Pass "+ wiz.Pas);
     const rl = readline.createInterface({
         input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
     });
@@ -407,20 +413,16 @@ exports.wifiCheck = function(ssid, password){
         // }
     });
     rl.on('close',()=> {
-        // add a list of available shows to wiz
-
-
-            console.log("End of File")
-
-
-
-
-
-
-
+        console.log("End of File")
     });
 
+    if((currentSSID != wiz.SSId) || (currentPASSWORD != wiz.Pass)){
 
+        console.log("need to change wifi stuff here");
+    }
+    else{
+        console.log("there is nothing in wifi that needs to be changed");
+    }
 
 
 }
