@@ -324,14 +324,14 @@ exports.backlight = function(value,direction){
     if(direction == 'up'){
        backlightLevel +=1;
         if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
-            timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn*(Math.pow(100,1/(wiz.FadeIn+1))));
+            timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")}, wiz.FadeIn*(Math.pow(100,1/(backlightLevel+1))));
         }
 
     }
     else if(direction == 'down'){
         backlightLevel -=1;
         if(backlightLevel > 0){
-            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},1* wiz.FadeOut*Math.exp(1/wiz.FadeIn));
+            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},1* wiz.FadeOut*Math.exp(1/(backlightLevel+1)));
         }
     }
 
