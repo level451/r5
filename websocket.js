@@ -32,6 +32,18 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
 function startBrowser(){
     const execSeries = require('exec-series');
 
+    execSeries(['unclutter &'], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+
+        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+        console.log(stderrs); // yields: ['', '']
+    });
+    console.log("unclutter started");
+}
+
     execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito  --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
         if (err) {
             console.log(err);
