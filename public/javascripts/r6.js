@@ -25,7 +25,7 @@ function load() {
     }
     disp.style.width = settings.webPage.width + "px";
     disp.style.height = settings.webPage.height +"px";
-    disp.style.overflow = hidden;
+    disp.style.overflow = "hidden";
     disp.style.cursor = none;
     disp.style.transform = "rotate(" + settings.webPage.rotation + "deg)";
 
