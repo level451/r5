@@ -13,7 +13,7 @@ const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
-    disp.focus();
+
     disp.style.position = "absolute";
     if(settings.webPage.rotation== -90 || settings.webPage.rotation == 90) {
         disp.style.top = (settings.webPage.width - settings.webPage.height) / 2 + "px";
@@ -27,7 +27,7 @@ function load() {
     disp.style.height = settings.webPage.height +"px";
     disp.style.overflow = "hidden";
     disp.style.cursor = "none";
-
+    disp.click();
     disp.style.transform = "rotate(" + settings.webPage.rotation + "deg)";
 
     canvas = document.getElementById('canvas');
