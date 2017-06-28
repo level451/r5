@@ -377,7 +377,7 @@ exports.backlightOff = function(){
     exports.backlight(backlightLevel,"down");
 };
 
-exports.wifiCheck = function(ssid, password){
+exports.wifiCheck = function(){
     var currentSSID;
     var currentPASSWORD;
     if(wiz.SSid == null){
@@ -414,15 +414,18 @@ exports.wifiCheck = function(ssid, password){
     });
     rl.on('close',()=> {
         console.log("End of File")
+
+        if((currentSSID != wiz.SSId) || (currentPASSWORD != wiz.Pass)){
+
+            console.log("need to change wifi stuff here");
+        }
+        else{
+            console.log("there is nothing in wifi that needs to be changed");
+        }
+
     });
 
-    if((currentSSID != wiz.SSId) || (currentPASSWORD != wiz.Pass)){
 
-        console.log("need to change wifi stuff here");
-    }
-    else{
-        console.log("there is nothing in wifi that needs to be changed");
-    }
 
 
 }
