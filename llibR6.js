@@ -318,13 +318,18 @@ exports.getUnitSettings = function(){
 }
 
 exports.backlight = function(value,direction){
+    var delay;
     backlightLevel = value;
-    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(1000,1/(backlightLevel+1))) );
+    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))) );
 
     if(direction == 'up'){
        backlightLevel +=1;
         if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
-            timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")}, 10*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))));
+            delay = 10*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1)));
+            if(delay > 4000){
+                delay = 250;
+            }
+            timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
         }
 
     }
