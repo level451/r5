@@ -35,7 +35,7 @@ function load() {
     display = document.getElementById('display');
     ctx = canvas.getContext('2d');
 
-    canvas.mousedown();
+    canvas.click();
     canvas.width=settings.webPage.width;
     canvas.height=settings.webPage.height;
     //    canvas.width=window.outerWidth
