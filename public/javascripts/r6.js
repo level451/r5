@@ -114,10 +114,28 @@ function switchPress(s){
             case 'volume':
                 switch(s){
                     case 1:
-                        wiz.Volume = (wiz.Volume*1) + 10;
+                        if (wiz.Volume < 100) {
+                            wiz.Volume = (wiz.Volume*1) + 10;
+                        }
+
                         break;
                     case 2:
-                        wiz.Volume = (wiz.Volume*1) - 10;
+                        if (wiz.Volume > 0){
+                            wiz.Volume = (wiz.Volume*1) - 10;
+                        }
+
+                        break;
+                    case 3:
+                        clearTimeout(volTimer);
+                        ctx.globalAlpha = 1;
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        if (typeof(img) == "object") {
+                            drawImage()
+                        }
+                        specialMode = '';
+                        console.log('volume exit')
+                        return;
                         break;
                 }
 
@@ -618,6 +636,7 @@ function displaySlide(d) {
         ctx.globalAlpha = 0;
         fadeTime = wiz.FadeIn * 1000;
         startTime = false;
+        websocketsend('fadeIn',{});
         fadeIn();
         console.log('fading in')
 
@@ -688,6 +707,7 @@ function fadeIn(t){
                 fadeTime = wiz.FadeOut*1000;
                 startTime = false;
                 console.log('fade out');
+                websocketsend('fadeOut',{});
 
                 fadeOut();
 
