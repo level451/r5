@@ -40,7 +40,7 @@ function load() {
 //   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = settings.webPage.width/320 ;// //320 is the default indow size - everything will be scaled according to this
 
-
+    document.body.style.overflow = "hidden";
     document.addEventListener('keydown', function(evt) {
         switch (evt.key){
             case 'a':
