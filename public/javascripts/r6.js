@@ -27,7 +27,7 @@ function load() {
     disp.style.height = settings.webPage.height +"px";
     disp.style.overflow = "hidden";
     disp.style.cursor = "none";
-    disp.click();
+
     disp.style.transform = "rotate(" + settings.webPage.rotation + "deg)";
 
     canvas = document.getElementById('canvas');
@@ -35,7 +35,7 @@ function load() {
     display = document.getElementById('display');
     ctx = canvas.getContext('2d');
 
-
+    canvas.click();
     canvas.width=settings.webPage.width;
     canvas.height=settings.webPage.height;
     //    canvas.width=window.outerWidth
