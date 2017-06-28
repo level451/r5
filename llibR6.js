@@ -385,8 +385,8 @@ exports.wifiCheck = function(ssid, password){
 
         rl.on('line', (line) => {
             console.log(line);
-            var currentSSID=line.substring(line.lastIndexOf("ssid=")+1,line.lastIndexOf('"'));
-            var currentPASSWORD=line.substring(line.lastIndexOf("psk=")+1,line.lastIndexOf('"'));
+            var currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"'));
+            var currentPASSWORD=line.substring(line.lastIndexOf("psk=")+5,line.lastIndexOf('"'));
 
             console.log("current ssid: "+ currentSSID);
             console.log("current Password: "+ currentPASSWORD);
