@@ -361,11 +361,11 @@ exports.backlightOn = function(value){
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
     if(value !=null){
-        exports.backlight(value); // if no parameter just turn on backlight and leave it on
+        exports.backlight(value*backlightNanoPiMax/100); // if no parameter just turn on backlight to the percentage indicated in value
     }
     else {  //called without a value
         exports.backlight(backlightLevel,"up");
-        timerBacklightTime = setTimeout(function () {exports.backlightOff()}, wiz.OnTime * 10000);// set the timer to time things out and turn off
+      //  timerBacklightTime = setTimeout(function () {exports.backlightOff()}, wiz.OnTime * 10000);// set the timer to time things out and turn off
     }
 };
 
