@@ -165,6 +165,12 @@ function wsData(data,id){
              //return;
             ll.getUnitSettings();
             break;
+        case "fadeIn":
+            ll.backlightOn();
+            break;
+        case "fadeOut":
+            ll.backlightOff();
+            break;
 
        default:
             console.log('unknown datatype '+data.type)
