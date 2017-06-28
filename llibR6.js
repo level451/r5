@@ -388,8 +388,8 @@ exports.wifiCheck = function(){
     }
     wiz.Ssid = wiz.Ssid.trim();
     wiz.Pass = wiz.Pass.trim();
-    console.log("wiz.ssid " + wiz.Ssid);
-    console.log("wiz.Pass "+ wiz.Pass);
+    console.log("wiz.ssid " + wiz.Ssid + " length "+ wiz.Ssid.length);
+    console.log("wiz.Pass "+ wiz.Pass + " length " + wiz.Pass.length);
     const rl = readline.createInterface({
         input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
     });
