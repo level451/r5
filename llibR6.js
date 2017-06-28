@@ -387,12 +387,13 @@ exports.wifiCheck = function(ssid, password){
             console.log(line);
             if(line.includes("ssid")){
                 var currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"'));
+                console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
             }
             if(line.includes("psk")) {
                 var currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"'));
+                console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
             }
-            console.log("current ssid: "+ currentSSID);
-            console.log("current Password: "+ currentPASSWORD);
+
             // if (line.indexOf(':') != -1){ // make sure there is a :
             //     // update the global.wiz object
             //     global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
