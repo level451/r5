@@ -378,44 +378,47 @@ exports.backlightOff = function(){
 };
 
 exports.wifiCheck = function(ssid, password){
+    var currentSSID;
+    var currentPASSWORD;
+    if(wiz.)
 
-        const rl = readline.createInterface({
-            input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
-        });
+    const rl = readline.createInterface({
+        input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
+    });
 
-        rl.on('line', (line) => {
-            console.log(line);
-            if(line.includes("ssid")){
-                var currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"'));
-                console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
-            }
-            if(line.includes("psk")) {
-                var currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"'));
-                console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
-            }
+    rl.on('line', (line) => {
+        console.log(line);
+        if(line.includes("ssid")){
+            currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"'));
+            console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
+        }
+        if(line.includes("psk")) {
+            currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"'));
+            console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
+        }
 
-            // if (line.indexOf(':') != -1){ // make sure there is a :
-            //     // update the global.wiz object
-            //     global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
-            //
-            // } else
-            // {
-            //     console.log('Invalid line colon not found - ignoring:'+line);
-            // }
-        });
-        rl.on('close',()=> {
-            // add a list of available shows to wiz
-
-
-                console.log("End of File")
-
-
+        // if (line.indexOf(':') != -1){ // make sure there is a :
+        //     // update the global.wiz object
+        //     global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+        //
+        // } else
+        // {
+        //     console.log('Invalid line colon not found - ignoring:'+line);
+        // }
+    });
+    rl.on('close',()=> {
+        // add a list of available shows to wiz
 
 
+            console.log("End of File")
 
 
 
-        });
+
+
+
+
+    });
 
 
 

@@ -22,3 +22,6 @@ FadeIn: 5
 FadeOut: 15
 Directory:
 ShowName: TEST
+Ssid: Wiz_2_4
+Pass: myBLUEboost
+
