@@ -319,7 +319,7 @@ exports.getUnitSettings = function(){
 
 exports.backlight = function(value,direction){
     backlightLevel = value;
-    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+ wiz.FadeIn*(Math.pow(100,1/(wiz.FadeIn+1))) );
+    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+ wiz.FadeIn*(Math.pow(100,1/(backlightLevel+1))) );
 
     if(direction == 'up'){
        backlightLevel +=1;
