@@ -436,25 +436,25 @@ exports.wifiCheck = function(){
                     console.log("file contents replaced")
                 });
 
-                execSeries(['sudo  -u fa ifdown wlan0'], (err, stdouts, stderrs) => {//
-                    if (err) {
-                        console.log(err);
-                        throw err;
-                    }
-
-                    console.log(stdouts); // yields: ['foo\n', 'bar\n']
-                    console.log(stderrs); // yields: ['', '']
-                    execSeries(['sudo  -u fa ifup wlan0'], (err, stdouts, stderrs) => {//
-                        if (err) {
-                            console.log(err);
-                            throw err;
-                        }
-
-                        console.log(stdouts); // yields: ['foo\n', 'bar\n']
-                        console.log(stderrs); // yields: ['', '']
-                    });
-
-                });
+                // execSeries(['sudo  -u fa ifdown wlan0'], (err, stdouts, stderrs) => {//
+                //     if (err) {
+                //         console.log(err);
+                //         throw err;
+                //     }
+                //
+                //     console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                //     console.log(stderrs); // yields: ['', '']
+                //     execSeries(['sudo  -u fa ifup wlan0'], (err, stdouts, stderrs) => {//
+                //         if (err) {
+                //             console.log(err);
+                //             throw err;
+                //         }
+                //
+                //         console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                //         console.log(stderrs); // yields: ['', '']
+                //     });
+                //
+                // });
 
 
             });
