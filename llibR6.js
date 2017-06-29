@@ -424,6 +424,40 @@ exports.wifiCheck = function(){
         else{
 
             console.log("need to change wifi stuff here");
+            fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
+                if (err) {
+                    return console.log(err);
+                }
+                var result = data.replace(/currentSSID/g, wiz.Ssid);
+                var result = data.replace(/currentPASSWORD/g, wiz.Pass);
+                fs.writeFile(someFile, result, 'utf8', function (err) {
+                    if (err) return console.log(err);
+                    console.log("file contents replaced")
+                });
+
+                execSeries(['sudo  -u fa ifdown wlan0'], (err, stdouts, stderrs) => {//
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+
+                    console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                    console.log(stderrs); // yields: ['', '']
+                    execSeries(['sudo  -u fa ifup wlan0'], (err, stdouts, stderrs) => {//
+                        if (err) {
+                            console.log(err);
+                            throw err;
+                        }
+
+                        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                        console.log(stderrs); // yields: ['', '']
+                    });
+
+                });
+
+
+            });
+
         }
 
     });
