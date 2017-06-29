@@ -430,10 +430,19 @@ exports.wifiCheck = function(){
                     return console.log(err);
                 }
                 var result = data.replace(currentSSID, wiz.Ssid);
-                 result += data.replace(currentPASSWORD, wiz.Pass);
+                var result1 = data.replace(currentPASSWORD, wiz.Pass);
                 fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
                     if (err) return console.log(err);
                     console.log("file contents replaced")
+
+                    fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result1, 'utf8', function (err) {
+                        if (err) return console.log(err);
+                        console.log("file contents replaced2")
+
+
+                    });
+
+
                 });
 
                 // execSeries(['sudo  -u fa ifdown wlan0'], (err, stdouts, stderrs) => {//
