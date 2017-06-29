@@ -15,7 +15,7 @@ Buttons: 0
 Volume: 50
 Baudrate: 115200
 Test: 0
-PanID: 301
+PanID: 303
 Backlight: 80
 OnTime: 5
 FadeIn: 5
