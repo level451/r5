@@ -452,7 +452,7 @@ exports.wifiCheck = function(){
 
         }
 
-        execSeries(['sudo  -u fa /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
+        execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
             if (err) {
                 console.log(err);
                 throw err;
