@@ -471,7 +471,6 @@ exports.wifiCheck = function(){
 }
 
 exports.wifiandPanIdcheckandset= function(){
-
     exports.wifiCheck();
 
         xbee.xbeeGetPanID(0,0,function(Pan) {
