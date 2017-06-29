@@ -430,7 +430,7 @@ exports.wifiCheck = function(){
                     return console.log(err);
                 }
                 var result = data.replace(currentSSID, wiz.Ssid);
-                var result = data.replace(currentPASSWORD, wiz.Pass);
+                 result += data.replace(currentPASSWORD, wiz.Pass);
                 fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
                     if (err) return console.log(err);
                     console.log("file contents replaced")
