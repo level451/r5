@@ -478,7 +478,7 @@ exports.wifiandPanIdcheckandset= function(){
             console.log("PAN ID Want: " + wiz.PanID+ " Have: "+ Pan);
             if(Pan != wiz.PanID){//if the pan id is not the one we want then change it
                 console.log("changing Pan ID");
-                exports.xbeeSetPanID(0,0,wiz.PanID);
+                xbee.xbeeSetPanID(0,0,wiz.PanID);
             }
         });
 }
