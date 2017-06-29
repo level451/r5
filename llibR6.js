@@ -4,6 +4,8 @@ const fs = require('fs');
 const os = require('os');
 const xbee = require("./Xbee");
 const readline = require('readline');
+const execSeries = require('exec-series');
+
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
 var timerBacklightOn;
@@ -11,7 +13,6 @@ var timerBacklightOff;
 var timerBacklightTime;
 var backlightLevel = 0;
 var backlightNanoPiMax = 100;
-
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
 }
