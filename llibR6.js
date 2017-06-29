@@ -460,7 +460,8 @@ exports.wifiCheck = function(){
 
             console.log(stdouts); // yields: ['foo\n', 'bar\n']
             console.log(stderrs); // yields: ['', '']
-            execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+            execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+           // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
                 if (err) {
                     console.log(err);
                     throw err;
