@@ -446,31 +446,27 @@ exports.wifiCheck = function(){
                     });
                 });
 
+                execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
 
+                    console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                    console.log(stderrs); // yields: ['', '']
+                    execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                        // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                        if (err) {
+                            console.log(err);
+                            throw err;
+                        }
 
+                        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                        console.log(stderrs); // yields: ['', '']
+                    });
+                });
             });
-
         }
-
-        execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-
-            console.log(stdouts); // yields: ['foo\n', 'bar\n']
-            console.log(stderrs); // yields: ['', '']
-            execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
-           // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-                console.log(stdouts); // yields: ['foo\n', 'bar\n']
-                console.log(stderrs); // yields: ['', '']
-            });
-        });
     });
 }
 
