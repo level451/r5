@@ -470,13 +470,19 @@ exports.wifiCheck = function(){
                 console.log(stdouts); // yields: ['foo\n', 'bar\n']
                 console.log(stderrs); // yields: ['', '']
             });
-
         });
-
-
     });
+}
 
+exports.wifiandPanIdcheckandset= function(){
 
+    exports.wifiCheck();
 
-
+        xbee.xbeeGetPanID(0,0,function(Pan) {
+            console.log("PAN ID Want: " + wiz.PanID+ " Have: "+ Pan);
+            if(Pan != wiz.PanID){//if the pan id is not the one we want then change it
+                console.log("changing Pan ID");
+                exports.xbeeSetPanID(0,0,wiz.PanID);
+            }
+        });
 }
