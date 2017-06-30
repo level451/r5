@@ -462,16 +462,19 @@ function switchPress(s){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
                     break;
+                case 6:
+                    // special menu code - go to system menu
+                    menuItem = 1;
+                    sysState = 'systemMenu';
+                    ctx.globalAlpha = 1;
+
+                    drawMenuText(systemMenu,menuItem);
+                    break;
+
+
             }
             break;
-        case 6:
-            // special menu code - go to system menu
-            menuItem = 1;
-            sysState = 'systemMenu';
-            ctx.globalAlpha = 1;
 
-            drawMenuText(systemMenu,menuItem);
-            break;
         case 'adjustingvolume':
             console.log('should not happen - adjust volume')
         case 'playaudio':
@@ -667,6 +670,11 @@ function displaySlide(d) {
         console.log('fading in')
 
     };
+    img.onerror=function(){
+        console.log('image load error:'+img.src);
+        sysState = 'idle'; // set mode to show
+    };
+
     img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
 }
 function drawUnitStatus(unitinfo,data){
