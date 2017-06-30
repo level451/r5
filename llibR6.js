@@ -471,13 +471,17 @@ exports.wifiCheck = function(){
 }
 
 exports.wifiandPanIdcheckandset= function(){
-    exports.wifiCheck();
+    if(os.type() != "Windows_NT") {//dont do this on windows!
+        exports.wifiCheck();
 
-        xbee.xbeeGetPanID(0,0,function(Pan) {
-            console.log("PAN ID Want: " + wiz.PanID+ " Have: "+ Pan);
-            if(Pan != wiz.PanID){//if the pan id is not the one we want then change it
+        xbee.xbeeGetPanID(0, 0, function (Pan) {
+            console.log("PAN ID Want: " + wiz.PanID + " Have: " + Pan);
+            if (Pan != wiz.PanID) {//if the pan id is not the one we want then change it
                 console.log("changing Pan ID");
-                setTimeout(function(){xbee.xbeeSetPanID(0,0,wiz.PanID)}, 1600);
+                setTimeout(function () {
+                    xbee.xbeeSetPanID(0, 0, wiz.PanID)
+                }, 1600);
             }
         });
+    }
 }
