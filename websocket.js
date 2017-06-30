@@ -163,7 +163,8 @@ function wsData(data,id){
             break;
         case "selectshow":
             var fs=require('fs');
-            fs.writeFileSync('./public/show/show.def',data.data.ShowName)
+            ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
+            fs.writeFileSync('./public/show/show.def',data.data.ShowName) // switch to the new show
 
 
             ll.loadWiz(function(){
