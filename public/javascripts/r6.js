@@ -9,6 +9,8 @@ var volTimer = 0;
 var fadeOutTimer = -1;
 var specialMode = '';
 const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
+var inSystemMenu = false;
+
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
@@ -134,6 +136,9 @@ function switchPress(s){
                             drawImage()
                         }
                         specialMode = '';
+                        if (sysState == 'idle'){
+                            websocketsend('fadeOut',{}); // turn off backlight
+                        }
                         console.log('volume exit')
                         return;
                         break;
@@ -187,6 +192,7 @@ function switchPress(s){
                         switch(userMenu[menuItem-1]){
                             case 'Exit':
                                 sysState = 'idle';
+                                websocketsend('fadeOut',{}); // turn off backlight
                                 break;
                             case 'Volume':
                                 specialMode = 'volume';
@@ -196,6 +202,7 @@ function switchPress(s){
                                 break;
                             default:
                                 sysState = 'idle';
+                                websocketsend('fadeOut',{}); // turn off backlight
                                 console.log('unprocessed user menu item:'+systemMenu[menuItem-1])
 
 
@@ -214,6 +221,8 @@ function switchPress(s){
             switch(s){
                 case 3:
                     // enter pressed while idle - goto userMenu
+                    websocketsend('fadeIn',{}); // turn on backlight
+
                     menuItem = 1;
                     sysState = 'userMenu';
                     ctx.globalAlpha = 1;
@@ -223,6 +232,8 @@ function switchPress(s){
 
                 case 6:
                     // special menu code - go to system menu
+                    websocketsend('fadeIn',{}); // turn on backlight
+                    inSystemMenu = true;
                     menuItem = 1;
                     sysState = 'systemMenu';
                     ctx.globalAlpha = 1;
@@ -236,11 +247,11 @@ function switchPress(s){
                 case 1:
                 case 2:
                 case 3:
-                    ctx.
-                        fillStyle = "#000000";
+                        ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                         sysState = 'idle';
-                    break;
+                        inSystemMenu = false; //this blocks ques from executing when true
+                        break;
             }
             break;
         case 'selectShowMenu':
@@ -294,9 +305,8 @@ function switchPress(s){
                         console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1]);
                         // add code for new show selected  here:
                         websocketsend('selectshow',{ShowName:wiz.allShowsAvailable[menuItem-1]});
-
                         sysState='idle'
-
+                        inSystemMenu = false; //this blocks ques from executing when true
                     },speed *6);
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -358,6 +368,7 @@ function switchPress(s){
                             switch(systemMenu[menuItem-1]){
                                 case 'Exit':
                                     sysState = 'idle';
+                                    inSystemMenu = false; //this blocks ques from executing when true
                                     break;
                                 case 'Select Language':
                                     menuItem = 1;
@@ -415,6 +426,7 @@ function switchPress(s){
                 case 3:
                     // langauge selected
                     sysState = 'idle';
+                    inSystemMenu = false; //this blocks ques from executing when true
                     speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     wiz.Directory = languageList[menuItem-1];
@@ -827,6 +839,10 @@ function drawVolume() {
             drawImage()
         }
         specialMode = '';
+        if (sysState == 'idle'){
+            websocketsend('fadeOut',{}); // turn off backlight
+        }
+
         console.log('volume timeout')
     },volumeTimeout)
 }
