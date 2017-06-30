@@ -221,7 +221,7 @@ function switchPress(s){
             switch(s){
                 case 3:
                     // enter pressed while idle - goto userMenu
-                    websocketsend('fadeIn',{}); // turn on backlight
+                    websocketsend('backlightOn',{}); // turn on backlight
 
                     menuItem = 1;
                     sysState = 'userMenu';
@@ -232,7 +232,7 @@ function switchPress(s){
 
                 case 6:
                     // special menu code - go to system menu
-                    websocketsend('fadeIn',{}); // turn on backlight
+                    websocketsend('backlightOn',{}); // turn on backlight
                     inSystemMenu = true;
                     menuItem = 1;
                     sysState = 'systemMenu';

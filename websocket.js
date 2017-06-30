@@ -177,6 +177,10 @@ function wsData(data,id){
              //return;
             ll.getUnitSettings();
             break;
+        case "backlightOn":
+            ll.backlightOn(wiz.Backlight);
+            break;
+
         case "fadeIn":
             ll.backlightOn();
             break;
