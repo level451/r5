@@ -452,6 +452,14 @@ function switchPress(s){
                     break;
             }
             break;
+        case 6:
+            // special menu code - go to system menu
+            menuItem = 1;
+            sysState = 'systemMenu';
+            ctx.globalAlpha = 1;
+
+            drawMenuText(systemMenu,menuItem);
+            break;
         case 'adjustingvolume':
             console.log('should not happen - adjust volume')
         case 'playaudio':
