@@ -588,22 +588,28 @@ function websockstart(){
                         break;
                     case "cue":
                         console.log('cue - data:'+x.data);
-                        switch (x.type)
+                        if (inSystemMenu == false){ //dont process cues in system menu
+                            switch (x.type)
+                            {
+                                case 'slide':
+                                    displaySlide(x.data);
+                                    break;
+                                case 'audio':
+                                    playAudio(x.data);
+                                    break;
+                                case 'video':
+                                    playVideo(x.data);
+                                    break;
+                                default:
+                                    console.log('Unhandled extension:'+x.type);
+                                    break;
+
+
+                            }
+
+                        } else
                         {
-                            case 'slide':
-                               displaySlide(x.data);
-                                break;
-                            case 'audio':
-                                playAudio(x.data);
-                                break;
-                            case 'video':
-                                playVideo(x.data);
-                                break;
-                            default:
-                               console.log('Unhandled extension:'+x.type);
-                                break;
-
-
+                            console.log('Cue iqnored becuase we are in system menu')
                         }
                         break;
                     case  "pageupdate":
