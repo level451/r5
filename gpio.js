@@ -68,7 +68,7 @@ exports.setupSwitches = function(){
         switch(value){
             case 0:
                 sendSwitchData(1);
-                    llibR6.wifiandPanIdcheckandset(); //for testing only
+                   // llibR6.wifiandPanIdcheckandset(); //for testing only
                 break;
             case 1:
                 sendSwitchData(100);
