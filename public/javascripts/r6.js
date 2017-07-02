@@ -66,11 +66,11 @@ function load() {
     // draw the welcome image
 
     var welcomeImage = new Image();
-    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
+    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcomex.jpg';
 
     welcomeImage.onerror = function(){
         console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
-
+        displayError('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
 
     };
     welcomeImage.onload = function(){
@@ -862,4 +862,20 @@ function drawVolume() {
     },volumeTimeout)
 }
 
+function displayError(error){
 
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+
+
+    ctx.fillStyle = "#FF0000";
+    ctx.font = '20px Verdana';
+    ctx.fillText('ERROR - System Malfunction', (canvas.width / 2) - (ctx.measureText('ERROR - System Malfunction').width / 2), 50);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = '10px Verdana';
+
+    ctx.fillText(error,10,100)
+
+
+}
