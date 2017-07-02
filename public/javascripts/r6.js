@@ -66,48 +66,47 @@ function load() {
     // draw the welcome image
 
     var welcomeImage = new Image();
-    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcomex.jpg';
+    welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
+    websockstart();
+
 
     welcomeImage.onerror = function(){
         console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
-        displayError('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
+        displayError('Welcome image failed to load:'+welcomeImage.src)
 
     };
-    welcomeImage.onload = function(){
-   //     ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
-        if (wiz.Directory && wiz.Directory != ''){
-            console.log('here');
+    welcomeImage.onload = function() {
+        ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
+        sysState = 'idle';
+        websocketsend('fadeIn', {});
+        languageList = getLanguages();
 
-            sysState = 'idle';
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        } else
+        setTimeout(function()
         {
-            languageList = getLanguages();
-            menuItem = 1;
-            drawMenuText(languageList,menuItem);
-            sysState = 'languageMenu'
+            if (wiz.Directory && wiz.Directory != '') {
+                console.log('here');
+
+                sysState = 'idle';
+                ctx.fillStyle = "#000000";
+               ctx.fillRect(0, 0, canvas.width, canvas.height);
+                websocketsend('fadeOut', {});
+
+            } else {
+
+                menuItem = 1;
+                drawMenuText(languageList, menuItem);
+                sysState = 'languageMenu'
 
 
-        }
+            }
 
 
+        },2000
+        )
 
 
-        //  int = setInterval(function(){
-        //     offset+=1;
-        //      var t0 = performance.now();
-        //      drawMenu(offset);
-        //      var t1 = performance.now();
-        //     // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
-        //
-        //     if (offset > 100){clearInterval(int)}
-        // },20)
+        //websockstart();
     }
-    //welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg'
-    websockstart();
-
 
 }
 function switchPress(s){
@@ -704,6 +703,9 @@ function drawUnitStatus(unitinfo,data){
             ctx.fillText(wiz.Directory, 250,303); // service
             ctx.fillText(wiz.Volume, 250,346);
             ctx.fillText(wiz.Backlight, 250,389);
+            if (wiz.Version){
+                ctx.fillText(wiz.Version, 250,432);
+            }
             ctx.fillText(wiz.Ssid, 670,432);
         };
         img.src = '/show/icaption status screen.jpg';
@@ -870,12 +872,16 @@ function displayError(error){
 
 
     ctx.fillStyle = "#FF0000";
-    ctx.font = '20px Verdana';
+    ctx.font = '30px Verdana';
     ctx.fillText('ERROR - System Malfunction', (canvas.width / 2) - (ctx.measureText('ERROR - System Malfunction').width / 2), 50);
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = '10px Verdana';
+    ctx.font = '15px Verdana';
 
     ctx.fillText(error,10,100)
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = '50px Verdana';
+    ctx.fillText('Please exchange unit.', (canvas.width / 2) - (ctx.measureText('Please exchange unit.').width / 2), 250);
 
 
 }
