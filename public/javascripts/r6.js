@@ -704,6 +704,7 @@ function drawUnitStatus(unitinfo,data){
             ctx.fillText(wiz.Directory, 250,303); // service
             ctx.fillText(wiz.Volume, 250,346);
             ctx.fillText(wiz.Backlight, 250,389);
+            ctx.fillText(wiz.Ssid, 670,432);
         };
         img.src = '/show/icaption status screen.jpg';
 
