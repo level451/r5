@@ -139,47 +139,60 @@ exports.loadWiz = function(callback){
         PanID:301,
         Scroll:'up'
     };
-    settings.ShowName = fs.readFileSync('./public/show/show.def');
-    console.log('Showname from show.def:'+settings.ShowName);
-    const rl = readline.createInterface({
-        input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
-    });
-
-    rl.on('line', (line) => {
-    if (line.indexOf(':') != -1){ // make sure there is a :
-        // update the global.wiz object
-        global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
-
-    } else
-    {
-        console.log('Invalid line colon not found - ignoring:'+line);
+    try{
+        settings.ShowName = fs.readFileSync('./public/show/show.def');
+    } catch (err) {
+        settings.ShowName = null;
+        console.log('no default showname - please create show.def')
     }
-});
-    rl.on('close',()=> {
-        // add a list of available shows to wiz
-        fs.readdir('public/show',(err,data) => {
-            wiz.allShowsAvailable = [];
-            data.forEach(function(data){
-                if (fs.lstatSync('public/show/'+data).isDirectory()){
-                 console.log('Show found:'+data)
-                    wiz.allShowsAvailable.unshift(data);
-                } else
-                {
-                    console.log('NON Show found:'+data)
+
+    console.log('Showname from show.def:'+settings.ShowName);
+
+    fs.readdir('public/show',(err,data) => {
+        wiz.allShowsAvailable = [];
+        data.forEach(function(data){
+            if (fs.lstatSync('public/show/'+data).isDirectory()){
+                console.log('Show found:'+data)
+                wiz.allShowsAvailable.unshift(data);
+                if (!settings.ShowName){
+                    settings.ShowName = data;
+                    console.log('because there is no show.def - the show  is set to first show found - '+data);
                 }
-
-            })
-
-            console.log(data)
-
-            console.log('wiz.dat file from ./public/show/'+settings.ShowName+' loaded to global.wiz');
-
-            if (callback){callback();}
+            } else
+            {
+                console.log('NON Show found:'+data)
+            }
 
         })
 
+        console.log(data)
+        const rl = readline.createInterface({
+            input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
+        });
+
+        rl.on('line', (line) => {
+            if (line.indexOf(':') != -1){ // make sure there is a :
+                // update the global.wiz object
+                global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+
+            } else
+            {
+                console.log('Invalid line colon not found - ignoring:'+line);
+            }
+        });
+        rl.on('close',()=> {
+            // add a list of available shows to wiz
+            if (callback){callback();}
+        })
+        console.log('wiz.dat file from ./public/show/'+settings.ShowName+' loaded to global.wiz');
+
+
 
     })
+
+
+    //\\*********
+
 }
 
 
