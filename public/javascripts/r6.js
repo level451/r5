@@ -508,7 +508,8 @@ var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
-    ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),10);
+    ctx.fillStyle = "#FFFF00";
+    ctx.fillText('Please Select',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),10);
 }
 
 
