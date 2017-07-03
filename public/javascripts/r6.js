@@ -255,7 +255,6 @@ function switchPress(s){
                         menuItem = 1;
                         sysState = 'userMenu';
                         ctx.globalAlpha = 1;
-
                         drawMenuText(userMenu, menuItem);
                     }
                     break;
