@@ -10,7 +10,8 @@ var fadeOutTimer = -1;
 var specialMode = '';
 const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
 var inSystemMenu = false;
-
+var slideHistoryPointer = 0;
+var slideHistory = [];
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
@@ -215,30 +216,62 @@ function switchPress(s){
                     break;
             }
             break;
+        case 'fadeinslide':
+        case 'fadeoutslide':
+        case 'displayslide':
         case 'idle':
         //case 'languageMenu':
+
             switch(s){
+                case 1:
+                    if (sysState != 'idle'){ // if idle just display the current slide
+                        if (slideHistoryPointer < slideHistory.length-1){ // not at the end of the slides
+                            slideHistoryPointer++;
+                        } else
+                        {
+                            break; // if we dont move the slideHistoryPointer - dont display it again
+                        }
+                    }
+                    displaySlide(slideHistory[slideHistoryPointer])
+                    break;
+                case 2:
+                    console.log('slideHistoryPointer:'+slideHistoryPointer)
+                    if (sysState != 'idle'){ // if idle just display the current slide
+                        if (slideHistoryPointer > 0){ // not at the begining of the slides
+                            slideHistoryPointer--;
+                        } else
+                        {
+                            break; // if we dont move the slideHistoryPointer - dont display it again
+                        }
+                    }
+                    displaySlide(slideHistory[slideHistoryPointer])
+                    break;
                 case 3:
-                    // enter pressed while idle - goto userMenu
-                    websocketsend('backlightOn',{}); // turn on backlight
+                    if (sysState == 'idle') {
+                        // enter pressed while idle - goto userMenu
 
-                    menuItem = 1;
-                    sysState = 'userMenu';
-                    ctx.globalAlpha = 1;
+                        websocketsend('backlightOn', {}); // turn on backlight
 
-                    drawMenuText(userMenu,menuItem);
+                        menuItem = 1;
+                        sysState = 'userMenu';
+                        ctx.globalAlpha = 1;
+
+                        drawMenuText(userMenu, menuItem);
+                    }
                     break;
 
                 case 6:
                     // special menu code - go to system menu
-                    websocketsend('backlightOn',{}); // turn on backlight
-                    inSystemMenu = true;
-                    menuItem = 1;
-                    sysState = 'systemMenu';
-                    ctx.globalAlpha = 1;
+                    if (sysState == 'idle') {
+                        websocketsend('backlightOn', {}); // turn on backlight
+                        inSystemMenu = true;
+                        menuItem = 1;
+                        sysState = 'systemMenu';
+                        ctx.globalAlpha = 1;
 
-                    drawMenuText(systemMenu,menuItem);
-                    break;
+                        drawMenuText(systemMenu, menuItem);
+                        break;
+                    }
             }
             break;
         case 'Unit Status':
@@ -600,6 +633,8 @@ function websockstart(){
                             switch (x.type)
                             {
                                 case 'slide':
+                                    slideHistoryPointer = 0; // reset review slide pointer
+                                    slideHistory.unshift(x.data); // throw the cue slide into history
                                     displaySlide(x.data);
                                     break;
                                 case 'audio':
