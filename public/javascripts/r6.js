@@ -242,7 +242,10 @@ function switchPress(s){
                             break; // if we dont move the slideHistoryPointer - dont display it again
                         }
                     }
-                    displaySlide(slideHistory[slideHistoryPointer])
+                    if (slideHistory.length > 0){
+                        displaySlide(slideHistory[slideHistoryPointer])
+                    }
+
                     break;
                 case 2:
                     console.log('slideHistoryPointer:'+slideHistoryPointer)
@@ -254,7 +257,9 @@ function switchPress(s){
                             break; // if we dont move the slideHistoryPointer - dont display it again
                         }
                     }
-                    displaySlide(slideHistory[slideHistoryPointer])
+                    if (slideHistory.length > 0){
+                        displaySlide(slideHistory[slideHistoryPointer])
+                    }
                     break;
                 case 3:
                     if (sysState == 'idle') {
@@ -850,6 +855,8 @@ function playVideo(d){
 
     video.onended = function(){
         console.log("playback ended");
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         sysState = 'idle'; // set mode to video -
@@ -905,12 +912,12 @@ function drawImage(){
 }
 function drawVolume() {
     fadeTime = 0; // stop the fading
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "#000000";
     if (sysState == 'playvideo'){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
     }else
     {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     }
 
@@ -931,6 +938,8 @@ function drawVolume() {
             ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
         }else
         {
+            ctx.globalAlpha =1;
+            ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
         }
         if (typeof(img) == "object") {
