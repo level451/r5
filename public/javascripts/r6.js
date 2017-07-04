@@ -571,7 +571,7 @@ if (!itemonly){
     // }
 
   //  console.log(list[i])
-    ++counter
+   // ++counter
 }
 //menu = ctx.getImageData(0,0,canvas.width,list.length*(canvas.height/(itemsToDisplay+1)));
 
