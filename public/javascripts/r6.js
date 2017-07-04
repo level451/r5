@@ -543,7 +543,7 @@ var counter = 1;
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
     ctx.fillStyle = "#FFFF00";
-    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),90);
+    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),70);
 }
 
 
@@ -559,7 +559,7 @@ if (!itemonly){
         {
             ctx.fillStyle = "#FFFFFF";
         }
-        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),(counter*(settings.webPage.height/(itemsToDisplay+1))-150)+20*scale);
+        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),((counter*(settings.webPage.height/(itemsToDisplay+1)))+20*scale)-150);
 
     }
     // if (i==item-1){
