@@ -559,7 +559,7 @@ if (!itemonly){
         {
             ctx.fillStyle = "#FFFFFF";
         }
-        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),(counter*(settings.webPage.height/(itemsToDisplay+1)))+20*scale);
+        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),(counter*(settings.webPage.height/(itemsToDisplay+1))-150)+20*scale);
 
     }
     // if (i==item-1){
