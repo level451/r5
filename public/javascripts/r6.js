@@ -844,6 +844,8 @@ function fadeOut(t){
 }
 function playVideo(d){
     video.type = "video/mp4";
+    websocketsend('fadeIn',{});
+
     video.oncanplay = function(){
         console.log("playback can begin");
         sysState = 'playvideo'; // set mode to video -
@@ -854,10 +856,11 @@ function playVideo(d){
 
     video.onended = function(){
         console.log("playback ended");
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+        websocketsend('fadeOut',{});
+        setTimeout(function(){        ctx.globalAlpha = 1; // erase the screen after the backlight is off
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        },wiz.FadeOut*1000);
         sysState = 'idle'; // set mode to video -
     };
     video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
@@ -910,6 +913,9 @@ function drawImage(){
 
 }
 function drawVolume() {
+    websocketsend('backlightOn',{});
+
+
     fadeTime = 0; // stop the fading
     if (sysState == 'playvideo'){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
