@@ -231,7 +231,6 @@ function switchPress(s){
         case 'displayslide':
         case 'idle':
         //case 'languageMenu':
-
             switch(s){
                 case 1:
                     if (sysState != 'idle'){ // if idle just display the current slide
