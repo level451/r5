@@ -111,7 +111,6 @@ function load() {
         //websockstart();
     }
 
-    video.addEventListener('canplay',videoloaded())
 }
 function switchPress(s){
     if (specialMode){
@@ -134,7 +133,12 @@ function switchPress(s){
                         clearTimeout(volTimer);
                         ctx.globalAlpha = 1;
                         ctx.fillStyle = "#000000";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        if (sysState == 'playvideo'){
+                            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        }else
+                        {
+                            ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        }
                         if (typeof(img) == "object") {
                             drawImage()
                         }
@@ -149,6 +153,9 @@ function switchPress(s){
 
                 if (typeof(audio) == 'object'){
                     audio.volume = wiz.Volume/100;
+                }
+                if (typeof(video) == 'object'){
+                    video.volume = wiz.Volume/100;
                 }
                 drawVolume();
                 console.log('Volume:'+wiz.Volume);
@@ -516,6 +523,11 @@ function switchPress(s){
             specialMode = 'volume';
             drawVolume();
             break;
+        case 'playvideo':
+            // key pressed in playvideo
+            specialMode = 'volume';
+            drawVolume();
+            break;
 
     }
 }
@@ -827,18 +839,26 @@ function fadeOut(t){
 
 }
 function playVideo(d){
-    sysState = 'playvideo'; // set mode to video -
     video.type = "video/mp4";
-    video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
+    video.oncanplay = function(){
+        console.log("playback can begin");
+        sysState = 'playvideo'; // set mode to video -
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        video.volume = wiz.Volume/100;
+        video.play()
+    }
 
-}
-function videoloaded(){
-    //video.play()
-    console.log('video loaded asdf')
+    video.onended = function(){
+        console.log("playback ended");
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        sysState = 'idle'; // set mode to video -
+    };
+    video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
 }
 function playAudio(d){
     sysState = 'playaudio'; // set mode to audio -
-    if (typeof(audio) == 'object'){
+    if (typeof(audio) == 'object'){ // if audio is an object at this point it is currently playing - so pause it - then start a new audio file
         audio.pause();
     }
 
@@ -870,6 +890,7 @@ function playAudio(d){
         sysState = 'idle'; // set mode to show
     };
 
+    audio.volume = wiz.Volume/100;
     audio.play();
 
 
@@ -886,7 +907,13 @@ function drawVolume() {
     fadeTime = 0; // stop the fading
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    if (sysState == 'playvideo'){
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+    }else
+    {
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    }
+
     if (typeof(img) == "object") {
         drawImage()
     }
@@ -900,7 +927,12 @@ function drawVolume() {
     volTimer = setTimeout(function(){
         ctx.globalAlpha = 1;
         ctx.fillStyle = "#000000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+        if (sysState == 'playvideo'){
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+        }else
+        {
+            ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+        }
         if (typeof(img) == "object") {
             drawImage()
         }
