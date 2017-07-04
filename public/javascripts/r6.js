@@ -41,6 +41,10 @@ function load() {
     canvas.click();
     canvas.width=settings.webPage.width;
     canvas.height=settings.webPage.height;
+    video.width=settings.webPage.width;
+    video.height=settings.webPage.height;
+
+
     //    canvas.width=window.outerWidth
 //   canvas.height=(window.outerWidth*(.5625)); // aspect ratio set to 16/9
     scale = settings.webPage.width/320 ;// //320 is the default indow size - everything will be scaled according to this
@@ -85,8 +89,6 @@ function load() {
         setTimeout(function()
         {
             if (wiz.Directory && wiz.Directory != '') {
-                console.log('here');
-
                 sysState = 'idle';
                 ctx.fillStyle = "#000000";
                ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -109,6 +111,7 @@ function load() {
         //websockstart();
     }
 
+    video.addEventListener('canplay',videoloaded())
 }
 function switchPress(s){
     if (specialMode){
@@ -828,6 +831,10 @@ function playVideo(d){
     video.type = "video/mp4";
     video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
 
+}
+function videoloaded(){
+    //video.play()
+    console.log('video loaded asdf')
 }
 function playAudio(d){
     sysState = 'playaudio'; // set mode to audio -
