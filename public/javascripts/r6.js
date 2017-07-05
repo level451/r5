@@ -560,12 +560,13 @@ var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
 var drawup = false;
 var drawdown = false;
-const menuOffset = 0
+const menuOffset = 0; // select menu item location - range about -2 to 2
+const spacingMultiplier = 1.12; //line spacing
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
     ctx.fillStyle = "#FFFF00";
-    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),65);
+    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),60);
 }
 
 
@@ -578,7 +579,7 @@ if (!itemonly){
             } else {
                 ctx.fillStyle = "#FFFFFF";
             }
-            yval = ((counter * (settings.webPage.height / (itemsToDisplay + 1)) * 1) + 20 * scale)
+            yval = ((counter * (settings.webPage.height / (itemsToDisplay + 1)) * spacingMultiplier) + 20 * scale)
             if (yval > canvas.height * .25 && yval < canvas.height * .95) // dont display items too high or low
                 ctx.fillText(list[i], (settings.webPage.width / 2) - (ctx.measureText(list[i]).width / 2), yval);
             console.log(yval)
