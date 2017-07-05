@@ -560,8 +560,9 @@ var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
 var drawup = false;
 var drawdown = false;
-const menuOffset = 0; // select menu item location - range about -2 to 2
-const spacingMultiplier = 1.12; //line spacing
+    const spacingMultiplier = 1.12; //line spacing
+    const menuOffset = 1; // select menu item location - range about -2 to 2
+
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
@@ -960,6 +961,10 @@ function drawVolume() {
 
 
     fadeTime = 0; // stop the fading
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+
     if (sysState == 'playvideo'){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
     }else
@@ -969,9 +974,10 @@ function drawVolume() {
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     }
 
-    if (typeof(img) == "object") {
-        drawImage()
-    }
+    // if (typeof(img) == "object" && sysState ) {
+    //     drawImage()
+    //
+    // }
     ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana';
     ctx.fillStyle = "#00FF00";
 
