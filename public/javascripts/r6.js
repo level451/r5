@@ -974,10 +974,10 @@ function drawVolume() {
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     }
 
-    // if (typeof(img) == "object" && sysState ) {
-    //     drawImage()
-    //
-    // }
+    if (typeof(img) == "object" && sysState != 'playvideo' ) {
+        drawImage()
+
+    }
     ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana';
     ctx.fillStyle = "#00FF00";
 
