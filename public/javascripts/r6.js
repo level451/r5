@@ -86,7 +86,7 @@ function load() {
         websocketsend('fadeIn', {});
         languageList = getLanguages();
 
-        setTimeout(function()
+        welcomeImageTimeout = setTimeout(function()
         {
             if (wiz.Directory && wiz.Directory != '') {
                 sysState = 'idle';
@@ -275,6 +275,7 @@ function switchPress(s){
 
                 case 6:
                     // special menu code - go to system menu
+                   clearTimeout(welcomeImageTimeout)
                     if (sysState == 'idle') {
                         websocketsend('backlightOn', {}); // turn on backlight
                         inSystemMenu = true;
@@ -553,46 +554,87 @@ function drawMenuText(list,item,itemonly){
     ctx.fillStyle = "#000000";
 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+var yval;
 var counter = 1;
  //   ctx.font = (200/itemsToDisplay)*scale+'px sans-serif'
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
-
+var drawup = false;
+var drawdown = false;
+const menuOffset = 0
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
     ctx.fillStyle = "#FFFF00";
-    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),70);
+    ctx.fillText('Please Select:',(settings.webPage.width/2)-(ctx.measureText('Please Select').width/2),65);
 }
 
 
 
-    for (var i = item-(Math.floor(itemsToDisplay/2))-1;i<list.length;++i)
+    for (var i = item-(Math.floor(itemsToDisplay/2))+menuOffset;i<list.length;++i) {
+        if ((list[i] != undefined && !itemonly) || (itemonly && i == item - 1)) {
 
-{
-    if((list[i] != undefined && !itemonly)|| (itemonly && i==item-1)){
-
-        if (i==item-1){
-            ctx.fillStyle = "#ff0000";
-        } else
-        {
-            ctx.fillStyle = "#FFFFFF";
+            if (i == item - 1) {
+                ctx.fillStyle = "#ff0000";
+            } else {
+                ctx.fillStyle = "#FFFFFF";
+            }
+            yval = ((counter * (settings.webPage.height / (itemsToDisplay + 1)) * 1) + 20 * scale)
+            if (yval > canvas.height * .25 && yval < canvas.height * .95) // dont display items too high or low
+                ctx.fillText(list[i], (settings.webPage.width / 2) - (ctx.measureText(list[i]).width / 2), yval);
+            console.log(yval)
         }
-        ctx.fillText(list[i],(settings.webPage.width/2)-(ctx.measureText(list[i]).width/2),((counter*(settings.webPage.height/(itemsToDisplay+1)))+20*scale)-150);
+        if (yval <= canvas.height * .25) {
+            drawup = true;
 
+        }
+        if (yval >= canvas.height * .95) {
+            drawdown = true
+
+        }
+        // if (i==item-1){
+        //     console.log('== '+languageList[i-1])
+        //     ctx.rect(0,((counter*(canvas.height/(itemsToDisplay+1)))+20*scale)+27,canvas.width,-134);
+        //     ctx.stroke();
+        //
+        //
+        // }
+
+        //  console.log(list[i])
+        ++counter
     }
-    // if (i==item-1){
-    //     console.log('== '+languageList[i-1])
-    //     ctx.rect(0,((counter*(canvas.height/(itemsToDisplay+1)))+20*scale)+27,canvas.width,-134);
-    //     ctx.stroke();
-    //
-    //
-    // }
+if (drawup) {
+    ctx.beginPath();
+    ctx.strokeStyle="green";
+    ctx.lineWidth=5;
+    ctx.moveTo((canvas.width/2)-(canvas.width*.09),canvas.height * .19);
+    ctx.lineTo((canvas.width/2),canvas.height * .15);
+    ctx.lineTo((canvas.width/2)+(canvas.width*.09),canvas.height * .19);
+    ctx.stroke();
 
-  //  console.log(list[i])
-   // ++counter
+    ctx.fillStyle = "#00ff00";
+
+    ctx.font = (60/itemsToDisplay)*scale+'px Verdana';
+    ctx.fillText('More', (settings.webPage.width / 2) - (ctx.measureText('More').width / 2), canvas.height*.19);
+    console.log('draw up arrow')
+
 }
-//menu = ctx.getImageData(0,0,canvas.width,list.length*(canvas.height/(itemsToDisplay+1)));
+if (drawdown){
+    ctx.beginPath();
+    ctx.strokeStyle="green";
+    ctx.lineWidth=5;
+    ctx.moveTo((canvas.width/2)-(canvas.width*.1),canvas.height * .95);
+    ctx.lineTo((canvas.width/2),canvas.height * .99);
+    ctx.lineTo((canvas.width/2)+(canvas.width*.1),canvas.height * .95);
+    ctx.stroke();
+    ctx.fillStyle = "#00ff00";
+
+    ctx.font = (60/itemsToDisplay)*scale+'px Verdana';
+    ctx.fillText('More', (settings.webPage.width / 2) - (ctx.measureText('More').width / 2), canvas.height*.97);
+
+
+    console.log('draw down arrow')
+
+}
 
 }
 function getFont(fontSize) {
