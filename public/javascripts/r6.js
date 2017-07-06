@@ -966,7 +966,7 @@ function drawVolume() {
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
 
     if (sysState == 'playvideo'){
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screenq
     }else
     {
         ctx.globalAlpha = 1;
