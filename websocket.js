@@ -178,6 +178,13 @@ function wsData(data,id){
             ll.getUnitSettings();
             break;
         case "backlightOn":
+
+            if (data.data.backlight){
+                console.log('backlight ON called:'+JSON.stringify(data.data.backlight))
+                wiz.Backlight = data.data.backlight;
+                console.log('backlight set to:'+wiz.Backlight)
+
+            }
             ll.backlightOn(wiz.Backlight);
             break;
 

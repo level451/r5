@@ -4,8 +4,9 @@ var inttimer = null;
 var offset = 0;
 var audio;
 const itemsToDisplay =10;
-const volumeTimeout = 3000;
+const volumeTimeout = 3000; // used for volume and backlight
 var volTimer = 0;
+var backlightTimer = 0;
 var fadeOutTimer = -1;
 var specialMode = '';
 const systemMenu = ['Select Language','Select Show','Unit Status','option2','option3','Exit'];
@@ -200,6 +201,7 @@ function switchPress(s){
 
                 drawBacklight();
                 console.log('Backlight:'+wiz.Backlight);
+                websocketsend('backlightOn', {backlight:wiz.Backlight}); // turn on backlight
 
                 break;
 
@@ -215,6 +217,7 @@ function switchPress(s){
     var speed;
     switch (sysState){
         case 'userMenu':
+
             switch(s){
                 case 1:
                     --menuItem;
@@ -306,7 +309,7 @@ function switchPress(s){
                 case 3:
                     if (sysState == 'idle') {
                         // enter pressed while idle - goto userMenu
-
+                        clearTimeout(welcomeImageTimeout);
                         websocketsend('backlightOn', {}); // turn on backlight
 
                         menuItem = 1;
@@ -1077,7 +1080,7 @@ function drawBacklight() {
     var displayText = "Brightness:" + wiz.Backlight;
     ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .9);
 
-    clearTimeout(volTimer);
+    clearTimeout(backlightTimer);
     backlightTimer = setTimeout(function(){
         ctx.globalAlpha = 1;
         ctx.fillStyle = "#000000";
