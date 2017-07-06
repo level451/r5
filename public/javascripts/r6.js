@@ -161,7 +161,47 @@ function switchPress(s){
                 console.log('Volume:'+wiz.Volume);
 
             break;
+            case 'backlight':
+                switch(s){
+                    case 1:
+                        if (wiz.Backlight < 100) {
+                            wiz.Backlight = (wiz.Backlight*1) + 10;
+                        }
 
+                        break;
+                    case 2:
+                        if (wiz.Backlight > 0){
+                            wiz.Backlight = (wiz.Backlight*1) - 10;
+                        }
+
+                        break;
+                    case 3:
+                        clearTimeout(backlightTimer);
+                        ctx.globalAlpha = 1;
+                        ctx.fillStyle = "#000000";
+                        if (sysState == 'playvideo'){
+                            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        }else
+                        {
+                            ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+                        }
+                        if (typeof(img) == "object") {
+                            drawImage()
+                        }
+                        specialMode = '';
+                        if (sysState == 'idle'){
+                            websocketsend('fadeOut',{}); // turn off backlight
+                        }
+                        console.log('backlight exit')
+                        return;
+                        break;
+                }
+
+
+                drawBacklight();
+                console.log('Backlight:'+wiz.Backlight);
+
+                break;
 
         }
 
@@ -209,6 +249,9 @@ function switchPress(s){
                                 drawVolume();
                                 break;
                             case 'Brightness':
+                                specialMode = 'backlight';
+                                drawBacklight();
+
                                 break;
                             default:
                                 sysState = 'idle';
@@ -1004,6 +1047,57 @@ function drawVolume() {
         }
 
         console.log('volume timeout')
+    },volumeTimeout)
+}
+function drawBacklight() {
+    websocketsend('backlightOn',{});
+
+
+    fadeTime = 0; // stop the fading
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+
+    if (sysState == 'playvideo'){
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screenq
+    }else
+    {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    }
+
+    if (typeof(img) == "object" && sysState != 'playvideo' ) {
+        drawImage()
+
+    }
+    ctx.font = (200 / itemsToDisplay) * scale + 'px Verdana';
+    ctx.fillStyle = "#00FF00";
+
+    var displayText = "Brightness:" + wiz.Backlight;
+    ctx.fillText(displayText, (canvas.width / 2) - (ctx.measureText(displayText).width / 2), canvas.height * .9);
+
+    clearTimeout(volTimer);
+    backlightTimer = setTimeout(function(){
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
+        if (sysState == 'playvideo'){
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
+        }else
+        {
+            ctx.globalAlpha =1;
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+        }
+        if (typeof(img) == "object") {
+            drawImage()
+        }
+        specialMode = '';
+        if (sysState == 'idle'){
+            websocketsend('fadeOut',{}); // turn off backlight
+        }
+
+        console.log('backlight timeout')
     },volumeTimeout)
 }
 
