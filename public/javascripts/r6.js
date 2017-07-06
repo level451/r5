@@ -669,7 +669,6 @@ function websockstart(){
 
         }
 
-
     };
     ws.onmessage = function(evt) {
         switch (typeof(evt.data)){
