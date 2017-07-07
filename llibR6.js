@@ -146,7 +146,7 @@ exports.loadWiz = function(callback){
     }
     console.log('Showname from show.def:'+settings.ShowName);
     if (settings.ShowName != null){
-        settings.ShowName = settings.ShowName.trim();
+        settings.ShowName = settings.ShowName.replace(/[\n\r]/g, '');
     }
 
 
