@@ -158,7 +158,7 @@ exports.loadWiz = function(callback){
                 console.log('Show found:'+data)
                 wiz.allShowsAvailable.unshift(data);
                 if (!settings.ShowName){
-                    settings.ShowName = data.trim();
+                    settings.ShowName = data;
                     console.log('because there is no show.def - the show  is set to first show found - '+data);
                 }
             } else
@@ -176,7 +176,8 @@ exports.loadWiz = function(callback){
         rl.on('line', (line) => {
             if (line.indexOf(':') != -1){ // make sure there is a :
                 // update the global.wiz object
-                global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+                //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+                global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).trim();
 
             } else
             {
