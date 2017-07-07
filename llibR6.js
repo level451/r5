@@ -128,7 +128,6 @@ exports.saveSettings = function(callback){
 
         }
 
-
     });
 }
 exports.loadWiz = function(callback){
