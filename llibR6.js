@@ -158,7 +158,7 @@ exports.loadWiz = function(callback){
                 console.log('Show found:'+data)
                 wiz.allShowsAvailable.unshift(data);
                 if (!settings.ShowName){
-                    settings.ShowName = data;
+                    settings.ShowName = data.trim();
                     console.log('because there is no show.def - the show  is set to first show found - '+data);
                 }
             } else
