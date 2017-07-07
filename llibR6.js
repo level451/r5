@@ -144,8 +144,12 @@ exports.loadWiz = function(callback){
         settings.ShowName = null;
         console.log('no default showname - please create show.def')
     }
-    settings.ShowName = settings.ShowName.trim();
     console.log('Showname from show.def:'+settings.ShowName);
+    if (settings.ShowName != null){
+        settings.ShowName = settings.ShowName.trim();
+    }
+
+
 
     fs.readdir('public/show',(err,data) => {
         wiz.allShowsAvailable = [];
