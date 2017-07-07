@@ -489,6 +489,8 @@ exports.wifiandPanIdcheckandset= function(){
         wiz.PanID = wiz.PanID.trim();
         Pan = Pan.trim();
         xbee.xbeeGetPanID(0, 0, function (Pan) {
+            wiz.PanID = wiz.PanID.trim();
+            Pan = Pan.trim();
             console.log("PAN ID Want: " + wiz.PanID + " Have: " + Pan + " Pan Id Want length: "+ wiz.PanID.length+ " Have Length: " + Pan.length);
             if (Pan != wiz.PanID) {//if the pan id is not the one we want then change it
                 console.log("changing Pan ID");
