@@ -139,7 +139,7 @@ exports.loadWiz = function(callback){
         Scroll:'up'
     };
     try{
-        settings.ShowName = fs.readFileSync('./public/show/show.def');
+        settings.ShowName = fs.readFileSync('./public/show/show.def','utf8');
     } catch (err) {
         settings.ShowName = null;
         console.log('no default showname - please create show.def')
