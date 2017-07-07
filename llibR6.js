@@ -139,12 +139,12 @@ exports.loadWiz = function(callback){
         Scroll:'up'
     };
     try{
-        settings.ShowName = fs.readFileSync('./public/show/show.def').replace(/\r?\n|\r/g, " ");
+        settings.ShowName = fs.readFileSync('./public/show/show.def');
     } catch (err) {
         settings.ShowName = null;
         console.log('no default showname - please create show.def')
     }
-
+    settings.ShowName = settings.ShowName.trim();
     console.log('Showname from show.def:'+settings.ShowName);
 
     fs.readdir('public/show',(err,data) => {
