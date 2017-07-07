@@ -20,7 +20,6 @@ Backlight: 80
 OnTime: 5
 FadeIn: 5
 FadeOut: 15
-Directory:
 ShowName: Show2
 Ssid: Wiz_2_4
 Pass: myBLUEboost
