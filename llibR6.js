@@ -486,8 +486,6 @@ exports.wifiCheck = function(){
 exports.wifiandPanIdcheckandset= function(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
         exports.wifiCheck();
-        wiz.PanID = wiz.PanID.trim();
-        Pan = Pan.trim();
         xbee.xbeeGetPanID(0, 0, function (Pan) {
             wiz.PanID = wiz.PanID.trim();
             Pan = Pan.trim();
