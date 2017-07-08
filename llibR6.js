@@ -46,6 +46,8 @@ exports.openSerialPort = function(portname,cb)
     });
 
     serialPort.on('data', function(data) {
+       console.log('Serial Data Rec:"+data)
+
         if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
            xbee.xbeeReceivedData(data); // send it to the xbee module
         }
