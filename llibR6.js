@@ -435,7 +435,7 @@ exports.wifiCheck = function(){
     });
     rl.on('close',()=> {
         console.log("End of File")
-
+        setTimeout(function(){exports.getIPAddres()}, 20000);// wait 20 seconds and then get ip address
         if((currentSSID == wiz.Ssid) && (currentPASSWORD == wiz.Pass)){
 
             console.log("there is nothing in wifi that needs to be changed");
@@ -503,4 +503,23 @@ exports.wifiandPanIdcheckandset= function(){
             }
         });
     }
+}
+
+exports.getIPAddres = function(){
+    //iterate through all of the system IPv4 addresses
+    // we should connect to address[0] with the webserver
+    //so lets grab it and make a global variable to
+    //use elseware
+    var interfaces = os.networkInterfaces();
+    global.addresses = [];
+    for (k in interfaces) {
+        for (k2 in interfaces[k]) {
+            var address = interfaces[k][k2];
+            if (address.family == 'IPv4' && !address.internal) {
+                addresses.push(address.address)
+            }
+        }
+    }
+    global.myuri = addresses[0];
+    console.log('My IP Address 0 is: ' + addresses[0] + " Address 1: " +addresses[1] );
 }
