@@ -41,12 +41,12 @@ exports.openSerialPort = function(portname,cb)
         console.log("Port open success:"+portname);
 
 
-        serialPort.write('TEST STRING SENDING\r')
+       // serialPort.write('TEST STRING SENDING\r')
         //serialPort.write("VLD# 1 65 1 0\r");
     });
 
     serialPort.on('data', function(data) {
-       console.log('*****************Serial Data Rec:'+data)
+      // console.log('*****************Serial Data Rec:'+data)
 
         if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
            xbee.xbeeReceivedData(data); // send it to the xbee module
@@ -325,7 +325,8 @@ exports.getUnitSettings = function(){
                                 Battery: global.Battery,
                                 Pan: global.Pan,
                                 Signal: global.Sig,
-                                Temperature: global.Temperature
+                                Temperature: global.Temperature,
+                                IPAdress: global.uri
                             }
                         }), 'r6');
                     });
@@ -523,5 +524,5 @@ exports.getIPAddres = function(){
         }
     }
     global.myuri = addresses[0];
-    console.log('My IP Address 0 is: ' + addresses[0] + " Address 1: " +addresses[1] );
+    console.log('My IP Address 0 is: ' + addresses[0] );
 }

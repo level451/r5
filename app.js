@@ -16,7 +16,7 @@ function wizLoaded(){
     webserver = require('./webserver')
     ws = require('./websocket')
     if(os.type() != "Windows_NT"){
-        ll.openSerialPort('/dev/ttyAMA2',cp.incommingCue); // send all data from serialport to the cue processor
+        ll.openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
         gpiomodule.setupSwitches();
         ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
     }
