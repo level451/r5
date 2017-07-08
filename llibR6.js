@@ -41,7 +41,7 @@ exports.openSerialPort = function(portname,cb)
         console.log("Port open success:"+portname);
 
 
-        //serialPort.write('r\r')
+        serialPort.write('TEST STRING SENDING\r')
         //serialPort.write("VLD# 1 65 1 0\r");
     });
 
