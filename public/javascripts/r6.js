@@ -1160,8 +1160,8 @@ function drawTestMode(){
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     ctx.globalAlpha = 1;
-    ctx.font = '17px Verdana';
-    ctx.fillStyle = "#00FF00";
+    ctx.font = '23px Verdana';
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillText('Test Mode', 10,50);
     websocketsend('testModeOn',{});
     for (var i = 0;i<15;++i){
