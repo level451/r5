@@ -1167,7 +1167,6 @@ function drawTestMode(){
     for (var i = 0;i<15;++i){
         if (testModeData[i]){
             ctx.fillText(testModeData[i], 50,(i*30)+50);
-
         }
         if (testModeSignal[i]){
             ctx.fillText(testModeSignal[i], 550,(i*30)+50);
