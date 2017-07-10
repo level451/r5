@@ -12,7 +12,11 @@ exports.incommingCue = function(c){
 //console.log('At cue processor')
 if (global.testMode){
     ws.send(JSON.stringify({object: 'testModeData', data: c}), 'r6'); // send the raw cue data
-    // add code here to git signalq
+    xbee.xbeeGetsignalStrength(0,0,function(signalStrength){
+        ws.send(JSON.stringify({object: 'testModeSignal', data: signalStrength}), 'r6'); // send the raw cue data
+
+
+    })
 }
 else {
 

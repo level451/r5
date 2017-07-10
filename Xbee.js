@@ -33,7 +33,16 @@ exports.xbeeReceivedData = function(returnedData){
 }
 
 exports.xbeeGetsignalStrength = function(st,data,cb){
-    if((ssBlock == 1) && (st == 0) && (data == 0)){ // we've wtarted this once no leave it alone for a while
+
+    if(os.type() == "Windows_NT"){
+        cb('Unknown');
+        return;
+
+
+    }
+
+
+        if((ssBlock == 1) && (st == 0) && (data == 0)){ // we've wtarted this once no leave it alone for a while
         return;
     }
     else if(ssBlock == 0){

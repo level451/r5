@@ -1,8 +1,8 @@
 const debug = 1;
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
-const os = require('os');
-const xbee = require("./Xbee");
+os = require('os');
+xbee = require("./Xbee");
 const readline = require('readline');
 
 
