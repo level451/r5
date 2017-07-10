@@ -219,14 +219,23 @@ function switchPress(s){
     var speed;
     switch (sysState){
         case 'Test Mode':
+// any switch from test goes back to system menu
+                inSystemMenu = true;
+                menuItem = 1;
+                sysState = 'systemMenu';
+                ctx.globalAlpha = 1;
+
+                drawMenuText(systemMenu, menuItem);
+
+
  // any switch from test mode goes back to idle
-            sysState = 'idle';
-            inSystemMenu = false;
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            websocketsend('testModeOff',{});
-            websocketsend('fadeOut',{}); // turn off backlight
-            // clear the signal and data
+ //            sysState = 'idle';
+ //            inSystemMenu = false;
+ //            ctx.fillStyle = "#000000";
+ //            ctx.fillRect(0, 0, canvas.width, canvas.height);
+ //            websocketsend('testModeOff',{});
+ //            websocketsend('fadeOut',{}); // turn off backlight
+ //            // clear the signal and data
             testModeData = [];
             testModeSignal = [];
             break;
@@ -355,10 +364,18 @@ function switchPress(s){
                 case 1:
                 case 2:
                 case 3:
-                        ctx.fillStyle = "#000000";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        sysState = 'idle';
-                        inSystemMenu = false; //this blocks ques from executing when true
+                case 6:
+                    //always go back to system menu from unit status
+                    inSystemMenu = true;
+                    menuItem = 1;
+                    sysState = 'systemMenu';
+                    ctx.globalAlpha = 1;
+                    drawMenuText(systemMenu, menuItem);
+
+                        // ctx.fillStyle = "#000000";
+                        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        // sysState = 'idle';
+                        // inSystemMenu = false; //this blocks ques from executing when true
                         break;
             }
             break;
@@ -957,7 +974,9 @@ function fadeOut(t){
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeOut)
     } else{
-        console.log (t-startTime);
+        ctx.globalAlpha =1;
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         sysState = 'idle'; // set mode to idle
     }
 
@@ -1164,6 +1183,17 @@ function drawTestMode(){
     ctx.font = '23px Verdana';
     ctx.fillStyle = "#FFFFFF";
     ctx.fillText('Test Mode', 50,20);
+    ctx.fillText('Data', 250,20);
+    ctx.fillText('Sig', 747,20);
+    ctx.beginPath();
+    ctx.strokeStyle="white";
+    ctx.lineWidth=2;
+    ctx.moveTo(0,27);
+    ctx.lineTo(canvas.width,27);
+
+    ctx.stroke();
+
+
     websocketsend('testModeOn',{});
     for (var i = 0;i<15;++i){
         if (testModeData[i]){
