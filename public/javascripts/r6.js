@@ -742,12 +742,12 @@ function websockstart(){
                 switch(x.object){
                     case "testModeData":
                         testModeData.unshift(x.data);
-                        console.log('TestModeData:'+x.data);
+                      //  console.log('TestModeData:'+x.data);
                         drawTestMode();
                         break;
                     case "testModeSignal":
                         testModeSignal.unshift(x.data);
-                        console.log('TestModeSignal:'+x.data);
+                        //console.log('TestModeSignal:'+x.data);
                         drawTestMode();
                         break;
 
