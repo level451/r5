@@ -1162,7 +1162,7 @@ function drawTestMode(){
     ctx.globalAlpha = 1;
     ctx.font = '23px Verdana';
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText('Test Mode', 10,50);
+    ctx.fillText('Test Mode', 50,10);
     websocketsend('testModeOn',{});
     for (var i = 0;i<15;++i){
         if (testModeData[i]){
@@ -1170,7 +1170,7 @@ function drawTestMode(){
 
         }
         if (testModeSignal[i]){
-            ctx.fillText(testModeSignal[i], 350,(i*30)+50);
+            ctx.fillText(testModeSignal[i], 450,(i*30)+50);
 
         }
 
