@@ -223,6 +223,8 @@ function switchPress(s){
                 inSystemMenu = true;
                 menuItem = 1;
                 sysState = 'systemMenu';
+                testModeData = [];
+                testModeSignal = [];
                 ctx.globalAlpha = 1;
 
                 drawMenuText(systemMenu, menuItem);
@@ -236,8 +238,7 @@ function switchPress(s){
  //            websocketsend('testModeOff',{});
  //            websocketsend('fadeOut',{}); // turn off backlight
  //            // clear the signal and data
-            testModeData = [];
-            testModeSignal = [];
+
             break;
 
 
@@ -885,7 +886,7 @@ function drawUnitStatus(unitinfo,data){
         ctx.fillText(data.Pan, 670,303); // service
         ctx.fillText(data.Signal, 670,346);
         ctx.fillText(data.Temperature, 670,389);
-
+        ctx.fillText(data.IPAddress,640,400)
     }else
     {
         img = new Image();
