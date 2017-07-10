@@ -8,6 +8,7 @@ const readline = require('readline');
 
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
+global.testMode = false;
 var timerBacklightOn;
 var timerBacklightOff;
 var timerBacklightTime;

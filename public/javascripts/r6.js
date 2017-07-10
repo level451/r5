@@ -13,6 +13,8 @@ const systemMenu = ['Exit','Select Language','Select Show','Unit Status','Test M
 var inSystemMenu = false;
 var slideHistoryPointer = 0;
 var slideHistory = [];
+var testModeData=[];
+var testModeSignal=[];
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
@@ -216,6 +218,20 @@ function switchPress(s){
 
     var speed;
     switch (sysState){
+        case 'Test Mode':
+ // any switch from test mode goes back to idle
+            sysState = 'idle';
+            inSystemMenu = false;
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            websocketsend('testModeOff',{});
+            websocketsend('fadeOut',{}); // turn off backlight
+            // clear the signal and data
+            testModeData = [];
+            testModeSignal = [];
+            break;
+
+
         case 'userMenu':
 
             switch(s){
@@ -477,8 +493,11 @@ function switchPress(s){
                                     drawMenuText(wiz.allShowsAvailable,menuItem);
                                     sysState = 'Unit Status';
                                     drawUnitStatus();
-
-
+                                    break;
+                                case 'Test Mode':
+                                    menuItem = 1;
+                                    sysState = 'Test Mode';
+                                    drawTestMode();
                                     break;
 
                                 default:
@@ -607,7 +626,7 @@ var counter = 1;
 var drawup = false;
 var drawdown = false;
     const spacingMultiplier = 1.4; //1.12; //line spacing
-    const menuOffset =  3;//1; // select menu item location - range about -2 to 2
+    const menuOffset =  2;//1; // select menu item location - range about -2 to 2
 
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
@@ -721,6 +740,17 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
+                    case "testModeData":
+                        testModeData.unshift(x.data);
+                        console.log('TestModeData:'+x.data);
+                        drawTestMode();
+                        break;
+                    case "testModeSignal":
+                        testModeSignal.unshift(x.data);
+                        console.log('TestModeSignal:'+x.data);
+                        drawTestMode();
+                        break;
+
                     case "unitStatus":
                         if (sysState == "Unit Status"){
                             drawUnitStatus(true,x.data);
@@ -1122,6 +1152,31 @@ function displayError(error){
     ctx.fillStyle = "#FFFFFF";
     ctx.font = '50px Verdana';
     ctx.fillText('Please exchange unit.', (canvas.width / 2) - (ctx.measureText('Please exchange unit.').width / 2), 250);
+
+
+}
+function drawTestMode(){
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+    ctx.globalAlpha = 1;
+    ctx.font = '17px Verdana';
+    ctx.fillStyle = "#00FF00";
+    ctx.fillText('Test Mode', 10,50);
+    websocketsend('testModeOn',{});
+    for (var i = 0;i<15;++i){
+        if (testModeData[i]){
+            ctx.fillText(testModeData[i], 50,(i*30)+50);
+
+        }
+        if (testModeSignal[i]){
+            ctx.fillText(testModeSignal[i], 350,(i*30)+50);
+
+        }
+
+    }
+
+
 
 
 }

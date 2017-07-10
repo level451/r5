@@ -194,7 +194,12 @@ function wsData(data,id){
         case "fadeOut":
             ll.backlightOff();
             break;
-
+        case "testModeOff":
+            global.testMode = false;
+            break;
+        case "testModeOn":
+            global.testMode = true;
+            break;
        default:
             console.log('unknown datatype '+data.type)
 
