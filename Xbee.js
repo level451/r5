@@ -35,7 +35,8 @@ exports.xbeeReceivedData = function(returnedData){
 exports.xbeeGetsignalStrength = function(st,data,cb){
 
     if(os.type() == "Windows_NT"){
-        cb('NA');
+        setTimeout(function(){cb('NA');},1000)
+
         return;
 
 
