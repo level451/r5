@@ -1169,7 +1169,7 @@ function drawTestMode(){
             ctx.fillText(testModeData[i], 50,(i*30)+50);
         }
         if (testModeSignal[i]){
-            ctx.fillText(testModeSignal[i], 650,(i*30)+50);
+            ctx.fillText(testModeSignal[i], 750,(i*30)+50);
 
         }
 
