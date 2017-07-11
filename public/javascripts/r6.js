@@ -876,16 +876,18 @@ function displaySlide(d) {
 }
 function drawUnitStatus(unitinfo,data){
     if (unitinfo){
-        console.log('got unit info from server')
+        console.log('got unit info from server'+JSON.stringify(data))
         ctx.globalAlpha = 1;
         //drawImage();
         ctx.font = '17px Verdana';
         ctx.fillStyle = "#00FF00";
-        ctx.fillText(data.Battery, 670,260);
-        ctx.fillText(data.Pan, 670,303); // service
-        ctx.fillText(data.Signal, 670,346);
-        ctx.fillText(data.Temperature, 670,389);
-        ctx.fillText(data.IPAddress,640,400)
+        ctx.fillText(data.Battery, 675,193);
+        ctx.fillText(data.Pan, 605,244); // service
+        ctx.fillText(data.Signal, 697,294);
+        ctx.fillText(data.Temperature, 673,344);
+        ctx.fillText(data.firmwareVersion,295,444)
+        ctx.fillText(data.IPAddress,620,442)
+
     }else
     {
         img = new Image();
@@ -897,14 +899,15 @@ function drawUnitStatus(unitinfo,data){
             drawImage();
             ctx.font = '17px Verdana';
             ctx.fillStyle = "#00FF00";
-            ctx.fillText(wiz.ShowName, 250,260);
-            ctx.fillText(wiz.Directory, 250,303); // service
-            ctx.fillText(wiz.Volume, 250,346);
-            ctx.fillText(wiz.Backlight, 250,389);
+            ctx.fillText(wiz.ShowName, 260,193);
             if (wiz.Version){
-                ctx.fillText(wiz.Version, 250,432);
+                ctx.fillText(wiz.Version, 260,243);
             }
-            ctx.fillText(wiz.Ssid, 670,432);
+            ctx.fillText(wiz.Directory, 275,293); // service
+            ctx.fillText(wiz.Volume, 190,343);
+            ctx.fillText(wiz.Backlight, 225,393);
+
+            ctx.fillText(wiz.Ssid, 600,392);
         };
         img.src = '/show/icaption status screen.jpg';
 

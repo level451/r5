@@ -1,6 +1,6 @@
 {
-  "name": "R5",
-  "version": "0.0.1",
+  "name": "R6",
+  "version": "0.0.3",
   "dependencies": {
     "ejs": "^2.5.5",
     "express": "^4.14.1",
