@@ -4,7 +4,7 @@ const fs = require('fs');
 os = require('os');
 xbee = require("./Xbee");
 const readline = require('readline');
-
+var pjson = require('./package.json');
 
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
@@ -134,6 +134,7 @@ exports.saveSettings = function(callback){
     });
 }
 exports.loadWiz = function(callback){
+    console.log('Software Version:'+pjson.version)
 
     // default wiz values go here
     global.wiz={
@@ -290,7 +291,9 @@ String.prototype.rpad = function(length) {
 exports.getUnitSettings = function(){
     console.log("We are getUnitSettings");
     if(os.type() == "Windows_NT"){// if a windows system, then we can return nothing
-        ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA'}}),'r6');
+        ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA'
+        , IPAdress: global.uri,
+            firmwareVersion: pjson.version}}),'r6');
         return;
     }
     var Battery;
@@ -327,7 +330,8 @@ exports.getUnitSettings = function(){
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
-                                IPAdress: global.uri
+                                IPAdress: global.uri,
+                                firmwareVersion: pjson.version
                             }
                         }), 'r6');
                     });
