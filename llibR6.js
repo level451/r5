@@ -306,7 +306,7 @@ exports.getUnitSettings = function(){
     var Pan;
     fs.readFile(battADC, 'utf8', (err,filetxt) =>{
         if(err){
-            console.log("Battery ERROR: " + err);
+            console.log("Battery ERROR:  " + err);
         }
         else {
             global.Battery = filetxt;
@@ -335,7 +335,7 @@ exports.getUnitSettings = function(){
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
-                                IPAdress: global.uri,
+                                IPAddress: global.myuri,
                                 firmwareVersion: pjson.version
                             }
                         }), 'r6');
@@ -534,5 +534,5 @@ exports.getIPAddres = function(){
         }
     }
     global.myuri = addresses[0];
-    console.log('My IP Address 0 is: ' + addresses[0] );
+    console.log('My IP Address 0 is: ' + global.myuri );
 }
