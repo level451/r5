@@ -226,7 +226,7 @@ function switchPress(s){
                 testModeData = [];
                 testModeSignal = [];
                 ctx.globalAlpha = 1;
-
+                websocketsend('testModeOff',{});
                 drawMenuText(systemMenu, menuItem);
 
 
@@ -235,7 +235,6 @@ function switchPress(s){
  //            inSystemMenu = false;
  //            ctx.fillStyle = "#000000";
  //            ctx.fillRect(0, 0, canvas.width, canvas.height);
- //            websocketsend('testModeOff',{});
  //            websocketsend('fadeOut',{}); // turn off backlight
  //            // clear the signal and data
 
