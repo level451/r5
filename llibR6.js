@@ -330,7 +330,7 @@ exports.getUnitSettings = function(){
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
-                                IPAdress: global.uri,
+                                IPAdress: global.myuri,
                                 firmwareVersion: pjson.version
                             }
                         }), 'r6');
