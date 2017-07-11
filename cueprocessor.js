@@ -10,6 +10,7 @@ exports.incommingCue = function(c){
     //temp line for testing - remove when cue sended is fixed
 //c= wiz.ShowName+' '+'GO '+c
 //console.log('At cue processor')
+
 if (global.testMode){
     ws.send(JSON.stringify({object: 'testModeData', data: c}), 'r6'); // send the raw cue data
     xbee.xbeeGetsignalStrength(0,0,function(signalStrength){

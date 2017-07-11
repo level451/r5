@@ -15,6 +15,8 @@ var slideHistoryPointer = 0;
 var slideHistory = [];
 var testModeData=[];
 var testModeSignal=[];
+var demoMode = false;
+var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     disp = document.getElementById('display');
@@ -73,6 +75,7 @@ function load() {
     }, false);
     // draw the welcome image
 
+    canvas.addEventListener("click", canvasClick, false);
     var welcomeImage = new Image();
     welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
     websockstart();
@@ -102,8 +105,6 @@ function load() {
                 menuItem = 1;
                 drawMenuText(languageList, menuItem);
                 sysState = 'languageMenu'
-
-
             }
 
 
@@ -116,6 +117,28 @@ function load() {
 
 }
 function switchPress(s){
+    if (demoMode && !specialMode && sysState != 'userMenu'){
+        switch(s) {
+            case 1:
+                if (demoModePointer > 1){
+                    demoModePointer--;
+                } else
+                {
+                    demoModePointer = 1; // when demoMode starts forward or back will trigger cue 1
+                }
+                console.log('Demo Mode Cue #:'+demoModePointer)
+                websocketsend('demoCue', {cue:demoModePointer});
+
+                break;
+            case 2:
+                demoModePointer++;
+                console.log('Demo Mode Cue #:'+demoModePointer)
+                websocketsend('demoCue', {cue:demoModePointer});
+
+        }
+
+
+    }
     if (specialMode){
         switch (specialMode){
             case 'volume':
@@ -221,6 +244,7 @@ function switchPress(s){
         case 'Test Mode':
 // any switch from test goes back to system menu
                 inSystemMenu = true;
+                turnOffDemoMode()
                 menuItem = 1;
                 sysState = 'systemMenu';
                 testModeData = [];
@@ -304,31 +328,32 @@ function switchPress(s){
         //case 'languageMenu':
             switch(s){
                 case 1:
-                    if (sysState != 'idle'){ // if idle just display the current slide
-                        if (slideHistoryPointer < slideHistory.length-1){ // not at the end of the slides
-                            slideHistoryPointer++;
-                        } else
-                        {
-                            break; // if we dont move the slideHistoryPointer - dont display it again
+                    if (!demoMode) { // disable slide history in demo mode
+                       if (sysState != 'idle') { // if idle just display the current slide
+                            if (slideHistoryPointer < slideHistory.length - 1) { // not at the end of the slides
+                                slideHistoryPointer++;
+                            } else {
+                                break; // if we dont move the slideHistoryPointer - dont display it again
+                            }
+                        }
+                        if (slideHistory.length > 0) {
+                            displaySlide(slideHistory[slideHistoryPointer])
                         }
                     }
-                    if (slideHistory.length > 0){
-                        displaySlide(slideHistory[slideHistoryPointer])
-                    }
-
                     break;
                 case 2:
-                    console.log('slideHistoryPointer:'+slideHistoryPointer)
-                    if (sysState != 'idle'){ // if idle just display the current slide
-                        if (slideHistoryPointer > 0){ // not at the begining of the slides
-                            slideHistoryPointer--;
-                        } else
-                        {
-                            break; // if we dont move the slideHistoryPointer - dont display it again
+                    if (!demoMode) { // disable slide history in demo mode
+                        console.log('slideHistoryPointer:' + slideHistoryPointer)
+                        if (sysState != 'idle') { // if idle just display the current slide
+                            if (slideHistoryPointer > 0) { // not at the begining of the slides
+                                slideHistoryPointer--;
+                            } else {
+                                break; // if we dont move the slideHistoryPointer - dont display it again
+                            }
                         }
-                    }
-                    if (slideHistory.length > 0){
-                        displaySlide(slideHistory[slideHistoryPointer])
+                        if (slideHistory.length > 0) {
+                            displaySlide(slideHistory[slideHistoryPointer])
+                        }
                     }
                     break;
                 case 3:
@@ -350,6 +375,7 @@ function switchPress(s){
                     if (sysState == 'idle') {
                         websocketsend('backlightOn', {}); // turn on backlight
                         inSystemMenu = true;
+                        turnOffDemoMode()
                         menuItem = 1;
                         sysState = 'systemMenu';
                         ctx.globalAlpha = 1;
@@ -367,6 +393,7 @@ function switchPress(s){
                 case 6:
                     //always go back to system menu from unit status
                     inSystemMenu = true;
+                    turnOffDemoMode()
                     menuItem = 1;
                     sysState = 'systemMenu';
                     ctx.globalAlpha = 1;
@@ -516,7 +543,14 @@ function switchPress(s){
                                     sysState = 'Test Mode';
                                     drawTestMode();
                                     break;
+                                case 'Demo Mode':
+                                    demoMode = true;
+                                    websocketsend('demoModeOn',{});
+                                    inSystemMenu = false; //this blocks ques from executing when true
+                                    menuItem = 1;
+                                    sysState = 'idle';
 
+                                    break;
                                 default:
                                     console.log('unprocessed system menu item:'+systemMenu[menuItem-1])
 
@@ -558,7 +592,9 @@ function switchPress(s){
                     speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     wiz.Directory = languageList[menuItem-1];
-                 //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
+                    websocketsend('setDirectory', {directory:wiz.Directory}); // turn on backlight
+
+                    //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
                  //   audio.play();
 
                     ctx.fillStyle = "#000000";
@@ -1211,5 +1247,27 @@ function drawTestMode(){
 
 
 
+
+}
+function canvasClick(e){
+    var x,y
+    switch (settings.webPage.rotation){
+        case 0:
+            x= e.pageX
+            y = e.pageY
+            break;
+        case 90:
+            x=(e.pageY)
+
+            y=(canvas.height - e.pageX)
+    }
+
+    console.log(x,y)
+
+}
+function turnOffDemoMode() {
+    websocketsend('demoModeOff',{});
+    demoMode = false;
+    demoModePointer = 0;
 
 }

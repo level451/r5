@@ -6,9 +6,11 @@ xbee = require("./Xbee");
 const readline = require('readline');
 var pjson = require('./package.json');
 
+
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
 global.testMode = false;
+global.demoMode = false;
 var timerBacklightOn;
 var timerBacklightOff;
 var timerBacklightTime;
@@ -48,7 +50,10 @@ exports.openSerialPort = function(portname,cb)
 
     serialPort.on('data', function(data) {
       // console.log('*****************Serial Data Rec:'+data)
-
+        if (global.demoMode){
+            console.log('Serial Data Ignored - in demo Mode')
+            return;
+        }
         if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
            xbee.xbeeReceivedData(data); // send it to the xbee module
         }

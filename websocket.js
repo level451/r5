@@ -6,8 +6,8 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
  */
 websocket = {};
 var request = require('request');
-var os = require('os');
 var llibR6 = require('./llibR6');
+
 
 //Set up Web socket for a connection
 //exports.start = function(wscallback,port){
@@ -200,7 +200,41 @@ function wsData(data,id){
         case "testModeOn":
             global.testMode = true;
             break;
-       default:
+        case "demoModeOn":
+            global.demoMode = true;
+            console.log('Demo Mode ON')
+            break;
+        case "demoModeOff":
+            global.demoMode = false;
+            console.log('Demo Mode OFF')
+            break;
+        case "demoCue":
+            if (global.demoMode){
+                var fs = require('fs');
+                console.log('Demo Mode Cue received:'+data.data.cue)
+                console.log(wiz.ShowName);
+                console.log(wiz.Directory)
+                var path = './public/show/'+wiz.ShowName+'/'+wiz.Directory+'/'
+                fs.access(path+'slide'+data.data.cue+'.jpg', (err) => {
+                    if (!err){
+                        console.log('found slide'+data.data.cue)
+                        cp.incommingCue(wiz.ShowName+' GO slide'+data.data.cue+'.jpg')
+                    }
+
+
+                })
+
+
+
+
+
+
+            }
+            break;
+        case "setDirectory":
+            wiz.Directory = data.data.directory;
+            break;
+        default:
             console.log('unknown datatype '+data.type)
 
     }
