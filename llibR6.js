@@ -330,7 +330,7 @@ exports.getUnitSettings = function(){
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
-                                IPAdress: global.myuri,
+                                IPAddress: global.myuri,
                                 firmwareVersion: pjson.version
                             }
                         }), 'r6');
@@ -529,5 +529,5 @@ exports.getIPAddres = function(){
         }
     }
     global.myuri = addresses[0];
-    console.log('My IP Address 0 is: ' + addresses[0] );
+    console.log('My IP Address 0 is: ' + global.myuri );
 }
