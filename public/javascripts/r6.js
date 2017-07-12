@@ -13,6 +13,7 @@ const systemMenu = ['Exit','Select Language','Select Show','Unit Status','Test M
 var inSystemMenu = false;
 var slideHistoryPointer = 0;
 var slideHistory = [];
+var slideHistroyMode = false;
 var testModeData=[];
 var testModeSignal=[];
 var demoMode = false;
@@ -88,14 +89,15 @@ function load() {
     };
     welcomeImage.onload = function() {
         ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
-        sysState = 'idle';
+        displayState = 'idle';
+        audioState = 'idle';
         websocketsend('fadeIn', {});
         languageList = getLanguages();
 
         welcomeImageTimeout = setTimeout(function()
         {
             if (wiz.Directory && wiz.Directory != '') {
-                sysState = 'idle';
+                displayState = 'idle';
                 ctx.fillStyle = "#000000";
                ctx.fillRect(0, 0, canvas.width, canvas.height);
                 websocketsend('fadeOut', {});
@@ -104,7 +106,7 @@ function load() {
 
                 menuItem = 1;
                 drawMenuText(languageList, menuItem);
-                sysState = 'languageMenu'
+                displayState = 'languageMenu'
             }
 
 
@@ -117,7 +119,7 @@ function load() {
 
 }
 function switchPress(s){
-    if (demoMode && !specialMode && sysState != 'userMenu'){
+    if (demoMode && !specialMode && displayState != 'userMenu'){
         switch(s) {
             case 1:
                 if (demoModePointer > 1){
@@ -159,7 +161,7 @@ function switchPress(s){
                         clearTimeout(volTimer);
                         ctx.globalAlpha = 1;
                         ctx.fillStyle = "#000000";
-                        if (sysState == 'playvideo'){
+                        if (displayState == 'playvideo'){
                             ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
                         }else
                         {
@@ -169,7 +171,7 @@ function switchPress(s){
                             drawImage()
                         }
                         specialMode = '';
-                        if (sysState == 'idle'){
+                        if (displayState == 'idle'){
                             websocketsend('fadeOut',{}); // turn off backlight
                         }
                         console.log('volume exit')
@@ -205,7 +207,7 @@ function switchPress(s){
                         clearTimeout(backlightTimer);
                         ctx.globalAlpha = 1;
                         ctx.fillStyle = "#000000";
-                        if (sysState == 'playvideo'){
+                        if (displayState == 'playvideo'){
                             ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
                         }else
                         {
@@ -215,7 +217,7 @@ function switchPress(s){
                             drawImage()
                         }
                         specialMode = '';
-                        if (sysState == 'idle'){
+                        if (displayState == 'idle'){
                             websocketsend('fadeOut',{}); // turn off backlight
                         }
                         console.log('backlight exit')
@@ -240,79 +242,79 @@ function switchPress(s){
 
 
     var speed;
-    switch (sysState){
+if (audioState == 'idle') {
+    switch (displayState) {
         case 'Test Mode':
 // any switch from test goes back to system menu
-                inSystemMenu = true;
-                turnOffDemoMode()
-                menuItem = 1;
-                sysState = 'systemMenu';
-                testModeData = [];
-                testModeSignal = [];
-                ctx.globalAlpha = 1;
-                websocketsend('testModeOff',{});
-                drawMenuText(systemMenu, menuItem);
+            inSystemMenu = true;
+            turnOffDemoMode()
+            menuItem = 1;
+            displayState = 'systemMenu';
+            testModeData = [];
+            testModeSignal = [];
+            ctx.globalAlpha = 1;
+            websocketsend('testModeOff', {});
+            drawMenuText(systemMenu, menuItem);
 
 
- // any switch from test mode goes back to idle
- //            sysState = 'idle';
- //            inSystemMenu = false;
- //            ctx.fillStyle = "#000000";
- //            ctx.fillRect(0, 0, canvas.width, canvas.height);
- //            websocketsend('fadeOut',{}); // turn off backlight
- //            // clear the signal and data
+            // any switch from test mode goes back to idle
+            //            displayState = 'idle';
+            //            inSystemMenu = false;
+            //            ctx.fillStyle = "#000000";
+            //            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //            websocketsend('fadeOut',{}); // turn off backlight
+            //            // clear the signal and data
 
             break;
 
 
         case 'userMenu':
 
-            switch(s){
+            switch (s) {
                 case 1:
                     --menuItem;
-                    if (menuItem<1){
-                        menuItem=1;
+                    if (menuItem < 1) {
+                        menuItem = 1;
                     }
 
-                    drawMenuText(userMenu,menuItem);
+                    drawMenuText(userMenu, menuItem);
 
                     break;
                 case 2:
                     ++menuItem;
-                    if (menuItem>userMenu.length){
-                        menuItem=userMenu.length;
+                    if (menuItem > userMenu.length) {
+                        menuItem = userMenu.length;
                     }
-                    drawMenuText(userMenu,menuItem);
+                    drawMenuText(userMenu, menuItem);
 
                     break;
                 case 3:
                     // usermenu item selected
-                    sysState = 'idle';
+                    displayState = 'idle';
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                       // code here for user selection
-                        switch(userMenu[menuItem-1]){
-                            case 'Exit':
-                                sysState = 'idle';
-                                websocketsend('fadeOut',{}); // turn off backlight
-                                break;
-                            case 'Volume':
-                                specialMode = 'volume';
-                                drawVolume();
-                                break;
-                            case 'Brightness':
-                                specialMode = 'backlight';
-                                drawBacklight();
+                    // code here for user selection
+                    switch (userMenu[menuItem - 1]) {
+                        case 'Exit':
+                            displayState = 'idle';
+                            websocketsend('fadeOut', {}); // turn off backlight
+                            break;
+                        case 'Volume':
+                            specialMode = 'volume';
+                            drawVolume();
+                            break;
+                        case 'Brightness':
+                            specialMode = 'backlight';
+                            drawBacklight();
 
-                                break;
-                            default:
-                                sysState = 'idle';
-                                websocketsend('fadeOut',{}); // turn off backlight
-                                console.log('unprocessed user menu item:'+systemMenu[menuItem-1])
+                            break;
+                        default:
+                            displayState = 'idle';
+                            websocketsend('fadeOut', {}); // turn off backlight
+                            console.log('unprocessed user menu item:' + systemMenu[menuItem - 1])
 
 
-                        }
-
+                    }
 
 
                     // setTimeout(function(){
@@ -325,11 +327,12 @@ function switchPress(s){
         case 'fadeoutslide':
         case 'displayslide':
         case 'idle':
-        //case 'languageMenu':
-            switch(s){
+            //case 'languageMenu':
+            switch (s) {
                 case 1:
                     if (!demoMode) { // disable slide history in demo mode
-                       if (sysState != 'idle') { // if idle just display the current slide
+                        slideHistroyMode = true;
+                        if (displayState != 'idle') { // if idle just display the current slide
                             if (slideHistoryPointer < slideHistory.length - 1) { // not at the end of the slides
                                 slideHistoryPointer++;
                             } else {
@@ -343,8 +346,9 @@ function switchPress(s){
                     break;
                 case 2:
                     if (!demoMode) { // disable slide history in demo mode
+                        slideHistroyMode = true;
                         console.log('slideHistoryPointer:' + slideHistoryPointer)
-                        if (sysState != 'idle') { // if idle just display the current slide
+                        if (displayState != 'idle') { // if idle just display the current slide
                             if (slideHistoryPointer > 0) { // not at the begining of the slides
                                 slideHistoryPointer--;
                             } else {
@@ -357,27 +361,27 @@ function switchPress(s){
                     }
                     break;
                 case 3:
-                    if (sysState == 'idle') {
+                    //if (displayState == 'idle') { // has to be idle?
                         // enter pressed while idle - goto userMenu
                         clearTimeout(welcomeImageTimeout);
                         websocketsend('backlightOn', {}); // turn on backlight
 
                         menuItem = 1;
-                        sysState = 'userMenu';
+                        displayState = 'userMenu';
                         ctx.globalAlpha = 1;
                         drawMenuText(userMenu, menuItem);
-                    }
+                    //}
                     break;
 
                 case 6:
                     // special menu code - go to system menu
-                   clearTimeout(welcomeImageTimeout)
-                    if (sysState == 'idle') {
+                    clearTimeout(welcomeImageTimeout)
+                    if (displayState == 'idle') {
                         websocketsend('backlightOn', {}); // turn on backlight
                         inSystemMenu = true;
                         turnOffDemoMode()
                         menuItem = 1;
-                        sysState = 'systemMenu';
+                        displayState = 'systemMenu';
                         ctx.globalAlpha = 1;
 
                         drawMenuText(systemMenu, menuItem);
@@ -386,7 +390,7 @@ function switchPress(s){
             }
             break;
         case 'Unit Status':
-            switch(s) { // any switch press of switch 1, 2 or 3 in unit status will exit to idle
+            switch (s) { // any switch press of switch 1, 2 or 3 in unit status will exit to idle
                 case 1:
                 case 2:
                 case 3:
@@ -395,71 +399,71 @@ function switchPress(s){
                     inSystemMenu = true;
                     turnOffDemoMode()
                     menuItem = 1;
-                    sysState = 'systemMenu';
+                    displayState = 'systemMenu';
                     ctx.globalAlpha = 1;
                     drawMenuText(systemMenu, menuItem);
 
-                        // ctx.fillStyle = "#000000";
-                        // ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        // sysState = 'idle';
-                        // inSystemMenu = false; //this blocks ques from executing when true
-                        break;
+                    // ctx.fillStyle = "#000000";
+                    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    // displayState = 'idle';
+                    // inSystemMenu = false; //this blocks ques from executing when true
+                    break;
             }
             break;
         case 'selectShowMenu':
-            switch(s){
+            switch (s) {
                 case 1:
                     --menuItem;
-                    if (menuItem<1){
-                        menuItem=1;
+                    if (menuItem < 1) {
+                        menuItem = 1;
                     }
 
-                    drawMenuText(wiz.allShowsAvailable,menuItem);
+                    drawMenuText(wiz.allShowsAvailable, menuItem);
 
                     break;
                 case 2:
                     ++menuItem;
-                    if (menuItem>wiz.allShowsAvailable.length){
-                        menuItem=wiz.allShowsAvailable.length;
+                    if (menuItem > wiz.allShowsAvailable.length) {
+                        menuItem = wiz.allShowsAvailable.length;
                     }
-                    console.log('menuitem:'+menuItem);
-                    drawMenuText(wiz.allShowsAvailable,menuItem);
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(wiz.allShowsAvailable, menuItem);
 
                     break;
                 case 3:
                     // show selected
-                    sysState = 'idle';
+                    displayState = 'idle';
                     speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    drawMenuText(wiz.allShowsAvailable,menuItem,true);
-                    setTimeout(function(){
+                    drawMenuText(wiz.allShowsAvailable, menuItem, true);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1);
-                    setTimeout(function(){
-                        drawMenuText(wiz.allShowsAvailable,menuItem,true);
-                    },speed *2);
-                    setTimeout(function(){
+                    }, speed * 1);
+                    setTimeout(function () {
+                        drawMenuText(wiz.allShowsAvailable, menuItem, true);
+                    }, speed * 2);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3);
-                    setTimeout(function(){
-                        drawMenuText(wiz.allShowsAvailable,menuItem,true);
-                    },speed *4);
-                    setTimeout(function(){
+                    }, speed * 3);
+                    setTimeout(function () {
+                        drawMenuText(wiz.allShowsAvailable, menuItem, true);
+                    }, speed * 4);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5);
-                    setTimeout(function(){
-                        console.log('showMenu selection:'+wiz.allShowsAvailable[menuItem-1]);
+                    }, speed * 5);
+                    setTimeout(function () {
+                        console.log('showMenu selection:' + wiz.allShowsAvailable[menuItem - 1]);
                         // add code for new show selected  here:
-                        websocketsend('selectshow',{ShowName:wiz.allShowsAvailable[menuItem-1]});
-                        sysState='idle'
+                        websocketsend('selectshow', {ShowName: wiz.allShowsAvailable[menuItem - 1]});
+                        displayState = 'idle'
                         inSystemMenu = false; //this blocks ques from executing when true
-                    },speed *6);
+                    }, speed * 6);
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
@@ -468,96 +472,96 @@ function switchPress(s){
             break;
 
         case 'systemMenu':
-            switch(s){
+            switch (s) {
                 case 1:
                     --menuItem;
-                    if (menuItem<1){
-                        menuItem=1;
+                    if (menuItem < 1) {
+                        menuItem = 1;
                     }
 
-                    drawMenuText(systemMenu,menuItem);
+                    drawMenuText(systemMenu, menuItem);
 
                     break;
                 case 2:
                     ++menuItem;
-                    if (menuItem>systemMenu.length){
-                        menuItem=systemMenu.length;
+                    if (menuItem > systemMenu.length) {
+                        menuItem = systemMenu.length;
                     }
-                    console.log('menuitem:'+menuItem);
-                    drawMenuText(systemMenu,menuItem);
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(systemMenu, menuItem);
 
                     break;
                 case 3:
                     // langauge selected
-                    sysState = 'idle';
+                    displayState = 'idle';
                     speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    drawMenuText(systemMenu,menuItem,true);
-                    setTimeout(function(){
+                    drawMenuText(systemMenu, menuItem, true);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1);
-                    setTimeout(function(){
-                        drawMenuText(systemMenu,menuItem,true);
-                    },speed *2);
-                    setTimeout(function(){
+                    }, speed * 1);
+                    setTimeout(function () {
+                        drawMenuText(systemMenu, menuItem, true);
+                    }, speed * 2);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3);
-                    setTimeout(function(){
-                        drawMenuText(systemMenu,menuItem,true);
-                    },speed *4);
-                    setTimeout(function(){
+                    }, speed * 3);
+                    setTimeout(function () {
+                        drawMenuText(systemMenu, menuItem, true);
+                    }, speed * 4);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5);
-                    setTimeout(function(){
-                            console.log('systemMenu selection:'+systemMenu[menuItem-1]);
-                            // add code for menuFuntion here:
-                            switch(systemMenu[menuItem-1]){
-                                case 'Exit':
-                                    sysState = 'idle';
-                                    inSystemMenu = false; //this blocks ques from executing when true
-                                    break;
-                                case 'Select Language':
-                                    menuItem = 1;
-                                    drawMenuText(languageList,menuItem);
-                                    sysState = 'languageMenu';
-                                    break;
-                                case 'Select Show':
-                                    menuItem = 1;
-                                    drawMenuText(wiz.allShowsAvailable,menuItem);
-                                    sysState = 'selectShowMenu';
-                                    break;
-                                case 'Unit Status':
-                                    menuItem = 1;
-                                    drawMenuText(wiz.allShowsAvailable,menuItem);
-                                    sysState = 'Unit Status';
-                                    drawUnitStatus();
-                                    break;
-                                case 'Test Mode':
-                                    menuItem = 1;
-                                    sysState = 'Test Mode';
-                                    drawTestMode();
-                                    break;
-                                case 'Demo Mode':
-                                    demoMode = true;
-                                    websocketsend('demoModeOn',{});
-                                    inSystemMenu = false; //this blocks ques from executing when true
-                                    menuItem = 1;
-                                    sysState = 'idle';
+                    }, speed * 5);
+                    setTimeout(function () {
+                        console.log('systemMenu selection:' + systemMenu[menuItem - 1]);
+                        // add code for menuFuntion here:
+                        switch (systemMenu[menuItem - 1]) {
+                            case 'Exit':
+                                displayState = 'idle';
+                                inSystemMenu = false; //this blocks ques from executing when true
+                                break;
+                            case 'Select Language':
+                                menuItem = 1;
+                                drawMenuText(languageList, menuItem);
+                                displayState = 'languageMenu';
+                                break;
+                            case 'Select Show':
+                                menuItem = 1;
+                                drawMenuText(wiz.allShowsAvailable, menuItem);
+                                displayState = 'selectShowMenu';
+                                break;
+                            case 'Unit Status':
+                                menuItem = 1;
+                                drawMenuText(wiz.allShowsAvailable, menuItem);
+                                displayState = 'Unit Status';
+                                drawUnitStatus();
+                                break;
+                            case 'Test Mode':
+                                menuItem = 1;
+                                displayState = 'Test Mode';
+                                drawTestMode();
+                                break;
+                            case 'Demo Mode':
+                                demoMode = true;
+                                websocketsend('demoModeOn', {});
+                                inSystemMenu = false; //this blocks ques from executing when true
+                                menuItem = 1;
+                                displayState = 'idle';
 
-                                    break;
-                                default:
-                                    console.log('unprocessed system menu item:'+systemMenu[menuItem-1])
+                                break;
+                            default:
+                                console.log('unprocessed system menu item:' + systemMenu[menuItem - 1])
 
 
-                            }
+                        }
 
-                    },speed *6);
+                    }, speed * 6);
                     // setTimeout(function(){
                     //     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // },speed *7)
@@ -566,59 +570,59 @@ function switchPress(s){
             break;
 
         case 'languageMenu':
-            switch(s){
+            switch (s) {
                 case 1:
                     --menuItem;
-                    if (menuItem<1){
-                        menuItem=1;
+                    if (menuItem < 1) {
+                        menuItem = 1;
                     }
-                    console.log('menuitem:'+menuItem);
-                    drawMenuText(languageList,menuItem);
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(languageList, menuItem);
 
                     break;
                 case 2:
                     ++menuItem;
-                    if (menuItem>languageList.length){
-                        menuItem=languageList.length;
+                    if (menuItem > languageList.length) {
+                        menuItem = languageList.length;
                     }
-                    console.log('menuitem:'+menuItem);
-                    drawMenuText(languageList,menuItem);
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(languageList, menuItem);
 
                     break;
                 case 3:
                     // langauge selected
-                    sysState = 'idle';
+                    displayState = 'idle';
                     inSystemMenu = false; //this blocks ques from executing when true
                     speed = 150;
                     //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
-                    wiz.Directory = languageList[menuItem-1];
-                    websocketsend('setDirectory', {directory:wiz.Directory}); // turn on backlight
+                    wiz.Directory = languageList[menuItem - 1];
+                    websocketsend('setDirectory', {directory: wiz.Directory}); // turn on backlight
 
                     //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
-                 //   audio.play();
+                    //   audio.play();
 
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    drawMenuText(languageList,menuItem,true);
-                    setTimeout(function(){
+                    drawMenuText(languageList, menuItem, true);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
 
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *1);
-                    setTimeout(function(){
-                        drawMenuText(languageList,menuItem,true);
-                    },speed *2);
-                    setTimeout(function(){
+                    }, speed * 1);
+                    setTimeout(function () {
+                        drawMenuText(languageList, menuItem, true);
+                    }, speed * 2);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *3);
-                    setTimeout(function(){
-                        drawMenuText(languageList,menuItem,true);
-                    },speed *4);
-                    setTimeout(function(){
+                    }, speed * 3);
+                    setTimeout(function () {
+                        drawMenuText(languageList, menuItem, true);
+                    }, speed * 4);
+                    setTimeout(function () {
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    },speed *5)
+                    }, speed * 5)
                     // setTimeout(function(){
                     //     drawMenuText(languageList,menuItem,true);
                     // },speed *6)
@@ -629,10 +633,10 @@ function switchPress(s){
                 case 6:
                     // special menu code - go to system menu
                     menuItem = 1;
-                    sysState = 'systemMenu';
+                    displayState = 'systemMenu';
                     ctx.globalAlpha = 1;
 
-                    drawMenuText(systemMenu,menuItem);
+                    drawMenuText(systemMenu, menuItem);
                     break;
 
 
@@ -641,6 +645,11 @@ function switchPress(s){
 
         case 'adjustingvolume':
             console.log('should not happen - adjust volume')
+
+    }
+} else{
+    // audioState != idle
+    switch(audioState){
         case 'playaudio':
             // key pressed in playaudio
             specialMode = 'volume';
@@ -648,7 +657,7 @@ function switchPress(s){
             break;
         case 'playvideo':
             // key pressed in playvideo
-            if (!demoMode){ // disable volume from video in demoMode
+            if (!demoMode) { // disable volume from video in demoMode
                 specialMode = 'volume';
                 drawVolume();
 
@@ -656,6 +665,9 @@ function switchPress(s){
             break;
 
     }
+
+}
+
 }
 function getLanguages(){
     var rv = [];
@@ -809,7 +821,7 @@ function websockstart(){
                         break;
 
                     case "unitStatus":
-                        if (sysState == "Unit Status"){
+                        if (displayState == "Unit Status"){
                             drawUnitStatus(true,x.data);
                         }else {
                             console.log('Unit Status Recieved in wrong state - ignoring')
@@ -824,12 +836,18 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
-                        if (sysState == 'playvideo'){
+                        if (displayState == 'playvideo'){
                             video.pause()
 
                         }
                         console.log('cue - data:'+x.data);
                         if (inSystemMenu == false){ //dont process cues in system menu
+                            if (slideHistroyMode){
+                                slideHistroyMode = false;
+                                turnOffScreen();
+                            }
+
+
                             switch (x.type)
                             {
                                 case 'slide':
@@ -890,7 +908,7 @@ function websocketsend(type,data){
 }
 function displaySlide(d) {
     console.log('display slide:' + d);
-    sysState = 'fadeinslide'; // set mode to fadein
+    displayState = 'fadeinslide'; // set mode to fadein
     ctx.fillStyle = "black";
     ctx.globalAlpha = 1;
 
@@ -912,7 +930,7 @@ function displaySlide(d) {
     };
     img.onerror=function(){
         console.log('image load error:'+img.src);
-        sysState = 'idle'; // set mode to show
+        displayState = 'idle'; // set mode to show
     };
 
     img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
@@ -959,7 +977,7 @@ function drawUnitStatus(unitinfo,data){
 
 }
 function fadeIn(t){
-        if (fadeTime == 0 || sysState != 'fadeinslide'){
+        if (fadeTime == 0 || displayState != 'fadeinslide'){
 
             return
     }
@@ -978,13 +996,13 @@ function fadeIn(t){
         requestAnimationFrame(fadeIn)
     } else{
         console.log ('fade done displayslide');
-        sysState = 'displayslide'; // set mode to show
+        displayState = 'displayslide'; // set mode to show
         clearTimeout(fadeOutTimer); // clear the fade if it is already set from another slide
         fadeOutTimer = setTimeout(function(){
            console.log('fadeout timer set');
-            if (sysState == 'displayslide')
+            if (displayState == 'displayslide')
             {
-                sysState = 'fadeoutslide'; // set mode to fadein
+                displayState = 'fadeoutslide'; // set mode to fadein
                 ctx.globalAlpha = 1;
                 fadeTime = wiz.FadeOut*1000;
                 startTime = false;
@@ -1004,7 +1022,7 @@ function fadeIn(t){
 }
 function fadeOut(t){
 
-    if (fadeTime == 0  || sysState != 'fadeoutslide' ){
+    if (fadeTime == 0  || displayState != 'fadeoutslide' ){
         return
     }
 
@@ -1024,7 +1042,7 @@ function fadeOut(t){
         ctx.globalAlpha =1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        sysState = 'idle'; // set mode to idle
+        displayState = 'idle'; // set mode to idle
     }
 
 }
@@ -1035,7 +1053,7 @@ function playVideo(d){
     video.oncanplay = function(){
         websocketsend('fadeIn',{});
         console.log("playback can begin");
-        sysState = 'playvideo'; // set mode to video -
+        displayState = 'playvideo'; // set mode to video -
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         video.volume = wiz.Volume/100;
         video.play()
@@ -1048,7 +1066,7 @@ function playVideo(d){
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         },wiz.FadeOut*1000);
-        sysState = 'idle'; // set mode to video -
+        displayState = 'idle'; // set mode to video -
     };
     video.onerror = function(){
         console.log('video onerror')
@@ -1057,13 +1075,13 @@ function playVideo(d){
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        sysState = 'idle'; // set mode to video -
+        displayState = 'idle'; // set mode to video -
 
     }
     video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
 }
 function playAudio(d){
-    sysState = 'playaudio'; // set mode to audio -
+    audioState = 'playaudio'; // set mode to audio -
     if (typeof(audio) == 'object'){ // if audio is an object at this point it is currently playing - so pause it - then start a new audio file
         audio.pause();
     }
@@ -1074,26 +1092,26 @@ function playAudio(d){
     //}
     audio.onended=function(){
         console.log('playback ended');
-        if (sysState == 'adjustingvolume'){
+        if (displayState == 'adjustingvolume'){
             setTimeout(function(){
-                if (sysState == 'adjustingvolume'){
-
-                    sysState = 'idle'
+                if (displayState == 'adjustingvolume'){
+                    displayState = 'idle'
+                    audioState = 'idle'
                 }
 
-                },5000)
+                },volumeTimeout)
 
 
 
         } else
         {
-            sysState = 'idle'; // set mode to idle
+            audioState = 'idle'; // set mode to idle
         }
 
     };
     audio.onerror=function(){
         console.log('playback error');
-        sysState = 'idle'; // set mode to show
+        audioState = 'idle'; // set mode to show
     };
 
     audio.volume = wiz.Volume/100;
@@ -1118,7 +1136,7 @@ function drawVolume() {
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
 
-    if (sysState == 'playvideo'){
+    if (displayState == 'playvideo'){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screenq
     }else
     {
@@ -1127,7 +1145,8 @@ function drawVolume() {
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     }
 
-    if (typeof(img) == "object" && sysState != 'playvideo' ) {
+    if (typeof(img) == "object" && displayState != 'playvideo' && displayState != 'idle' ) {
+        // only redraw image if image is be
         drawImage()
 
     }
@@ -1141,20 +1160,30 @@ function drawVolume() {
     volTimer = setTimeout(function(){
         ctx.globalAlpha = 1;
         ctx.fillStyle = "#000000";
-        if (sysState == 'playvideo'){
+        if (displayState == 'playvideo'){
             ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
         }else
         {
             ctx.globalAlpha =1;
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
-            if (typeof(img) == "object") {
+            if (typeof(img) == "object" && displayState !='idle') {
                 drawImage()
+            }
+            if (displayState == 'fadeoutslide'){
+
+                ctx.globalAlpha = 1;
+                fadeTime = wiz.FadeOut*1000;
+                startTime = false;
+                console.log('fade out');
+                websocketsend('fadeOut',{});
+
+                fadeOut();
             }
         }
 
         specialMode = '';
-        if (sysState == 'idle'){
+        if (displayState == 'idle'){
             websocketsend('fadeOut',{}); // turn off backlight
         }
 
@@ -1170,7 +1199,7 @@ function drawBacklight() {
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
 
-    if (sysState == 'playvideo'){
+    if (displayState == 'playvideo'){
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screenq
     }else
     {
@@ -1179,7 +1208,7 @@ function drawBacklight() {
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
     }
 
-    if (typeof(img) == "object" && sysState != 'playvideo' ) {
+    if (typeof(img) == "object" && displayState != 'playvideo' ) {
         drawImage()
 
     }
@@ -1193,7 +1222,7 @@ function drawBacklight() {
     backlightTimer = setTimeout(function(){
         ctx.globalAlpha = 1;
         ctx.fillStyle = "#000000";
-        if (sysState == 'playvideo'){
+        if (displayState == 'playvideo'){
             ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the screen
         }else
         {
@@ -1202,10 +1231,21 @@ function drawBacklight() {
             ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
         }
         if (typeof(img) == "object") {
-            drawImage()
+           drawImage()
+       }
+
+        if (displayState == 'fadeoutslide'){
+
+            ctx.globalAlpha = 1;
+            fadeTime = wiz.FadeOut*1000;
+            startTime = false;
+            console.log('fade out');
+            websocketsend('fadeOut',{});
+
+            fadeOut();
         }
         specialMode = '';
-        if (sysState == 'idle'){
+        if (displayState == 'idle'){
             websocketsend('fadeOut',{}); // turn off backlight
         }
 
@@ -1238,7 +1278,7 @@ function drawTestMode(){
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
-    ctx.globalAlpha = 1;
+
     ctx.font = '23px Verdana';
     ctx.fillStyle = "#FFFFFF";
     ctx.fillText('Test Mode', 50,20);
@@ -1289,5 +1329,13 @@ function turnOffDemoMode() {
     websocketsend('demoModeOff',{});
     demoMode = false;
     demoModePointer = 0;
+
+}
+function turnOffScreen(){
+    websocketsend('fadeOut', {}); // turn off backlight
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
 
 }
