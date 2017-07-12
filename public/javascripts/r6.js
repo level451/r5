@@ -648,8 +648,11 @@ function switchPress(s){
             break;
         case 'playvideo':
             // key pressed in playvideo
-            specialMode = 'volume';
-            drawVolume();
+            if (!demoMode){ // disable volume from video in demoMode
+                specialMode = 'volume';
+                drawVolume();
+
+            }
             break;
 
     }
@@ -821,6 +824,10 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
+                        if (sysState == 'playvideo'){
+                            video.pause()
+
+                        }
                         console.log('cue - data:'+x.data);
                         if (inSystemMenu == false){ //dont process cues in system menu
                             switch (x.type)
@@ -952,7 +959,7 @@ function drawUnitStatus(unitinfo,data){
 
 }
 function fadeIn(t){
-        if (fadeTime == 0 ){
+        if (fadeTime == 0 || sysState != 'fadeinslide'){
         return
     }
 
@@ -996,7 +1003,7 @@ function fadeIn(t){
 }
 function fadeOut(t){
 
-    if (fadeTime == 0 ){
+    if (fadeTime == 0  || sysState != 'fadeoutslide' ){
         return
     }
 

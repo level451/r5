@@ -215,10 +215,25 @@ function wsData(data,id){
                 console.log(wiz.ShowName);
                 console.log(wiz.Directory)
                 var path = './public/show/'+wiz.ShowName+'/'+wiz.Directory+'/'
-                fs.access(path+'slide'+data.data.cue+'.jpg', (err) => {
+                fs.access(path+'slide'+data.data.cue+'.mp4', (err) => {
                     if (!err){
                         console.log('found slide'+data.data.cue)
-                        cp.incommingCue(wiz.ShowName+' GO slide'+data.data.cue+'.jpg')
+                        cp.incommingCue(wiz.ShowName+' GO slide'+data.data.cue+'.mp4')
+                    } else
+
+                    {
+                        // no mp4 now check for jpgs and audio
+                        fs.access(path+'slide'+data.data.cue+'.jpg', (err) => {
+                            if (!err){
+                                console.log('found slide'+data.data.cue)
+                                cp.incommingCue(wiz.ShowName+' GO slide'+data.data.cue+'.jpg')
+                            }
+
+                        })
+
+
+
+
                     }
 
 
