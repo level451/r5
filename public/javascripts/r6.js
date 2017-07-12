@@ -960,7 +960,8 @@ function drawUnitStatus(unitinfo,data){
 }
 function fadeIn(t){
         if (fadeTime == 0 || sysState != 'fadeinslide'){
-        return
+
+            return
     }
 
     if (!startTime) {
@@ -1029,9 +1030,10 @@ function fadeOut(t){
 }
 function playVideo(d){
     video.type = "video/mp4";
-    websocketsend('fadeIn',{});
+
 
     video.oncanplay = function(){
+        websocketsend('fadeIn',{});
         console.log("playback can begin");
         sysState = 'playvideo'; // set mode to video -
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1048,6 +1050,16 @@ function playVideo(d){
         },wiz.FadeOut*1000);
         sysState = 'idle'; // set mode to video -
     };
+    video.onerror = function(){
+        console.log('video onerror')
+        websocketsend('fadeOut',{});
+        ctx.globalAlpha = 1; // erase the screen after the backlight is off
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        sysState = 'idle'; // set mode to video -
+
+    }
     video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
 }
 function playAudio(d){
@@ -1136,10 +1148,11 @@ function drawVolume() {
             ctx.globalAlpha =1;
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+            if (typeof(img) == "object") {
+                drawImage()
+            }
         }
-        if (typeof(img) == "object") {
-            drawImage()
-        }
+
         specialMode = '';
         if (sysState == 'idle'){
             websocketsend('fadeOut',{}); // turn off backlight
