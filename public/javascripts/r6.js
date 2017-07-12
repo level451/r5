@@ -838,6 +838,8 @@ function websockstart(){
                     case "cue":
                         if (displayState == 'playvideo'){
                             video.pause()
+                            audioState='idle'
+                            displayState='idle'
 
                         }
                         console.log('cue - data:'+x.data);
@@ -1054,6 +1056,7 @@ function playVideo(d){
         websocketsend('fadeIn',{});
         console.log("playback can begin");
         displayState = 'playvideo'; // set mode to video -
+        audioState = 'playvideo';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         video.volume = wiz.Volume/100;
         video.play()
@@ -1066,6 +1069,7 @@ function playVideo(d){
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         },wiz.FadeOut*1000);
+        audioState = 'idle';
         displayState = 'idle'; // set mode to video -
     };
     video.onerror = function(){
