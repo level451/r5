@@ -117,10 +117,10 @@ function readAllSwitches(){//switch 3 is down and timed out
             sendSwitchData(7);
             break;
         case 1: //switch 2 is down
-            sendSwitchData(6);
+            sendSwitchData(5);
             break;
         case 2: //switch 1 is down
-            sendSwitchData(5);
+            sendSwitchData(6);
             break;
         case 3: // no switches are  down
             sendSwitchData(4);
