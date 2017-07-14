@@ -67,11 +67,11 @@ exports.setupSwitches = function(){
         }
         switch(value){
             case 0:
-                sendSwitchData(1);
+                sendSwitchData(100);
                    // llibR6.wifiandPanIdcheckandset(); //for testing only
                 break;
             case 1:
-                sendSwitchData(100);
+                sendSwitchData(1);
 
                 break;
         }
@@ -83,10 +83,10 @@ exports.setupSwitches = function(){
         }
         switch(value){
             case 0:
-                sendSwitchData(2);
+                sendSwitchData(200);
                 break;
             case 1:
-                sendSwitchData(200);
+                sendSwitchData(2);
                 break;
         }
 
@@ -117,10 +117,10 @@ function readAllSwitches(){//switch 3 is down and timed out
             sendSwitchData(7);
             break;
         case 1: //switch 2 is down
-            sendSwitchData(5);
+            sendSwitchData(6);
             break;
         case 2: //switch 1 is down
-            sendSwitchData(6);
+            sendSwitchData(5);
             break;
         case 3: // no switches are  down
             sendSwitchData(4);
