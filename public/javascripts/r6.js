@@ -77,7 +77,7 @@ function load() {
     // draw the welcome image
 
     canvas.addEventListener("click", canvasClick, false);
-    var welcomeImage = new Image();
+    welcomeImage = new Image();
     welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
     websockstart();
 
@@ -696,6 +696,7 @@ var drawdown = false;
     const spacingMultiplier = 1.4; //1.12; //line spacing
     const menuOffset =  2;//1; // select menu item location - range about -2 to 2
 
+ctx.drawImage(welcomeImage,10,10,90*2,58*2)
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
