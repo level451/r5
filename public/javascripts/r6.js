@@ -693,7 +693,7 @@ var counter = 1;
     ctx.font = (200/itemsToDisplay)*scale+'px Verdana';
 var drawup = false;
 var drawdown = false;
-    const spacingMultiplier = 1.4; //1.12; //line spacing
+    const spacingMultiplier = 1.25; //1.12; //line spacing
     const menuOffset =  2;//1; // select menu item location - range about -2 to 2
 
 ctx.drawImage(welcomeImage,10,10,90*2,58*2)

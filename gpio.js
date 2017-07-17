@@ -67,11 +67,11 @@ exports.setupSwitches = function(){
         }
         switch(value){
             case 0:
-                sendSwitchData(100);
+                sendSwitchData(1);
                    // llibR6.wifiandPanIdcheckandset(); //for testing only
                 break;
             case 1:
-                sendSwitchData(1);
+                sendSwitchData(100);
 
                 break;
         }
@@ -83,10 +83,10 @@ exports.setupSwitches = function(){
         }
         switch(value){
             case 0:
-                sendSwitchData(200);
+                sendSwitchData(2);
                 break;
             case 1:
-                sendSwitchData(2);
+                sendSwitchData(200);
                 break;
         }
 
