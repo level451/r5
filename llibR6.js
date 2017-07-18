@@ -313,14 +313,7 @@ exports.getUnitSettings = function(){
             global.Battery = filetxt;
             console.log("Battery Voltage: "+ global.Battery);
         }
-        fs.readFile(macAddress, 'utf8', (err,filetxt) =>{
-            if(err){
-                console.log("MAC ERROR:  " + err);
-            }
-            else {
-                global.Mac = filetxt;
-                console.log("Mac Address: "+ global.Mac);
-            }
+
 
 
             fs.readFile(sysTemp, 'utf8', (err, filetxt) => {
@@ -353,7 +346,7 @@ exports.getUnitSettings = function(){
 
             });
 
-        });
+       // });
 
     });
 }
@@ -524,6 +517,16 @@ exports.wifiandPanIdcheckandset= function(){
                 }, 1600);
             }
         });
+        fs.readFile(macAddress, 'utf8', (err,filetxt) => {
+            if (err) {
+                console.log("MAC ERROR:  " + err);
+            }
+            else {
+                global.Mac = filetxt;
+                console.log("Mac Address: " + global.Mac);
+            }
+        });
+
     }
 }
 
