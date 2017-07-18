@@ -882,6 +882,7 @@ function websockstart(){
                         wiz.Temperature = x.data.Temperature;
                         wiz.firmwaveVersion = x.data.firmwareVersion;
                         wiz.IPAddress = x.data.IPAddress;
+                        wiz.MACAddress = x.data.MACAddress;
                         if (displayState == "Unit Status"){
                             drawUnitStatus(true,x.data);
                         }else {
@@ -1011,6 +1012,7 @@ function drawUnitStatus(unitinfo,data){
         ctx.fillText(data.Temperature, 673,344);
         ctx.fillText(data.firmwareVersion,295,444)
         ctx.fillText(data.IPAddress,620,442)
+        ctx.fillText(data.MACAddress,300,470)
 
     }else
     {
