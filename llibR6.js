@@ -9,7 +9,7 @@ var pjson = require('./package.json');
 
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
-const macAddress = "/sys/class/net/eth0/address"; // this is for nanopi 2
+const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2
 global.testMode = false;
 global.demoMode = false;
 var timerBacklightOn;
