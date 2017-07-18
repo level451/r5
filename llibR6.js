@@ -300,8 +300,8 @@ exports.getUnitSettings = function(){
 
         require('dns').lookup(require('os').hostname(), function (err, add, fam) {
             console.log('addr: '+add);
-            ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA',Mac: 'NA'
-                , IPAddress: global.uri,
+            ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA',MACAddress: 'NA'
+                , IPAddress: add,
                 firmwareVersion: pjson.version}}),'r6');
 
         });

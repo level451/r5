@@ -1012,7 +1012,10 @@ function drawUnitStatus(unitinfo,data){
         ctx.fillText(data.Temperature, 673,344);
         ctx.fillText(data.firmwareVersion,295,444)
         ctx.fillText(data.IPAddress,620,442)
-        ctx.fillText(data.MACAddress,300,470)
+        ctx.fillStyle = "#FF00FF";
+
+        ctx.fillText('MAC:'+data.MACAddress,(settings.webPage.width/2)-(ctx.measureText('MAC:'+data.MACAddress).width/2),470);
+
 
     }else
     {
@@ -1429,7 +1432,7 @@ function drawUpdateUnit(){
         ctx.fillText('Please go to this URL', 50,120);
         ctx.strokeStyle="green";
 
-        ctx.fillText('http://'+wiz.IPAddress+':'+settings.webServer.listenPort+'/newfiles', 50,160);
+        ctx.fillText('http://'+wiz.IPAddress+':'+settings.webServer.listenPort+'/updateunit', 50,160);
         ctx.strokeStyle="white";
 
         ctx.fillText('In a web browser to upload or update show files', 50,200);
