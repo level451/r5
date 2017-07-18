@@ -297,13 +297,9 @@ String.prototype.rpad = function(length) {
 exports.getUnitSettings = function(){
     console.log("We are getUnitSettings");
     if(os.type() == "Windows_NT"){// if a windows system, then we can return nothing
-        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-            console.log('addr: '+add);
-            ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA'
-                , IPAddress: add,
-                firmwareVersion: pjson.version}}),'r6');
-
-        });
+        ws.send(JSON.stringify({object:'unitStatus',data:{Battery:'NA',Pan:'NA',Signal:'NA',Temperature:'NA',Mac: 'NA'
+        , IPAdress: global.uri,
+            firmwareVersion: pjson.version}}),'r6');
         return;
     }
     var Battery;
@@ -342,6 +338,7 @@ exports.getUnitSettings = function(){
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
                                 IPAddress: global.myuri,
+                                MACAddress: global.Mac,
                                 firmwareVersion: pjson.version
                             }
                         }), 'r6');
