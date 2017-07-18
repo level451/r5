@@ -39,7 +39,6 @@ app.use(function(req, res, next) {
 var server = app.listen(settings.webServer.listenPort, function () {
     var host = server.address().address;
     var port = server.address().port;
-    //console.log('Http server listening at http://%s:%s', host, port);
     console.log(ll.ansi('brightBlue','Webserver listening at http://localhost:'+settings.webServer.listenPort));
 });
 

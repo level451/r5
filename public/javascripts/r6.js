@@ -88,6 +88,11 @@ function load() {
 
     };
     welcomeImage.onload = function() {
+        setTimeout(function(){
+            websocketsend('requestunitstatus',{});
+            console.log('requested unit status')
+        },5000);
+
         ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
         displayState = 'idle';
         audioState = 'idle';
@@ -285,6 +290,7 @@ function switchPress(s){
     var speed;
 if (audioState == 'idle') {
     switch (displayState) {
+        case 'UpdateUnit':
         case 'Test Mode':
 // any switch from test goes back to system menu
             inSystemMenu = true;
@@ -596,6 +602,11 @@ if (audioState == 'idle') {
                                 displayState = 'idle';
 
                                 break;
+                            case 'Update Unit':
+                                displayState = 'UpdateUnit';
+                                drawUpdateUnit();
+                                break;
+
                             default:
                                 console.log('unprocessed system menu item:' + systemMenu[menuItem - 1])
 
@@ -865,6 +876,12 @@ function websockstart(){
                         break;
 
                     case "unitStatus":
+                        wiz.Battery = x.data.Battery;
+                        wiz.Pan = x.data.Pan;
+                        wiz.Signal = x.data.Signal;
+                        wiz.Temperature = x.data.Temperature;
+                        wiz.firmwaveVersion = x.data.firmwareVersion;
+                        wiz.IPAddress = x.data.IPAddress;
                         if (displayState == "Unit Status"){
                             drawUnitStatus(true,x.data);
                         }else {
@@ -1386,4 +1403,35 @@ function turnOffScreen(){
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
 
+}
+function drawUpdateUnit(){
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+
+    ctx.font = '30px Verdana';
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText('Update Unit', 50,25);
+        ctx.beginPath();
+    ctx.strokeStyle="white";
+    ctx.lineWidth=2;
+    ctx.moveTo(0,37);
+    ctx.lineTo(canvas.width,37);
+    if (!wiz.IPAddress){
+        ctx.fillText('Unable to obtain unit ipaddress - requesting ...', 50,120);
+        ctx.fillText('Press any button and try again', 50,160);
+        websocketsend('requestunitstatus',{});
+    } else
+    {
+        ctx.fillText('Please go to this URL', 50,120);
+        ctx.strokeStyle="green";
+
+        ctx.fillText('http://'+wiz.IPAddress+':'+settings.webServer.listenPort+'/newfiles', 50,160);
+        ctx.strokeStyle="white";
+
+        ctx.fillText('In a web browser to upload or update show files', 50,200);
+}
+
+    ctx.stroke();
 }
