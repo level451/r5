@@ -119,6 +119,47 @@ function load() {
 
 }
 function switchPress(s){
+    if (s == 6) {
+        clearTimeout(backlightTimer);
+        clearTimeout(volTimer);
+        clearTimeout(welcomeImageTimeout);
+
+
+        if (displayState == 'playvideo'){
+            video.pause()
+            audioState='idle'
+        }
+        if (specialMode){
+            specialMode = false;
+        }
+        if (audioState == 'playaudio'){
+            if (typeof(audio) == 'object'){ // if audio is an object at this point it is currently playing
+                audio.pause();
+                audioState = 'idle';
+            }
+
+        }
+        websocketsend('backlightOn', {}); // turn on backlight
+        inSystemMenu = true;
+        if (demoMode){
+            turnOffDemoMode(); // take out of demo mode
+        }
+
+        slideHistroyMode = false; //take of of slide history mode
+
+        websocketsend('testModeOff', {}); // turn off test mode
+
+
+        menuItem = 1;
+        displayState = 'systemMenu';
+        ctx.globalAlpha = 1;
+
+        drawMenuText(systemMenu, menuItem);
+
+        return;
+
+
+    }
     if (demoMode && !specialMode && displayState != 'userMenu'){
         switch(s) {
             case 1:
@@ -695,8 +736,10 @@ var drawup = false;
 var drawdown = false;
     const spacingMultiplier = 1.25; //1.12; //line spacing
     const menuOffset =  2;//1; // select menu item location - range about -2 to 2
+if (!itemonly){
+    ctx.drawImage(welcomeImage,10,10,90*2,58*2)
+}
 
-ctx.drawImage(welcomeImage,10,10,90*2,58*2)
 
 //for (var i = item-(Math.floor(itemsToDisplay/2));i<(itemsToDisplay-(Math.floor(itemsToDisplay/2))+1);++i)
 if (!itemonly){
