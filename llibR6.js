@@ -559,10 +559,17 @@ exports.getIPAddres = function(){
 function udp()
 {
     const dgram = require('dgram');
-    const client = dgram.createSocket('udp4');
-    client.send('test message',41235,'239.255.255.250',(err) =>{
-    console.log('udp sent:'+err)
-        client.close();
-        console.log('udp sent1')
-    });
+    setInterval(function(){
+
+        console.log('int')
+        const client = dgram.createSocket('udp4');
+
+        client.send('test message',41235,'239.255.255.250',(err) =>{
+
+            console.log('udp sent:'+err)
+            client.close();
+            console.log('udp sent1')
+        });
+    },5000)
+
 }
