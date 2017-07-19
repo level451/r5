@@ -340,7 +340,7 @@ exports.getUnitSettings = function(){
                         global.Pan = Pan;
                         ws.send(JSON.stringify({object: 'unitStatus',
                             data: {
-                                Battery: global.Battery,
+                                Battery: (parseInt(global.Battery)*.003381234).toFixed(2).toString(),
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
