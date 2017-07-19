@@ -558,12 +558,21 @@ exports.getIPAddres = function(){
 }
 function udp()
 {
- return
     const dgram = require('dgram');
     const client = dgram.createSocket('udp4');
-    client.addMembership('239.255.255.250')
-    client.send('test message', 41234,'localhost', (err) => {
-        console.log('udp sent')
-        client.close();
+    client.on('message', function (message, rinfo) {
+        console.log('Message from: ' + rinfo.address + ':' + rinfo.port +' - ' + message);
     });
-}
+    client.on('listening', function () {
+        var address = client.address();
+        console.log('UDP Client listening on ' + address.address + ":" + address.port);
+        //client.addMembership()
+        client.setBroadcast(true);
+        client.send('test message', 41234,'239.255.255.250', (err) => {
+            console.log('udp sent')
+        });
+
+    });
+
+    client.bind();
+    }
