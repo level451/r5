@@ -1,9 +1,9 @@
 {
     "webServer": {
-        "listenPort": 3111
+        "listenPort": 4111
     },
     "webSocket": {
-        "listenPort": 3112,
+        "listenPort": 4112,
         "maxConnections": 10
     },
     "webPage":{
