@@ -518,11 +518,13 @@ exports.wifiandPanIdcheckandset= function(){
             wiz.PanID = wiz.PanID.trim();
             Pan = Pan.trim();
             console.log("PAN ID Want: " + wiz.PanID + " Have: " + Pan + " Pan Id Want length: "+ wiz.PanID.length+ " Have Length: " + Pan.length);
-            if (Pan != wiz.PanID) {//if the pan id is not the one we want then change it
-                console.log("changing Pan ID");
-                setTimeout(function () {
-                    xbee.xbeeSetPanID(0, 0, wiz.PanID)
-                }, 1600);
+            if(wiz.PanID) {
+                if ((Pan != wiz.PanID) && (wiz.PanID.length > 3)) {//if the pan id is not the one we want then change it // and make sure tha there is a valid panID
+                    console.log("changing Pan ID");
+                    setTimeout(function () {
+                        xbee.xbeeSetPanID(0, 0, wiz.PanID)
+                    }, 1600);
+                }
             }
         });
         fs.readFile(macAddress, 'utf8', (err,filetxt) => {
