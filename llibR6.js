@@ -22,7 +22,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
 }
 
-
+udp(); // start the udp server
 exports.openSerialPort = function(portname,cb)
 {
     // console.log("Attempting to open serial port "+portname);
@@ -555,4 +555,14 @@ exports.getIPAddres = function(){
     }
     global.myuri = addresses[0];
     console.log('My IP Address 0 is: ' + global.myuri );
+}
+function udp()
+{
+    const dgram = require('dgram');
+    const client = dgram.createSocket('udp4');
+    client.addMembership('239.255.255.250')
+    client.send('test message', 41234,'localhost', (err) => {
+        console.log('udp sent')
+        client.close();
+    });
 }
