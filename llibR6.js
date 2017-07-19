@@ -558,6 +558,7 @@ exports.getIPAddres = function(){
 }
 function udp()
 {
+ return
     const dgram = require('dgram');
     const client = dgram.createSocket('udp4');
     client.addMembership('239.255.255.250')
