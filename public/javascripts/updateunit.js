@@ -46,37 +46,55 @@ function websocketsend(type,data){
 
 }
 function fileSelectHandler(e) {
-    console.log('here')
-
+    var counter = 0;
+    console.log(e)
 
     // fetch FileList object
-    var files = e.target.files || e.dataTransfer.files;
- console.log(e.target.files)
+    files = e.target.files // || e.dataTransfer.files;
+ //console.log(e.target.files)
     // process all File objects
     var reader = new FileReader();
     reader.onload = function(e) {
-        var contents = e.target.result;
         // This goes here:
-        window.crypto.subtle.digest(
-            {
-                name: "SHA-256",
-            },
-            contents //The data you want to hash as an ArrayBuffer
-        )
-            .then(function(hash){
-                //returns the hash as an ArrayBuffer
-                console.log(new Uint8Array(hash));
-            })
-            .catch(function(err){
-                console.error(err);
-            });
-    };
-    // for (var i = 0, f; f = files[i]; i++) {
-        f = files[0]
+        sha(e.target.result,function(hash){
 
-         console.log(f.name)
-    reader.readAsArrayBuffer(f);
-         //ParseFile(f);
-    // }
+            console.log(files[counter].webkitRelativePath,new Uint8Array(hash),counter);
+
+            files[counter].sha=new Uint8Array(hash);
+            counter++
+
+            if (counter < files.length){
+
+                reader.readAsArrayBuffer(files[counter]);
+
+            }
+
+        })
+       };
+
+
+
+        reader.readAsArrayBuffer(files[counter]);
+
+
+}
+function sha(file,cb){
+    window.crypto.subtle.digest(
+        {
+            name: "SHA-256",
+        },
+       file //The data you want to hash as an ArrayBuffer
+    )
+        .then(function(hash){
+            //returns the hash as an ArrayBuffer
+
+            if(cb){
+                cb(hash)
+            }
+        })
+        .catch(function(err){
+            console.error(err);
+        });
+
 
 }
