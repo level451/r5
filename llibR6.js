@@ -560,6 +560,7 @@ exports.getIPAddres = function(){
 }
 function udp()
 {
+    return;
     const dgram = require('dgram');
    // const client = dgram.createSocket('udp4');
     //const client = dgram.createSocket({type:'udp4',reuseAddr:true});

@@ -91,10 +91,10 @@ function load() {
         setTimeout(function(){
             websocketsend('requestunitstatus',{});
             console.log('requested unit status')
-        },5000);
+        },17000);
 
         ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
-        displayState = 'idle';
+        displayState = 'welcomeImage';
         audioState = 'idle';
         websocketsend('fadeIn', {});
         languageList = getLanguages();
@@ -102,11 +102,16 @@ function load() {
         welcomeImageTimeout = setTimeout(function()
         {
             if (wiz.Directory && wiz.Directory != '') {
-                displayState = 'idle';
-                ctx.fillStyle = "#000000";
-               ctx.fillRect(0, 0, canvas.width, canvas.height);
                 websocketsend('fadeOut', {});
+                setTimeout(function(){
+                    if (displayState == 'welcomeImage')
+                    {
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        displayState = 'idle';
 
+                    }
+                },wiz.FadeOut)
             } else {
 
                 menuItem = 1;
@@ -115,7 +120,7 @@ function load() {
             }
 
 
-        },2000
+        },wiz.OnTime*1000
         )
 
 
@@ -898,6 +903,10 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
+                        if (displayState != 'idle'){
+                            clearTimeout(welcomeImageTimeout);
+
+                        }
                         if (displayState == 'playvideo'){
                             video.pause()
                             audioState='idle'
@@ -1157,9 +1166,11 @@ function playAudio(d){
     }
 
     audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d);
-    //if (typeof(audio) == 'object'){
+    audio.onplay=function(){
         audio.volume = wiz.Volume/100;
-    //}
+    }
+
+
     audio.onended=function(){
         console.log('playback ended');
         if (displayState == 'adjustingvolume'){
