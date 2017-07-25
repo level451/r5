@@ -51,11 +51,32 @@ function fileSelectHandler(e) {
 
     // fetch FileList object
     var files = e.target.files || e.dataTransfer.files;
-
+ console.log(e.target.files)
     // process all File objects
-    for (var i = 0, f; f = files[i]; i++) {
-        console.log(f)
-        //ParseFile(f);
-    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var contents = e.target.result;
+        // This goes here:
+        window.crypto.subtle.digest(
+            {
+                name: "SHA-256",
+            },
+            contents //The data you want to hash as an ArrayBuffer
+        )
+            .then(function(hash){
+                //returns the hash as an ArrayBuffer
+                console.log(new Uint8Array(hash));
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    };
+    // for (var i = 0, f; f = files[i]; i++) {
+        f = files[0]
+
+         console.log(f.name)
+    reader.readAsArrayBuffer(f);
+         //ParseFile(f);
+    // }
 
 }

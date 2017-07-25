@@ -3,13 +3,11 @@
   "version": "0.0.3",
   "dependencies": {
     "ejs": "^2.5.5",
-    "express": "^4.14.1",
-    "request": "^2.79.0",
-    "ws": "^2.0.3",
-    "serialport": "^4.0.7",
-    "onoff": "*",
     "exec-series": "*",
-    "serialport": "^4.0.6"
-
+    "express": "^4.14.1",
+    "onoff": "*",
+    "request": "^2.79.0",
+    "serialport": "^4.0.7",
+    "ws": "^2.0.3"
   }
 }
