@@ -29,9 +29,11 @@ app.get('/cue', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
     res.render('cue.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
 });
-app.get('/main', function (req, res) {
-    res.render('main.ejs',{options:global.settings.options,things:global.things,wsport:settings.webSocket.listenPort});
+app.get('/updateunit', function (req, res) {
+    //   res.render('test.ejs', { title: 'LED' });
+    res.render('updateunit.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
 });
+
 app.use(function(req, res, next) {
     res.status(404).send('Sorry cant find that!');
 });
