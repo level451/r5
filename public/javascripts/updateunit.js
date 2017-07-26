@@ -54,31 +54,35 @@ function fileSelectHandler(e) {
  //console.log(e.target.files)
     // process all File objects
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function() {
         // This goes here:
-        sha(e.target.result,function(hash){
+     //   files[counter].data = e.target.result;
 
-            console.log(files[counter].webkitRelativePath,new Uint8Array(hash),counter);
+        console.log(files[counter].webkitRelativePath,files[counter], counter);
+        websocketsend('file',
+            {
+                filename:files[counter].name,
+                lastModified:files[counter].lastModified,
+                size:files[counter].size,
+                data:reader.result.substring(reader.result.indexOf(',')+1),
+                relativePath:files[counter].webkitRelativePath
+            })
+        // counter++
+        //
+        // if (counter < files.length) {
+        //     reader.readAsDataURL(files[counter]);
+        // }
 
-            files[counter].sha=new Uint8Array(hash);
-            counter++
-
-            if (counter < files.length){
-
-                reader.readAsArrayBuffer(files[counter]);
-
-            }
-
-        })
-       };
+    }
 
 
 
-        reader.readAsArrayBuffer(files[counter]);
+
+        reader.readAsDataURL(files[counter]);
 
 
 }
-function sha(file,cb){
+function transferFile(file,cb){
     window.crypto.subtle.digest(
         {
             name: "SHA-256",

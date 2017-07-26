@@ -148,6 +148,7 @@ exports.send = function(data,id,binary)
  * Created by todd on 3/14/2016.
  */
 function wsData(data,id){
+    const fs = require('fs');
     switch(data.type) {
         case "simbutton":
             ws.send(JSON.stringify({object:'simbutton',data:data.data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
@@ -162,7 +163,6 @@ function wsData(data,id){
             cp.incommingCue(data.data)
             break;
         case "selectshow":
-            var fs=require('fs');
             ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
             fs.writeFileSync('./public/show/show.def',data.data.ShowName) // switch to the new show
 
@@ -210,7 +210,6 @@ function wsData(data,id){
             break;
         case "demoCue":
             if (global.demoMode){
-                var fs = require('fs');
                 console.log('Demo Mode Cue received:'+data.data.cue)
                 console.log(wiz.ShowName);
                 console.log(wiz.Directory)
@@ -249,6 +248,27 @@ function wsData(data,id){
         case "setDirectory":
             wiz.Directory = data.data.directory;
             break;
+        case "file":
+            var file = data.data;
+
+       console.log(file.filename)
+                             console.log(file.data.length)
+             fs.writeFile("temp/"+file.filename, file.data, 'base64', function(err) {
+                 console.log('file written')
+                 delete file.data
+                 console.log(JSON.stringify(file,null,4))
+                    if (err){
+                        console.log(err);
+                    }
+                    fs.utimes("temp/"+file.filename,file.lastModified/1000,file.lastModified/1000,function(err){
+                        console.log('error:'+err);
+                        console.log ('create time updated:'+new Date(file.lastModified))
+
+                    })
+
+                 })
+            break;
+
         default:
             console.log('unknown datatype '+data.type)
 
