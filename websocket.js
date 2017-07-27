@@ -7,8 +7,10 @@ console.log = (function () {return function (x) {if (debug) {process.stdout.writ
 websocket = {};
 var request = require('request');
 var llibR6 = require('./llibR6');
-
-
+var showDirectoryCreated= false
+var lastDirectory = ''
+//const showPath = 'temp/'
+const showPath = 'public/show/' // also in llibR6
 //Set up Web socket for a connection
 //exports.start = function(wscallback,port){
 var WebSocketServer = require('ws').Server;
@@ -235,19 +237,46 @@ function wsData(data,id){
         case "setDirectory":
             wiz.Directory = data.data.directory;
             break;
-        case "file":
+        case "file": //write the file received
             var file = data.data;
+            // verifiy the show is directory exists
+            if (!showDirectoryCreated){
+                //showDirectoryCreated = true;
+                try {
+                    fs.mkdirSync(showPath+file.relativePath.substr(0,file.relativePath.indexOf('/')))
+                } catch (err) {
+                    if (err.code !== 'EEXIST') {throw err}
 
-       console.log(file.filename)
+                }
+            }
+           //check the show directory
+            var s0 = file.relativePath.indexOf('/');
+            var s1 = file.relativePath.lastIndexOf('/');
+            if (s0 != s1){ // contains a service path
+                var servicePath = file.relativePath.substr(0,s1+1)
+                if (lastDirectory != servicePath){
+                    console.log('checking directory:'+servicePath)
+                    lastDirectory != servicePath
+                    try {
+                        fs.mkdirSync(showPath+servicePath)
+                    } catch (err) {
+                        if (err.code !== 'EEXIST') {throw err}
+                    }
+
+
+                }
+
+            }
+            console.log(file.filename)
                              console.log(file.data.length)
-             fs.writeFile("temp/"+file.relativePath, file.data, 'base64', function(err) {
+             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                  console.log('file written')
                  delete file.data
                  console.log(JSON.stringify(file,null,4))
                     if (err){
                         console.log(err);
                     }
-                    fs.utimes("temp/"+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
+                    fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
                         if (err){console.log('error:'+err);}
                         console.log ('create time updated:'+new Date(file.lastModified))
                         ll.gotFile(file.relativePath)
@@ -292,6 +321,7 @@ function wsData(data,id){
             })
         break;
         case "uploadfiles":
+            showDirectoryCreated = false;
             var remoteFiles = data.data;
             console.log('Uploading files for:'+remoteFiles.show);
             ll.dirToObject(remoteFiles.show,function(localFiles){
@@ -302,7 +332,6 @@ function wsData(data,id){
 
                 }
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
-                        console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
                         ll.getFilesFromList(rslt.changeList);
                     })

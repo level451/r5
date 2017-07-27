@@ -1,4 +1,6 @@
 const debug = 1;
+const showPath = 'public/show/' //also in websocket
+
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
 os = require('os');
@@ -704,32 +706,36 @@ exports.compareFiles = function(local,remote,cb){
 exports.getFilesFromList = function (l){
    fileListCounter = 0;
    list =  l;
-   getNextFile()
-   return;
-    for (var i=0;i<rslt.changeList.length;++i){
-        switch(rslt.changeList[i].action){
-            case'delete':
-                ws.send(JSON.stringify({object:'updateStatus',text:'Deleting:'+rslt.changeList[i].name}),'updateunit');
-                fs.unlink('public/show/'+rslt.changeList[i].name,function(e){
-                    if (e){
-                        console.log('delete error:'+e)
-                    } else {
 
-                    }
-
-                })
-                break;
-            case'get':
-                break;
+    getNextFile()
 
 
-        }
+}
+function getNextFile() {
+
+    switch(list[fileListCounter].action ){
+        case'delete':
+
+            fs.unlink(showPath+list[fileListCounter].name,function(e){
+                if (e){
+                    console.log('delete error:'+e)
+                } else {
+                    exports.gotFile(list[fileListCounter].name)
+                }
+
+            })
+            break;
+        case'get':
+            ws.send(JSON.stringify({object:'getFile',name:list[fileListCounter].name}),'updateunit');
+
+            break;
 
 
     }
-}
-function getNextFile() {
-    ws.send(JSON.stringify({object:'getFile',name:list[fileListCounter].name}),'updateunit');
+
+
+
+
 
     // setTimeout(function () {
     //         gotFile(list[fileListCounter].name)
@@ -739,13 +745,20 @@ function getNextFile() {
 }
 exports.gotFile = function(filename){
     if (filename == list[fileListCounter].name){
-        ws.send(JSON.stringify({object:'updateStatus',text:'Got File:'+list[fileListCounter].name}),'updateunit');
+        if (list[fileListCounter].action == 'get'){
+            ws.send(JSON.stringify({object:'updateStatus',text:'Got File:'+list[fileListCounter].name+':'+list[fileListCounter].reason}),'updateunit');
+        } else {
+            ws.send(JSON.stringify({object:'updateStatus',text:'Deleted File:'+list[fileListCounter].name}),'updateunit');
+        }
+
 
         if (fileListCounter < list.length - 1) {
             ++fileListCounter
             getNextFile();
         } else {
             console.log('All files recieved');
+            ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'}),'updateunit');
+
         }
     }else{
         console.log('wrong file rec'+filename+':'+list[fileListCounter].name)
