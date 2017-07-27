@@ -664,3 +664,40 @@ function getWiz(show,cb){
         console.log('error:'+e)
     })
 }
+exports.compareFiles = function(local,remote,cb){
+  var changeList = [];
+  var filesToTransfer = 0;
+  var filesToDelete = 0;
+    for (r in remote) { // scan the remote object
+        if (local[r] == null){
+
+            changeList.push({name:r,action:'get',reason:'New' })
+            ++filesToTransfer;
+        } else
+        {
+            if (local[r].lastModified  != remote[r].lastModified){
+                changeList.push({name:r,action:'get',reason:'Date' })
+
+                ++filesToTransfer;
+            } else
+            {
+                if (local[r].size  != remote[r].size){
+                    changeList.push({name:r,action:'get',reason:'Size' })
+                    ++filesToTransfer;
+                }
+            }
+        }
+
+        }
+    for (l in local) { // scan the remote object
+        if (remote[l] == null){ // file deleted
+
+            changeList.push({name:l,action:'delete',reason:'Old' })
+            ++filesToDelete;
+        }
+
+    }
+
+    cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
+
+}

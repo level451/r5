@@ -1,5 +1,5 @@
 var pagename ='updateunit';
-
+o = null;
 function load() {
     websockstart();
     var selectfiles=document.getElementById('selectfiles')
@@ -21,6 +21,9 @@ function websockstart(){
                         break;
                     case "updateStatus":
                         updateStatus(x.text);
+                        break;
+                    case "updateStatusNLF":
+                        updateStatusNLF(x.text);
                         break;
                     case  "pageupdate":
                         document.getElementById("body").innerHTML = x.data.html
@@ -46,6 +49,17 @@ function websocketsend(type,data){
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
 
+}
+function upload(){
+   if(o){
+
+       websocketsend('uploadfiles',o);
+       updateStatus('requesting upload...')
+
+   }  else
+   {
+       updateStatus('select files first')
+   }
 }
 function fileSelectHandler(e) {
     document.getElementById('status').value = ''
@@ -78,7 +92,7 @@ function fileSelectHandler(e) {
             return;
 
         }
-        var o = {} // create the comparison object
+        o = {} // create the comparison object - global
         o.show = showWiz.ShowName;
         o.version = showWiz.Version;
         updateStatus('wiz.dat loaded -')
@@ -152,5 +166,10 @@ function fileSelectHandler(e) {
 function updateStatus(x){
     var status = document.getElementById('status');
     status.value=x+'\n'+status.value;
+
+}
+function updateStatusNLF(x){
+    var status = document.getElementById('status');
+    status.value=x+status.value;
 
 }

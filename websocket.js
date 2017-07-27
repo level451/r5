@@ -263,8 +263,13 @@ function wsData(data,id){
 
             ll.dirToObject(remoteFiles.show,function(localFiles){
                 if (!localFiles){
-
+                    localFiles={};
                     ws.send(JSON.stringify({object:'updateStatus',text:'No version found - upload required'}),'updateunit');
+                    ll.compareFiles(localFiles,remoteFiles,function(rslt){
+                        console.log(JSON.stringify(rslt.changeList,null,4))
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                    })
                     return;
                 }
                 ws.send(JSON.stringify({object:'updateStatus',text:'Remote Version '+localFiles.show+' Version:'+localFiles.version}),'updateunit');
@@ -274,12 +279,55 @@ function wsData(data,id){
                 } else
                 {
                     ws.send(JSON.stringify({object:'updateStatus',text:'Update required to Version:'+remoteFiles.version}),'updateunit');
-
+                    ll.compareFiles(localFiles,remoteFiles,function(rslt){
+                        console.log(JSON.stringify(rslt.changeList,null,4))
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                    })
 
                 }
 
             })
         break;
+        case "uploadfiles":
+            var remoteFiles = data.data;
+            console.log('Uploading files for:'+remoteFiles.show);
+            ll.dirToObject(remoteFiles.show,function(localFiles){
+                if (!localFiles) {
+                    localFiles = {};
+                }
+                    ll.compareFiles(localFiles,remoteFiles,function(rslt){
+                        console.log(JSON.stringify(rslt.changeList,null,4))
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        for (var i=0;i<rslt.changeList.length;++i){
+                            switch(rslt.changeList[i].action){
+                                case'delete':
+                                    ws.send(JSON.stringify({object:'updateStatus',text:'Deleting:'+rslt.changeList[i].name}),'updateunit');
+                                    fs.unlink('public/show/'+rslt.changeList[i].name,function(e){
+                                        if (e){
+                                            console.log('delete error:'+e)
+                                        } else {
+                                            ws.send(JSON.stringify({object:'updateStatusNLF',text:'Done'}),'updateunit');
+
+                                        }
+
+                                    })
+                                    break;
+                                case'get':
+                                    break;
+
+
+                            }
+
+
+                        }
+                    })
+
+
+
+            })
+            break;
         default:
             console.log('unknown datatype '+data.type)
 
