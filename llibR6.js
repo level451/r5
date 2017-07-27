@@ -393,7 +393,7 @@ exports.backlight = function(value,direction){
                 console.log("error in writing to backlight");
             }
             else {
-                console.log('The backlight value is now: ' + value);
+                //console.log('The backlight value is now: ' + value);
             }
         });
     }
