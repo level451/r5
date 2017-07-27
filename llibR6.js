@@ -580,7 +580,11 @@ function udp()
 exports.dirToObject = function(show,cb){
     var o = {} // this is the show object
     getWiz(show,function(w){ // get this show info from wiz
-        console.log(show+' file version:'+w.Version)
+        if (!w) { // returned false
+            cb(false);
+            return;
+        }
+        console.log('Local:' +show+' file version:'+w.Version)
         // get list of services
             o.show = w.ShowName;
             o.version = w.Version;
@@ -591,13 +595,13 @@ exports.dirToObject = function(show,cb){
                 }
             }
          //   o.services = services;
-            console.log('Found '+services.length+' services:'+services);
+            console.log('Local: Found '+services.length+' services:'+services);
             // now scan the services:
             for (var i=0;i<services.length;++i){
                 var dir = fs.readdirSync('public/show/'+show+'/'+services[i])
                 var stat;
                 var path;
-                console.log(services[i]+' - files:'+dir.length);
+                console.log('Local:' +services[i]+' - files:'+dir.length);
 
                 for (var j=0;j<dir.length;++j){
                     path = show+'/'+services[i]+'/'+dir[j]
@@ -626,7 +630,17 @@ exports.dirToObject = function(show,cb){
     })
 }
 function getWiz(show,cb){
+    try{
+        fs.accessSync('./public/show/'+show+'/wiz.dat')
+    }catch(e){
+        console.log('./public/show/'+show+'/wiz.dat does not exist')
+        cb(false)
+        return;
+    }
+
     rv = {};
+
+
     const rl = readline.createInterface({
         input: fs.createReadStream('./public/show/'+show+'/wiz.dat')
     });
@@ -646,5 +660,7 @@ function getWiz(show,cb){
         // add a list of available shows to wiz
         if (cb){cb(rv);}
     })
-
+    rl.on('error',(e)=> {
+        console.log('error:'+e)
+    })
 }

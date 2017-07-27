@@ -227,22 +227,9 @@ function wsData(data,id){
                                 console.log('found slide'+data.data.cue)
                                 cp.incommingCue(wiz.ShowName+' GO slide'+data.data.cue+'.jpg')
                             }
-
                         })
-
-
-
-
                     }
-
-
                 })
-
-
-
-
-
-
             }
             break;
         case "setDirectory":
@@ -269,6 +256,30 @@ function wsData(data,id){
                  })
             break;
 
+        case "comparefiles":
+            var remoteFiles = data.data;
+            console.log('Comparing Remote and Local Files for:'+remoteFiles.show);
+            ws.send(JSON.stringify({object:'updateStatus',text:'Reading remote file info'}),'updateunit');
+
+            ll.dirToObject(remoteFiles.show,function(localFiles){
+                if (!localFiles){
+
+                    ws.send(JSON.stringify({object:'updateStatus',text:'No version found - upload required'}),'updateunit');
+                    return;
+                }
+                ws.send(JSON.stringify({object:'updateStatus',text:'Remote Version '+localFiles.show+' Version:'+localFiles.version}),'updateunit');
+                if (localFiles.version == remoteFiles.version){
+                    ws.send(JSON.stringify({object:'updateStatus',text:'Same version found - no update required'}),'updateunit');
+                    return
+                } else
+                {
+                    ws.send(JSON.stringify({object:'updateStatus',text:'Update required to Version:'+remoteFiles.version}),'updateunit');
+
+
+                }
+
+            })
+        break;
         default:
             console.log('unknown datatype '+data.type)
 

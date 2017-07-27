@@ -19,7 +19,9 @@ function websockstart(){
                 switch(x.object){
                     case "things":
                         break;
-
+                    case "updateStatus":
+                        updateStatus(x.text);
+                        break;
                     case  "pageupdate":
                         document.getElementById("body").innerHTML = x.data.html
                         console.log('HTML BODY UPDATE')
@@ -46,10 +48,12 @@ function websocketsend(type,data){
 
 }
 function fileSelectHandler(e) {
+    document.getElementById('status').value = ''
     var counter = 0;
     console.log(e)
     // fetch FileList object
     files = e.target.files // || e.dataTransfer.files;
+    updateStatus('Files Chosen:'+files.length)
     // read the wiz.dat
     var wizReader = new FileReader();
     wizReader.onload = function() {
@@ -69,15 +73,17 @@ function fileSelectHandler(e) {
         console.log(JSON.stringify(showWiz,null,4));
         // verify this wiz.dat is in the right place
         if (files[k].webkitRelativePath  != showWiz.ShowName + '/wiz.dat'){
-            console.log('Wiz.dat found in the wrong location - aborting:')
-            console.log('Expecting:'+showWiz.ShowName + '/wiz.dat have:'+files[k].webkitRelativePath)
+            updateStatus('Wiz.dat found in the wrong location - aborting:')
+            updateStatus('Expecting:'+showWiz.ShowName + '/wiz.dat have:'+files[k].webkitRelativePath)
             return;
 
         }
         var o = {} // create the comparison object
         o.show = showWiz.ShowName;
         o.version = showWiz.Version;
-
+        updateStatus('wiz.dat loaded -')
+        updateStatus('Show Name:'+o.show);
+        updateStatus('Show Version:'+o.version);
         for (var i=0;i<files.length;++i) {
             o[files[i].webkitRelativePath] = {}
             o[files[i].webkitRelativePath].name = files[i].name;
@@ -85,26 +91,29 @@ function fileSelectHandler(e) {
             o[files[i].webkitRelativePath].lastModified = files[i].lastModified;
         }
             // got the file comparision object -
-        console.log(JSON.stringify(o,null,4))
+        updateStatus('Comparing local files to files on unit(remote)');
 
+        websocketsend('comparefiles',o);
         }
     // scan for wiz.dat in the filelist
     var filefound = false;
     for (var k=0;k<files.length;++k){
         if (files[k].name == 'wiz.dat'){
             filefound = true;
+
             break;
         }
 
     }
     if (filefound){
         // this calls back to wizReader.onload - convoluted but works
-        console.log('found wiz.dat')
+        updateStatus('wiz.dat found - loading...')
+
 
         wizReader.readAsText(files[k]);
     } else {
+        updateStatus('wiz.dat not found - aborting')
 
-        console.log('wiz .dat not found - aborting')
     }
 
     return
@@ -138,5 +147,10 @@ function fileSelectHandler(e) {
 
         reader.readAsDataURL(files[counter]);
 
+
+}
+function updateStatus(x){
+    var status = document.getElementById('status');
+    status.value=x+'\n'+status.value;
 
 }
