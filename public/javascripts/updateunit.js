@@ -29,6 +29,9 @@ function websockstart(){
                         document.getElementById("body").innerHTML = x.data.html
                         console.log('HTML BODY UPDATE')
                         break;
+                    case "getFile":
+                        getFile(x.name)
+                        break;
                     default:
                         console.log(x.object);
                     //  alert(x.object);
@@ -134,32 +137,7 @@ function fileSelectHandler(e) {
 
     //console.log(e.target.files)
     // process all File objects
-    var reader = new FileReader();
-    reader.onload = function() {
-        // This goes here:
-     //   files[counter].data = e.target.result;
 
-        console.log(files[counter].webkitRelativePath,files[counter], counter);
-        websocketsend('file',
-            {
-                filename:files[counter].name,
-                lastModified:files[counter].lastModified,
-                size:files[counter].size,
-                data:reader.result.substring(reader.result.indexOf(',')+1),
-                relativePath:files[counter].webkitRelativePath
-            })
-        // counter++
-        //
-        // if (counter < files.length) {
-        //     reader.readAsDataURL(files[counter]);
-        // }
-
-    }
-
-
-
-
-        reader.readAsDataURL(files[counter]);
 
 
 }
@@ -171,5 +149,47 @@ function updateStatus(x){
 function updateStatusNLF(x){
     var status = document.getElementById('status');
     status.value=x+status.value;
+
+}
+function getFile(name){
+    console.log('get file:'+name)
+    var reader = new FileReader();
+    reader.onload = function() {
+
+        console.log(files[k].webkitRelativePath,files[k]);
+        websocketsend('file',
+            {
+                filename:files[k].name,
+                lastModified:files[k].lastModified,
+                size:files[k].size,
+                data:reader.result.substring(reader.result.indexOf(',')+1),
+                relativePath:files[k].webkitRelativePath
+            })
+        // counter++
+        //
+        // if (counter < files.length) {
+        //     reader.readAsDataURL(files[counter]);
+        // }
+
+    }
+
+    var filefound = false;
+    for (var k=0;k<files.length;++k){
+        if (files[k].webkitRelativePath == name){
+            filefound = true;
+
+            break;
+        }
+
+    }
+    if (filefound){
+
+        reader.readAsDataURL(files[k]);
+
+    } else {
+        console.log('requested file not in the filelist:'+name)
+    }
+
+
 
 }

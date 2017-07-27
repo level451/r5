@@ -240,17 +240,17 @@ function wsData(data,id){
 
        console.log(file.filename)
                              console.log(file.data.length)
-             fs.writeFile("temp/"+file.filename, file.data, 'base64', function(err) {
+             fs.writeFile("temp/"+file.relativePath, file.data, 'base64', function(err) {
                  console.log('file written')
                  delete file.data
                  console.log(JSON.stringify(file,null,4))
                     if (err){
                         console.log(err);
                     }
-                    fs.utimes("temp/"+file.filename,file.lastModified/1000,file.lastModified/1000,function(err){
-                        console.log('error:'+err);
+                    fs.utimes("temp/"+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
+                        if (err){console.log('error:'+err);}
                         console.log ('create time updated:'+new Date(file.lastModified))
-
+                        ll.gotFile(file.relativePath)
                     })
 
                  })
@@ -262,11 +262,13 @@ function wsData(data,id){
             ws.send(JSON.stringify({object:'updateStatus',text:'Reading remote file info'}),'updateunit');
 
             ll.dirToObject(remoteFiles.show,function(localFiles){
-                if (!localFiles){
+                if (!localFiles){ // new show
                     localFiles={};
+                    delete remoteFiles.show;
+                    delete remoteFiles.version;
+
                     ws.send(JSON.stringify({object:'updateStatus',text:'No version found - upload required'}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
-                        console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
                     })
@@ -295,33 +297,14 @@ function wsData(data,id){
             ll.dirToObject(remoteFiles.show,function(localFiles){
                 if (!localFiles) {
                     localFiles = {};
+                    delete remoteFiles.show;
+                    delete remoteFiles.version;
+
                 }
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                         console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
-                        for (var i=0;i<rslt.changeList.length;++i){
-                            switch(rslt.changeList[i].action){
-                                case'delete':
-                                    ws.send(JSON.stringify({object:'updateStatus',text:'Deleting:'+rslt.changeList[i].name}),'updateunit');
-                                    fs.unlink('public/show/'+rslt.changeList[i].name,function(e){
-                                        if (e){
-                                            console.log('delete error:'+e)
-                                        } else {
-                                            ws.send(JSON.stringify({object:'updateStatusNLF',text:'Done'}),'updateunit');
-
-                                        }
-
-                                    })
-                                    break;
-                                case'get':
-                                    break;
-
-
-                            }
-
-
-                        }
+                        ll.getFilesFromList(rslt.changeList);
                     })
 
 
@@ -332,5 +315,10 @@ function wsData(data,id){
             console.log('unknown datatype '+data.type)
 
     }
+
+}
+exports.updateStatus = function(text){
+
+    ws.send(JSON.stringify({object:'updateStatus',text:text}),'updateunit');
 
 }

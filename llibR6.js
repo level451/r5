@@ -5,8 +5,8 @@ os = require('os');
 xbee = require("./Xbee");
 const readline = require('readline');
 var pjson = require('./package.json');
-
-
+list = [] // list for files to get
+fileListCounter = 0;
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
 const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2
@@ -699,5 +699,57 @@ exports.compareFiles = function(local,remote,cb){
     }
 
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
+
+}
+exports.getFilesFromList = function (l){
+   fileListCounter = 0;
+   list =  l;
+   getNextFile()
+   return;
+    for (var i=0;i<rslt.changeList.length;++i){
+        switch(rslt.changeList[i].action){
+            case'delete':
+                ws.send(JSON.stringify({object:'updateStatus',text:'Deleting:'+rslt.changeList[i].name}),'updateunit');
+                fs.unlink('public/show/'+rslt.changeList[i].name,function(e){
+                    if (e){
+                        console.log('delete error:'+e)
+                    } else {
+
+                    }
+
+                })
+                break;
+            case'get':
+                break;
+
+
+        }
+
+
+    }
+}
+function getNextFile() {
+    ws.send(JSON.stringify({object:'getFile',name:list[fileListCounter].name}),'updateunit');
+
+    // setTimeout(function () {
+    //         gotFile(list[fileListCounter].name)
+    //     }, 1000)
+
+
+}
+exports.gotFile = function(filename){
+    if (filename == list[fileListCounter].name){
+        ws.send(JSON.stringify({object:'updateStatus',text:'Got File:'+list[fileListCounter].name}),'updateunit');
+
+        if (fileListCounter < list.length - 1) {
+            ++fileListCounter
+            getNextFile();
+        } else {
+            console.log('All files recieved');
+        }
+    }else{
+        console.log('wrong file rec'+filename+':'+list[fileListCounter].name)
+    }
+
 
 }
