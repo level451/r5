@@ -307,7 +307,7 @@ function wsData(data,id){
                 if (localFiles.version == remoteFiles.version){
                     ws.send(JSON.stringify({object:'updateStatus',text:'Same version found - checking files'}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
-                      //  console.log(JSON.stringify(rslt.changeList,null,4))
+                        console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
                     })
@@ -316,7 +316,7 @@ function wsData(data,id){
                 {
                     ws.send(JSON.stringify({object:'updateStatus',text:'Update required to Version:'+remoteFiles.version}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
-                      //  console.log(JSON.stringify(rslt.changeList,null,4))
+                        console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
                     })
