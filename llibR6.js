@@ -608,22 +608,25 @@ exports.dirToObject = function(show,cb){
                 for (var j=0;j<dir.length;++j){
                     path = show+'/'+services[i]+'/'+dir[j]
                     stat = fs.statSync('public/show/'+path)
+                    if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
                     console.log(JSON.stringify(stat))
                     o[path] = {};
                     o[path].name = dir[j];
                     o[path].size = stat.size;
-                    o[path].lastModified = Math.trunc(stat.mtimeMs);
+                    //o[path].lastModified = Math.trunc(stat.mtimeMs);
                 }
             }
             // also add wiz.dat and Welcome.jpg
         path = show+'/wiz.dat';
         stat = fs.statSync('public/show/'+path);
+        if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
         o[path] = {};
         o[path].name = 'wiz.dat';
         o[path].size = stat.size;
         o[path].lastModified = Math.trunc(stat.mtimeMs);
         path = show+'/Welcome.jpg';
         stat = fs.statSync('public/show/'+path);
+        if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
         o[path] = {};
         o[path].name = 'Welcome.jpg';
         o[path].size = stat.size;
