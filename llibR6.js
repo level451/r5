@@ -678,7 +678,7 @@ exports.compareFiles = function(local,remote,cb){
         } else
         {
             if (local[r].lastModified  != remote[r].lastModified){
-                changeList.push({name:r,action:'get',reason:'Date' })
+                changeList.push({name:r,action:'get',reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
 
                 ++filesToTransfer;
             } else
