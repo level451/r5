@@ -48,10 +48,68 @@ function websocketsend(type,data){
 function fileSelectHandler(e) {
     var counter = 0;
     console.log(e)
-
     // fetch FileList object
     files = e.target.files // || e.dataTransfer.files;
- //console.log(e.target.files)
+    // read the wiz.dat
+    var wizReader = new FileReader();
+    wizReader.onload = function() {
+       // console.log('WIZ:'+wizReader.result)
+        showWiz = {}
+        var lines = wizReader.result.split('\n');
+        for(var line = 0; line < lines.length; line++){
+            if (lines[line].indexOf(':') != -1){ // make sure there is a :
+                showWiz[lines[line].substr(0,lines[line].indexOf(':'))]=lines[line].substr(lines[line].indexOf(':')+1).trim();
+
+            } else
+            {
+                console.log('Invalid line colon not found - ignoring:'+line);
+            }
+        }
+        console.log(files[k].name)
+        console.log(JSON.stringify(showWiz,null,4));
+        // verify this wiz.dat is in the right place
+        if (files[k].webkitRelativePath  != showWiz.ShowName + '/wiz.dat'){
+            console.log('Wiz.dat found in the wrong location - aborting:')
+            console.log('Expecting:'+showWiz.ShowName + '/wiz.dat have:'+files[k].webkitRelativePath)
+            return;
+
+        }
+        var o = {} // create the comparison object
+        o.show = showWiz.ShowName;
+        o.version = showWiz.Version;
+
+        for (var i=0;i<files.length;++i) {
+            o[files[i].webkitRelativePath] = {}
+            o[files[i].webkitRelativePath].name = files[i].name;
+            o[files[i].webkitRelativePath].size = files[i].size;
+            o[files[i].webkitRelativePath].lastModified = files[i].lastModified;
+        }
+            // got the file comparision object -
+        console.log(JSON.stringify(o,null,4))
+
+        }
+    // scan for wiz.dat in the filelist
+    var filefound = false;
+    for (var k=0;k<files.length;++k){
+        if (files[k].name == 'wiz.dat'){
+            filefound = true;
+            break;
+        }
+
+    }
+    if (filefound){
+        // this calls back to wizReader.onload - convoluted but works
+        console.log('found wiz.dat')
+
+        wizReader.readAsText(files[k]);
+    } else {
+
+        console.log('wiz .dat not found - aborting')
+    }
+
+    return
+
+    //console.log(e.target.files)
     // process all File objects
     var reader = new FileReader();
     reader.onload = function() {
@@ -79,26 +137,6 @@ function fileSelectHandler(e) {
 
 
         reader.readAsDataURL(files[counter]);
-
-
-}
-function transferFile(file,cb){
-    window.crypto.subtle.digest(
-        {
-            name: "SHA-256",
-        },
-       file //The data you want to hash as an ArrayBuffer
-    )
-        .then(function(hash){
-            //returns the hash as an ArrayBuffer
-
-            if(cb){
-                cb(hash)
-            }
-        })
-        .catch(function(err){
-            console.error(err);
-        });
 
 
 }

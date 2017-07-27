@@ -577,3 +577,74 @@ function udp()
     },5000)
 
 }
+exports.dirToObject = function(show,cb){
+    var o = {} // this is the show object
+    getWiz(show,function(w){ // get this show info from wiz
+        console.log(show+' file version:'+w.Version)
+        // get list of services
+            o.show = w.ShowName;
+            o.version = w.Version;
+            var services = [];
+            for (var key in w) {
+                if (key.indexOf('Service') == 0  ){
+                    services.push(w[key])
+                }
+            }
+         //   o.services = services;
+            console.log('Found '+services.length+' services:'+services);
+            // now scan the services:
+            for (var i=0;i<services.length;++i){
+                var dir = fs.readdirSync('public/show/'+show+'/'+services[i])
+                var stat;
+                var path;
+                console.log(services[i]+' - files:'+dir.length);
+
+                for (var j=0;j<dir.length;++j){
+                    path = show+'/'+services[i]+'/'+dir[j]
+                    stat = fs.statSync('public/show/'+path)
+                    o[path] = {};
+                    o[path].name = dir[j];
+                    o[path].size = stat.size;
+                    o[path].lastModified = Math.trunc(stat.mtimeMs);
+                }
+            }
+            // also add wiz.dat and Welcome.jpg
+        path = show+'/wiz.dat';
+        stat = fs.statSync('public/show/'+path);
+        o[path] = {};
+        o[path].name = 'wiz.dat';
+        o[path].size = stat.size;
+        o[path].lastModified = Math.trunc(stat.mtimeMs);
+        path = show+'/Welcome.jpg';
+        stat = fs.statSync('public/show/'+path);
+        o[path] = {};
+        o[path].name = 'Welcome.jpg';
+        o[path].size = stat.size;
+        o[path].lastModified = Math.trunc(stat.mtimeMs);
+        cb(o)
+
+    })
+}
+function getWiz(show,cb){
+    rv = {};
+    const rl = readline.createInterface({
+        input: fs.createReadStream('./public/show/'+show+'/wiz.dat')
+    });
+
+    rl.on('line', (line) => {
+        if (line.indexOf(':') != -1){ // make sure there is a :
+            // update the global.wiz object
+            //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+            rv[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).trim();
+
+        } else
+        {
+            console.log('Invalid line colon not found - ignoring:'+line);
+        }
+    });
+    rl.on('close',()=> {
+        // add a list of available shows to wiz
+        if (cb){cb(rv);}
+    })
+
+}
