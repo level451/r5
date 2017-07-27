@@ -608,6 +608,7 @@ exports.dirToObject = function(show,cb){
                 for (var j=0;j<dir.length;++j){
                     path = show+'/'+services[i]+'/'+dir[j]
                     stat = fs.statSync('public/show/'+path)
+                    console.log(JSON.stringify(stat))
                     o[path] = {};
                     o[path].name = dir[j];
                     o[path].size = stat.size;
