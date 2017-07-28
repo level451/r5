@@ -267,7 +267,7 @@ function wsData(data,id){
                 }
 
             }
-            if (file.split == false || file.first){
+            if (!file.split || file.first){
                 console.log('write')
                 // single part file or first part of a split file
                 fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
