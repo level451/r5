@@ -256,7 +256,7 @@ function wsData(data,id){
                 var servicePath = file.relativePath.substr(0,s1+1)
                 if (lastDirectory != servicePath){
                     console.log('checking directory:'+servicePath)
-                    lastDirectory != servicePath
+                    lastDirectory = servicePath;
                     try {
                         fs.mkdirSync(showPath+servicePath)
                     } catch (err) {
@@ -267,19 +267,17 @@ function wsData(data,id){
                 }
 
             }
-            console.log(file.filename)
-                             console.log(file.data.length)
              fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
-                 console.log('file written')
-                 delete file.data
-                 console.log(JSON.stringify(file,null,4))
+
+                 //delete file.data
+                 //console.log(JSON.stringify(file,null,4))
                     if (err){
                         console.log(err);
                     }
                     fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
                         if (err){console.log('error:'+err);}
-                        console.log ('create time updated:'+new Date(file.lastModified))
-                        ll.gotFile(file.relativePath)
+                        process.stdout.write('.')
+                            ll.gotFile(file.relativePath)
                     })
 
                  })

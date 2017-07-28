@@ -600,7 +600,12 @@ exports.dirToObject = function(show,cb){
             console.log('Local: Found '+services.length+' services:'+services);
             // now scan the services:
             for (var i=0;i<services.length;++i){
-                var dir = fs.readdirSync('public/show/'+show+'/'+services[i])
+                try {
+                    var dir = fs.readdirSync('public/show/'+show+'/'+services[i])
+                } catch (err) {
+                    continue;
+                }
+
                 var stat;
                 var path;
                 console.log('Local:' +services[i]+' - files:'+dir.length);
