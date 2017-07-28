@@ -267,20 +267,40 @@ function wsData(data,id){
                 }
 
             }
-             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
-
-                 //delete file.data
-                 //console.log(JSON.stringify(file,null,4))
+            if (file.split == false || file.first){
+                console.log('write')
+                // single part file or first part of a split file
+                fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                     if (err){
                         console.log(err);
                     }
-                    fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
-                        if (err){console.log('error:'+err);}
-                        process.stdout.write('.')
-                            ll.gotFile(file.relativePath)
-                    })
+                    updateUtimes();
+                })
 
-                 })
+            } else {
+                // split file - add these pieces to the file
+                console.log('append')
+                fs.appendFile(showPath+file.relativePath, file.data, 'base64', function(err) {
+                    if (err){
+                        console.log(err);
+                    }
+                    updateUtimes();
+                })
+
+
+            }
+
+
+        function updateUtimes(){
+                fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
+                    if (err){console.log('error:'+err);}
+
+                    process.stdout.write(((file.split)?'*':'.'))
+                    ll.gotFile(file.relativePath)
+                })
+
+
+            }
             break;
 
         case "comparefiles":

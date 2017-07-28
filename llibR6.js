@@ -680,7 +680,8 @@ function getWiz(show,cb){
     })
 }
 exports.compareFiles = function(local,remote,cb){
-  var changeList = [];
+    const maxChunkSize = 1000*1024
+    var changeList = [];
   var filesToTransfer = 0;
   var filesToDelete = 0;
     for (r in remote) { // scan the remote object
@@ -691,18 +692,23 @@ exports.compareFiles = function(local,remote,cb){
 
         if (local[r] == null){
 
-            changeList.push({name:r,action:'get',size:remote[r].size,reason:'New' })
+            addToChangelist('New');
+            //changeList.push({name:r,action:'get',size:remote[r].size,reason:'New' })
             ++filesToTransfer;
         } else
         {
             if (Math.trunc(local[r].lastModified/1000)  != Math.trunc(remote[r].lastModified/1000)){
-                changeList.push({name:r,action:'get',size:remote[r].size,reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
+
+                addToChangelist('Date');
+                //changeList.push({name:r,action:'get',size:remote[r].size,reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
 
                 ++filesToTransfer;
             } else
             {
                 if (local[r].size  != remote[r].size){
-                    changeList.push({name:r,action:'get',size:remote[r].size,reason:'Size' })
+
+                    addToChangelist('Size');
+                    //changeList.push({name:r,action:'get',size:remote[r].size,reason:'Size' })
                     ++filesToTransfer;
                 }
             }
@@ -727,7 +733,32 @@ exports.compareFiles = function(local,remote,cb){
 
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
 
+    function addToChangelist(reason){
+        // this function adds the file to the to-get list
+        // and also splits the file up to the right size chuncks
+        if (remote[r].size > maxChunkSize){
+            for (var x=0;x<remote[r].size;x=x+maxChunkSize){
+                changeList.push({
+                    name:r,
+                    action:'get',
+                    size:remote[r].size,
+                    reason:reason,
+                    split:true,
+                    start:x,
+                    length:maxChunkSize,
+                    last: ((x+maxChunkSize>= remote[r].size)?true:false),
+                    first: ((x == 0)?true:false)
+                })
+
+            }
+        }else
+        {
+            changeList.push({name:r,action:'get',size:remote[r].size,reason:reason })
+        }
+
+    }
 }
+
 exports.getFilesFromList = function (l){
    fileListCounter = 0;
    list =  l;
@@ -751,10 +782,7 @@ function getNextFile() {
             })
             break;
         case'get':
-           if (list[fileListCounter].size > 1024*5000){
-               console.log('****Large File:'+list[fileListCounter].size)
-           }
-            ws.send(JSON.stringify({object:'getFile',name:list[fileListCounter].name}),'updateunit');
+            ws.send(JSON.stringify({object:'getFile',file:list[fileListCounter]}),'updateunit');
 
             break;
 

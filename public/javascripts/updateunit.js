@@ -30,7 +30,7 @@ function websockstart(){
                         console.log('HTML BODY UPDATE')
                         break;
                     case "getFile":
-                        getFile(x.name)
+                        getFile(x.file)
                         break;
                     default:
                         console.log(x.object);
@@ -154,8 +154,7 @@ function updateStatusNLF(x){
     status.value=x+status.value;
 
 }
-function getFile(name){
-    const maxChunkSize = 20000*1024
+function getFile(file){
     //console.log('get file:'+name)
     var reader = new FileReader();
     reader.onload = function() {
@@ -167,7 +166,11 @@ function getFile(name){
                 lastModified:files[k].lastModified,
                 size:files[k].size,
                 data:reader.result.substring(reader.result.indexOf(',')+1),
-                relativePath:files[k].webkitRelativePath
+                relativePath:files[k].webkitRelativePath,
+                split:file.split,
+                start:file.start,
+                last:file.last,
+                first:file.first
             })
         // counter++
         //
@@ -179,7 +182,7 @@ function getFile(name){
 
     var filefound = false;
     for (var k=0;k<files.length;++k){
-        if (files[k].webkitRelativePath == name){
+        if (files[k].webkitRelativePath == file.name){
             filefound = true;
 
             break;
@@ -187,10 +190,16 @@ function getFile(name){
 
     }
     if (filefound){
-        reader.readAsDataURL(files[k].slice(0,maxChunkSize));
+        if (file.split){
+            reader.readAsDataURL(files[k].slice(file.start,file.start+file.length));
+        } else
+        {
+            reader.readAsDataURL(files[k]);
+        }
+
 
     } else {
-        console.log('requested file not in the filelist:'+name)
+        console.log('requested file not in the filelist:'+file.name)
     }
 
 
