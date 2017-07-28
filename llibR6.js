@@ -723,8 +723,8 @@ exports.compareFiles = function(local,remote,cb){
 
     }
 
-    console.log(JSON.stringify(filesToTransfer,null,4))
-    console.log(JSON.stringify(changeList,null,4))
+    // console.log(JSON.stringify(filesToTransfer,null,4))
+    // console.log(JSON.stringify(changeList,null,4))
 
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
 
