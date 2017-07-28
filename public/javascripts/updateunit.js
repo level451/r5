@@ -144,7 +144,10 @@ function fileSelectHandler(e) {
 function updateStatus(x){
     var status = document.getElementById('status');
     status.value=x+'\n'+status.value;
-
+    if (status.value.length > 1000){
+        console.log('trimmed')
+        status.value = status.value.substring(0,500);
+    }
 }
 function updateStatusNLF(x){
     var status = document.getElementById('status');
@@ -156,7 +159,7 @@ function getFile(name){
     var reader = new FileReader();
     reader.onload = function() {
 
-        console.log(files[k].webkitRelativePath,files[k]);
+       // console.log(files[k].webkitRelativePath,files[k]);
         websocketsend('file',
             {
                 filename:files[k].name,
