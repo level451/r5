@@ -690,7 +690,7 @@ exports.compareFiles = function(local,remote,cb){
             ++filesToTransfer;
         } else
         {
-            if (local[r].lastModified  != remote[r].lastModified){
+            if (Math.trunc(local[r].lastModified/1000)  != Math.trunc(remote[r].lastModified/1000)){
                 changeList.push({name:r,action:'get',reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
 
                 ++filesToTransfer;
