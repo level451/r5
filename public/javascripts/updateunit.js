@@ -155,6 +155,7 @@ function updateStatusNLF(x){
 
 }
 function getFile(name){
+    const maxChunkSize = 20000*1024
     //console.log('get file:'+name)
     var reader = new FileReader();
     reader.onload = function() {
@@ -186,8 +187,7 @@ function getFile(name){
 
     }
     if (filefound){
-
-        reader.readAsDataURL(files[k]);
+        reader.readAsDataURL(files[k].slice(0,maxChunkSize));
 
     } else {
         console.log('requested file not in the filelist:'+name)
