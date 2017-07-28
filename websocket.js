@@ -369,6 +369,12 @@ function wsData(data,id){
 
 
             })
+        case "getfiles":
+            ll.dirToObject(remoteFiles.show,function(localFiles){
+                ws.send(JSON.stringify({type:'remoteFileInfo',remoteFiles:localFiles}),id);
+
+
+            });
             break;
         default:
             console.log('unknown datatype '+data.type)

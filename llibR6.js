@@ -698,7 +698,7 @@ exports.compareFiles = function(local,remote,cb){
             ++filesToTransfer;
         } else
         {
-            if (Math.trunc(local[r].lastModified/10000)  != Math.trunc(remote[r].lastModified/10000)){
+            if (Math.trunc(local[r].lastModified/1000)  != Math.trunc(remote[r].lastModified/1000)){
 
                 addToChangelist('Date');
                 //changeList.push({name:r,action:'get',size:remote[r].size,reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
@@ -842,12 +842,23 @@ exports.getShowFrom = function(show,ip,cb){
 
             ws.on('open', function open() {
                 console.log('connected to remote server')
-               // ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'});
+                //ws.send(JSON.stringify({type:'uploadfiles',data:o}));
+                ws.send(JSON.stringify({type:'getfiles',data:o}));
+                ws.close()
             });
 
             ws.on('message', function incoming(data) {
                 console.log(data);
-            });
+                switch(data.type) {
+                    case"remoteFileInfo":
+                        console.log(JSON.stringify(data.remoteFiles,null,4))
+                }
+
+                });
+            ws.on('error', function (err) {
+                    console.log('Error - websocket client:'+err);
+
+                });
 
 
         })
