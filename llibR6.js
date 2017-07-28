@@ -680,7 +680,7 @@ function getWiz(show,cb){
     })
 }
 exports.compareFiles = function(local,remote,cb){
-    const maxChunkSize = 1000*1024
+    const maxChunkSize = 5000*1024
     var changeList = [];
   var filesToTransfer = 0;
   var filesToDelete = 0;
@@ -729,20 +729,23 @@ exports.compareFiles = function(local,remote,cb){
 
     }
 
-     console.log(JSON.stringify(changeList,null,4))
+     //console.log(JSON.stringify(changeList,null,4))
 
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
 
     function addToChangelist(reason){
         // this function adds the file to the to-get list
         // and also splits the file up to the right size chuncks
+       var counter = 0;
+       var chunks = Math.trunc(remote[r].size/maxChunkSize)
         if (remote[r].size > maxChunkSize){
             for (var x=0;x<remote[r].size;x=x+maxChunkSize){
+                ++counter
                 changeList.push({
                     name:r,
                     action:'get',
                     size:remote[r].size,
-                    reason:reason,
+                    reason:reason+'('+counter+'/'+chunks+')',
                     split:true,
                     start:x,
                     length:maxChunkSize,
