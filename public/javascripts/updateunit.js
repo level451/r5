@@ -144,9 +144,9 @@ function fileSelectHandler(e) {
 function updateStatus(x){
     var status = document.getElementById('status');
     status.value=x+'\n'+status.value;
-    if (status.value.length > 1000){
+    if (status.value.length > 3000){
         console.log('trimmed')
-        status.value = status.value.substring(0,500);
+        status.value = status.value.substring(0,2000);
     }
 }
 function updateStatusNLF(x){
@@ -155,7 +155,7 @@ function updateStatusNLF(x){
 
 }
 function getFile(name){
-    console.log('get file:'+name)
+    //console.log('get file:'+name)
     var reader = new FileReader();
     reader.onload = function() {
 
