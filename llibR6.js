@@ -684,6 +684,11 @@ exports.compareFiles = function(local,remote,cb){
   var filesToTransfer = 0;
   var filesToDelete = 0;
     for (r in remote) { // scan the remote object
+        if (r == 'show' || r == 'version')
+        {
+            continue;
+        }
+
         if (local[r] == null){
 
             changeList.push({name:r,action:'get',reason:'New' })
@@ -705,6 +710,11 @@ exports.compareFiles = function(local,remote,cb){
 
         }
     for (l in local) { // scan the remote object
+        if (l == 'show' || l == 'version')
+        {
+            continue;
+        }
+
         if (remote[l] == null){ // file deleted
 
             changeList.push({name:l,action:'delete',reason:'Old' })
