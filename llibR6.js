@@ -622,6 +622,7 @@ exports.dirToObject = function(show,cb){
                 }
             }
             // also add wiz.dat and Welcome.jpg
+
         path = show+'/wiz.dat';
         stat = fs.statSync('public/show/'+path);
         if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
@@ -629,6 +630,8 @@ exports.dirToObject = function(show,cb){
         o[path].name = 'wiz.dat';
         o[path].size = stat.size;
         o[path].lastModified = Math.trunc(stat.mtimeMs);
+
+
         path = show+'/Welcome.jpg';
         stat = fs.statSync('public/show/'+path);
         if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
@@ -636,6 +639,7 @@ exports.dirToObject = function(show,cb){
         o[path].name = 'Welcome.jpg';
         o[path].size = stat.size;
         o[path].lastModified = Math.trunc(stat.mtimeMs);
+
         cb(o)
 
     })
@@ -708,7 +712,7 @@ exports.compareFiles = function(local,remote,cb){
         }
 
     }
-
+    console.log(JSON.stringify(filesToTransfer,null,4))
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
 
 }
