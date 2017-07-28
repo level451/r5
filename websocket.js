@@ -370,7 +370,7 @@ function wsData(data,id){
 
             })
         case "getfiles":
-            ll.dirToObject(remoteFiles.show,function(localFiles){
+            ll.dirToObject(data.show,function(localFiles){
                 ws.send(JSON.stringify({type:'remoteFileInfo',remoteFiles:localFiles}),id);
 
 

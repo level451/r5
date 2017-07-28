@@ -843,7 +843,7 @@ exports.getShowFrom = function(show,ip,cb){
             ws.on('open', function open() {
                 console.log('connected to remote server')
                 //ws.send(JSON.stringify({type:'uploadfiles',data:o}));
-                ws.send(JSON.stringify({type:'getfiles',data:o}));
+                ws.send(JSON.stringify({type:'getfiles',data:o,show:show}));
                 ws.close()
             });
 
