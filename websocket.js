@@ -275,7 +275,10 @@ function wsData(data,id){
                         console.log(err);
                     }
                     process.stdout.write('-');
-                    updateUtimes();
+                    if (!file.split){ // no need to update the file if its a split file
+                        updateUtimes();
+                    }
+
                 })
 
             } else {
@@ -285,7 +288,10 @@ function wsData(data,id){
                         console.log(err);
                     }
                     process.stdout.write('*');
-                    updateUtimes();
+                    if (file.last){ // update the file date when split file is complete
+                        updateUtimes();
+                    }
+
                 })
 
 

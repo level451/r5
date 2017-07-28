@@ -3,6 +3,7 @@ const showPath = 'public/show/' //also in websocket
 
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
+const WebSocket = require('ws');
 os = require('os');
 xbee = require("./Xbee");
 const readline = require('readline');
@@ -697,7 +698,7 @@ exports.compareFiles = function(local,remote,cb){
             ++filesToTransfer;
         } else
         {
-            if (Math.trunc(local[r].lastModified/1000)  != Math.trunc(remote[r].lastModified/1000)){
+            if (Math.trunc(local[r].lastModified/10000)  != Math.trunc(remote[r].lastModified/10000)){
 
                 addToChangelist('Date');
                 //changeList.push({name:r,action:'get',size:remote[r].size,reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
@@ -737,7 +738,7 @@ exports.compareFiles = function(local,remote,cb){
         // this function adds the file to the to-get list
         // and also splits the file up to the right size chuncks
        var counter = 0;
-       var chunks = Math.trunc(remote[r].size/maxChunkSize)
+       var chunks = Math.trunc(remote[r].size/maxChunkSize)+1
         if (remote[r].size > maxChunkSize){
             for (var x=0;x<remote[r].size;x=x+maxChunkSize){
                 ++counter
@@ -832,5 +833,23 @@ exports.gotFile = function(filename){
         console.log('wrong file rec'+filename+':'+list[fileListCounter].name)
     }
 
+
+}
+exports.getShowFrom = function(show,ip,cb){
+        exports.dirToObject(show,function(o){
+           if (!o){o={}}; // if its a new show
+           var ws = new WebSocket('ws://'+ip)
+
+            ws.on('open', function open() {
+                console.log('connected to remote server')
+               // ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'});
+            });
+
+            ws.on('message', function incoming(data) {
+                console.log(data);
+            });
+
+
+        })
 
 }
