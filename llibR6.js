@@ -786,7 +786,15 @@ function getNextFile() {
             break;
         case'get':
             ws.send(JSON.stringify({object:'getFile',file:list[fileListCounter]}),'updateunit');
-
+            global.getFileRetries = 0;
+            global.getFileTimeout = setInterval(function(){
+                ws.send(JSON.stringify({object:'getFile',file:list[fileListCounter]}),'updateunit');
+                ++global.getFileRetries
+                console.log('Failed to recieve File:'+list[fileListCounter].name+' Retries:'+global.getFileRetries)
+                if (global.getFileRetries > 5){
+                    clearInterval(global.getFileTimeout);
+                }
+            },5000)
             break;
 
 
@@ -804,6 +812,7 @@ function getNextFile() {
 }
 exports.gotFile = function(filename){
     if (filename == list[fileListCounter].name){
+        clearInterval(global.getFileTimeout);
         if (list[fileListCounter].action == 'get'){
             ws.send(JSON.stringify({object:'updateStatus',text:'Got File:'+list[fileListCounter].name+':'+list[fileListCounter].reason}),'updateunit');
         } else {
