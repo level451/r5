@@ -609,11 +609,11 @@ exports.dirToObject = function(show,cb){
                     path = show+'/'+services[i]+'/'+dir[j]
                     stat = fs.statSync('public/show/'+path)
                     if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
-                    console.log(JSON.stringify(stat))
+                    //console.log(JSON.stringify(stat))
                     o[path] = {};
                     o[path].name = dir[j];
                     o[path].size = stat.size;
-                    //o[path].lastModified = Math.trunc(stat.mtimeMs);
+                    o[path].lastModified = Math.trunc(stat.mtimeMs);
                 }
             }
             // also add wiz.dat and Welcome.jpg
