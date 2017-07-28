@@ -691,18 +691,18 @@ exports.compareFiles = function(local,remote,cb){
 
         if (local[r] == null){
 
-            changeList.push({name:r,action:'get',reason:'New' })
+            changeList.push({name:r,action:'get',size:remote[r].size,reason:'New' })
             ++filesToTransfer;
         } else
         {
             if (Math.trunc(local[r].lastModified/1000)  != Math.trunc(remote[r].lastModified/1000)){
-                changeList.push({name:r,action:'get',reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
+                changeList.push({name:r,action:'get',size:remote[r].size,reason:'Date',local:local[r].lastModified,remote:remote[r].lastModified })
 
                 ++filesToTransfer;
             } else
             {
                 if (local[r].size  != remote[r].size){
-                    changeList.push({name:r,action:'get',reason:'Size' })
+                    changeList.push({name:r,action:'get',size:remote[r].size,reason:'Size' })
                     ++filesToTransfer;
                 }
             }
@@ -723,8 +723,7 @@ exports.compareFiles = function(local,remote,cb){
 
     }
 
-    // console.log(JSON.stringify(filesToTransfer,null,4))
-    // console.log(JSON.stringify(changeList,null,4))
+     console.log(JSON.stringify(changeList,null,4))
 
     cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
 
@@ -752,6 +751,9 @@ function getNextFile() {
             })
             break;
         case'get':
+           if (list[fileListCounter].size > 1024*5000){
+               console.log('****Large File:'+list[fileListCounter].size)
+           }
             ws.send(JSON.stringify({object:'getFile',name:list[fileListCounter].name}),'updateunit');
 
             break;
