@@ -238,10 +238,11 @@ function wsData(data,id){
             wiz.Directory = data.data.directory;
             break;
         case "file": //write the file received
+
             var file = data.data;
             // verifiy the show is directory exists
             if (!showDirectoryCreated){
-                //showDirectoryCreated = true;
+                showDirectoryCreated = true;
                 try {
                     fs.mkdirSync(showPath+file.relativePath.substr(0,file.relativePath.indexOf('/')))
                 } catch (err) {
@@ -253,6 +254,7 @@ function wsData(data,id){
             var s0 = file.relativePath.indexOf('/');
             var s1 = file.relativePath.lastIndexOf('/');
             if (s0 != s1){ // contains a service path
+
                 var servicePath = file.relativePath.substr(0,s1+1)
                 if (lastDirectory != servicePath){
                     console.log('checking directory:'+servicePath)
@@ -277,6 +279,9 @@ function wsData(data,id){
                     process.stdout.write('-');
                     if (!file.split){ // no need to update the file if its a split file
                         updateUtimes();
+                    } else
+                    {
+                        ll.gotFile(file.relativePath)
                     }
 
                 })
@@ -290,6 +295,9 @@ function wsData(data,id){
                     process.stdout.write('*');
                     if (file.last){ // update the file date when split file is complete
                         updateUtimes();
+                    } else {
+                        ll.gotFile(file.relativePath)
+
                     }
 
                 })
@@ -352,6 +360,8 @@ function wsData(data,id){
         break;
         case "uploadfiles":
             showDirectoryCreated = false;
+            lastDirectory = '';
+
             var remoteFiles = data.data;
             console.log('Uploading files for:'+remoteFiles.show);
             ll.dirToObject(remoteFiles.show,function(localFiles){

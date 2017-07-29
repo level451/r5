@@ -155,7 +155,7 @@ function updateStatusNLF(x){
 
 }
 function getFile(file){
-    //console.log('get file:'+name)
+    console.log('get file:'+file.name)
     var reader = new FileReader();
     reader.onload = function() {
 
