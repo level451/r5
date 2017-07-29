@@ -795,7 +795,7 @@ function getNextFile() {
                 if (global.getFileRetries > 5){
                     clearInterval(global.getFileTimeout);
                 }
-            },5000)
+            },20000)
             break;
 
 
@@ -836,22 +836,34 @@ exports.gotFile = function(filename){
 
 }
 exports.getShowFrom = function(show,ip,cb){
-        exports.dirToObject(show,function(o){
-           if (!o){o={}}; // if its a new show
+        exports.dirToObject(show,function(localFiles){
+           if (!localFiles){localFiles={}}; // if its a new show
+
            var ws = new WebSocket('ws://'+ip)
 
             ws.on('open', function open() {
                 console.log('connected to remote server')
                 //ws.send(JSON.stringify({type:'uploadfiles',data:o}));
-                ws.send(JSON.stringify({type:'getfiles',data:o,show:show}));
-                ws.close()
+                ws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
+
             });
 
             ws.on('message', function incoming(data) {
-                console.log(data);
+                data = JSON.parse(data);
+                console.log(data.type);
                 switch(data.type) {
-                    case"remoteFileInfo":
-                        console.log(JSON.stringify(data.remoteFiles,null,4))
+                    case "remoteFileInfo":
+                        var remoteFiles = data.remoteFiles
+                        console.log('received file info for show:'+show+' from:'+ip)
+
+                        ll.compareFiles(localFiles,remoteFiles,function(rslt) {
+                       console.log(JSON.stringify(rslt,null,4))
+
+                        })
+                        break;
+
+                    default:
+                        console.log('unknown type:'+data.type)
                 }
 
                 });
