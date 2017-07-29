@@ -795,7 +795,7 @@ function getNextFile() {
                 if (global.getFileRetries > 5){
                     clearInterval(global.getFileTimeout);
                 }
-            },20000)
+            },60000)
             break;
 
 
