@@ -413,7 +413,7 @@ function wsData(data,id){
                     fs.open('public/show/' + file.name, 'r', function (err, fd) {
                         if (err) throw err;
 
-                        fs.read(fd, buffer, 0, file.length, file.start+1, function (err, nread) {
+                        fs.read(fd, buffer, 0, file.length, file.start, function (err, nread) {
                             if (err) throw err;
 
                             // if (nread === 0) {
@@ -429,16 +429,17 @@ function wsData(data,id){
                             //     data = buffer.slice(0, nread);
                             // else
                             //     data = buffer;
-
+                            var temp = {
+                                relativePath:file.name,
+                                data: ((nread < file.length)?buffer.slice(0, nread):buffer).toString('base64'),
+                                split:true,
+                                last:file.last,
+                                first:file.first,
+                                lastModified:Math.trunc(stat.mtimeMs)
+                            }
+                            console.log('data length:'+temp.data.length)
                             ws.send(JSON.stringify({type:'file',
-                                file:{
-                                    relativePath:file.name,
-                                    data: ((nread < file.length)?buffer.slice(0, nread):buffer).toString('base64'),
-                                    split:true,
-                                    last:file.last,
-                                    first:file.first,
-                                    lastModified:Math.trunc(stat.mtimeMs)
-                                }}),id)
+                                file:temp}),id)
                                 fs.close(fd, function (err) {
                                     if (err) throw err;
                                 });
