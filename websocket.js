@@ -391,8 +391,8 @@ function wsData(data,id){
             console.log(JSON.stringify(data),null,4)
 
             if (!file.split) {
-
-                ws.send({type:file,file:{name:file.name,data:new Buffer(fs.readFileSync('public/show/'+file.name)).toString('base64')}},id)
+                var temp=fs.readFileSync('public/show/'+file.name)
+                ws.send({type:file,file:{name:file.name,data:new Buffer(temp).toString('base64')}},id)
             }
              else
             {}
