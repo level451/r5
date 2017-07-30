@@ -395,11 +395,14 @@ function wsData(data,id){
                 var temp=
                 console.log(typeof('temp'))
                 console.log(typeof(temp))
+               var stat = fs.statSync('public/show/'+file.name);
+                if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
+
                 ws.send(JSON.stringify({type:'file',
                     file:{
                     relativePath:file.name,
                     data:new Buffer(fs.readFileSync('public/show/'+file.name)).toString('base64'),
-                    lastModified:Math.trunc(fs.statSync('public/show/'+file.name).mtimeMs)
+                    lastModified:Math.trunc(stat.mtimeMs)
                     }}),id)
             }
              else

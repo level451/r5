@@ -836,6 +836,7 @@ exports.gotFile = function(filename){
 
 }
 exports.getShowFrom = function(show,ip,cb){
+    // used for unit to unit - this is the requesting unit
     var showDirectoryCreated= false
     var lastDirectory = ''
 
@@ -913,7 +914,7 @@ exports.getShowFrom = function(show,ip,cb){
                                     updateUtimes();
                                 } else
                                 {
-                                    ll.gotFile(file.relativePath)
+                                    filerec(file.relativePath)
                                 }
 
                             })
@@ -928,7 +929,7 @@ exports.getShowFrom = function(show,ip,cb){
                                 if (file.last){ // update the file date when split file is complete
                                     updateUtimes();
                                 } else {
-                                    ll.gotFile(file.relativePath)
+                                    filerec(file.relativePath)
 
                                 }
 
@@ -939,11 +940,12 @@ exports.getShowFrom = function(show,ip,cb){
 
 
                     function updateUtimes(){
+                            console.log('lastModified:'+file.lastModified)
                         fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
                             if (err){console.log('error:'+err);}
 
                             //        process.stdout.write(((file.split)?'*':'.'))
-                            ll.gotFile(file.relativePath)
+                            filerec(file.relativePath)
                         })
 
 
@@ -964,5 +966,8 @@ exports.getShowFrom = function(show,ip,cb){
 
 
         })
+        function filerec(filename){
+            console.log('recieved:'+filename)
 
+        }
 }
