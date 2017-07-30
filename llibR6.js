@@ -873,6 +873,7 @@ exports.getShowFrom = function(show,ip,cb){
                         break;
                     case "file":
                         var file = data.file
+                      console.log(file.relativePath)
                         if (!showDirectoryCreated){
                             showDirectoryCreated = true;
                             try {
