@@ -388,15 +388,12 @@ function wsData(data,id){
             // unit to unit transfer
           var file = data.file;
 
-            console.log(JSON.stringify(data),null,4)
+//            console.log(JSON.stringify(data),null,4)
             console.log('public/show/'+file.name)
             var stat = fs.statSync('public/show/'+file.name);
             if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
 
             if (!file.split) {
-                var temp=
-                console.log(typeof('temp'))
-                console.log(typeof(temp))
 
                 ws.send(JSON.stringify({type:'file',
                     file:{

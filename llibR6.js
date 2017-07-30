@@ -906,9 +906,8 @@ exports.getShowFrom = function(show,ip,cb){
                         }
                         if (!file.split || file.first){
                             // single part file or first part of a split file
-                           var y = file;
-                           delete y.data
-                            console.log(JSON.stringify(y,null,4))
+
+                            console.log('data length:' + file.data.length)
                             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                                 if (err){
                                     console.log(err);
@@ -979,7 +978,7 @@ exports.getShowFrom = function(show,ip,cb){
 
                 if (listCounter < list.length - 1) {
                     ++listCounter
-                //   ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+                   ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
                 } else {
                     console.log('All files recieved');
 
