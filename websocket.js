@@ -390,13 +390,13 @@ function wsData(data,id){
 
             console.log(JSON.stringify(data),null,4)
             console.log('public/show/'+file.name)
+            var stat = fs.statSync('public/show/'+file.name);
+            if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
 
             if (!file.split) {
                 var temp=
                 console.log(typeof('temp'))
                 console.log(typeof(temp))
-               var stat = fs.statSync('public/show/'+file.name);
-                if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
 
                 ws.send(JSON.stringify({type:'file',
                     file:{
@@ -405,40 +405,48 @@ function wsData(data,id){
                     lastModified:Math.trunc(stat.mtimeMs)
                     }}),id)
             }
-             else
-            {}
-            return
-
-            buffer = new Buffer(CHUNK_SIZE),
+             else {
 
 
-            fs.open(filePath, 'r', function(err, fd) {
-                if (err) throw err;
-                function readNextChunk() {
-                    fs.read(fd, buffer, 0, CHUNK_SIZE, null, function(err, nread) {
+                buffer = new Buffer(file.length),
+
+                    fs.open('public/show/' + file.name, 'r', function (err, fd) {
                         if (err) throw err;
+                        fs.read(fd, buffer, 0, file.length, file.start, function (err, nread) {
+                            if (err) throw err;
 
-                        if (nread === 0) {
-                            // done reading file, do any necessary finalization steps
+                            // if (nread === 0) {
+                            //     // done reading file, do any necessary finalization steps
+                            //
+                            //     fs.close(fd, function (err) {
+                            //         if (err) throw err;
+                            //     });
+                            //     return;
+                            // }
+                            //
+                            // if (nread < CHUNK_SIZE)
+                            //     data = buffer.slice(0, nread);
+                            // else
+                            //     data = buffer;
 
-                            fs.close(fd, function(err) {
-                                if (err) throw err;
-                            });
-                            return;
-                        }
+                            ws.send(JSON.stringify({type:'file',
+                                file:{
+                                    relativePath:file.name,
+                                    data: ((nread < file.length)?buffer.slice(0, nread):buffer).toString('base64'),
+                                    split:true,
+                                    last:file.last,
+                                    first:file.first,
+                                    lastModified:Math.trunc(stat.mtimeMs)
+                                }}),id)
+                                fs.close(fd, function (err) {
+                                    if (err) throw err;
+                                });
 
-                        var data;
-                        if (nread < CHUNK_SIZE)
-                            data = buffer.slice(0, nread);
-                        else
-                            data = buffer;
 
-                        // do something with `data`, then call `readNextChunk();`
+                        });
+
                     });
-                }
-                readNextChunk();
-            });
-
+            }
             break;
 
         default:
