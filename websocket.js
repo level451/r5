@@ -395,7 +395,7 @@ function wsData(data,id){
                 var temp=
                 console.log(typeof('temp'))
                 console.log(typeof(temp))
-                ws.send(JSON.stringify({type:file,file:{name:file.name,data:new Buffer(fs.readFileSync('public/show/'+file.name)).toString('base64')}}),id)
+                ws.send(JSON.stringify({type:'file',file:{name:file.name,data:new Buffer(fs.readFileSync('public/show/'+file.name)).toString('base64')}}),id)
             }
              else
             {}
