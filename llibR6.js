@@ -839,7 +839,8 @@ exports.getShowFrom = function(show,ip,cb){
     // used for unit to unit - this is the requesting unit
     var showDirectoryCreated= false
     var lastDirectory = ''
-
+    var listCounter = 0;
+    var list
     const showPath = 'public/show/' // also in llibR6
 
     exports.dirToObject(show,function(localFiles){
@@ -862,13 +863,13 @@ exports.getShowFrom = function(show,ip,cb){
                         console.log('received file info for show:'+show+' from:'+ip)
 
                         ll.compareFiles(localFiles,remoteFiles,function(rslt) {
-                            var list = rslt.changeList;
+                            list = rslt.changeList;
                             console.log('Files To Transfer:'+rslt.filesToTransfer);
                             console.log('Files To Delete:'+rslt.filesToDelete);
-                            fileListCounter=0;
+                            listCounter=0;
 
                       // console.log(JSON.stringify(list,null,4))
-                            ws.send(JSON.stringify({type:'getfile',file:list[fileListCounter]}));
+                            ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
 
                         })
                         break;
@@ -905,6 +906,9 @@ exports.getShowFrom = function(show,ip,cb){
                         }
                         if (!file.split || file.first){
                             // single part file or first part of a split file
+                           var y = file;
+                           delete y.data
+                            console.log(JSON.stringify(y,null,4))
                             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                                 if (err){
                                     console.log(err);
@@ -963,11 +967,29 @@ exports.getShowFrom = function(show,ip,cb){
                     console.log('Error - websocket client:'+err);
 
                 });
-
-
-        })
         function filerec(filename){
-            console.log('recieved:'+filename)
+            if (filename == list[listCounter].name){
+                clearInterval(global.getFileTimeout);
+                if (list[fileListCounter].action == 'get'){
+                    console.log('Got File:'+list[listCounter].name+':'+list[listCounter].reason)
+                } else {
+                    console.log('Deleted File:'+list[listCounter].name+':'+list[listCounter].reason)
+                }
+
+
+                if (listCounter < list.length - 1) {
+                    ++listCounter
+                //   ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+                } else {
+                    console.log('All files recieved');
+
+                }
+            }else{
+                console.log('wrong file rec'+filename+':'+list[fileListCounter].name)
+            }
 
         }
+
+        })
+
 }

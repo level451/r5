@@ -412,7 +412,8 @@ function wsData(data,id){
 
                     fs.open('public/show/' + file.name, 'r', function (err, fd) {
                         if (err) throw err;
-                        fs.read(fd, buffer, 0, file.length, file.start, function (err, nread) {
+
+                        fs.read(fd, buffer, 0, file.length, file.start+1, function (err, nread) {
                             if (err) throw err;
 
                             // if (nread === 0) {
