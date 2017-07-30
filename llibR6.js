@@ -850,7 +850,6 @@ exports.getShowFrom = function(show,ip,cb){
 
             ws.on('message', function incoming(data) {
                 data = JSON.parse(data);
-                console.log('data.type:'+data.type);
                 switch(data.type) {
                     case "remoteFileInfo":
                         var remoteFiles = data.remoteFiles
@@ -884,4 +883,3 @@ exports.getShowFrom = function(show,ip,cb){
         })
 
 }
--
