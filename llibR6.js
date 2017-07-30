@@ -859,7 +859,7 @@ exports.getShowFrom = function(show,ip,cb){
                         ll.compareFiles(localFiles,remoteFiles,function(list) {
                        console.log(JSON.stringify(list,null,4))
                             fileListCounter=0;
-                            ws.send(JSON.stringify({type:'getFile',file:list[fileListCounter]}));
+                            ws.send(JSON.stringify({type:'getfile',file:list[fileListCounter]}));
 
                         })
                         break;

@@ -386,7 +386,7 @@ function wsData(data,id){
             break;
         case "getfile":
             // unit to unit transfer
-            console.log(JSON.stringify(data.file),null,4)
+            console.log(JSON.stringify(data.data.file),null,4)
             return
             if (!data.file.split){
 
