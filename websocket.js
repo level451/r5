@@ -385,7 +385,18 @@ function wsData(data,id){
             });
             break;
         case "getfile":
-                buffer = new Buffer(CHUNK_SIZE),
+            // unit to unit transfer
+            console.log(JSON.stringify(data.file),null,4)
+            return
+            if (!data.file.split){
+
+
+
+            } else
+            {}
+            return
+
+            buffer = new Buffer(CHUNK_SIZE),
 
 
             fs.open(filePath, 'r', function(err, fd) {
