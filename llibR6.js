@@ -795,7 +795,7 @@ function getNextFile() {
                 if (global.getFileRetries > 5){
                     clearInterval(global.getFileTimeout);
                 }
-            },60000)
+            },30000)
             break;
 
 
@@ -856,8 +856,10 @@ exports.getShowFrom = function(show,ip,cb){
                         var remoteFiles = data.remoteFiles
                         console.log('received file info for show:'+show+' from:'+ip)
 
-                        ll.compareFiles(localFiles,remoteFiles,function(rslt) {
-                       console.log(JSON.stringify(rslt,null,4))
+                        ll.compareFiles(localFiles,remoteFiles,function(list) {
+                       console.log(JSON.stringify(list,null,4))
+                            fileListCounter=0;
+                            ws.send(JSON.stringify({object:'getFile',file:list[fileListCounter]}));
 
                         })
                         break;

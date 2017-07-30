@@ -382,10 +382,41 @@ function wsData(data,id){
         case "getfiles":
             ll.dirToObject(data.show,function(localFiles){
                 ws.send(JSON.stringify({type:'remoteFileInfo',remoteFiles:localFiles}),id);
-
-
             });
             break;
+        case "getfile":
+                buffer = new Buffer(CHUNK_SIZE),
+
+
+            fs.open(filePath, 'r', function(err, fd) {
+                if (err) throw err;
+                function readNextChunk() {
+                    fs.read(fd, buffer, 0, CHUNK_SIZE, null, function(err, nread) {
+                        if (err) throw err;
+
+                        if (nread === 0) {
+                            // done reading file, do any necessary finalization steps
+
+                            fs.close(fd, function(err) {
+                                if (err) throw err;
+                            });
+                            return;
+                        }
+
+                        var data;
+                        if (nread < CHUNK_SIZE)
+                            data = buffer.slice(0, nread);
+                        else
+                            data = buffer;
+
+                        // do something with `data`, then call `readNextChunk();`
+                    });
+                }
+                readNextChunk();
+            });
+
+            break;
+
         default:
             console.log('unknown datatype '+data.type)
 
