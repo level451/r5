@@ -836,7 +836,12 @@ exports.gotFile = function(filename){
 
 }
 exports.getShowFrom = function(show,ip,cb){
-        exports.dirToObject(show,function(localFiles){
+    var showDirectoryCreated= false
+    var lastDirectory = ''
+
+    const showPath = 'public/show/' // also in llibR6
+
+    exports.dirToObject(show,function(localFiles){
            if (!localFiles){localFiles={}}; // if its a new show
 
            var ws = new WebSocket('ws://'+ip)
@@ -867,8 +872,85 @@ exports.getShowFrom = function(show,ip,cb){
                         })
                         break;
                     case "file":
-                        console.log(data.file.name)
+                        var file = data.file
+                        if (!showDirectoryCreated){
+                            showDirectoryCreated = true;
+                            try {
+                                fs.mkdirSync(showPath+file.relativePath.substr(0,file.relativePath.indexOf('/')))
+                            } catch (err) {
+                                if (err.code !== 'EEXIST') {throw err}
+
+                            }
+                        }
+                        //check the show directory
+                        var s0 = file.relativePath.indexOf('/');
+                        var s1 = file.relativePath.lastIndexOf('/');
+                        if (s0 != s1){ // contains a service path
+
+                            var servicePath = file.relativePath.substr(0,s1+1)
+                            if (lastDirectory != servicePath){
+                                console.log('checking directory:'+servicePath)
+                                lastDirectory = servicePath;
+                                try {
+                                    fs.mkdirSync(showPath+servicePath)
+                                } catch (err) {
+                                    if (err.code !== 'EEXIST') {throw err}
+                                }
+
+
+                            }
+
+                        }
+                        if (!file.split || file.first){
+                            // single part file or first part of a split file
+                            fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
+                                if (err){
+                                    console.log(err);
+                                }
+                                process.stdout.write('-');
+                                if (!file.split){ // no need to update the file if its a split file
+                                    updateUtimes();
+                                } else
+                                {
+                                    ll.gotFile(file.relativePath)
+                                }
+
+                            })
+
+                        } else {
+                            // split file - add these pieces to the file
+                            fs.appendFile(showPath+file.relativePath, file.data, 'base64', function(err) {
+                                if (err){
+                                    console.log(err);
+                                }
+                                process.stdout.write('*');
+                                if (file.last){ // update the file date when split file is complete
+                                    updateUtimes();
+                                } else {
+                                    ll.gotFile(file.relativePath)
+
+                                }
+
+                            })
+
+
+                        }
+
+
+                    function updateUtimes(){
+                        fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
+                            if (err){console.log('error:'+err);}
+
+                            //        process.stdout.write(((file.split)?'*':'.'))
+                            ll.gotFile(file.relativePath)
+                        })
+
+
+                    }
+
                         //data.file.data //base64 encoded
+
+                        break;
                     default:
                         console.log('unknown type:'+data.type)
                 }
