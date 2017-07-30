@@ -386,13 +386,15 @@ function wsData(data,id){
             break;
         case "getfile":
             // unit to unit transfer
+          var file = data.file;
+
             console.log(JSON.stringify(data),null,4)
-            return
-            if (!data.file.split){
 
+            if (!file.split) {
 
-
-            } else
+                ws.send({type:file,file:{name:file.name,data:new Buffer(fs.readFileSync('public/show/'+file.name)).toString('base64')},id)
+            }
+             else
             {}
             return
 

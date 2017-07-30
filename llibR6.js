@@ -856,14 +856,20 @@ exports.getShowFrom = function(show,ip,cb){
                         var remoteFiles = data.remoteFiles
                         console.log('received file info for show:'+show+' from:'+ip)
 
-                        ll.compareFiles(localFiles,remoteFiles,function(list) {
-                       console.log(JSON.stringify(list,null,4))
+                        ll.compareFiles(localFiles,remoteFiles,function(rslt) {
+                            var list = rslt.changeList;
+                            console.log('Files To Transfer:'+rslt.filesToTransfer);
+                            console.log('Files To Delete:'+rslt.filesToDelete);
                             fileListCounter=0;
+
+                      // console.log(JSON.stringify(list,null,4))
                             ws.send(JSON.stringify({type:'getfile',file:list[fileListCounter]}));
 
                         })
                         break;
-
+                    case "file":
+                        console.log(data.file.name)
+                        //data.file.data //base64 encoded
                     default:
                         console.log('unknown type:'+data.type)
                 }
