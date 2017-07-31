@@ -782,6 +782,7 @@ exports.gotFile = function(filename){
 }
 exports.getShowFrom = function(show,ip,cb){
     // used for unit to unit - this is the requesting unit
+    console.log('Requesting Show:'+show+' from:'+ip);
     global.updatingUnit = true;
     var showDirectoryCreated= false
     var lastDirectory = ''
