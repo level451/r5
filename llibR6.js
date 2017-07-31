@@ -782,6 +782,7 @@ exports.gotFile = function(filename){
 }
 exports.getShowFrom = function(show,ip,cb){
     // used for unit to unit - this is the requesting unit
+    ip = ip + glogal.settings.webSocket.listenPort;
     console.log('Requesting Show:'+show+' from:'+ip);
     global.updatingUnit = true;
     var showDirectoryCreated= false
@@ -911,8 +912,10 @@ exports.getShowFrom = function(show,ip,cb){
                 });
             ws.on('error', function (err) {
                     console.log('Error - websocket client:'+err);
+                global.updatingUnit = true;
+                cb({error:err})
 
-                });
+            });
         function filerec(filename){
             if (filename == list[listCounter].name){
                 clearInterval(global.getFileTimeout);
