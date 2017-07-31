@@ -98,7 +98,7 @@ exports.setupSwitches = function(){
         switch(value){
             case 0:
                 sendSwitchData(300);
-                switch3Timeout = setTimeout(readAllSwitches,5000);
+                switch3Timeout = setTimeout(readAllSwitches,3500);
                 break;
             case 1:
                 sendSwitchData(3);

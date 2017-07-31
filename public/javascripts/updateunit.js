@@ -4,6 +4,8 @@ function load() {
     websockstart();
     var selectfiles=document.getElementById('selectfiles')
     selectfiles.addEventListener("change", fileSelectHandler, false);
+    var elem = document.getElementById("myBar");
+    elem.innerHTML = "PROGRESS_BAR";
 }
 function websockstart(){
     ws = new ReconnectingWebSocket(wsUri);
@@ -172,6 +174,7 @@ function getFile(file){
                 last:file.last,
                 first:file.first
             })
+        move();
         // counter++
         //
         // if (counter < files.length) {
@@ -202,6 +205,14 @@ function getFile(file){
         console.log('requested file not in the filelist:'+file.name)
     }
 
-
-
 }
+
+function move() {
+    var elem = document.getElementById("myBar");
+
+    var width = elem.length/files.length;
+    width += elem.length/files.length;
+    elem.style.width = width + '%';
+    elem.innerHTML = "PROGRESS BAR";
+}
+
