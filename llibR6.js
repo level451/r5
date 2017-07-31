@@ -972,7 +972,12 @@ function udp()
 
                             console.log('Show Update Required:' + show + ' Remote Version:' + message.showVersion[show] +
                                 ' Local Version:' + global.settings.showVersion[show])
-                                break;
+                            console.log('Starting Update')
+                            ll.getShowFrom(show,fromAddress,function(o){
+                                console.log(JSON.stringify(o,null,4))
+
+                            })
+                            break;
                         }
                     }
 
