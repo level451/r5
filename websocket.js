@@ -9,6 +9,7 @@ var request = require('request');
 var llibR6 = require('./llibR6');
 var showDirectoryCreated= false
 var lastDirectory = ''
+var updateUnitIntervalTimer
 //const showPath = 'temp/'
 const showPath = 'public/show/' // also in llibR6
 //Set up Web socket for a connection
@@ -446,6 +447,23 @@ function wsData(data,id){
 
                     });
             }
+            break;
+        case"updateUnitModeOn":
+            global.updateUnit = true;
+            const dgram = require('dgram');
+            updateUnitIntervalTimer = setInterval(function(){
+                const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
+                var beacon = {type:'showVersion',showVersion: global.settings.showVersion}
+                socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
+                    socket.close();
+                });
+            },5000)
+
+            break;
+
+        case"updateUnitModeOff":
+            clearInterval(updateUnitIntervalTimer);
+            global.updateUnit = false;
             break;
 
         default:

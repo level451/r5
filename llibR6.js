@@ -553,7 +553,7 @@ exports.getIPAddres = function(){
 exports.dirToObject = function(show,cb){
     var o = {} // this is the show object
     getWiz(show,function(w){ // get this show info from wiz
-        if (!w) { // returned false
+        if (w.Version == -1) { // returned false
             cb(false);
             return;
         }
@@ -782,6 +782,7 @@ exports.gotFile = function(filename){
 }
 exports.getShowFrom = function(show,ip,cb){
     // used for unit to unit - this is the requesting unit
+    global.updatingUnit = true;
     var showDirectoryCreated= false
     var lastDirectory = ''
     var listCounter = 0;
@@ -934,6 +935,7 @@ exports.getShowFrom = function(show,ip,cb){
                         console.log(JSON.stringify(global.settings.showVersion,null,4))
 
                         console.log('All files recieved');
+                        global.updatingUnit = false;
                     })
 
                 }
@@ -948,19 +950,51 @@ exports.getShowFrom = function(show,ip,cb){
 }
 function udp()
 {
-   return;
-    process.stdout.write('UDP server started \n')
-    const dgram = require('dgram');
-    // const client = dgram.createSocket('udp4');
-    //const client = dgram.createSocket({type:'udp4',reuseAddr:true});
-    setInterval(function(){
 
-        const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
-            socket.send('test message',41235,'224.1.1.1',(err) =>{
-                console.log('udp sent:'+err)
-                socket.close();
-        });
-    },5000)
+    process.stdout.write('UDP server started and listening \n')
+    const dgram = require('dgram');
+    const udpSocket = dgram.createSocket({type:'udp4',reuseAddr:true});
+    udpSocket.on('error', (err) => {
+        console.log(`server error:\n${err.stack}`);
+        udpSocket.close();
+    });
+
+    udpSocket.on('message', (msg, rinfo) => {
+        var message = JSON.parse(msg);
+        var fromAddress = rinfo.address;
+        switch(message.type){
+            case"showVersion":
+                if (!global.updatingUnit){
+                    for (show in message.showVersion) { // scan the remote object
+                        // compare versions
+                        if (message.showVersion[show] > global.settings.showVersion[show]) {
+
+
+                            console.log('Show Update Required:' + show + ' Remote Version:' + message.showVersion[show] +
+                                ' Local Version:' + global.settings.showVersion[show])
+                                break;
+                        }
+                    }
+
+
+                }
+
+
+                    break;
+            default:
+                console.log('Unknow message type from udpSocket:'+message.type)
+
+
+        }
+    });
+
+    udpSocket.on('listening', () => {
+        udpSocket.addMembership('224.1.1.1');
+        console.log("UDP Socket Address:"+udpSocket.address().address);
+
+    });
+
+    udpSocket.bind(41235);
 
 }
 function getWiz(show,cb){
@@ -968,7 +1002,7 @@ function getWiz(show,cb){
         fs.accessSync('./public/show/'+show+'/wiz.dat')
     }catch(e){
         console.log('./public/show/'+show+'/wiz.dat does not exist')
-        cb({})
+        cb({Version: -1})
         return;
     }
 
@@ -1022,7 +1056,7 @@ exports.getShowVersions = function(cb){
 
         getWiz(shows[i],function(wiz){
             rv[shows[i]] = wiz.Version
-            if (i < shows.length ){
+            if (i < shows.length-1 ){
                 ++i
                 getVersion()
             } else

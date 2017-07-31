@@ -8,7 +8,11 @@ ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
 
 function settingsLoaded(){
     console.log('settings file loaded to global.settings');
-    ll.loadWiz(wizLoaded)
+    ll.getShowVersions(function(showVersion){
+        global.settings.showVersion = showVersion
+        ll.loadWiz(wizLoaded)
+    })
+
 }
 
 function wizLoaded(){

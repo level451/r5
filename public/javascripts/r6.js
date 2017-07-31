@@ -158,7 +158,7 @@ function switchPress(s){
         slideHistroyMode = false; //take of of slide history mode
 
         websocketsend('testModeOff', {}); // turn off test mode
-
+        websocketsend('updateUnitModeOff',{});
 
         menuItem = 1;
         displayState = 'systemMenu';
@@ -295,17 +295,19 @@ function switchPress(s){
     var speed;
 if (audioState == 'idle') {
     switch (displayState) {
-        case 'UpdateUnit':
         case 'Test Mode':
-// any switch from test goes back to system menu
-            inSystemMenu = true;
             turnOffDemoMode()
+            websocketsend('testModeOff', {});
+
+        case 'UpdateUnit':
+        // any switch from test or updateunit goes back to system menu
+            inSystemMenu = true;
+            websocketsend('updateUnitModeOff',{});
             menuItem = 1;
             displayState = 'systemMenu';
             testModeData = [];
             testModeSignal = [];
             ctx.globalAlpha = 1;
-            websocketsend('testModeOff', {});
             drawMenuText(systemMenu, menuItem);
 
 
@@ -1412,6 +1414,7 @@ function turnOffDemoMode() {
     demoModePointer = 0;
 
 }
+
 function turnOffScreen(){
     websocketsend('fadeOut', {}); // turn off backlight
 
@@ -1421,7 +1424,7 @@ function turnOffScreen(){
 
 }
 function drawUpdateUnit(){
-
+    websocketsend('updateUnitModeOn',{});
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
