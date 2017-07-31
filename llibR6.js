@@ -1009,6 +1009,7 @@ function getShowNames(cb) {
                 shownames.push(data);
             }
         })
+        shownames.sort();
         if (cb){cb(shownames)}
     })
 }
