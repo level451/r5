@@ -971,7 +971,7 @@ function udp()
                 if (!global.updatingUnit){
                     for (show in message.showVersion) { // scan the remote object
                         // compare versions
-                        if (message.showVersion[show] > global.settings.showVersion[show]) {
+                        if (message.showVersion[show] > global.settings.showVersion[show] || global.settings.showVersion[show] == undefined)  {
 
 
                             console.log('Show Update Required:' + show + ' Remote Version:' + message.showVersion[show] +
