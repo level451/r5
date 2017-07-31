@@ -561,25 +561,7 @@ exports.getIPAddres = function(){
     global.myuri = addresses[0];
     console.log('My IP Address 0 is: ' + global.myuri );
 }
-function udp()
-{
-    return;
-    const dgram = require('dgram');
-   // const client = dgram.createSocket('udp4');
-    //const client = dgram.createSocket({type:'udp4',reuseAddr:true});
-    setInterval(function(){
 
-        const client = dgram.createSocket({type:'udp4',reuseAddr:true});
-
-        client.send('test message',41235,'239.255.255.250',(err) =>{
-
-            console.log('udp sent:'+err)
-            client.close();
-
-        });
-    },5000)
-
-}
 exports.dirToObject = function(show,cb){
     var o = {} // this is the show object
     getWiz(show,function(w){ // get this show info from wiz
@@ -990,5 +972,21 @@ exports.getShowFrom = function(show,ip,cb){
         }
 
         })
+
+}
+function udp()
+{
+    process.stdout.write('UDP server started \n')
+    const dgram = require('dgram');
+    // const client = dgram.createSocket('udp4');
+    //const client = dgram.createSocket({type:'udp4',reuseAddr:true});
+    setInterval(function(){
+
+        const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
+            socket.send('test message',41235,'224.1.1.1',(err) =>{
+                console.log('udp sent:'+err)
+                socket.close();
+        });
+    },5000)
 
 }
