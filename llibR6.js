@@ -163,25 +163,13 @@ exports.loadWiz = function(callback){
     }
 
 
+    getShowNames((showNames) =>{
+        wiz.allShowsAvailable = showNames
+        if (settings && !settings.ShowName) {
+            settings.ShowName = showNames[0];
+            console.log('because there is no show.def - the show  is set to first show found - ' + data);
+        }
 
-    fs.readdir('public/show',(err,data) => {
-        wiz.allShowsAvailable = [];
-        data.forEach(function(data){
-            if (fs.lstatSync('public/show/'+data).isDirectory()){
-                console.log('Show found:'+data)
-                wiz.allShowsAvailable.unshift(data);
-                if (!settings.ShowName){
-                    settings.ShowName = data;
-                    console.log('because there is no show.def - the show  is set to first show found - '+data);
-                }
-            } else
-            {
-                console.log('NON Show found:'+data)
-            }
-
-        })
-
-        console.log(data)
         const rl = readline.createInterface({
             input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
         });
@@ -627,41 +615,6 @@ exports.dirToObject = function(show,cb){
 
     })
 }
-function getWiz(show,cb){
-    try{
-        fs.accessSync('./public/show/'+show+'/wiz.dat')
-    }catch(e){
-        console.log('./public/show/'+show+'/wiz.dat does not exist')
-        cb(false)
-        return;
-    }
-
-    rv = {};
-
-
-    const rl = readline.createInterface({
-        input: fs.createReadStream('./public/show/'+show+'/wiz.dat')
-    });
-
-    rl.on('line', (line) => {
-        if (line.indexOf(':') != -1){ // make sure there is a :
-            // update the global.wiz object
-            //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
-            rv[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).trim();
-
-        } else
-        {
-            console.log('Invalid line colon not found - ignoring:'+line);
-        }
-    });
-    rl.on('close',()=> {
-        // add a list of available shows to wiz
-        if (cb){cb(rv);}
-    })
-    rl.on('error',(e)=> {
-        console.log('error:'+e)
-    })
-}
 exports.compareFiles = function(local,remote,cb){
     const maxChunkSize = 5000*1024
     var changeList = [];
@@ -807,8 +760,18 @@ exports.gotFile = function(filename){
             ++fileListCounter
             getNextFile();
         } else {
-            console.log('All files recieved');
-            ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'}),'updateunit');
+            exports.getShowVersions(function(x){
+                ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'}),'updateunit');
+
+                console.log('Old Show Versions:')
+                console.log(JSON.stringify(global.settings.showVersion,null,4))
+                global.settings.showVersion= x
+                console.log('New Show Versions:')
+                console.log(JSON.stringify(global.settings.showVersion,null,4))
+
+                console.log('All files recieved');
+            })
+
 
         }
     }else{
@@ -962,7 +925,16 @@ exports.getShowFrom = function(show,ip,cb){
                     ++listCounter
                    ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
                 } else {
-                    console.log('All files recieved');
+
+                    exports.getShowVersions(function(x){
+                        console.log('Old Show Versions:')
+                        console.log(JSON.stringify(global.settings.showVersion,null,4))
+                        global.settings.showVersion= x
+                        console.log('New Show Versions:')
+                        console.log(JSON.stringify(global.settings.showVersion,null,4))
+
+                        console.log('All files recieved');
+                    })
 
                 }
             }else{
@@ -976,6 +948,7 @@ exports.getShowFrom = function(show,ip,cb){
 }
 function udp()
 {
+   return;
     process.stdout.write('UDP server started \n')
     const dgram = require('dgram');
     // const client = dgram.createSocket('udp4');
@@ -988,5 +961,77 @@ function udp()
                 socket.close();
         });
     },5000)
+
+}
+function getWiz(show,cb){
+    try{
+        fs.accessSync('./public/show/'+show+'/wiz.dat')
+    }catch(e){
+        console.log('./public/show/'+show+'/wiz.dat does not exist')
+        cb({})
+        return;
+    }
+
+    rv = {};
+
+
+    const rl = readline.createInterface({
+        input: fs.createReadStream('./public/show/'+show+'/wiz.dat')
+    });
+
+    rl.on('line', (line) => {
+        if (line.indexOf(':') != -1){ // make sure there is a :
+            // update the global.wiz object
+            //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
+            rv[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).trim();
+
+        } else
+        {
+            console.log('Invalid line colon not found - ignoring:'+line);
+        }
+    });
+    rl.on('close',()=> {
+        // add a list of available shows to wiz
+        if (cb){cb(rv);}
+    })
+    rl.on('error',(e)=> {
+        console.log('error:'+e)
+    })
+}
+
+function getShowNames(cb) {
+    fs.readdir('public/show', (err, data) => {
+        var shownames = [];
+        console.log(data)
+        data.forEach(function (data) {
+            if (fs.lstatSync('public/show/' + data).isDirectory()) {
+                //console.log('Show found:' + data)
+                shownames.push(data);
+            }
+        })
+        if (cb){cb(shownames)}
+    })
+}
+exports.getShowVersions = function(cb){
+    var rv = {}
+    getShowNames((shows)=>{
+    var i = 0;
+    getVersion()
+    function getVersion(){
+
+        getWiz(shows[i],function(wiz){
+            rv[shows[i]] = wiz.Version
+            if (i < shows.length ){
+                ++i
+                getVersion()
+            } else
+            {
+                cb(rv)
+            }
+        })
+    }
+
+
+    })
 
 }
