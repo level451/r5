@@ -855,7 +855,6 @@ exports.getShowFrom = function(show,ip,cb){
                         if (!file.split || file.first){
                             // single part file or first part of a split file
 
-                            console.log('data length:' + file.data.length)
                             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                                 if (err){
                                     console.log(err);
@@ -920,9 +919,11 @@ exports.getShowFrom = function(show,ip,cb){
             if (filename == list[listCounter].name){
                 clearInterval(global.getFileTimeout);
                 if (list[fileListCounter].action == 'get'){
-                    console.log('Got File:'+list[listCounter].name+':'+list[listCounter].reason)
+                   // console.log('Got File:'+list[listCounter].name+':'+list[listCounter].reason)
                 } else {
-                    console.log('Deleted File:'+list[listCounter].name+':'+list[listCounter].reason)
+                 //   console.log('Deleted File:'+list[listCounter].name+':'+list[listCounter].reason)
+                    process.stdout.write('X');
+
                 }
 
 
