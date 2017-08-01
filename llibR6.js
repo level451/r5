@@ -817,13 +817,14 @@ exports.getShowFrom = function(show,ip,cb){
                             listCounter=0;
 
                       // console.log(JSON.stringify(list,null,4))
+                            // this could error if it was a type delete
                             ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
 
                         })
                         break;
                     case "file":
                         var file = data.file
-                      console.log(file.relativePath)
+                      //console.log(file.relativePath)
                         if (!showDirectoryCreated){
                             showDirectoryCreated = true;
                             try {
