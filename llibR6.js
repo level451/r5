@@ -891,7 +891,7 @@ exports.getShowFrom = function(show,ip,cb){
 
 
                     function updateUtimes(){
-                            console.log('lastModified:'+file.lastModified)
+                           // console.log('lastModified:'+file.lastModified)
                         fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
                             if (err){console.log('error:'+err);}
 
@@ -930,7 +930,6 @@ exports.getShowFrom = function(show,ip,cb){
                     ++listCounter
 
 
-                    console.log('File proc:'+JSON.s)
                    if (list[listCounter].action == 'get'){
                        ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
                    } else
