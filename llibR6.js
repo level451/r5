@@ -928,7 +928,25 @@ exports.getShowFrom = function(show,ip,cb){
 
                 if (listCounter < list.length - 1) {
                     ++listCounter
-                   ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+
+
+
+                   if (list[fileListCounter].action == 'get'){
+                       ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+                   } else
+                   {
+                       fs.unlink(showPath+list[fileListCounter].name,function(e){
+                           if (e){
+                               console.log('delete error:'+e)
+                           } else {
+                                console.log('file deleted')
+                               filerec(list[fileListCounter].name)
+                           }
+
+                       })
+
+                   }
+
                 } else {
 
                     exports.getShowVersions(function(x){
