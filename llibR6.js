@@ -930,8 +930,8 @@ exports.getShowFrom = function(show,ip,cb){
                     ++listCounter
 
 
-                    console.log('File proc:+')
-                   if (list[fileListCounter].action == 'get'){
+                    console.log('File proc:'+JSON.s)
+                   if (list[listCounter].action == 'get'){
                        ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
                    } else
                    {
