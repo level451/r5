@@ -930,17 +930,17 @@ exports.getShowFrom = function(show,ip,cb){
                     ++listCounter
 
 
-
+                    console.log('File proc:+')
                    if (list[fileListCounter].action == 'get'){
                        ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
                    } else
                    {
-                       fs.unlink(showPath+list[fileListCounter].name,function(e){
+                       fs.unlink(showPath+list[listCounter].name,function(e){
                            if (e){
                                console.log('delete error:'+e)
                            } else {
                                 console.log('file deleted')
-                               filerec(list[fileListCounter].name)
+                               filerec(list[listCounter].name)
                            }
 
                        })
