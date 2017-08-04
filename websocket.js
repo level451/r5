@@ -332,10 +332,11 @@ function wsData(data,id){
 
                     ws.send(JSON.stringify({object:'updateStatus',text:'No version found - upload required'}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total Mbytes to transfer:'+(rslt.bytesToTransfer/1048576).toFixed(2)}),'updateunit');
                         ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Press UPLOAD to start'}),'updateunit');
                     })
                     return;
                 }
@@ -344,10 +345,18 @@ function wsData(data,id){
                     ws.send(JSON.stringify({object:'updateStatus',text:'Same version found - checking files'}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                      //   console.log(JSON.stringify(rslt.changeList,null,4))
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
-                        ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total Mbytes to transfer:'+(rslt.bytesToTransfer/1048576).toFixed(2)}),'updateunit');
+                        if (rslt.filesToDelete== 0 && rslt.filesToTransfer == 0) {
+                            ws.send(JSON.stringify({object:'showUpToDate'}),'updateunit');
+                            return;
+
+                        } else {
+                            ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
+
+                        }
+
                     })
                     return
                 } else
@@ -355,10 +364,11 @@ function wsData(data,id){
                     ws.send(JSON.stringify({object:'updateStatus',text:'Update required to Version:'+remoteFiles.version}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                      //   console.log(JSON.stringify(rslt.changeList,null,4))
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
-                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total Mbytes to transfer:'+(rslt.bytesToTransfer/1048576).toFixed(2)}),'updateunit');
                         ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Press UPLOAD to start'}),'updateunit');
                     })
 
                 }

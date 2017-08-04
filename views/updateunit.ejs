@@ -6,21 +6,42 @@
 
 <head>
     <style type="text/css">
-        body { margin:0; }
+      /*  body { margin:0; } */
     </style>
 
 </head>
 <body onload="load()">
-update unit <br>
-<input type="file" id="selectfiles" multiple="multiple" webkitdirectory="" directory="">
-<br>
-<textarea id = "status" rows = "30" cols = "80"></textarea>
+<h1 align="center">Update Unit</h1> <hr>
 
-<div id="upload">
-    <button onclick="upload()">UPLOAD</button>
-    <progress id="uploadProgress" ></progress>
+
+<h2>Select Show Folder</h2>
+<label>
+<div style="position:relative;height: 200px;    border: 10px dashed #ccc;  vertical-align: middle;width: 98%">
+    <input style=" height: 100%; width: 100%; opacity: 0;" type="file" id="selectfiles" multiple="multiple" webkitdirectory="" directory="">
+
+
+
+        <h1  id = 'droptext' style="position: absolute; top:30%;width: 100%;z-index: -1;" align="center">Drag the Show Folder Here - or click to Browse</h1>
+
+
+
 
 </div>
+</label>
+
+<div id="upload" style="display:none">
+
+  <br><hr>  <button style="width:100%;height: 50px;background-color: lightgreen;" onclick="upload()">UPLOAD</button><br>
+<hr>
+    <progress  style="width:100%;height: 50px;" id="uploadProgress" ></progress>
+    <h3 id="updateFileTransfer"></h3>
+</div>
+
+
+<hr>
+<br>
+    <textarea id = "status" rows = "18" cols = "50" style="border: none"></textarea>
+
 </body>
 </html>
 <script>

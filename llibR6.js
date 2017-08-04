@@ -682,7 +682,7 @@ exports.compareFiles = function(local,remote,cb){
                 changeList.push({
                     name:r,
                     action:'get',
-                    size:remote[r].size,
+                    size:((x+maxChunkSize>= remote[r].size)?remote[r].size-x:maxChunkSize),
                     reason:reason+'('+counter+'/'+chunks+')',
                     split:true,
                     start:x,
@@ -749,12 +749,13 @@ function getNextFile() {
 
 }
 exports.gotFile = function(filename){
+    // this is used for browser to unit file transfer
     if (filename == list[fileListCounter].name){
         clearInterval(global.getFileTimeout);
         if (list[fileListCounter].action == 'get'){
-            ws.send(JSON.stringify({object:'updateStatus',text:'Got File:'+list[fileListCounter].name+':'+list[fileListCounter].reason}),'updateunit');
+            ws.send(JSON.stringify({object:'updateFileTransfer',text:'('+fileListCounter+'/'+list.length+')'+list[fileListCounter].name+' - File Transfered'}),'updateunit');
         } else {
-            ws.send(JSON.stringify({object:'updateStatus',text:'Deleted File:'+list[fileListCounter].name}),'updateunit');
+            ws.send(JSON.stringify({object:'updateFileTransfer',text:'('+fileListCounter+'/'+list.length+')'+list[fileListCounter].name+' - Unused File Removed'}),'updateunit');
         }
 
 
@@ -763,7 +764,10 @@ exports.gotFile = function(filename){
             getNextFile();
         } else {
             exports.getShowVersions(function(x){
-                ws.send(JSON.stringify({object:'updateStatus',text:'All Files Recieved'}),'updateunit');
+                ws.send(JSON.stringify({object:'updateStatus',text:'All Files Received - UPLOAD Complete'}),'updateunit');
+
+                ws.send(JSON.stringify({object:'uploadComplete'}),'updateunit');
+
 
                 console.log('Old Show Versions:')
                 console.log(JSON.stringify(global.settings.showVersion,null,4))
@@ -771,7 +775,7 @@ exports.gotFile = function(filename){
                 console.log('New Show Versions:')
                 console.log(JSON.stringify(global.settings.showVersion,null,4))
 
-                console.log('All files recieved');
+                console.log('All Files Received - Operation Complete');
             })
 
 

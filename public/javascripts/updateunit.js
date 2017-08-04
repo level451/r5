@@ -4,8 +4,8 @@ function load() {
     websockstart();
     var selectfiles=document.getElementById('selectfiles')
     selectfiles.addEventListener("change", fileSelectHandler, false);
-    var elem = document.getElementById("myBar");
-    elem.innerHTML = "PROGRESS_BAR";
+
+
 }
 function websockstart(){
     ws = new ReconnectingWebSocket(wsUri);
@@ -24,9 +24,13 @@ function websockstart(){
                     case "updateStatus":
                         updateStatus(x.text);
                         break;
-                    case "updateStatusNLF":
-                        updateStatusNLF(x.text);
+                    case "updateFileTransfer":
+                        document.getElementById("updateFileTransfer").innerHTML = x.text;
                         break;
+
+                    // case "updateStatusNLF":
+                    //     updateStatusNLF(x.text);
+                    //     break;
                     case  "pageupdate":
                         document.getElementById("body").innerHTML = x.data.html
                         console.log('HTML BODY UPDATE')
@@ -35,11 +39,26 @@ function websockstart(){
                         getFile(x.file)
 
                         break;
+                    case "showUpToDate":
+                        document.getElementById('droptext').innerHTML="The Show Version is Current - Select Another Show"
+                        document.getElementById("upload").style.display = "none"
+
+                        break;
                     case "okToUpload":
 
                         // enable the upload button here
                         uploadProgress=document.getElementById("uploadProgress");
                         uploadProgress.max = x.bytesToTransfer
+                        document.getElementById("upload").style.display = "block"
+                        document.getElementById('droptext').innerHTML="Press Upload to Transfer Show"
+                        break;
+                    case "uploadComplete":
+                       console.log('at update complete')
+                        document.getElementById("upload").style.display = "none"
+                        document.getElementById("updateFileTransfer").innerHTML = ''; // clear the info div
+                        document.getElementById('droptext').innerHTML="Upload Complete - Choose Next Show"
+                        break;
+
                     default:
                         console.log(x.object);
                     //  alert(x.object);
@@ -65,6 +84,8 @@ function upload(){
    if(o){
 
        websocketsend('uploadfiles',o);
+       document.getElementById('droptext').innerHTML="Upload In Progress..."
+
        updateStatus('requesting upload...')
 
    }  else
@@ -73,11 +94,13 @@ function upload(){
    }
 }
 function fileSelectHandler(e) {
+console.log(e)
+    document.getElementById('droptext').innerHTML="Verifying Files"
+
     document.getElementById('status').value = ''
     var counter = 0;
-    console.log(e)
     // fetch FileList object
-    files = e.target.files // || e.dataTransfer.files;
+   files = e.target.files || e.dataTransfer.files;
     updateStatus('Files Chosen:'+files.length)
     // read the wiz.dat
     var wizReader = new FileReader();
@@ -94,8 +117,8 @@ function fileSelectHandler(e) {
                 console.log('Invalid line colon not found - ignoring:'+line);
             }
         }
-        console.log(files[k].name)
-        console.log(JSON.stringify(showWiz,null,4));
+        //console.log(files[k].name)
+        //console.log(JSON.stringify(showWiz,null,4));
         // verify this wiz.dat is in the right place
         if (files[k].webkitRelativePath  != showWiz.ShowName + '/wiz.dat'){
             updateStatus('Wiz.dat found in the wrong location - aborting:')
@@ -137,8 +160,10 @@ function fileSelectHandler(e) {
 
         wizReader.readAsText(files[k]);
     } else {
-        updateStatus('wiz.dat not found - aborting')
+        document.getElementById("upload").style.display = "none"
 
+        updateStatus('wiz.dat not found - aborting')
+        updateStatus('Please Select Show Folder')
     }
 
     return
@@ -151,19 +176,20 @@ function fileSelectHandler(e) {
 }
 function updateStatus(x){
     var status = document.getElementById('status');
-    status.value=x+'\n'+status.value;
-    if (status.value.length > 3000){
-        console.log('trimmed')
-        status.value = status.value.substring(0,2000);
-    }
+    status.value=status.value+x+'\n';
+    //    status.value=x+'\n'+status.value;
+    // if (status.value.length > 3000){
+    //    // console.log('trimmed')
+    //     status.value = status.value.substring(0,2000);
+    // }
 }
-function updateStatusNLF(x){
-    var status = document.getElementById('status');
-    status.value=x+status.value;
-
-}
+// function updateStatusNLF(x){
+//     var status = document.getElementById('status');
+//     status.value=x+status.value;
+//
+// }
 function getFile(file){
-    console.log('get file:'+file.name)
+    //console.log('get file:'+file.name)
     var reader = new FileReader();
     reader.onload = function() {
 
@@ -186,7 +212,7 @@ function getFile(file){
         //     reader.readAsDataURL(files[counter]);
         // }
         uploadProgress.value += file.size
-
+        //update the progress bar
 
     }
 
