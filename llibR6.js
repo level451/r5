@@ -620,6 +620,7 @@ exports.compareFiles = function(local,remote,cb){
     var changeList = [];
   var filesToTransfer = 0;
   var filesToDelete = 0;
+  var bytesToTransfer = 0;
     for (r in remote) { // scan the remote object
         if (r == 'show' || r == 'version')
         {
@@ -667,13 +668,14 @@ exports.compareFiles = function(local,remote,cb){
 
     // console.log(JSON.stringify(changeList,null,4))
 
-    cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete});
+    cb({changeList:changeList,filesToTransfer:filesToTransfer,filesToDelete:filesToDelete,bytesToTransfer:bytesToTransfer});
 
     function addToChangelist(reason){
         // this function adds the file to the to-get list
         // and also splits the file up to the right size chuncks
        var counter = 0;
        var chunks = Math.trunc(remote[r].size/maxChunkSize)+1
+        bytesToTransfer += remote[r].size;
         if (remote[r].size > maxChunkSize){
             for (var x=0;x<remote[r].size;x=x+maxChunkSize){
                 ++counter

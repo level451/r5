@@ -33,7 +33,13 @@ function websockstart(){
                         break;
                     case "getFile":
                         getFile(x.file)
+
                         break;
+                    case "okToUpload":
+
+                        // enable the upload button here
+                        uploadProgress=document.getElementById("uploadProgress");
+                        uploadProgress.max = x.bytesToTransfer
                     default:
                         console.log(x.object);
                     //  alert(x.object);
@@ -174,12 +180,13 @@ function getFile(file){
                 last:file.last,
                 first:file.first
             })
-        move();
         // counter++
         //
         // if (counter < files.length) {
         //     reader.readAsDataURL(files[counter]);
         // }
+        uploadProgress.value += file.size
+
 
     }
 
@@ -207,12 +214,5 @@ function getFile(file){
 
 }
 
-function move() {
-    var elem = document.getElementById("myBar");
 
-    var width = elem.length/files.length;
-    width += elem.length/files.length;
-    elem.style.width = width + '%';
-    elem.innerHTML = "PROGRESS BAR";
-}
 

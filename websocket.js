@@ -333,7 +333,9 @@ function wsData(data,id){
                     ws.send(JSON.stringify({object:'updateStatus',text:'No version found - upload required'}),'updateunit');
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
                     })
                     return;
                 }
@@ -343,7 +345,9 @@ function wsData(data,id){
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                      //   console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
                     })
                     return
                 } else
@@ -352,7 +356,9 @@ function wsData(data,id){
                     ll.compareFiles(localFiles,remoteFiles,function(rslt){
                      //   console.log(JSON.stringify(rslt.changeList,null,4))
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to transfer:'+rslt.filesToTransfer}),'updateunit');
+                        ws.send(JSON.stringify({object:'updateStatus',text:'Total bytes to transfer:'+rslt.bytesToTransfer}),'updateunit');
                         ws.send(JSON.stringify({object:'updateStatus',text:'Files to delete:'+rslt.filesToDelete}),'updateunit');
+                        ws.send(JSON.stringify({object:'okToUpload',bytesToTransfer:rslt.bytesToTransfer,filesToTransfer:rslt.filesToTransfer}),'updateunit');
                     })
 
                 }
