@@ -164,6 +164,8 @@ console.log(e)
 
         updateStatus('wiz.dat not found - aborting')
         updateStatus('Please Select Show Folder')
+        document.getElementById('droptext').innerHTML="Drag the Show Folder Here - or click to Browse"
+
     }
 
     return
