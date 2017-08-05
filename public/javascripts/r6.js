@@ -1026,7 +1026,7 @@ function drawUnitStatus(unitinfo,data){
         ctx.fillText(data.Temperature, 673,344);
         ctx.fillText(data.firmwareVersion,295,444)
         ctx.fillText(data.IPAddress,620,442)
-        ctx.fillStyle = "#FF00FF";
+        ctx.fillStyle = "#FFFFFF";
 
         ctx.fillText('MAC:'+data.MACAddress,(settings.webPage.width/2)-(ctx.measureText('MAC:'+data.MACAddress).width/2),470);
 
