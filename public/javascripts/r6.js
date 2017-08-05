@@ -580,6 +580,8 @@ if (audioState == 'idle') {
                                 displayState = 'idle';
                                 inSystemMenu = false; //this blocks ques from executing when true
                                 break;
+                                    websocketsend('fadeOut',{}); // turn off backlight
+
                             case 'Select Language':
                                 menuItem = 1;
                                 drawMenuText(languageList, menuItem);
