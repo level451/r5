@@ -947,9 +947,22 @@ exports.getShowFrom = function(show,ip,cb){
                 }
 
                 });
+            ws.on('close',function(){
+                global.updatingUnit = false;
+                console.log('websocket closed')
+
+                global.updatingUnit = false;
+                if (global.updatingUnit == true){
+                    cb({error:'websocket closed'})
+                }
+                global.updatingUnit = false;
+
+
+            })
             ws.on('error', function (err) {
                     console.log('Error - websocket client:'+err);
-                global.updatingUnit = true;
+                global.updatingUnit = false;
+
                 cb({error:err})
 
             });
@@ -1008,6 +1021,7 @@ exports.getShowFrom = function(show,ip,cb){
 
                         console.log('All files recieved');
                         global.updatingUnit = false;
+                        ws.close();
                     })
 
                 }
