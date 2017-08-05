@@ -169,7 +169,7 @@ exports.loadWiz = function(callback){
         wiz.allShowsAvailable = showNames
         if (settings && !settings.ShowName) {
             settings.ShowName = showNames[0];
-            console.log('because there is no show.def - the show  is set to first show found - ' + data);
+            console.log('because there is no show.def - the show  is set to first show found - ' + showNames[0]);
         }
 
         const rl = readline.createInterface({
@@ -814,20 +814,23 @@ exports.getShowFrom = function(show,ip,cb){
     ip = ip +':'+ global.settings.webSocket.listenPort;
     console.log('Requesting Show:'+show+' from:'+ip);
     global.updatingUnit = true;
-    var showDirectoryCreated= false
+    var showDirectoryCreated= false; //reset the show creation directoy flag
     var lastDirectory = ''
     var listCounter = 0;
-    var list
+    var list;
+    var getFileStalledTimeout;
     const showPath = 'public/show/' // also in llibR6
 
     exports.dirToObject(show,function(localFiles){
-           if (!localFiles){localFiles={}}; // if its a new show
+        // first get local version of show to update
+        if (!localFiles){localFiles={}}; // if its a new show
 
            var ws = new WebSocket('ws://'+ip)
 
             ws.on('open', function open() {
                 console.log('connected to remote server')
-                //ws.send(JSON.stringify({type:'uploadfiles',data:o}));
+
+                // 2nd - connect to the remote unit and get its file list
                 ws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
 
             });
@@ -836,11 +839,13 @@ exports.getShowFrom = function(show,ip,cb){
                 data = JSON.parse(data);
                 switch(data.type) {
                     case "remoteFileInfo":
+                        // 3rd got remote file info back from remote now compare the files
                         var remoteFiles = data.remoteFiles
                         console.log('received file info for show:'+show+' from:'+ip)
 
                         ll.compareFiles(localFiles,remoteFiles,function(rslt) {
                             list = rslt.changeList;
+                            // 4th - compared the files and have the change list
                             console.log('Files To Transfer:'+rslt.filesToTransfer);
                             console.log('Files To Delete:'+rslt.filesToDelete);
                             listCounter=0;
@@ -852,8 +857,9 @@ exports.getShowFrom = function(show,ip,cb){
                         })
                         break;
                     case "file":
+                        // received the file requested back from the reomte unit - now write
                         var file = data.file
-                      //console.log(file.relativePath)
+                            // make sure the show directory is there
                         if (!showDirectoryCreated){
                             showDirectoryCreated = true;
                             try {
@@ -863,13 +869,14 @@ exports.getShowFrom = function(show,ip,cb){
 
                             }
                         }
-                        //check the show directory
+                        //check the show directory has changed
                         var s0 = file.relativePath.indexOf('/');
                         var s1 = file.relativePath.lastIndexOf('/');
                         if (s0 != s1){ // contains a service path
 
                             var servicePath = file.relativePath.substr(0,s1+1)
                             if (lastDirectory != servicePath){
+                                // make sure the new directory (service) path is there
                                 console.log('checking directory:'+servicePath)
                                 lastDirectory = servicePath;
                                 try {
@@ -920,7 +927,8 @@ exports.getShowFrom = function(show,ip,cb){
 
 
                     function updateUtimes(){
-                           // console.log('lastModified:'+file.lastModified)
+                           // update the last modified time of a file
+
                         fs.utimes(showPath+file.relativePath,file.lastModified/1000,file.lastModified/1000,function(err){
                             if (err){console.log('error:'+err);}
 
@@ -946,8 +954,10 @@ exports.getShowFrom = function(show,ip,cb){
 
             });
         function filerec(filename){
+            // got the requested file (or chunk) and wrote it - now get the next file on the list
             if (filename == list[listCounter].name){
-                clearInterval(global.getFileTimeout);
+                // clear the retry timer
+                clearTimeout(getFileStalledTimeout);
                 if (list[fileListCounter].action == 'get'){
                    // console.log('Got File:'+list[listCounter].name+':'+list[listCounter].reason)
                 } else {
@@ -963,7 +973,17 @@ exports.getShowFrom = function(show,ip,cb){
 
                    if (list[listCounter].action == 'get'){
                        ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
-                   } else
+                       // set a timer to abort the process if a file is not received
+                       // this one is a little different than the browser to unit transfer
+                       // we will just abort the process and wait for the next beacon to come in
+                       // the last show we write is the version so it will still report the from version
+                       // and continue with the rest of the files
+
+                       getFileStalledTimeout=setTimeout(function(){
+                           console.log('Update stalled - will retry next beacon')
+                           global.updatingUnit = false;
+                       },15000)
+                    } else
                    {
                        fs.unlink(showPath+list[listCounter].name,function(e){
                            if (e){
