@@ -430,19 +430,6 @@ function wsData(data,id){
                         fs.read(fd, buffer, 0, file.length, file.start, function (err, nread) {
                             if (err) throw err;
 
-                            // if (nread === 0) {
-                            //     // done reading file, do any necessary finalization steps
-                            //
-                            //     fs.close(fd, function (err) {
-                            //         if (err) throw err;
-                            //     });
-                            //     return;
-                            // }
-                            //
-                            // if (nread < CHUNK_SIZE)
-                            //     data = buffer.slice(0, nread);
-                            // else
-                            //     data = buffer;
                             var temp = {
                                 relativePath:file.name,
                                 data: ((nread < file.length)?buffer.slice(0, nread):buffer).toString('base64'),

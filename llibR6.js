@@ -26,6 +26,8 @@ if(os.type() != "Windows_NT") {
 }
 
 udp(); // start the udp server
+statusBeacon(); // start the status udp beacon
+getMACAddress(); // gets Mac address to gloabel.Mac
 exports.openSerialPort = function(portname,cb)
 {
     // console.log("Attempting to open serial port "+portname);
@@ -518,6 +520,12 @@ exports.wifiandPanIdcheckandset= function(){
                 }
             }
         });
+
+
+    }}
+
+function getMACAddress(){
+    if(os.type() != "Windows_NT") {//dont do this on windows!
         fs.readFile(macAddress, 'utf8', (err,filetxt) => {
             if (err) {
                 console.log("MAC ERROR:  " + err);
@@ -527,10 +535,25 @@ exports.wifiandPanIdcheckandset= function(){
                 console.log("Mac Address: " + global.Mac);
             }
         });
+    }else
+    {
+        const exec = require('child_process').exec;
+        exec('getmac', function (err, stdout, stderr) {
+            if (!err) {
+                var temp = stdout.split(' ');
+                global.Mac = temp[51].substring(temp[51].length - 17, temp[51].length).split('-').join(':');
+                console.log("Mac Address: " + global.Mac);
+
+            }
+            else {
+                console.log('Some error occurred in getting MAC ', err, stderr);
+            }
+        })
+
 
     }
-}
 
+}
 exports.getIPAddres = function(){
     //iterate through all of the system IPv4 addresses
     // we should connect to address[0] with the webserver
@@ -1012,8 +1035,9 @@ function udp()
 
 
                 }
-
-
+                break;
+            case "unitStatus":
+                console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
                     break;
             default:
                 console.log('Unknow message type from udpSocket:'+message.type)
@@ -1102,5 +1126,28 @@ exports.getShowVersions = function(cb){
 
 
     })
+
+}
+function statusBeacon(){
+
+    const dgram = require('dgram');
+    updateUnitIntervalTimer = setInterval(function(){
+        const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
+        var beacon = {
+            type:'unitStatus',
+            data: {
+                Battery: (parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
+                Pan: global.Pan,
+                Signal: global.Sig,
+                Temperature: global.Temperature,
+                IPAddress: global.myuri,
+                MACAddress: global.Mac,
+                firmwareVersion: pjson.version
+            }
+        }
+        socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
+            socket.close();
+        });
+    },5000)
 
 }
