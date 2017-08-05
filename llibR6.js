@@ -979,7 +979,6 @@ exports.getShowFrom = function(show,ip,cb){
 
                 }
 
-
                 if (listCounter < list.length - 1) {
                     ++listCounter
 
