@@ -1057,7 +1057,7 @@ function udp()
                 }
                 break;
             case "unitStatus":
-                console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
+               // console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
                     break;
             default:
                 console.log('Unknow message type from udpSocket:'+message.type)
