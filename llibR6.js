@@ -531,7 +531,7 @@ function getMACAddress(){
                 console.log("MAC ERROR:  " + err);
             }
             else {
-                global.Mac = filetxt;
+                global.Mac = filetxt.replace(/[\n\r]/g, '');
                 console.log("Mac Address: " + global.Mac);
             }
         });
