@@ -929,8 +929,14 @@ function websockstart(){
                             switch (x.type)
                             {
                                 case 'slide':
+
                                     slideHistoryPointer = 0; // reset review slide pointer
-                                    slideHistory.unshift(x.data); // throw the cue slide into history
+                                    if (!demoMode) // dont add to slide history in demo mode
+                                    {
+                                        // throw the cue slide into history
+                                        slideHistory.unshift(x.data);
+                                    }
+
                                     displaySlide(x.data);
                                     break;
                                 case 'audio':

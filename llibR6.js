@@ -1070,7 +1070,7 @@ function udp()
                 }
                 break;
             case "unitStatus":
-               // console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
+                console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
                     break;
             default:
                 console.log('Unknow message type from udpSocket:'+message.type)
@@ -1175,7 +1175,8 @@ function statusBeacon(){
                 Temperature: global.Temperature,
                 IPAddress: global.myuri,
                 MACAddress: global.Mac,
-                firmwareVersion: pjson.version
+                firmwareVersion: pjson.version,
+                showVersions:global.settings.showVersion
             }
         }
         socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
