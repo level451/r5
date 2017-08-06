@@ -58,7 +58,19 @@ function websockstart(){
                         document.getElementById("updateFileTransfer").innerHTML = ''; // clear the info div
                         document.getElementById('droptext').innerHTML="Upload Complete - Choose Next Show"
                         break;
+                    case "statusBeacon":
+                        console.log(JSON.stringify(x.data,null,4))
+                        if (!document.getElementById(x.data.MACAddress)){
+                            var newBeacon = document.createElement('textarea')
+                            newBeacon.id = x.data.MACAddress
+                            newBeacon.rows = 14;
+                            newBeacon.cols = 30;
+                            document.getElementById('statusBeacons').appendChild(newBeacon);
 
+                        }
+                        console.log(x.data.MACAddress)
+                        document.getElementById(x.data.MACAddress).value = JSON.stringify(x.data,null,4)
+                        break;
                     default:
                         console.log(x.object);
                     //  alert(x.object);
