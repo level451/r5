@@ -321,7 +321,7 @@ exports.getUnitSettings = function(){
                     console.log("Temperature: " + err);
                 }
                 else {
-                    global.Temperature = filetxt;
+                    global.Temperature = filetxt.replace(/[\n\r]/g, '');
                     console.log("Temperature: " + global.Temperature);
                 }
 
@@ -1074,7 +1074,9 @@ function udp()
            //     if (global.updateUnit) {
                     // lets compare the show versions here to see if there are any diffs
                     var showDiff = {};
-
+                    if (message.data.MACAddress == global.Mac){
+                        message.data.masterunit = true;
+                    }
                     for (x in message.data.showVersions) {
                         if (!global.settings.showVersion[x] ) {
                             // version doesn't exist on master
