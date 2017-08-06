@@ -1069,11 +1069,58 @@ function udp()
 
                 }
                 break;
-            case "unitStatus":
-                console.log('Status from:'+fromAddress+'\n' + JSON.stringify(message.data,null,4))
+            case "statusBeacon":
+                //  only do this in update mode
+           //     if (global.updateUnit) {
+                    // lets compare the show versions here to see if there are any diffs
+                    var showDiff = {};
+
+                    for (x in message.data.showVersions) {
+                        if (!global.settings.showVersion[x] ) {
+                            // version doesn't exist on master
+                            showDiff[x] ={};
+                            showDiff[x].version = message.data.showVersions[x];
+                            showDiff[x].reason = 'Extra'
+                            continue;
+                        }
+
+                        if (global.settings.showVersion[x] == message.data.showVersions[x]) {
+                            // versions are the same
+                            continue;
+                        }
+                        if (global.settings.showVersion[x] > message.data.showVersions[x]) {
+                            showDiff[x] ={};
+                            showDiff[x].version = message.data.showVersions[x];
+                            showDiff[x].reason = 'Older'
+                            continue;
+                        }
+                        if (global.settings.showVersion[x] < message.data.showVersions[x]) {
+                            showDiff[x] ={};
+                            showDiff[x].version = message.data.showVersions[x];
+                            showDiff[x].reason = 'Newer'
+                            continue;
+                        }
+
+                    }
+                    for (x in global.settings.showVersion) {
+                        if (!message.data.showVersions[x] ) {
+                            showDiff[x] ={};
+                            showDiff[x].version = global.settings.showVersion[x];
+                            showDiff[x].reason = 'Missing'
+
+
+                        }
+                    }
+                    delete message.data.showVersions;
+                    message.data.showDiffs = showDiff;
+                ws.send(JSON.stringify({object: 'statusBeacon',data: message.data }), 'updateunit');
+                    //console.log(fromAddress+' Diffs:'+JSON.stringify(showDiff,null,4))
+
+
+            //    }
                     break;
-            default:
-                console.log('Unknow message type from udpSocket:'+message.type)
+                default:
+                    console.log('Unknow message type from udpSocket:' + message.type)
 
 
         }
@@ -1167,7 +1214,7 @@ function statusBeacon(){
     updateUnitIntervalTimer = setInterval(function(){
         const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
         var beacon = {
-            type:'unitStatus',
+            type:'statusBeacon',
             data: {
                 Battery: (parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
                 Pan: global.Pan,
