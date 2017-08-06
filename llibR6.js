@@ -1074,6 +1074,7 @@ function udp()
            //     if (global.updateUnit) {
                     // lets compare the show versions here to see if there are any diffs
                     var showDiff = {};
+                    message.data.time = new Date();
                     if (message.data.MACAddress == global.Mac){
                         message.data.masterunit = true;
                     }
