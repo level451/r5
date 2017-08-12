@@ -899,7 +899,13 @@ exports.getShowFrom = function(show,ip,cb){
 
                       // console.log(JSON.stringify(list,null,4))
                             // this could error if it was a type delete
-                            ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+                            ws.send(JSON.stringify({type:'getfile',file:list[listCounter],
+                                status:{
+                                    complete:listCounter/list.length,
+                                    mac:global.global.Mac,
+                                    show:show
+
+                                }}));
 
                         })
                         break;
