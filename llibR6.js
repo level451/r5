@@ -314,6 +314,32 @@ exports.getUnitSettings = function(){
         }
         else {
             global.Battery = filetxt;
+            // ###########################################################################################################
+            // ###########################################################################################################
+
+            //convert to percentage of battery --- this is totally arbitrary - need to put in real life values from testing
+
+            // ###########################################################################################################
+            // ###########################################################################################################
+
+            if(global.battey.toFixed(1)>4){
+                global.battery = 90;
+            }
+            else if(global.battey.toFixed(1)>3.8){
+                global.battery = 75;
+            }
+            else if(global.battey.toFixed(1)>3.4){
+                global.battery = 50;
+            }
+            else if(global.battey.toFixed(1)>3){
+                global.battery = 25;
+            }
+            else if(global.battey.toFixed(1)>2.8){
+                global.battery = 10;
+            }
+            else if(global.battey.toFixed(1)>2.7){
+                global.battery = 5;
+            }
             console.log("Battery Voltage: "+ global.Battery);
         }
 
