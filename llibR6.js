@@ -40,7 +40,7 @@ statusBeacon(); // start the status udp beacon
 
 
 function updateBattTemp() {
-    battTimer = setInterval(updateBattery(), 500); //start the battery process
+  //  battTimer = setInterval(updateBattery(), 500); //start the battery process
     fs.readFile(sysTemp, 'utf8', (err, filetxt) => { //get the temperature
         if (err) {
             console.log("Temperature: " + err);
