@@ -62,7 +62,7 @@ function updateBattery(){
                 battVoltage += parseInt(filetxt);
                 battCounter ++;
                 console.log("Raw ADC Value: "+ filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage );
-                if(battCounter = 20) {
+                if(battCounter == 20) {
 
                     clearInterval(battTimer);
                     battVoltage = battVoltage/battCounter; //get the average reading
