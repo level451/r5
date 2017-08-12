@@ -1259,7 +1259,7 @@ exports.getShowVersions = function(cb){
     if(os.type() != "Windows_NT") {
 
         require('child_process').exec('df -h /r5', function (err, resp) {
-            console.log('*************************************')
+            console.log('************************************* ')
             console.log(resp);
         });
     }
