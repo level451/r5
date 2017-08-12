@@ -140,7 +140,7 @@ function drawBeaconElement(ctx,d){
     ctx.stroke();
     drawGauge(ctx,35,70,d.Battery,'Battery',0,20,20,30,30,100)
     drawGauge(ctx,105,70,d.freeSpace,'Space',0,10,10,20,20,100)
-    drawGauge(ctx,175,70,d.Temperature,'Temperature',95,100,85,95,0,85)
+    drawGauge(ctx,175,70,d.Temperature,'Temperature',85,100,80,85,0,80)
 
 }
 function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,greenstart,greenstop){
