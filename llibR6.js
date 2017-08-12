@@ -61,16 +61,17 @@ function updateBattery(){
         else {
                 battVoltage += parseInt(filetxt);
                 battCounter ++;
-                console.log("Raw ADC Value: "+ filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage );
+
                 if(battCounter == 20) {
 
                     clearInterval(battTimer);
                     battVoltage = battVoltage/battCounter; //get the average reading
-                    battCounter = 0; //clear it so we can start over
 
+                    battCounter = 0; //clear it so we can start over
+                    console.log("Batt Averaged Raw Value: " + battVoltage);
                     global.Battery = (battVoltage * .003310466).toFixed(2);
                     battVoltage = 0;//now that we have reading, clear it
-                    console.log("Batt Averaged Value: " + global.Battery);
+                    console.log("Batt Averaged and Corrected Value: " + global.Battery);
 
                     // ###########################################################################################################
                     // ###########################################################################################################
@@ -101,8 +102,9 @@ function updateBattery(){
                     }
                     else if (global.Battery > 2.7) {
                         global.Battery = 5;
-                    } else {
-                        global.Battery = 80 // default vaule if not read
+                    }
+                    else if(global.Battery <=2.7){
+                        global.Battery = 1;
                     }
 
 
@@ -397,42 +399,6 @@ exports.getUnitSettings = function(){
             console.log("Battery ERROR:  " + err);
         }
         else {
-            global.Battery  = (parseInt(filetxt)*.003310466).toFixed(2) ;
-
-            console.log("Batt: " + global.Battery);
-
-            // ###########################################################################################################
-            // ###########################################################################################################
-
-            //convert to percentage of battery --- this is totally arbitrary - need to put in real life values from testing
-
-            // ###########################################################################################################
-            // ###########################################################################################################
-
-
-            if(global.Battery>4){
-                global.Battery = 90;
-            }
-            else if(global.Battery>3.8){
-                global.Battery = 75;
-            }
-            else if(global.Battery>3.4){
-                global.Battery = 50;
-            }
-            else if(global.Battery>3){
-                global.Battery = 25;
-            }
-            else if(global.Battery>2.8){
-                global.Battery = 10;
-            }
-            else if(global.Battery>2.7){
-                global.Battery = 5;
-            } else {
-                global.Battery = 80 // default vaule if not read
-            }
-
-
-
             console.log("Battery Voltage: "+ global.Battery);
         }
 
@@ -443,7 +409,6 @@ exports.getUnitSettings = function(){
                     console.log("Temperature: " + err);
                 }
                 else {
-                    global.Temperature = filetxt.replace(/[\n\r]/g, '');
                     console.log("Temperature: " + global.Temperature);
                 }
 
