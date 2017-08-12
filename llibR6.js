@@ -313,7 +313,7 @@ exports.getUnitSettings = function(){
             console.log("Battery ERROR:  " + err);
         }
         else {
-            global.Battery  = (parseInt(filetxt)*.003310466).toFixed(2);
+            global.Battery  = (parseInt(filetxt)*.003310466).toFixed(2) ;
 
             console.log("Batt: " + global.Battery);
 
