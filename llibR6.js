@@ -1155,9 +1155,6 @@ function udp()
                     if (message.data.MACAddress == global.Mac){
                         message.data.masterunit = true;
                     }
-                    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-                    console.log(JSON.stringify(global.settings.showVersion,null,4))
-                console.log(JSON.stringify(message.data.showVersions,null,4))
                     for (x in message.data.showVersions) {
                         if (!global.settings.showVersion[x] ) {
                             // version doesn't exist on master
