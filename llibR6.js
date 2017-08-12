@@ -1031,7 +1031,15 @@ exports.getShowFrom = function(show,ip,cb){
 
 
                    if (list[listCounter].action == 'get'){
-                       ws.send(JSON.stringify({type:'getfile',file:list[listCounter]}));
+                       ws.send(JSON.stringify(
+                           {
+                               type:'getfile',
+                               file:list[listCounter],
+                               complete:listCounter/list.length,
+                               mac:global.global.Mac,
+                               show:show
+                           }
+                           ));
                        // set a timer to abort the process if a file is not received
                        // this one is a little different than the browser to unit transfer
                        // we will just abort the process and wait for the next beacon to come in
@@ -1066,7 +1074,16 @@ exports.getShowFrom = function(show,ip,cb){
                         console.log(JSON.stringify(global.settings.showVersion,null,4))
 
                         console.log('All files recieved');
+
                         global.updatingUnit = false;
+                        ws.send(JSON.stringify(
+                            {
+                                type:'transferComplete',
+                                show:show,
+                                mac:global.global.Mac
+                            }
+                        ));
+
                         ws.close();
                     })
 
