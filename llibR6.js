@@ -12,7 +12,9 @@ list = [] // list for files to get
 fileListCounter = 0;
 const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 3 on nanopi 2
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
-const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2
+const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2;
+const macAddress2 = "/sys/class/net/wlan1/address"; // this is for nanopi 2
+
 global.testMode = false;
 global.demoMode = false;
 var timerBacklightOn;
@@ -528,7 +530,16 @@ function getMACAddress(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
         fs.readFile(macAddress, 'utf8', (err,filetxt) => {
             if (err) {
-                console.log("MAC ERROR:  " + err);
+                console.log("MAC ERROR - trying wlan1:  " + err);
+                fs.readFile(macAddress2, 'utf8', (err,filetxt) => {
+                    if (err) {
+                        console.log("MAC ERROR:  " + err);
+                    }
+                    else {
+                        global.Mac = filetxt.replace(/[\n\r]/g, '');
+                        console.log("Mac Address: " + global.Mac);
+                    }
+                });
             }
             else {
                 global.Mac = filetxt.replace(/[\n\r]/g, '');

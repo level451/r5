@@ -60,16 +60,37 @@ function websockstart(){
                         break;
                     case "statusBeacon":
                         console.log(JSON.stringify(x.data,null,4))
-                        if (!document.getElementById(x.data.MACAddress)){
-                            var newBeacon = document.createElement('textarea')
-                            newBeacon.id = x.data.MACAddress
-                            newBeacon.rows = 14;
-                            newBeacon.cols = 30;
-                            document.getElementById('statusBeacons').appendChild(newBeacon);
+                        var newBeacon = createBeaconElement(x.data.MACAddress);
+
+                        // add the status beacon elements if they are not there
+                        if (x.data.masterunit){
+                            if (!document.getElementById(x.data.MACAddress)){
+                                document.getElementById('masterStatusBeacon').appendChild(newBeacon);
+
+                            }
+
+                        } else {
+                            if (!document.getElementById(x.data.MACAddress)){
+                                document.getElementById('statusBeacons').appendChild(newBeacon);
+
+                            }
 
                         }
+
                         console.log(x.data.MACAddress)
-                        document.getElementById(x.data.MACAddress).value = JSON.stringify(x.data,null,4)
+                       // document.getElementById(x.data.MACAddress).value = JSON.stringify(x.data,null,4)
+                        var beEl = document.getElementById(x.data.MACAddress)
+                        drawBeaconElement(beEl.getContext("2d"),x.data);
+                        // if we dont get a beacon soon enough show the comm is lost
+                        clearTimeout(beEl.timeout);
+                        beEl.timeout = setTimeout(function(){
+                            var ctx = beEl.getContext("2d")
+                            ctx.strokeStyle = 'red';
+
+                            ctx.font = "30px Arial";
+                            ctx.strokeText("Comm Timeout",0,30);
+
+                        },6000)
                         break;
                     default:
                         console.log(x.object);
@@ -82,6 +103,26 @@ function websockstart(){
 
 
     };
+
+}
+function createBeaconElement(mac){
+
+    var newBeacon = document.createElement('canvas')
+    newBeacon.id = mac;
+    newBeacon.width = 210;
+    newBeacon.height = 300;
+    newBeacon.style="border:1px solid #000000;"
+    // var newBeacon = document.createElement('textarea')
+    // newBeacon.rows = 14;
+    // newBeacon.cols = 30;
+    return newBeacon
+
+}
+function drawBeaconElement(ctx,d){
+    console.log('draw')
+    ctx.clearRect(0, 0, 210, 300);
+
+
 
 }
 function websocketsend(type,data){
