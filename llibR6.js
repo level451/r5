@@ -1266,7 +1266,7 @@ function statusBeacon(){
 
             require('child_process').exec('df -h /r5', function (err, resp) {
                 console.log(resp);
-                console.log(resp.substr(resp.lastIndexOf('%')-3,6))
+                console.log(resp.substr(resp.lastIndexOf('%')-5,6))
             });
         }
 
