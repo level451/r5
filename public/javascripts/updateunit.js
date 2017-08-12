@@ -60,7 +60,7 @@ function websockstart(){
                         document.getElementById('droptext').innerHTML="Upload Complete - Choose Next Show"
                         break;
                     case "statusBeacon":
-                        console.log(JSON.stringify(x.data,null,4))
+                    //    console.log(JSON.stringify(x.data,null,4))
                         var newBeacon = createBeaconElement(x.data.MACAddress);
                         // add the status beacon elements if they are not there
                         if (x.data.masterunit){
@@ -94,7 +94,7 @@ function websockstart(){
                     case "transferStatus":
                         drawTransferStatus(x.status);
 
-                        console.log(JSON.stringify(x.status));
+                   //     console.log(JSON.stringify(x.status));
                         break;
                     default:
                         console.log(x.object);
@@ -135,7 +135,7 @@ function drawTransferStatus(d){
     if (d.finished){
         return
     }
-    ctx.fillStyle = 'orange';
+    ctx.fillStyle = 'green';
     ctx.font = "12px Arial";
     drawCenterText(d.show+': Transfer '+(d.complete*100).toFixed(2)+'%',beaconHeight-40)
     ctx.fillStyle = 'black';
