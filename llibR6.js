@@ -61,7 +61,7 @@ function updateBattery(){
         else {
                 battVoltage += parseInt(filetxt);
                 battCounter ++;
-                console.log("Raw ADC Value: ",filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage );
+                console.log("Raw ADC Value: "+ filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage );
                 if(battCounter = 20) {
 
                     clearInterval(battTimer);
