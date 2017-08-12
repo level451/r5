@@ -325,22 +325,22 @@ exports.getUnitSettings = function(){
             // ###########################################################################################################
             // ###########################################################################################################
 
-            if(global.Battey.toFixed(1)>4){
+            if(global.Battery.toFixed(1)>4){
                 global.Battery = 90;
             }
-            else if(global.Battey.toFixed(1)>3.8){
+            else if(global.Battery.toFixed(1)>3.8){
                 global.Battery = 75;
             }
-            else if(global.Battey.toFixed(1)>3.4){
+            else if(global.Battery.toFixed(1)>3.4){
                 global.Battery = 50;
             }
-            else if(global.Battey.toFixed(1)>3){
+            else if(global.Battery.toFixed(1)>3){
                 global.Battery = 25;
             }
-            else if(global.Battey.toFixed(1)>2.8){
+            else if(global.Battery.toFixed(1)>2.8){
                 global.Battery = 10;
             }
-            else if(global.Battey.toFixed(1)>2.7){
+            else if(global.Battery.toFixed(1)>2.7){
                 global.Battery = 5;
             }
             console.log("Battery Voltage: "+ global.Battery);
