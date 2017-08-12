@@ -1297,7 +1297,7 @@ function statusBeacon(){
             // Filesystem      Size  Used Avail Use% Mounted on
             // /dev/mmcblk0p2  7.2G  3.2G  4.0G  45% /
 
-            require('child_process').exec('df -h /r5', function (err, resp) {
+            require('child_process').exec('df -h /', function (err, resp) {
                 global.freeSpace =100-resp.substr(resp.lastIndexOf('%')-4,4)
 
             });
