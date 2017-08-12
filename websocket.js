@@ -455,7 +455,10 @@ function wsData(data,id){
                     });
             }
 
+            // add the file info to the transfrer status
 
+            data.status.file = file;
+            // send the status to the web page
             ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
             break;
         case "transferComplete":
