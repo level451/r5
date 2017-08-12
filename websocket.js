@@ -397,6 +397,7 @@ function wsData(data,id){
 
             })
         case "getfiles":
+            // browser to unit transfer - gets file from browser
             ll.dirToObject(data.show,function(localFiles){
                 ws.send(JSON.stringify({type:'remoteFileInfo',remoteFiles:localFiles}),id);
             });
@@ -409,6 +410,9 @@ function wsData(data,id){
             console.log('public/show/'+file.name)
             var stat = fs.statSync('public/show/'+file.name);
             if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
+
+
+
 
             if (!file.split) {
 
@@ -439,18 +443,28 @@ function wsData(data,id){
                                 lastModified:Math.trunc(stat.mtimeMs)
                             }
                             console.log('data length:'+temp.data.length)
+
                             ws.send(JSON.stringify({type:'file',
                                 file:temp}),id)
-                                fs.close(fd, function (err) {
-                                    if (err) throw err;
-                                });
-
+                            fs.close(fd, function (err) {
+                                if (err) throw err;
+                            });
 
                         });
 
                     });
             }
+
+            // add the file info to the transfrer status
+
+            data.status.file = file.name;
+            // send the status to the web page
+            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
             break;
+        case "transferComplete":
+            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
+            break;
+
         case"updateUnitModeOn":
             global.updateUnit = true;
             const dgram = require('dgram');
