@@ -1,5 +1,6 @@
 var pagename ='updateunit';
 o = null;
+var masterData;
 function load() {
     websockstart();
     var selectfiles=document.getElementById('selectfiles')
@@ -64,6 +65,7 @@ function websockstart(){
 
                         // add the status beacon elements if they are not there
                         if (x.data.masterunit){
+                        masterData = x.data;
                             if (!document.getElementById(x.data.MACAddress)){
                                 document.getElementById('masterStatusBeacon').appendChild(newBeacon);
 
@@ -72,9 +74,7 @@ function websockstart(){
                         } else {
                             if (!document.getElementById(x.data.MACAddress)){
                                 document.getElementById('statusBeacons').appendChild(newBeacon);
-
                             }
-
                         }
 
                         console.log(x.data.MACAddress)
@@ -105,12 +105,15 @@ function websockstart(){
     };
 
 }
+const beaconWidth = 210
+const beaconHeight = 300
+
 function createBeaconElement(mac){
 
     var newBeacon = document.createElement('canvas')
     newBeacon.id = mac;
-    newBeacon.width = 210;
-    newBeacon.height = 300;
+    newBeacon.width = beaconWidth;
+    newBeacon.height = beaconHeight;
     newBeacon.style="border:1px solid #000000;"
     // var newBeacon = document.createElement('textarea')
     // newBeacon.rows = 14;
@@ -120,11 +123,48 @@ function createBeaconElement(mac){
 }
 function drawBeaconElement(ctx,d){
     console.log('draw')
-    ctx.clearRect(0, 0, 210, 300);
+    ctx.clearRect(0, 0, beaconWidth , beaconHeight);
+    ctx.fillStyle = 'black';
+    ctx.font = "14px Arial";
+    ctx.fillText('Unit ID:'+d.MACAddress.substring(9),5,15);
+    if (d.masterunit){
+        ctx.fillStyle = 'blue';
+        ctx.fillText('Master Unit',125,15);
+    }
+    ctx.beginPath();
+    ctx.lineWidth =3;
 
-
+    ctx.moveTo(0,20);
+    ctx.lineTo(beaconWidth,20);
+    ctx.stroke();
+    drawGauge(ctx,35,70,75,'Battery')
+    drawGauge(ctx,175,70,75,'Temperature')
+    drawGauge(ctx,105,70,75,'Space')
 
 }
+function drawGauge(ctx,x,y,value,title){
+    var rad = 25;
+    ctx.fillStyle = 'black';
+    ctx.font = "bold 12px Arial";
+    ctx.fillText(title,x-((ctx.measureText(title).width/2)),y-rad-10);
+    ctx.font = "bold 16px Arial";
+
+    ctx.fillText(value,x-((ctx.measureText(value).width/2)),y+5);
+    ctx.beginPath();
+    ctx.lineWidth =15;
+    ctx.strokeStyle = '#00ff00';
+
+    ctx.arc(x, y,rad, (Math.PI)*.75, 2.0 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+
+    ctx.strokeStyle = '#000000';
+
+    ctx.arc(x,y, rad, (Math.PI)*2, 2.25 * Math.PI);
+    ctx.stroke();
+
+}
+
 function websocketsend(type,data){
 
     var sendobj = {};

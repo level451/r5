@@ -1,6 +1,5 @@
 const debug = 1;
 const showPath = 'public/show/' //also in websocket
-
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
 const WebSocket = require('ws');
@@ -29,6 +28,8 @@ if(os.type() != "Windows_NT") {
 
 udp(); // start the udp server
 statusBeacon(); // start the status udp beacon
+
+
 getMACAddress(); // gets Mac address to gloabel.Mac
 exports.openSerialPort = function(portname,cb)
 {
