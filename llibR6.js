@@ -31,7 +31,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
 
     updateBattTemp();
-    setInterval("updateBattTemp()"",300000); //update global.Battery and global.Temperature every 5 minutes
+    setInterval("updateBattTemp()",300000); //update global.Battery and global.Temperature every 5 minutes
 }
 
 udp(); // start the udp server
