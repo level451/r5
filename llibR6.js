@@ -14,6 +14,7 @@ const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nan
 const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2;
 const macAddress2 = "/sys/class/net/wlan1/address"; // this is for nanopi 2
 
+
 global.testMode = false;
 global.demoMode = false;
 var timerBacklightOn;
@@ -21,14 +22,97 @@ var timerBacklightOff;
 var timerBacklightTime;
 var backlightLevel = 0;
 var backlightNanoPiMax = 100;
+var battTimer;
+var battCounter = 0;
+var battVoltage = 0;
+
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
     var execSeries = require('exec-series');
+
+    updateBattTemp();
+    setInterval(function(){updateBattTemp()},20000); //update global.Battery and global.Temperature every 5 minutes
 }
 
 udp(); // start the udp server
 statusBeacon(); // start the status udp beacon
 
+
+
+function updateBattTemp() {
+    battTimer = setInterval(function(){updateBattery()}, 500); //start the battery process
+    fs.readFile(sysTemp, 'utf8', (err, filetxt) => { //get the temperature
+        if (err) {
+            console.log("Temperature: " + err );
+        }
+        else {
+            global.Temperature = filetxt.replace(/[\n\r]/g, '');
+            console.log("Temperature of unit is: " + global.Temperature);
+        }
+    });
+}
+
+function updateBattery(){
+    console.log("updating Battery");
+    fs.readFile(battADC, 'utf8', (err,filetxt) => {
+        if (err) {
+            console.log("Battery ERROR:  " + err );
+        }
+        else {
+                battVoltage += parseInt(filetxt);
+                battCounter ++;
+                console.log("Raw ADC Value: "+ filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage );
+                if(battCounter == 20) {
+
+                    clearInterval(battTimer);
+                    battVoltage = battVoltage/battCounter; //get the average reading
+                    battCounter = 0; //clear it so we can start over
+
+                    global.Battery = (battVoltage * .003310466).toFixed(2);
+                    battVoltage = 0;//now that we have reading, clear it
+                    console.log("Batt Averaged Value: " + global.Battery);
+
+                    // ###########################################################################################################
+                    // ###########################################################################################################
+
+                    //convert to percentage of battery --- this is totally arbitrary - need to put in real life values from testing
+
+                    // ###########################################################################################################
+                    // ###########################################################################################################
+
+
+                    if (global.Battery > 4) {
+                        global.Battery = 100;
+                    }
+                    else if (global.Battery > 3.9) {
+                        global.Battery = 90;
+                    }
+                    else if (global.Battery > 3.8) {
+                        global.Battery = 75;
+                    }
+                    else if (global.Battery > 3.4) {
+                        global.Battery = 50;
+                    }
+                    else if (global.Battery > 3) {
+                        global.Battery = 25;
+                    }
+                    else if (global.Battery > 2.8) {
+                        global.Battery = 10;
+                    }
+                    else if (global.Battery > 2.7) {
+                        global.Battery = 5;
+                    } else {
+                        global.Battery = 80 // default vaule if not read
+                    }
+
+
+                    console.log("Battery Voltage: " + global.Battery);
+                }
+
+
+         }
+    });
+}
 
 getMACAddress(); // gets Mac address to gloabel.Mac
 exports.openSerialPort = function(portname,cb)
