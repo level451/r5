@@ -1256,6 +1256,8 @@ exports.getShowVersions = function(cb){
 
 
     })
+ }
+function statusBeacon(){
     if(os.type() != "Windows_NT") {
 
         require('child_process').exec('df -h /r5', function (err, resp) {
@@ -1263,8 +1265,6 @@ exports.getShowVersions = function(cb){
             console.log(resp);
         });
     }
-}
-function statusBeacon(){
 
     const dgram = require('dgram');
     updateUnitIntervalTimer = setInterval(function(){
