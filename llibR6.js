@@ -1263,11 +1263,13 @@ function statusBeacon(){
     updateUnitIntervalTimer = setInterval(function(){
 
         if(os.type() != "Windows_NT") {
+            // get free space
+            // Filesystem      Size  Used Avail Use% Mounted on
+            // /dev/mmcblk0p2  7.2G  3.2G  4.0G  45% /
 
             require('child_process').exec('df -h /r5', function (err, resp) {
-                console.log(resp);
                 global.freeSpace =100-resp.substr(resp.lastIndexOf('%')-4,4)
-                console.log(global.freeSpace)
+
             });
         }
 
