@@ -315,7 +315,7 @@ exports.getUnitSettings = function(){
         else {
             global.Battery = (parseInt(filetxt)*.003310466).toFixed(2);
 
-            console.log("Batt: " + filetxt);
+            console.log("Batt: " + global.Battery);
 
             // ###########################################################################################################
             // ###########################################################################################################
@@ -325,23 +325,23 @@ exports.getUnitSettings = function(){
             // ###########################################################################################################
             // ###########################################################################################################
 
-            if(global.battey.toFixed(1)>4){
-                global.battery = 90;
+            if(global.Battey.toFixed(1)>4){
+                global.Battery = 90;
             }
-            else if(global.battey.toFixed(1)>3.8){
-                global.battery = 75;
+            else if(global.Battey.toFixed(1)>3.8){
+                global.Battery = 75;
             }
-            else if(global.battey.toFixed(1)>3.4){
-                global.battery = 50;
+            else if(global.Battey.toFixed(1)>3.4){
+                global.Battery = 50;
             }
-            else if(global.battey.toFixed(1)>3){
-                global.battery = 25;
+            else if(global.Battey.toFixed(1)>3){
+                global.Battery = 25;
             }
-            else if(global.battey.toFixed(1)>2.8){
-                global.battery = 10;
+            else if(global.Battey.toFixed(1)>2.8){
+                global.Battery = 10;
             }
-            else if(global.battey.toFixed(1)>2.7){
-                global.battery = 5;
+            else if(global.Battey.toFixed(1)>2.7){
+                global.Battery = 5;
             }
             console.log("Battery Voltage: "+ global.Battery);
         }
