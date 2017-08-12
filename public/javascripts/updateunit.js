@@ -62,7 +62,6 @@ function websockstart(){
                     case "statusBeacon":
                         console.log(JSON.stringify(x.data,null,4))
                         var newBeacon = createBeaconElement(x.data.MACAddress);
-
                         // add the status beacon elements if they are not there
                         if (x.data.masterunit){
                         masterData = x.data;
@@ -93,6 +92,8 @@ function websockstart(){
                         },6000)
                         break;
                     case "transferStatus":
+                        drawTransferStatus(x.status);
+
                         console.log(JSON.stringify(x.status));
                         break;
                     default:
@@ -124,9 +125,38 @@ function createBeaconElement(mac){
     return newBeacon
 
 }
+function drawTransferStatus(d){
+    var o = document.getElementById(d.mac);
+    if (!o){
+        return
+    }
+    var ctx  = o.getContext("2d")
+    ctx.clearRect(0, beaconHeight-50, beaconWidth , beaconHeight);
+    if (d.finished){
+        return
+    }
+    ctx.fillStyle = 'orange';
+    ctx.font = "12px Arial";
+    drawCenterText(d.show+': Transfer '+(d.complete*100).toFixed(2)+'%',beaconHeight-40)
+    ctx.fillStyle = 'black';
+    ctx.fillText(d.file,0,beaconHeight-5)
+// draw to progress bar
+    ctx.beginPath();
+    ctx.lineWidth =20;
+    ctx.strokeStyle = 'blue';
+    ctx.moveTo(0,beaconHeight-28);
+    ctx.lineTo(d.complete*beaconWidth,beaconHeight-28)
+    ctx.stroke();
+
+
+    function drawCenterText(txt,y){
+        ctx.fillText(txt,(beaconWidth/2)-((ctx.measureText(txt).width/2)),y);
+
+    }
+}
 function drawBeaconElement(ctx,d){
     //console.log('draw')
-    ctx.clearRect(0, 0, beaconWidth , beaconHeight);
+    ctx.clearRect(0, 0, beaconWidth , beaconHeight-40);
     ctx.fillStyle = 'black';
     ctx.font = "14px Arial";
     ctx.fillText('Unit ID:'+d.MACAddress.substring(9),5,15);
@@ -138,7 +168,7 @@ function drawBeaconElement(ctx,d){
     ctx.lineWidth =3;
     ctx.strokeStyle = 'black';
 
-    ctx.moveTo(0,20);
+
     ctx.lineTo(beaconWidth,20);
     ctx.stroke();
     drawGauge(ctx,35,70,d.Battery,'Battery',0,20,20,30,30,100)
