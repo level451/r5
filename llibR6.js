@@ -1258,17 +1258,21 @@ exports.getShowVersions = function(cb){
     })
  }
 function statusBeacon(){
-    console.log(os.type)
-    if(os.type() != "Windows_NT") {
-        console.log('here')
-        require('child_process').exec('df -h /r5', function (err, resp) {
-            console.log('************************************* ')
-            console.log(resp);
-        });
-    }
 
     const dgram = require('dgram');
     updateUnitIntervalTimer = setInterval(function(){
+        console.log(os.type)
+        if(os.type() != "Windows_NT") {
+            console.log('here')
+            require('child_process').exec('df -h /r5', function (err, resp) {
+                console.log('************************************* ')
+                console.log(resp);
+            });
+        }
+
+
+
+
         const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
         var beacon = {
             type:'statusBeacon',
