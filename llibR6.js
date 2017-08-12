@@ -365,7 +365,7 @@ exports.getUnitSettings = function(){
                         global.Pan = Pan;
                         ws.send(JSON.stringify({object: 'unitStatus',
                             data: {
-                                Battery: global.battery,  //(parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
+                                Battery: global.Battery,  //(parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
@@ -1260,7 +1260,7 @@ function statusBeacon(){
         var beacon = {
             type:'statusBeacon',
             data: {
-                Battery: (parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
+                Battery: global.Battery, //(parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
                 Pan: global.Pan,
                 Signal: global.Sig,
                 Temperature: global.Temperature,
