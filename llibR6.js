@@ -1261,12 +1261,12 @@ function statusBeacon(){
 
     const dgram = require('dgram');
     updateUnitIntervalTimer = setInterval(function(){
-        console.log(os.type)
+
         if(os.type() != "Windows_NT") {
-            console.log('here')
+
             require('child_process').exec('df -h /r5', function (err, resp) {
-                console.log('************************************* ')
                 console.log(resp);
+                console.log(resp.substr(resp.lastIndexOf('%')-4,3))
             });
         }
 
