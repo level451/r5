@@ -138,12 +138,14 @@ function drawBeaconElement(ctx,d){
     ctx.moveTo(0,20);
     ctx.lineTo(beaconWidth,20);
     ctx.stroke();
-    drawGauge(ctx,35,70,75,'Battery')
-    drawGauge(ctx,175,70,75,'Temperature')
-    drawGauge(ctx,105,70,75,'Space')
+    drawGauge(ctx,35,70,15,'Battery',0,20,20,30,30,100)
+    drawGauge(ctx,105,70,50,'Space',0,10,10,20,20,100)
+    drawGauge(ctx,175,70,90,'Temperature',95,100,85,95,0,85)
 
 }
-function drawGauge(ctx,x,y,value,title){
+function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,greenstart,greenstop){
+
+
     var rad = 25;
     ctx.fillStyle = 'black';
     ctx.font = "bold 12px Arial";
@@ -151,19 +153,30 @@ function drawGauge(ctx,x,y,value,title){
     ctx.font = "bold 16px Arial";
 
     ctx.fillText(value,x-((ctx.measureText(value).width/2)),y+5);
-    ctx.beginPath();
     ctx.lineWidth =15;
-    ctx.strokeStyle = '#00ff00';
 
-    ctx.arc(x, y,rad, (Math.PI)*.75, 2.0 * Math.PI);
+    // draw red
+    ctx.beginPath();
+    ctx.strokeStyle = '#ff0000';
+    ctx.arc(x, y,rad, drawValue(redstart),drawValue(redstop));
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = '#ffff00';
+    ctx.arc(x, y,rad, drawValue(yellowstart),drawValue(yellowstop));
     ctx.stroke();
     ctx.beginPath();
-
-    ctx.strokeStyle = '#000000';
-
-    ctx.arc(x,y, rad, (Math.PI)*2, 2.25 * Math.PI);
+    ctx.strokeStyle = '#00ff00';
+    ctx.arc(x, y,rad, drawValue(greenstart),drawValue(greenstop));
     ctx.stroke();
 
+    ctx.beginPath();
+    ctx.strokeStyle = '#000000';
+    ctx.arc(x,y, rad, drawValue(value), 2.25 * Math.PI);
+    ctx.stroke();
+    function drawValue(d){
+        return ((d/100)*Math.PI*1.5)+Math.PI*.75
+    }
 }
 
 function websocketsend(type,data){

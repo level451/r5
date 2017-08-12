@@ -325,6 +325,7 @@ exports.getUnitSettings = function(){
             // ###########################################################################################################
             // ###########################################################################################################
 
+
             if(global.Battery>4){
                 global.Battery = 90;
             }
@@ -342,7 +343,12 @@ exports.getUnitSettings = function(){
             }
             else if(global.Battery>2.7){
                 global.Battery = 5;
+            } else {
+                global.Battery = 80 // default vaule if not read
             }
+
+
+
             console.log("Battery Voltage: "+ global.Battery);
         }
 
