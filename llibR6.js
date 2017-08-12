@@ -1266,7 +1266,8 @@ function statusBeacon(){
 
             require('child_process').exec('df -h /r5', function (err, resp) {
                 console.log(resp);
-                console.log(resp.substr(resp.lastIndexOf('%')-4,4))
+                global.freeSpace =100-resp.substr(resp.lastIndexOf('%')-4,4)
+                console.log(global.freeSpace)
             });
         }
 
@@ -1284,6 +1285,7 @@ function statusBeacon(){
                 IPAddress: global.myuri,
                 MACAddress: global.Mac,
                 firmwareVersion: pjson.version,
+                freeSpace: global.freeSpace,
                 showVersions:global.settings.showVersion
             }
         }
