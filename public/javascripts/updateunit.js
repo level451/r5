@@ -93,7 +93,8 @@ function websockstart(){
                         },6000)
                         break;
                     case "transferStatus":
-                        console.log(JSON.stringify(x.status))
+                        console.log(JSON.stringify(x.status));
+                        break;
                     default:
                         console.log(x.object);
                     //  alert(x.object);
