@@ -151,29 +151,51 @@ function drawTransferStatus(d){
 
     function drawCenterText(txt,y){
         ctx.fillText(txt,(beaconWidth/2)-((ctx.measureText(txt).width/2)),y);
-
     }
 }
 function drawBeaconElement(ctx,d){
     //console.log('draw')
-    ctx.clearRect(0, 0, beaconWidth , beaconHeight-40);
-    ctx.fillStyle = 'black';
-    ctx.font = "14px Arial";
-    ctx.fillText('Unit ID:'+d.MACAddress.substring(9),5,15);
+    ctx.clearRect(0, 0, beaconWidth , beaconHeight-50);
+
     if (d.masterunit){
+        ctx.fillStyle = 'black';
+        ctx.font = "14px Arial";
+
+        ctx.fillText('Unit ID:'+d.MACAddress.substring(12),5,15);
         ctx.fillStyle = 'blue';
+        ctx.font = "bold 14px Arial";
         ctx.fillText('Master Unit',125,15);
+    } else
+    {
+        ctx.fillStyle = 'black';
+        ctx.font = "14px Arial";
+        ctx.fillText('Unit ID:'+d.MACAddress.substring(12)+' IP:'+d.IPAddress,5,15);
     }
     ctx.beginPath();
     ctx.lineWidth =3;
     ctx.strokeStyle = 'black';
-
+    ctx.moveTo(0,20)
 
     ctx.lineTo(beaconWidth,20);
     ctx.stroke();
     drawGauge(ctx,35,70,d.Battery,'Battery',0,20,20,30,30,100)
     drawGauge(ctx,105,70,d.freeSpace,'Space',0,10,10,20,20,100)
     drawGauge(ctx,175,70,d.Temperature,'Temperature',85,100,80,85,0,80)
+    ctx.fillStyle = 'black';
+    ctx.font = "14px Arial";
+    drawCenterText('Show Sync Status',110)
+    if (Object.keys(d.showDiffs).length == 0){
+
+        ctx.fillStyle = 'green';
+        drawCenterText('This Unit Synced to Master',125)
+
+    } else
+    {
+
+    }
+    function drawCenterText(txt,y){
+        ctx.fillText(txt,(beaconWidth/2)-((ctx.measureText(txt).width/2)),y);
+    }
 
 }
 function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,greenstart,greenstop){
