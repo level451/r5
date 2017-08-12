@@ -47,12 +47,13 @@ function updateBattTemp() {
         }
         else {
             global.Temperature = filetxt.replace(/[\n\r]/g, '');
-            console.log("Temperature: " + global.Temperature);
+            console.log("Temperature of unit is: " + global.Temperature);
         }
     });
 }
 
 function updateBattery(){
+    console.log("updating Battery");
     fs.readFile(battADC, 'utf8', (err,filetxt) => {
         if (err) {
             console.log("Battery ERROR:  " + err );
