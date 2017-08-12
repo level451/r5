@@ -31,7 +31,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
 
     updateBattTemp();
-    setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
+    setInterval(function(){updateBattTemp()},20000); //update global.Battery and global.Temperature every 5 minutes
 }
 
 udp(); // start the udp server
@@ -60,7 +60,7 @@ function updateBattery(){
         else {
                 battVoltage += parseInt(filetxt);
                 battCounter ++;
-            console.log("Raw ADC Value: ",filetxt );
+            console.log("Raw ADC Value: ",filetxt + "BAttCounter " + battCounter + "battVoltage: "+ battVoltage);
         }
     });
         if(battCounter = 20) {
