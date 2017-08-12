@@ -77,7 +77,7 @@ function websockstart(){
                             }
                         }
 
-                        console.log(x.data.MACAddress)
+                        //console.log(x.data.MACAddress)
                        // document.getElementById(x.data.MACAddress).value = JSON.stringify(x.data,null,4)
                         var beEl = document.getElementById(x.data.MACAddress)
                         drawBeaconElement(beEl.getContext("2d"),x.data);
@@ -122,7 +122,7 @@ function createBeaconElement(mac){
 
 }
 function drawBeaconElement(ctx,d){
-    console.log('draw')
+    //console.log('draw')
     ctx.clearRect(0, 0, beaconWidth , beaconHeight);
     ctx.fillStyle = 'black';
     ctx.font = "14px Arial";
