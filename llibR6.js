@@ -313,7 +313,8 @@ exports.getUnitSettings = function(){
             console.log("Battery ERROR:  " + err);
         }
         else {
-            global.Battery = parseFloat(filetxt);
+            global.Battery = (parseInt(filetxt)*.003310466).toFixed(2);
+
             console.log("Batt: " + filetxt);
 
             // ###########################################################################################################
@@ -364,7 +365,7 @@ exports.getUnitSettings = function(){
                         global.Pan = Pan;
                         ws.send(JSON.stringify({object: 'unitStatus',
                             data: {
-                                Battery: (parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
+                                Battery: global.battery,  //(parseInt(global.Battery)*.003310466).toFixed(2).toString(),//this is calculated:  .003381234
                                 Pan: global.Pan,
                                 Signal: global.Sig,
                                 Temperature: global.Temperature,
