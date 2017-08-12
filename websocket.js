@@ -397,6 +397,7 @@ function wsData(data,id){
 
             })
         case "getfiles":
+            // browser to unit transfer - gets file from browser
             ll.dirToObject(data.show,function(localFiles){
                 ws.send(JSON.stringify({type:'remoteFileInfo',remoteFiles:localFiles}),id);
             });
@@ -439,12 +440,14 @@ function wsData(data,id){
                                 lastModified:Math.trunc(stat.mtimeMs)
                             }
                             console.log('data length:'+temp.data.length)
+
                             ws.send(JSON.stringify({type:'file',
                                 file:temp}),id)
-                                fs.close(fd, function (err) {
-                                    if (err) throw err;
-                                });
+                            fs.close(fd, function (err) {
+                                if (err) throw err;
+                            });
 
+                            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
 
                         });
 

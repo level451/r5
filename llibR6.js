@@ -1035,10 +1035,13 @@ exports.getShowFrom = function(show,ip,cb){
                            {
                                type:'getfile',
                                file:list[listCounter],
-                               complete:listCounter/list.length,
-                               mac:global.global.Mac,
-                               show:show
-                           }
+                               status:{
+                                   complete:listCounter/list.length,
+                                   mac:global.global.Mac,
+                                   show:show
+
+                               }
+                               }
                            ));
                        // set a timer to abort the process if a file is not received
                        // this one is a little different than the browser to unit transfer
