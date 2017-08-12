@@ -85,8 +85,8 @@ function websockstart(){
                         clearTimeout(beEl.timeout);
                         beEl.timeout = setTimeout(function(){
                             var ctx = beEl.getContext("2d")
+                            ctx.lineWidth =1;
                             ctx.strokeStyle = 'red';
-
                             ctx.font = "30px Arial";
                             ctx.strokeText("Comm Timeout",0,30);
 
@@ -133,6 +133,7 @@ function drawBeaconElement(ctx,d){
     }
     ctx.beginPath();
     ctx.lineWidth =3;
+    ctx.strokeStyle = 'black';
 
     ctx.moveTo(0,20);
     ctx.lineTo(beaconWidth,20);
