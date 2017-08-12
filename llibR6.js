@@ -1082,8 +1082,12 @@ exports.getShowFrom = function(show,ip,cb){
                         ws.send(JSON.stringify(
                             {
                                 type:'transferComplete',
-                                show:show,
-                                mac:global.global.Mac
+                                status:{
+                                    complete:100,
+                                    show:show,
+                                    mac:global.global.Mac,
+                                    finished:true
+                                }
                             }
                         ));
 

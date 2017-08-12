@@ -411,6 +411,9 @@ function wsData(data,id){
             var stat = fs.statSync('public/show/'+file.name);
             if (!stat.mtimeMs){stat.mtimeMs = Date.parse(stat.mtime)}
 
+
+
+
             if (!file.split) {
 
                 ws.send(JSON.stringify({type:'file',
@@ -447,13 +450,18 @@ function wsData(data,id){
                                 if (err) throw err;
                             });
 
-                            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
-
                         });
 
                     });
             }
+
+
+            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
             break;
+        case "transferComplete":
+            ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
+            break;
+
         case"updateUnitModeOn":
             global.updateUnit = true;
             const dgram = require('dgram');
