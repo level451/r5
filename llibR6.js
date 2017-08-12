@@ -31,7 +31,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
 
     updateBattTemp();
-    setInterval(function(){updateBattTemp()},20000); //update global.Battery and global.Temperature every 5 minutes
+    setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
 }
 
 udp(); // start the udp server
@@ -53,7 +53,6 @@ function updateBattTemp() {
 }
 
 function updateBattery(){
-    console.log("updating Battery");
     fs.readFile(battADC, 'utf8', (err,filetxt) => {
         if (err) {
             console.log("Battery ERROR:  " + err );
