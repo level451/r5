@@ -191,6 +191,29 @@ function drawBeaconElement(ctx,d){
 
     } else
     {
+        if (d.willSync > 0){
+            ctx.fillStyle = 'orange';
+        } else
+        {
+            ctx.fillStyle = 'red';
+        }
+
+        drawCenterText(((d.willSync > 0 )?d.willSync+ ' Will Sync ':'')+((d.willNotSync > 0 )?d.willNotSync+ ' Cannot Sync ':''),125)
+
+    }
+
+    ctx.font = "11px Arial";
+    var ypos = 140
+    for (var showName in d.showDiffs){
+        if (d.showDiffs[showName].reason == 'Older than Master' || d.showDiffs[showName].reason == 'Not on this Unit'){
+            ctx.fillStyle = 'green';
+
+        }else
+        {
+            ctx.fillStyle = 'red';
+        }
+        ctx.fillText(showName+'('+d.showDiffs[showName].version+') '+d.showDiffs[showName].reason,2,ypos)
+        ypos += 13;
 
     }
     function drawCenterText(txt,y){

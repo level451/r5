@@ -1199,6 +1199,8 @@ function udp()
            //     if (global.updateUnit) {
                     // lets compare the show versions here to see if there are any diffs
                     var showDiff = {};
+                    var willSync = 0;
+                    var willNotSync = 0;
                     message.data.time = new Date();
                     if (message.data.MACAddress == global.Mac){
                         message.data.masterunit = true;
@@ -1208,7 +1210,8 @@ function udp()
                             // version doesn't exist on master
                             showDiff[x] ={};
                             showDiff[x].version = message.data.showVersions[x];
-                            showDiff[x].reason = 'Extra'
+                            showDiff[x].reason = 'Not on Master'
+                            willNotSync++;
                             continue;
                         }
 
@@ -1219,13 +1222,15 @@ function udp()
                         if (global.settings.showVersion[x] > message.data.showVersions[x]) {
                             showDiff[x] ={};
                             showDiff[x].version = message.data.showVersions[x];
-                            showDiff[x].reason = 'Older'
+                            showDiff[x].reason = 'Older than Master'
+                            willSync++;
                             continue;
                         }
                         if (global.settings.showVersion[x] < message.data.showVersions[x]) {
                             showDiff[x] ={};
                             showDiff[x].version = message.data.showVersions[x];
-                            showDiff[x].reason = 'Newer'
+                            showDiff[x].reason = 'Newer than Master'
+                            willNotSync++;
                             continue;
                         }
 
@@ -1234,12 +1239,14 @@ function udp()
                         if (!message.data.showVersions[x] ) {
                             showDiff[x] ={};
                             showDiff[x].version = global.settings.showVersion[x];
-                            showDiff[x].reason = 'Missing'
-
+                            showDiff[x].reason = 'Not on this Unit'
+                            willSync++;
 
                         }
                     }
                     delete message.data.showVersions;
+                    message.data.willSync = willSync;
+                    message.data.willNotSync = willNotSync;
                     message.data.showDiffs = showDiff;
                 ws.send(JSON.stringify({object: 'statusBeacon',data: message.data }), 'updateunit');
                     //console.log(fromAddress+' Diffs:'+JSON.stringify(showDiff,null,4))
