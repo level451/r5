@@ -58,7 +58,7 @@ function updateBattery(){
             console.log("Battery ERROR:  " + err );
         }
         else {
-                battVoltage += parseInt(filetext);
+                battVoltage += parseInt(filetxt);
                 battCounter ++;
             console.log("Raw ADC Value: ",filetxt );
         }
