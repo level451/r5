@@ -55,7 +55,7 @@ function updateBattTemp() {
 function updateBattery(){
     fs.readFile(battADC, 'utf8', (err,filetxt) => {
         if (err) {
-            console.log("Battery ERROR:  " + err);
+            console.log("Battery ERROR:  " + err );
         }
         else {
                 battVoltage += parseInt(filetext);
