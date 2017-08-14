@@ -251,7 +251,19 @@ exports.loadWiz = function(callback){
     if (settings.ShowName != null){
         settings.ShowName = settings.ShowName.replace(/[\n\r]/g, '');
     }
+    if (settings.ShowName != null){
+        try {
+            fs.accessSync(showPath+'/'+settings.ShowName+'/wiz.dat')
+        } catch (err) {
+            // the show.def is invalid
+            settings.ShowName = null;
+            console.log('show.def is not valid - ignoring')
+            //if (err.code !== 'EEXIST') {throw err}
 
+        }
+
+
+    }
 
     getShowNames((showNames) =>{
         wiz.allShowsAvailable = showNames
