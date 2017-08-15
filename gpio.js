@@ -157,5 +157,4 @@ exports.audioState = function(state){
                 audioControl.writeSync(0);
         }
     }
-
 }
