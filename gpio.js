@@ -44,14 +44,16 @@ var os = require('os');
 var switch1;
 var switch2;
 var switch3;
+var audioControl
 var switchBlock = 0;
 if(os.type() != "Windows_NT") {
     var Gpio = require('onoff').Gpio,
         //  led = new Gpio(59, 'out'),
         //   button = new Gpio(78, 'in', 'both');
-        switch1 = new Gpio(63, 'in', 'both'); //left
+    switch1 = new Gpio(63, 'in', 'both'); //left
     switch2 = new Gpio(58, 'in', 'both'); // right
     switch3 = new Gpio(59, 'in', 'both'); //center
+    audioControl = new Gpio(63, 'out')
     var switch3Timeout;
 }
 const xbee = require("./Xbee");
@@ -140,4 +142,20 @@ function sendSwitchData(data){
     console.log("Send switch data: " + data + " SwitchBlock: " + switchBlock);
     ws.send(JSON.stringify({object:'simbutton',data:data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
    // console.log("The switch value is: " + data);
+}
+
+exports.audioState = function(state){
+    if(os.type() != "Windows_NT") {
+        switch (state) {
+            case 1:
+            case 'on':
+            case 'On':
+            case 'ON':
+                audiocontrol.writeSync(1);
+                break;
+            default:
+                audioControl.writeSync(0);
+        }
+    }
+
 }
