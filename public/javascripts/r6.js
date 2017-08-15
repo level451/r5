@@ -766,7 +766,7 @@ function getLanguages(){
             rv.push(wiz[key])
         }
     }
-    return rv
+    return rv.sort();
 }
 function drawMenu(offset){
     ctx.putImageData(menu,0,offset)
