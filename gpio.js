@@ -53,7 +53,7 @@ if(os.type() != "Windows_NT") {
     switch1 = new Gpio(63, 'in', 'both'); //left
     switch2 = new Gpio(58, 'in', 'both'); // right
     switch3 = new Gpio(59, 'in', 'both'); //center
-    audioControl = new Gpio(63, 'out')
+    audioControl = new Gpio(62, 'out')
     var switch3Timeout;
 }
 const xbee = require("./Xbee");
