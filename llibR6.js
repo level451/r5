@@ -1361,7 +1361,7 @@ exports.getShowVersions = function(cb){
 function statusBeacon(){
 
     const dgram = require('dgram');
-    //updateUnitIntervalTimer = setInterval(function(){
+    setTimeout(function(){
 
         if(os.type() != "Windows_NT") {
             // get free space
@@ -1395,6 +1395,6 @@ function statusBeacon(){
         socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
             socket.close();
         });
-   // },5000)
+    },Math.random()*1500) // delay a random amount before transmiting - just in case
 
 }
