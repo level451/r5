@@ -35,7 +35,7 @@ if(os.type() != "Windows_NT") {
 }
 
 udp(); // start the udp server
-statusBeacon(); // start the status udp beacon
+
 
 
 
@@ -1206,6 +1206,10 @@ function udp()
 
                 }
                 break;
+            case "requestStatusBeacon":
+                statusBeacon();
+                break;
+
             case "statusBeacon":
                 //  only do this in update mode
            //     if (global.updateUnit) {
@@ -1357,7 +1361,7 @@ exports.getShowVersions = function(cb){
 function statusBeacon(){
 
     const dgram = require('dgram');
-    updateUnitIntervalTimer = setInterval(function(){
+    //updateUnitIntervalTimer = setInterval(function(){
 
         if(os.type() != "Windows_NT") {
             // get free space
@@ -1391,6 +1395,6 @@ function statusBeacon(){
         socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
             socket.close();
         });
-    },5000)
+   // },5000)
 
 }

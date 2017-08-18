@@ -465,7 +465,7 @@ function wsData(data,id){
             ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
             break;
 
-        case"updateUnitModeOn":
+        case "updateUnitModeOn":
             global.updateUnit = true;
             const dgram = require('dgram');
             updateUnitIntervalTimer = setInterval(function(){
@@ -478,10 +478,19 @@ function wsData(data,id){
 
             break;
 
-        case"updateUnitModeOff":
+        case "updateUnitModeOff":
             clearInterval(updateUnitIntervalTimer);
             global.updateUnit = false;
             break;
+        case "requestStatusBeacon":
+            // webpage requested status of all units - brodast in
+            var socket = require('dgram').createSocket({type:'udp4',reuseAddr:true});
+            socket.send(JSON.stringify({type:'requestStatusBeacon'}),41235,'224.1.1.1',(err) =>{
+                socket.close();
+            });
+
+            break;
+
 
         default:
             console.log('unknown datatype '+data.type)

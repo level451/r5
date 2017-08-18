@@ -235,16 +235,16 @@ function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,g
 
     // draw red
     ctx.beginPath();
-    ctx.strokeStyle = '#ff0000';
+    ctx.strokeStyle = '#0000ff';
     ctx.arc(x, y,rad, drawValue(redstart),drawValue(redstop));
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.strokeStyle = '#ffff00';
+    ctx.strokeStyle = '#0000ff';
     ctx.arc(x, y,rad, drawValue(yellowstart),drawValue(yellowstop));
     ctx.stroke();
     ctx.beginPath();
-    ctx.strokeStyle = '#00ff00';
+    ctx.strokeStyle = '#0000ff';
     ctx.arc(x, y,rad, drawValue(greenstart),drawValue(greenstop));
     ctx.stroke();
 
@@ -264,6 +264,9 @@ function websocketsend(type,data){
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
 
+}
+function requestStatusBeacon(){
+    websocketsend('requestStatusBeacon');
 }
 function upload(){
    if(o){
