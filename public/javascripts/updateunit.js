@@ -13,6 +13,8 @@ function websockstart(){
     ws.onopen = function(evt){
         console.log("websocket connected");
         websocketsend('setwebpage',{pagename:pagename});
+        requestStatusBeacon()
+        setInterval(function(){requestStatusBeacon()},5000)
 
     };
     ws.onmessage = function(evt) {
@@ -89,7 +91,7 @@ function websockstart(){
                             ctx.font = "30px Arial";
                             ctx.strokeText("Comm Timeout",0,30);
 
-                        },6000)
+                        },13000)
                         break;
                     case "transferStatus":
                         drawTransferStatus(x.status);
