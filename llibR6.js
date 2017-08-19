@@ -1221,6 +1221,8 @@ function udp()
 
                 if (ws.webpageConnected('updateunit') ) {
                     // lets compare the show versions here to see if there are any diffs
+                    process.stdout.write('S');
+
                     var showDiff = {};
                     var willSync = 0;
                     var willNotSync = 0;
