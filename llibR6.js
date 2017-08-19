@@ -87,16 +87,16 @@ function updateBattery(){
                     else if (global.Battery > 3.9) {
                         global.Battery = 90;
                     }
-                    else if (global.Battery > 3.8) {
+                    else if (global.Battery > 3.85) {
                         global.Battery = 75;
                     }
-                    else if (global.Battery > 3.4) {
+                    else if (global.Battery > 3.5) {
                         global.Battery = 50;
                     }
-                    else if (global.Battery > 3) {
+                    else if (global.Battery > 3.4) {
                         global.Battery = 25;
                     }
-                    else if (global.Battery > 2.8) {
+                    else if (global.Battery > 3.0) {
                         global.Battery = 10;
                     }
                     else if (global.Battery > 2.7) {
