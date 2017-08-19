@@ -475,6 +475,11 @@ function wsData(data,id){
 
         case "updateUnitModeOn":
             global.updateUnit = true;
+            if(os.type() != "Windows_NT") {
+                require('child_process').exec('service smbd start', function (err, resp) {
+                    console.log('SMB service started:'+resp)
+                });
+            }
             const dgram = require('dgram');
             updateUnitIntervalTimer = setInterval(function(){
                 const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
@@ -489,6 +494,11 @@ function wsData(data,id){
         case "updateUnitModeOff":
             clearInterval(updateUnitIntervalTimer);
             global.updateUnit = false;
+            if(os.type() != "Windows_NT") {
+                require('child_process').exec('service smbd stop', function (err, resp) {
+                    console.log('SMB service stopped:'+resp)
+                });
+            }
             break;
         case "requestStatusBeacon":
             // webpage requested status of all units - brodast in
@@ -496,6 +506,7 @@ function wsData(data,id){
             socket.send(JSON.stringify({type:'requestStatusBeacon'}),41235,'224.1.1.1',(err) =>{
                 socket.close();
             });
+
 
             break;
 
