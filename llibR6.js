@@ -1186,7 +1186,8 @@ function udp()
         var fromAddress = rinfo.address;
         switch(message.type){
             case"showVersion": // this is an advertisement from a master unit - indication all of its show versions
-                if (!global.updatingUnit){
+                // make sure global.settings.showVersion is there before comparing
+                if (!global.updatingUnit && global.settings && global.settings.showVersion){
                     for (show in message.showVersion) { // scan the remote object
                         // compare versions
                         if (message.showVersion[show] > global.settings.showVersion[show] || global.settings.showVersion[show] == undefined)  {
@@ -1217,8 +1218,8 @@ function udp()
                 // to its shows and forward this diff to the web browser
                 // only need to do this if a web browser is connected and on the page update unit
 
-                //  only do this in update mode
-                if (ws.webpageConnected('updateunit')) {
+
+                if (ws.webpageConnected('updateunit') ) {
                     // lets compare the show versions here to see if there are any diffs
                     var showDiff = {};
                     var willSync = 0;
