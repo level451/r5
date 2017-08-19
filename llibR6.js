@@ -1185,7 +1185,7 @@ function udp()
         var message = JSON.parse(msg);
         var fromAddress = rinfo.address;
         switch(message.type){
-            case"showVersion":
+            case"showVersion": // this is an advertisement from a master unit - indication all of its show versions
                 if (!global.updatingUnit){
                     for (show in message.showVersion) { // scan the remote object
                         // compare versions
@@ -1206,13 +1206,19 @@ function udp()
 
                 }
                 break;
-            case "requestStatusBeacon":
+
+            case "requestStatusBeacon":  // a request from a master unit asking for the status beacon
                 statusBeacon();
                 break;
 
             case "statusBeacon":
+                // received a status beacon from another unit
+                // this doesn't start an update - it only compares the other units shows
+                // to its shows and forward this diff to the web browser
+                // only need to do this if a web browser is connected and on the page update unit
+
                 //  only do this in update mode
-           //     if (global.updateUnit) {
+                if (ws.webpageConnected('updateunit')) {
                     // lets compare the show versions here to see if there are any diffs
                     var showDiff = {};
                     var willSync = 0;
@@ -1268,7 +1274,7 @@ function udp()
                     //console.log(fromAddress+' Diffs:'+JSON.stringify(showDiff,null,4))
 
 
-            //    }
+                }
                     break;
                 default:
                     console.log('Unknow message type from udpSocket:' + message.type)

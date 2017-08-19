@@ -111,7 +111,15 @@ wss.on('connection', function(ws) {
         delete websocket[thisId];
     });
 });
+exports.webpageConnected = function(pagename){
 
+    for (var i = 0; i < settings.webSocket.maxConnections; i++) {
+        if (websocket[i] && websocket[i].pagename == pagename) {
+            return true
+        }
+    }
+    return false
+}
 
 exports.send = function(data,id,binary)
 {
