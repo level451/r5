@@ -1218,6 +1218,7 @@ function udp()
                 // to its shows and forward this diff to the web browser
                 // only need to do this if a web browser is connected and on the page update unit
 
+                process.stdout.write('s');
 
                 if (ws.webpageConnected('updateunit') ) {
                     // lets compare the show versions here to see if there are any diffs
