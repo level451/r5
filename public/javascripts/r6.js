@@ -293,7 +293,7 @@ function switchPress(s){
 
 
     var speed;
-if (audioState == 'idle') {
+if (audioState == 'idle' || displayState == 'userMenu') {
     switch (displayState) {
         case 'Test Mode':
             turnOffDemoMode()
@@ -742,14 +742,20 @@ if (audioState == 'idle') {
     switch(audioState){
         case 'playaudio':
             // key pressed in playaudio
-            specialMode = 'volume';
-            drawVolume();
+            if (s == 1 || s == 2){
+                specialMode = 'volume';
+                drawVolume();
+
+            }
             break;
         case 'playvideo':
             // key pressed in playvideo
             if (!demoMode) { // disable volume from video in demoMode
-                specialMode = 'volume';
-                drawVolume();
+                if (s == 1 || s == 2){
+                    specialMode = 'volume';
+                    drawVolume();
+
+                }
 
             }
             break;
