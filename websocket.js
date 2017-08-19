@@ -38,13 +38,14 @@ function startBrowser(){
     execSeries(['DISPLAY=:0 sudo  -u fa unclutter &'], (err, stdouts, stderrs) => {//
         if (err) {
             console.log(err);
-            throw err;
+           // throw err;
         }
 
         console.log(stdouts); // yields: ['foo\n', 'bar\n']
         console.log(stderrs); // yields: ['', '']
+        console.log("unclutter started");
     });
-    console.log("unclutter started");
+
 
     execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito  --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
         if (err) {
@@ -54,8 +55,21 @@ function startBrowser(){
 
         console.log(stdouts); // yields: ['foo\n', 'bar\n']
         console.log(stderrs); // yields: ['', '']
+        console.log("browser started");
     });
-    console.log("browser started");
+
+    execSeries(['amixer sset DAC 192'], (err, stdouts, stderrs) => {//sets volume to max
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+
+        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+        console.log(stderrs); // yields: ['', '']
+        console.log("Audio level set");
+    });
+
+
 }
 
 wss.on('connection', function(ws) {
