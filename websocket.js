@@ -38,13 +38,14 @@ function startBrowser(){
     execSeries(['DISPLAY=:0 sudo  -u fa unclutter &'], (err, stdouts, stderrs) => {//
         if (err) {
             console.log(err);
-            throw err;
+           // throw err;
         }
 
         console.log(stdouts); // yields: ['foo\n', 'bar\n']
         console.log(stderrs); // yields: ['', '']
+        console.log("unclutter started");
     });
-    console.log("unclutter started");
+
 
     execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito  --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
         if (err) {
@@ -54,8 +55,21 @@ function startBrowser(){
 
         console.log(stdouts); // yields: ['foo\n', 'bar\n']
         console.log(stderrs); // yields: ['', '']
+        console.log("browser started");
     });
-    console.log("browser started");
+
+    execSeries(['amixer sset DAC 192'], (err, stdouts, stderrs) => {//sets volume to max
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+
+        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+        console.log(stderrs); // yields: ['', '']
+        console.log("Audio level set");
+    });
+
+
 }
 
 wss.on('connection', function(ws) {
@@ -111,7 +125,15 @@ wss.on('connection', function(ws) {
         delete websocket[thisId];
     });
 });
+exports.webpageConnected = function(pagename){
 
+    for (var i = 0; i < settings.webSocket.maxConnections; i++) {
+        if (websocket[i] && websocket[i].pagename == pagename) {
+            return true
+        }
+    }
+    return false
+}
 
 exports.send = function(data,id,binary)
 {
@@ -465,8 +487,13 @@ function wsData(data,id){
             ws.send(JSON.stringify({object:'transferStatus',status:data.status}),'updateunit')
             break;
 
-        case"updateUnitModeOn":
+        case "updateUnitModeOn":
             global.updateUnit = true;
+            if(os.type() != "Windows_NT") {
+                require('child_process').exec('service smbd start', function (err, resp) {
+                    console.log('SMB service started:'+resp)
+                });
+            }
             const dgram = require('dgram');
             updateUnitIntervalTimer = setInterval(function(){
                 const socket = dgram.createSocket({type:'udp4',reuseAddr:true});
@@ -478,10 +505,25 @@ function wsData(data,id){
 
             break;
 
-        case"updateUnitModeOff":
+        case "updateUnitModeOff":
             clearInterval(updateUnitIntervalTimer);
             global.updateUnit = false;
+            if(os.type() != "Windows_NT") {
+                require('child_process').exec('service smbd stop', function (err, resp) {
+                    console.log('SMB service stopped:'+resp)
+                });
+            }
             break;
+        case "requestStatusBeacon":
+            // webpage requested status of all units - brodast in
+            var socket = require('dgram').createSocket({type:'udp4',reuseAddr:true});
+            socket.send(JSON.stringify({type:'requestStatusBeacon'}),41235,'224.1.1.1',(err) =>{
+                socket.close();
+            });
+
+
+            break;
+
 
         default:
             console.log('unknown datatype '+data.type)

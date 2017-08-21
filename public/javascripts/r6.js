@@ -120,7 +120,7 @@ function load() {
             }
 
 
-        },wiz.OnTime*1000
+        },wiz.OnTime*100
         )
 
 
@@ -293,7 +293,7 @@ function switchPress(s){
 
 
     var speed;
-if (audioState == 'idle') {
+if (audioState == 'idle' || displayState == 'userMenu') {
     switch (displayState) {
         case 'Test Mode':
             turnOffDemoMode()
@@ -682,15 +682,43 @@ if (audioState == 'idle') {
                         drawMenuText(languageList, menuItem, true);
                     }, speed * 4);
                     setTimeout(function () {
+                        //erase the image
                         ctx.fillStyle = "#000000";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        //draw the welcome image
+                        ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
+                        displayState = 'welcomeImage';
+                        audioState = 'idle';
+                        websocketsend('fadeIn', {});
+                        languageList = getLanguages();
+
+                        welcomeImageTimeout = setTimeout(function()
+                        {
+                            if (wiz.Directory && wiz.Directory != '') {
+                                websocketsend('fadeOut', {});
+                                setTimeout(function(){
+                                    if (displayState == 'welcomeImage')
+                                    {
+                                        ctx.fillStyle = "#000000";
+                                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                        displayState = 'idle';
+
+                                    }
+                                },wiz.FadeOut)
+                            } else {
+
+                                menuItem = 1;
+                                drawMenuText(languageList, menuItem);
+                                displayState = 'languageMenu'
+                            }
+
+
+                        },wiz.OnTime*1000
+                        )
+
+
                     }, speed * 5)
-                    // setTimeout(function(){
-                    //     drawMenuText(languageList,menuItem,true);
-                    // },speed *6)
-                    // setTimeout(function(){
-                    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    // },speed *7)
+
                     break;
                 case 6:
                     // special menu code - go to system menu
@@ -714,14 +742,20 @@ if (audioState == 'idle') {
     switch(audioState){
         case 'playaudio':
             // key pressed in playaudio
-            specialMode = 'volume';
-            drawVolume();
+            if (s == 1 || s == 2){
+                specialMode = 'volume';
+                drawVolume();
+
+            }
             break;
         case 'playvideo':
             // key pressed in playvideo
             if (!demoMode) { // disable volume from video in demoMode
-                specialMode = 'volume';
-                drawVolume();
+                if (s == 1 || s == 2){
+                    specialMode = 'volume';
+                    drawVolume();
+
+                }
 
             }
             break;
@@ -738,7 +772,7 @@ function getLanguages(){
             rv.push(wiz[key])
         }
     }
-    return rv
+    return rv.sort();
 }
 function drawMenu(offset){
     ctx.putImageData(menu,0,offset)
@@ -1026,7 +1060,6 @@ function drawUnitStatus(unitinfo,data){
         ctx.globalAlpha = 1;
         //drawImage();
         ctx.font = '17px Verdana';
-        ctx.fillStyle = "#00FF00";
         ctx.fillText(data.Battery, 675,193);
         ctx.fillText(data.Pan, 605,244); // service
         ctx.fillText(data.Signal, 697,294);

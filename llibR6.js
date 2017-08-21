@@ -35,7 +35,7 @@ if(os.type() != "Windows_NT") {
 }
 
 udp(); // start the udp server
-statusBeacon(); // start the status udp beacon
+
 
 
 
@@ -87,16 +87,16 @@ function updateBattery(){
                     else if (global.Battery > 3.9) {
                         global.Battery = 90;
                     }
-                    else if (global.Battery > 3.8) {
+                    else if (global.Battery > 3.85) {
                         global.Battery = 75;
                     }
-                    else if (global.Battery > 3.4) {
+                    else if (global.Battery > 3.5) {
                         global.Battery = 50;
                     }
-                    else if (global.Battery > 3) {
+                    else if (global.Battery > 3.4) {
                         global.Battery = 25;
                     }
-                    else if (global.Battery > 2.8) {
+                    else if (global.Battery > 3.0) {
                         global.Battery = 10;
                     }
                     else if (global.Battery > 2.7) {
@@ -251,7 +251,19 @@ exports.loadWiz = function(callback){
     if (settings.ShowName != null){
         settings.ShowName = settings.ShowName.replace(/[\n\r]/g, '');
     }
+    if (settings.ShowName != null){
+        try {
+            fs.accessSync(showPath+'/'+settings.ShowName+'/wiz.dat')
+        } catch (err) {
+            // the show.def is invalid
+            settings.ShowName = null;
+            console.log('show.def is not valid - ignoring')
+            //if (err.code !== 'EEXIST') {throw err}
 
+        }
+
+
+    }
 
     getShowNames((showNames) =>{
         wiz.allShowsAvailable = showNames
@@ -467,7 +479,7 @@ exports.backlight = function(value,direction){
         }
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-                console.log("error in writing to backlight");
+                console.log("error in writing to backlight" + "error: "+ err);
             }
             else {
                 //console.log('The backlight value is now: ' + value);
@@ -1173,8 +1185,9 @@ function udp()
         var message = JSON.parse(msg);
         var fromAddress = rinfo.address;
         switch(message.type){
-            case"showVersion":
-                if (!global.updatingUnit){
+            case"showVersion": // this is an advertisement from a master unit - indication all of its show versions
+                // make sure global.settings.showVersion is there before comparing
+                if (!global.updatingUnit && global.settings && global.settings.showVersion){
                     for (show in message.showVersion) { // scan the remote object
                         // compare versions
                         if (message.showVersion[show] > global.settings.showVersion[show] || global.settings.showVersion[show] == undefined)  {
@@ -1194,10 +1207,23 @@ function udp()
 
                 }
                 break;
+
+            case "requestStatusBeacon":  // a request from a master unit asking for the status beacon
+                statusBeacon();
+                break;
+
             case "statusBeacon":
-                //  only do this in update mode
-           //     if (global.updateUnit) {
+                // received a status beacon from another unit
+                // this doesn't start an update - it only compares the other units shows
+                // to its shows and forward this diff to the web browser
+                // only need to do this if a web browser is connected and on the page update unit
+
+                process.stdout.write('s');
+
+                if (ws.webpageConnected('updateunit') ) {
                     // lets compare the show versions here to see if there are any diffs
+                    process.stdout.write('S');
+
                     var showDiff = {};
                     var willSync = 0;
                     var willNotSync = 0;
@@ -1252,7 +1278,7 @@ function udp()
                     //console.log(fromAddress+' Diffs:'+JSON.stringify(showDiff,null,4))
 
 
-            //    }
+                }
                     break;
                 default:
                     console.log('Unknow message type from udpSocket:' + message.type)
@@ -1345,7 +1371,7 @@ exports.getShowVersions = function(cb){
 function statusBeacon(){
 
     const dgram = require('dgram');
-    updateUnitIntervalTimer = setInterval(function(){
+    setTimeout(function(){
 
         if(os.type() != "Windows_NT") {
             // get free space
@@ -1379,6 +1405,6 @@ function statusBeacon(){
         socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{
             socket.close();
         });
-    },5000)
+    },Math.random()*1500) // delay a random amount before transmiting - just in case
 
 }

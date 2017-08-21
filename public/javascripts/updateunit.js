@@ -13,6 +13,8 @@ function websockstart(){
     ws.onopen = function(evt){
         console.log("websocket connected");
         websocketsend('setwebpage',{pagename:pagename});
+        requestStatusBeacon()
+        setInterval(function(){requestStatusBeacon()},15000)
 
     };
     ws.onmessage = function(evt) {
@@ -58,6 +60,8 @@ function websockstart(){
                         document.getElementById("upload").style.display = "none"
                         document.getElementById("updateFileTransfer").innerHTML = ''; // clear the info div
                         document.getElementById('droptext').innerHTML="Upload Complete - Choose Next Show"
+                        requestStatusBeacon()
+
                         break;
                     case "statusBeacon":
                     //    console.log(JSON.stringify(x.data,null,4))
@@ -82,14 +86,16 @@ function websockstart(){
                         drawBeaconElement(beEl.getContext("2d"),x.data);
                         // if we dont get a beacon soon enough show the comm is lost
                         clearTimeout(beEl.timeout);
+
                         beEl.timeout = setTimeout(function(){
+                            //this will fire if a status update isn't recieved for 2 cycles
                             var ctx = beEl.getContext("2d")
                             ctx.lineWidth =1;
                             ctx.strokeStyle = 'red';
                             ctx.font = "30px Arial";
                             ctx.strokeText("Comm Timeout",0,30);
 
-                        },6000)
+                        },33000)
                         break;
                     case "transferStatus":
                         drawTransferStatus(x.status);
@@ -235,12 +241,12 @@ function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,g
 
     // draw red
     ctx.beginPath();
-    ctx.strokeStyle = '#ff0000';
+    ctx.strokeStyle = '#00ff00';
     ctx.arc(x, y,rad, drawValue(redstart),drawValue(redstop));
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.strokeStyle = '#ffff00';
+    ctx.strokeStyle = '#00ff00';
     ctx.arc(x, y,rad, drawValue(yellowstart),drawValue(yellowstop));
     ctx.stroke();
     ctx.beginPath();
@@ -264,6 +270,9 @@ function websocketsend(type,data){
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
 
+}
+function requestStatusBeacon(){
+    websocketsend('requestStatusBeacon');
 }
 function upload(){
    if(o){
