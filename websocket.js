@@ -47,7 +47,7 @@ function startBrowser(){
     });
 
 
-    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito  --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --default-background-color #ffffffff --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
         if (err) {
             console.log(err);
             throw err;
