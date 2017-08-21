@@ -464,7 +464,6 @@ exports.backlight = function(value,direction){
             }
             timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
         }
-
     }
     else if(direction == 'down'){
         backlightLevel -=1;
