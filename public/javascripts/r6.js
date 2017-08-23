@@ -13,7 +13,8 @@ const systemMenu = ['Exit','Select Language','Select Show','Unit Status','Test M
 var inSystemMenu = false;
 var slideHistoryPointer = 0;
 var slideHistory = [];
-var slideHistroyMode = false;
+var slideHistoryMode = false;
+var slideHistoyTimestamp = new Date();
 var testModeData=[];
 var testModeSignal=[];
 var demoMode = false;
@@ -155,7 +156,7 @@ function switchPress(s){
             turnOffDemoMode(); // take out of demo mode
         }
 
-        slideHistroyMode = false; //take of of slide history mode
+        slideHistoryMode = false; //take of of slide history mode
 
         websocketsend('testModeOff', {}); // turn off test mode
         websocketsend('updateUnitModeOff',{});
@@ -385,7 +386,9 @@ if (audioState == 'idle' || displayState == 'userMenu') {
             switch (s) {
                 case 1:
                     if (!demoMode) { // disable slide history in demo mode
-                        slideHistroyMode = true;
+                        slideHistoryMode = true;
+                        // note the time slide history mode was used last
+                        slideHistoyTimestamp = new Date();
                         if (displayState != 'idle') { // if idle just display the current slide
                             if (slideHistoryPointer < slideHistory.length - 1) { // not at the end of the slides
                                 slideHistoryPointer++;
@@ -400,7 +403,9 @@ if (audioState == 'idle' || displayState == 'userMenu') {
                     break;
                 case 2:
                     if (!demoMode) { // disable slide history in demo mode
-                        slideHistroyMode = true;
+                        slideHistoryMode = true;
+                        // note the time slide history mode was used last
+                        slideHistoyTimestamp = new Date();
                         console.log('slideHistoryPointer:' + slideHistoryPointer)
                         if (displayState != 'idle') { // if idle just display the current slide
                             if (slideHistoryPointer > 0) { // not at the begining of the slides
@@ -942,6 +947,17 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
+                        if (slideHistoryMode == true && (new Date() - slideHistoyTimestamp) < 3000){
+                            
+                            console.log('In slide history mode - new slide < 3 sec - delaying cue')
+                            setTimeout(function(){
+                                slideHistoryMode = false;
+                                console.log('Delayed cue firing')
+                                ws.onmessage(evt);
+                            },3000-(new Date() - slideHistoyTimestamp))
+                            break;
+
+                        }
                         if (displayState != 'idle'){
                             clearTimeout(welcomeImageTimeout);
 
@@ -954,8 +970,8 @@ function websockstart(){
                         }
                         console.log('cue - data:'+x.data);
                         if (inSystemMenu == false){ //dont process cues in system menu
-                            if (slideHistroyMode){
-                                slideHistroyMode = false;
+                            if (slideHistoryMode){
+                                slideHistoryMode = false;
                                 turnOffScreen();
                             }
 
@@ -1035,10 +1051,6 @@ function displaySlide(d) {
     img = new Image();
     console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d);
     img.onload = function () {
-        console.log('onload');
-        //ctx.drawImage(img, 0, 0, img.width, img.height);
-
-
         ctx.globalAlpha = 0;
         fadeTime = wiz.FadeIn * 1000;
         startTime = false;
@@ -1106,7 +1118,7 @@ function fadeIn(t){
 
     if (!startTime) {
         startTime = t;
-    console.log('starttime'+startTime)
+    //console.log('starttime'+startTime)
     }
     ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
