@@ -172,7 +172,7 @@ function switchPress(s){
     }
     if (demoMode && !specialMode && displayState != 'userMenu'){
         switch(s) {
-            case 1:
+            case 2:
                 if (demoModePointer > 1){
                     demoModePointer--;
                 } else
@@ -183,7 +183,7 @@ function switchPress(s){
                 websocketsend('demoCue', {cue:demoModePointer});
 
                 break;
-            case 2:
+            case 1:
                 demoModePointer++;
                 console.log('Demo Mode Cue #:'+demoModePointer)
                 websocketsend('demoCue', {cue:demoModePointer});
