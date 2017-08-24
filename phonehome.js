@@ -2,7 +2,6 @@
  * Created by todd on 8/24/2017.
  */
 const reconnectInterval = 5000
-console.log('asdfasdf')
 exports.start = function(){
     connect('witzel.asuscomm.com:4691')
 }
@@ -26,10 +25,14 @@ function connect(ip) {
     });
 
     ws.on('message', function incoming(data) {
-        data = JSON.parse(data);
-        switch (data.type) {
+        var d = JSON.parse(data);
+        switch (d.type) {
+            case "command":
+                commandProccessor(d.command)
+                break;
             default:
                 console.log('unknown type:' + data.type)
+
         }
 
     });
@@ -61,4 +64,21 @@ function connect(ip) {
         },reconnectInterval)
 
     }
+}
+function commandProccessor(c){
+    switch (c.command) {
+        case "updateFirmware":
+            updateFirmware();
+            break;
+        default:
+            console.log('Command Proccessor - unknown command:'+c.command)
+
+    }
+}
+function updateFirmware(cb){
+    require('child_process').exec('git pull', function (err, resp) {
+        console.log(resp)
+
+    });
+
 }
