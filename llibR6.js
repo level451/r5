@@ -644,6 +644,8 @@ function getMACAddress(cb){
             else {
                 global.Mac = filetxt.replace(/[\n\r]/g, '');
                 console.log("Mac Address: " + global.Mac);
+                cb()
+
             }
         });
     }else
