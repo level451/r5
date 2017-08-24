@@ -16,7 +16,9 @@ function connect(ip) {
         ws.send(JSON.stringify(
             {
                 type:'unitInfo',
-                mac:global.Mac
+                mac:global.Mac,
+                pjson:pjson
+
 
             }
             ))
