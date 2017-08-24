@@ -11,6 +11,11 @@ function startApp()
 
         process.stdout.write(data);
     });
+    child.on('error',function (err){
+        console.log('===============================')
+        process.stdout.write(err);
+
+    })
     child.on('close', function (code) {
         if (code == 100){
             // special case for updating
