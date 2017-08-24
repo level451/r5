@@ -102,7 +102,8 @@ function load() {
 
         welcomeImageTimeout = setTimeout(function()
         {
-            if (wiz.Directory && wiz.Directory != '') {
+            if (wiz.StartUp && wiz.StartUp == 0) {
+                wiz.Directory = wiz.Service0;
                 websocketsend('fadeOut', {});
                 setTimeout(function(){
                     if (displayState == 'welcomeImage')
@@ -113,6 +114,7 @@ function load() {
 
                     }
                 },wiz.FadeOut)
+
             } else {
 
                 menuItem = 1;
