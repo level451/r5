@@ -89,7 +89,10 @@ function updateFirmware(cb){
             console.log('already up to date - no restart')
 
         } else {
-            process.exit(100); // restart if started from app.js
+          setTimeout(function(){
+              process.exit(100); // restart if started from app.js
+          },2000)
+
 
         }
         console.log(resp)
