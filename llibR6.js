@@ -37,7 +37,7 @@ if(os.type() != "Windows_NT") {
 udp(); // start the udp server
 getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
-    require('./phonehome').start();
+    require('./ph').start();
 
     }); // gets Mac address to gloabel.Mac
 
