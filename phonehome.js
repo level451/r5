@@ -4,6 +4,7 @@
 const reconnectInterval = 5000
 exports.start = function(){
     connect('witzel.asuscomm.com:4691')
+    console.log('asdfasdfasdfasdfasdf')
 }
 
 function connect(ip) {
