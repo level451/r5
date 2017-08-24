@@ -7,16 +7,17 @@ function startApp()
 {
     child = require('child_process').spawn('node', ['start.js']);
     child.stdout.setEncoding('utf8');
-    child.stdout.on('data', function (data) {
+    child.stdout.on('data', (data) => {
 
         process.stdout.write(data);
     });
-    child.on('error',function (err){
-        console.log('===============================')
-        process.stdout.write(err);
+    child.stderr.on('data', (data) => {
 
-    })
-    child.on('close', function (code) {
+        process.stdout.write(data);
+    });
+
+
+    child.on('close', (code)=> {
         if (code == 100){
             // special case for updating
             startApp()

@@ -4,7 +4,6 @@
 const reconnectInterval = 5000
 exports.start = function(){
     connect('witzel.asuscomm.com:4691')
-    console.log('asdfasdfasdfasdfasdf')
 }
 
 function connect(ip) {
@@ -17,11 +16,21 @@ function connect(ip) {
             {
                 type:'unitInfo',
                 mac:global.Mac,
-                pjson:pjson
+                pjson:require('./package.json')
 
 
             }
-            ))
+            ),(err)=>{
+            if (!err){
+                process.stdout.write(':)')
+            } else
+            {
+                console.log('PH - socket send error:'+err)
+            }
+
+
+        })
+
         // 2nd - connect to the remote unit and get its file list
 //            ws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
 
@@ -31,7 +40,7 @@ function connect(ip) {
         var d = JSON.parse(data);
         switch (d.type) {
             case "command":
-                commandProccessor(d.command)
+                commandProcessor(d.command)
                 break;
             default:
                 console.log('unknown type:' + data.type)
@@ -62,13 +71,12 @@ function connect(ip) {
         clearTimeout(retryTimeout)
         retryTimeout = setTimeout(
            function(){
-            console.log('reattempting websocket connection')
             connect(ip)
         },reconnectInterval)
 
     }
 }
-function commandProccessor(c){
+function commandProcessor(c){
     switch (c.command) {
         case "updateFirmware":
             updateFirmware();
@@ -81,14 +89,14 @@ function commandProccessor(c){
             break;
 
         default:
-            console.log('Command Proccessor - unknown command:'+c.command)
+            console.log('PH Command Processor - unknown command:'+c.command)
 
     }
 }
 function updateFirmware(cb){
     require('child_process').exec('git pull', function (err, resp) {
         if (resp == 'Already up-to-date.\n'){
-            console.log('already up to date - no restart')
+
 
         } else {
           setTimeout(function(){
