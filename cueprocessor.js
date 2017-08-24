@@ -10,7 +10,8 @@ exports.incommingCue = function(c){
     //temp line for testing - remove when cue sended is fixed
 //c= wiz.ShowName+' '+'GO '+c
 //console.log('At cue processor')
-if (global.lastCueReceived == c ){
+
+    if (global.lastCueReceived == c ){
 
     console.log('Duplicate cue - ignoring')
     return
