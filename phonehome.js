@@ -70,6 +70,13 @@ function commandProccessor(c){
         case "updateFirmware":
             updateFirmware();
             break;
+
+        case "exit":
+
+            //process.exitCode = 100;
+            process.exit(0); // exit normally
+            break;
+
         default:
             console.log('Command Proccessor - unknown command:'+c.command)
 
@@ -77,6 +84,13 @@ function commandProccessor(c){
 }
 function updateFirmware(cb){
     require('child_process').exec('git pull', function (err, resp) {
+        if (resp == 'Already up-to-date.\n'){
+            console.log('already up to date - no restart')
+
+        } else {
+            process.exit(100); // restart if started from app.js
+
+        }
         console.log(resp)
 
     });

@@ -237,7 +237,7 @@ exports.saveSettings = function(callback){
     });
 }
 exports.loadWiz = function(callback){
-    console.log('Software Version:'+pjson.version)
+    console.log(ll.ansi('inverse','Software Version:'+pjson.version))
 
     // default wiz values go here
     global.wiz={

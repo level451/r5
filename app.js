@@ -1,27 +1,22 @@
-ll = require('./llibR6');
-cp = require('./cueprocessor');
-const gpiomodule = require("./gpio");
-const os = require('os');
 
+/**
+ * Created by todd on 8/24/2017.
+ */
+startApp()
+function startApp()
+{
+    child = require('child_process').spawn('node', ['start.js']);
+    child.stdout.setEncoding('utf8');
+    child.stdout.on('data', function (data) {
 
-ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
+        process.stdout.write(data);
+    });
+    child.on('close', function (code) {
+        if (code == 100){
+            // special case for updating
+            startApp()
 
-function settingsLoaded(){
-    console.log('settings file loaded to global.settings');
-    ll.getShowVersions(function(showVersion){
-        global.settings.showVersion = showVersion
-        ll.loadWiz(wizLoaded)
-    })
-
-}
-
-function wizLoaded(){
-//    console.log(JSON.stringify(global.wiz))
-    webserver = require('./webserver')
-    ws = require('./websocket')
-    if(os.type() != "Windows_NT"){
-        ll.openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
-        gpiomodule.setupSwitches();
-        ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
-    }
+        }
+        console.log('process exit code ' + code);
+    });
 }
