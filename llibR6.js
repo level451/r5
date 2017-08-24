@@ -35,6 +35,11 @@ if(os.type() != "Windows_NT") {
 }
 
 udp(); // start the udp server
+getMACAddress(function(){
+    console.log('MAC Obtained - starting PH')
+    require('./phonehome').start();
+
+    }); // gets Mac address to gloabel.Mac
 
 
 
@@ -115,7 +120,6 @@ function updateBattery(){
     });
 }
 
-getMACAddress(); // gets Mac address to gloabel.Mac
 exports.openSerialPort = function(portname,cb)
 {
     // console.log("Attempting to open serial port "+portname);
@@ -621,7 +625,7 @@ exports.wifiandPanIdcheckandset= function(){
 
     }}
 
-function getMACAddress(){
+function getMACAddress(cb){
     if(os.type() != "Windows_NT") {//dont do this on windows!
         fs.readFile(macAddress, 'utf8', (err,filetxt) => {
             if (err) {
@@ -633,6 +637,7 @@ function getMACAddress(){
                     else {
                         global.Mac = filetxt.replace(/[\n\r]/g, '');
                         console.log("Mac Address: " + global.Mac);
+                        cb()
                     }
                 });
             }
@@ -649,7 +654,7 @@ function getMACAddress(){
                 var temp = stdout.split(' ');
                 global.Mac = temp[51].substring(temp[51].length - 17, temp[51].length).split('-').join(':');
                 console.log("Mac Address: " + global.Mac);
-
+                cb()
             }
             else {
                 console.log('Some error occurred in getting MAC ', err, stderr);
