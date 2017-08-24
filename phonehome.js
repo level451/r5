@@ -51,6 +51,7 @@ function connect(ip) {
     ws.on('close', function () {
 
         console.log('websocket closed')
+
         retry()
     })
     ws.on('error', function (err) {
