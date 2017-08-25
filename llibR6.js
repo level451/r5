@@ -492,7 +492,7 @@ exports.backlight = function(value,direction){
 };
 
 exports.backlightOn = function(value){
-    console.log("just arrived at backinght up")
+    console.log("just arrived at backlight up")
     clearTimeout(timerBacklightTime); // already going off, so cleat this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
@@ -506,7 +506,7 @@ exports.backlightOn = function(value){
 };
 
 exports.backlightOff = function(){
-    console.log("just arrived at backinght DOWN");
+    console.log("just arrived at backlight DOWN");
     clearTimeout(timerBacklightTime); // already going off, so cleat this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
