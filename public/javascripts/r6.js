@@ -950,6 +950,7 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
+                        clearTimeout(fadeOutTimer);
                         if (slideHistoryMode == true && (new Date() - slideHistoyTimestamp) < 3000){
                             
                             console.log('In slide history mode - new slide < 3 sec - delaying cue')
