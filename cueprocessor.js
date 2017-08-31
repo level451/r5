@@ -31,7 +31,8 @@ else {
 
     c = c.match(/\S+/g); // breaks string into array at the spaces so s[0] is showname etc.
     // verify the showname is the correct showname
-    if (c[0].toUpperCase() != wiz.ShowName.toUpperCase()) {
+    // added c && c[0] && 8/28/17 - in case we get testing garbage - shouldn't crash now
+    if (c != null && c[0] != null && c[0].toUpperCase() != wiz.ShowName.toUpperCase()) {
         process.stdout.write(ll.ansitime('red', 'Cue           Showname error RECIEVED:' + c[0] + ' EXPECTED:' + wiz.ShowName) + '\n'); // show error
         return;
     }
