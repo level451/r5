@@ -1085,9 +1085,9 @@ function displaySlide(d) {
             displayState == 'displayslide'
             websocketsend('fadeIn',{});
             drawImage()
-            setTimeout(function(){
+            fadeOutTimer = setTimeout(function(){
                 websocketsend('fadeOut',{});
-                setTimeout(function(){
+                fadeOutTimer = setTimeout(function(){
                     ctx.globalAlpha =1;
                     ctx.fillStyle = "#000000";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
