@@ -79,7 +79,7 @@ function load() {
     }, false);
     // draw the welcome image
 
-    canvas.addEventListener("click", canvasClick, false);
+    //canvas.addEventListener("click", canvasClick, false);
     welcomeImage = new Image();
     welcomeImage.src = 'show/'+wiz.ShowName+'/Welcome.jpg';
     websockstart();
