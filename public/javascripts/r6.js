@@ -19,9 +19,10 @@ var testModeData=[];
 var testModeSignal=[];
 var demoMode = false;
 var demoModePointer = 0;
-settings.noCavasFade = true;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
+    settings.noCavasFade = true;
+
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
 
@@ -1046,7 +1047,7 @@ function websocketsend(type,data){
     ws.send(JSON.stringify(sendobj));
 }
 function displaySlide(d) {
-    if (settings.noCavasFade == false){
+    if (settings.noCavasFade == false) {
         console.log('display slide:' + d);
         displayState = 'fadeinslide'; // set mode to fadein
         ctx.fillStyle = "black";
@@ -1054,18 +1055,18 @@ function displaySlide(d) {
 
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
         img = new Image();
-        console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d);
+        console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d);
         img.onload = function () {
             ctx.globalAlpha = 0;
             fadeTime = wiz.FadeIn * 1000;
             startTime = false;
-            websocketsend('fadeIn',{});
+            websocketsend('fadeIn', {});
             fadeIn();
             console.log('fading in')
 
         };
-        img.onerror=function(){
-            console.log('image load error:'+img.src);
+        img.onerror = function () {
+            console.log('image load error:' + img.src);
             displayState = 'idle'; // set mode to show
         };
 
@@ -1079,35 +1080,74 @@ function displaySlide(d) {
         ctx.globalAlpha = 1;
 
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
-        img = new Image();
-        console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d);
-        img.onload = function () {
-            ctx.globalAlpha = 100;
-            displayState == 'displayslide'
-            websocketsend('fadeIn',{});
-            drawImage()
-            fadeOutTimer = setTimeout(function(){
-                websocketsend('fadeOut',{});
-                fadeOutTimer = setTimeout(function(){
-                    ctx.globalAlpha =1;
-                    ctx.fillStyle = "#000000";
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    displayState = 'idle'; // set mode
+        fadeOutTimer = setTimeout(function () {
+            websocketsend('fadeOut', {});
+            fadeOutTimer = setTimeout(function () {
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = "#000000";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                displayState = 'idle'; // set mode
+
+
+            }, (wiz.FadeOut * 1000))
+
+        }, (wiz.OnTime * 1000))
+        var pinchZoom = new PinchZoomCanvas({
+            canvas: canvas,
+            path: '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d,
+            momentum: false,
+            zoomMax: 2,
+            doubletap: true,
+            onZoomEnd: function (zoom, zoomed) {
+                console.log("---> is zoomed: %s", zoomed);
+                console.log("---> zoom end at %s", zoom);
+            },
+            onZoom: function (zoom) {
+                console.log("---> zoom is %s", zoom);
+            }
+        });
+    };
 
 
 
-                },(wiz.FadeOut*1000))
 
-            },    (wiz.OnTime*1000))
-        };
-        img.onerror=function(){
-            console.log('image load error:'+img.src);
-            displayState = 'idle'; // set mode to show
-        };
 
-        img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
 
-    }
+        // console.log('display slide:' + d);
+        // displayState = 'fadeinslide'; // set mode to fadein
+        // ctx.fillStyle = "black";
+        // ctx.globalAlpha = 1;
+        //
+        // ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+        // img = new Image();
+        // console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory+ '/' + d);
+        // img.onload = function () {
+        //     ctx.globalAlpha = 100;
+        //     displayState == 'displayslide'
+        //     websocketsend('fadeIn',{});
+        //     drawImage()
+        //     fadeOutTimer = setTimeout(function(){
+        //         websocketsend('fadeOut',{});
+        //         fadeOutTimer = setTimeout(function(){
+        //             ctx.globalAlpha =1;
+        //             ctx.fillStyle = "#000000";
+        //             ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //             displayState = 'idle'; // set mode
+        //
+        //
+        //
+        //         },(wiz.FadeOut*1000))
+        //
+        //     },    (wiz.OnTime*1000))
+        // };
+        // img.onerror=function(){
+        //     console.log('image load error:'+img.src);
+        //     displayState = 'idle'; // set mode to show
+        // };
+        //
+        // img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
+
+        //    }
 
 
 
