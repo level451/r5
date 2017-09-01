@@ -21,7 +21,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCavasFade = false;
+    settings.noCavasFade = true;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -1095,16 +1095,6 @@ function displaySlide(d) {
         var pinchZoom = new PinchZoomCanvas({
             canvas: canvas,
             path: '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d,
-            momentum: false,
-            zoomMax: 2,
-            doubletap: true,
-            onZoomEnd: function (zoom, zoomed) {
-                console.log("---> is zoomed: %s", zoomed);
-                console.log("---> zoom end at %s", zoom);
-            },
-            onZoom: function (zoom) {
-                console.log("---> zoom is %s", zoom);
-            }
         });
     };
 
