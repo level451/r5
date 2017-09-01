@@ -1092,7 +1092,7 @@ function displaySlide(d) {
             }, (wiz.FadeOut * 1000))
 
         }, (wiz.OnTime * 1000))
-        var pinchZoom = new PinchZoomCanvas({
+        var pinchZoom = new ImgTouchCanvas({
             canvas: canvas,
             path: '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d,
         });
