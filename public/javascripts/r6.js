@@ -21,7 +21,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCavasFade = true;
+    settings.noCavasFade = false;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
