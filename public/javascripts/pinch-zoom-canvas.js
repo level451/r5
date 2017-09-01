@@ -26,8 +26,8 @@
         this.doubletap            = typeof options.doubletap == 'undefined' ? true : options.doubletap;
         this.momentum             = options.momentum;
         this.canvas               = options.canvas;
-        this.canvas.width         = clientWidth//*2;
-        this.canvas.height        = clientHeight//*2;
+        this.canvas.width         = clientWidth*2;
+        this.canvas.height        = clientHeight*2;
         this.canvas.style.width   = clientWidth+'px';
         this.canvas.style.height  = clientHeight+'px';
         this.context              = this.canvas.getContext('2d');
