@@ -189,7 +189,9 @@ function drawBeaconElement(ctx,d){
     drawGauge(ctx,175,70,d.Temperature,'Temperature',85,100,80,85,0,80)
     ctx.fillStyle = 'black';
     ctx.font = "14px Arial";
-    drawCenterText('Show Sync Status',110)
+    //drawCenterText('Show Sync Status',110)
+    drawCenterText('Cues Total:'+d.performance.cueCounter.total+' Show:'+d.performance.cueCounter.show,110)
+
     if (Object.keys(d.showDiffs).length == 0){
 
         ctx.fillStyle = 'green';
@@ -204,7 +206,7 @@ function drawBeaconElement(ctx,d){
             ctx.fillStyle = 'red';
         }
 
-        drawCenterText(((d.willSync > 0 )?d.willSync+ ' Will Sync ':'')+((d.willNotSync > 0 )?d.willNotSync+ ' Cannot Sync ':''),125)
+        drawCenterText('Sync Status:'+((d.willSync > 0 )?d.willSync+ ' Will ':'')+((d.willNotSync > 0 )?d.willNotSync+ ' Cannot ':''),125)
 
     }
 
@@ -221,9 +223,6 @@ function drawBeaconElement(ctx,d){
         ctx.fillText(showName+'('+d.showDiffs[showName].version+') '+d.showDiffs[showName].reason,2,ypos)
         ypos += 13;
     }
-    ctx.fillStyle = 'black';
-    ctx.font = "14px Arial";
-    drawCenterText('Cues Total:'+d.performance.cueCounter.total+' Show:'+d.performance.cueCounter.show,298)
 
     console.log('Total Cues:'+d.performance.cueCounter.total)
 
