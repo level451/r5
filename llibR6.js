@@ -203,7 +203,9 @@ exports.loadSettings = function(callback){
                 } else
                 {
                     global.settings = JSON.parse(filetxt);
-                    callback();
+                    addGlobalCounters();
+
+                    return callback();
 
                     // exports.saveSettings(callback)
 
@@ -214,7 +216,9 @@ exports.loadSettings = function(callback){
         }
         else{
             global.settings = JSON.parse(filetxt);
-            callback();
+            addGlobalCounters();
+
+            return callback();
 
         }
 
@@ -222,6 +226,19 @@ exports.loadSettings = function(callback){
     });
 
 }
+function addGlobalCounters(){
+    global.settings.performance = {}
+    settings.performance.startTime = new Date();
+    settings.performance.cueCounter = {};
+    settings.performance.cueCounter.total = 0;
+    settings.performance.cueCounter.show = 0;
+    settings.performance.cueCounter.jpg = 0;
+    settings.performance.cueCounter.mp4 = 0;
+    settings.performance.cueCounter.mp3 = 0;
+    settings.performance.cueCounter.unhandled = 0;
+    settings.performance.cueCounter.noGO = 0;
+}
+
 exports.saveSettings = function(callback){
     fs.writeFile('settings', JSON.stringify(global.settings,null,4),'utf8',function(err,filetxt){
         if (err ) {
@@ -1405,7 +1422,8 @@ function statusBeacon(){
                 MACAddress: global.Mac,
                 firmwareVersion: pjson.version,
                 freeSpace: global.freeSpace,
-                showVersions:global.settings.showVersion
+                showVersions:global.settings.showVersion,
+                performance:global.settings.performance
             }
         }
         socket.send(JSON.stringify(beacon),41235,'224.1.1.1',(err) =>{

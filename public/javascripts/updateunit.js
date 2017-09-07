@@ -220,8 +220,13 @@ function drawBeaconElement(ctx,d){
         }
         ctx.fillText(showName+'('+d.showDiffs[showName].version+') '+d.showDiffs[showName].reason,2,ypos)
         ypos += 13;
-
     }
+    ctx.fillStyle = 'black';
+    ctx.font = "14px Arial";
+    drawCenterText('Cues Total:'+d.performance.cueCounter.total+' Show:'+d.performance.cueCounter.show,298)
+
+    console.log('Total Cues:'+d.performance.cueCounter.total)
+
     function drawCenterText(txt,y){
         ctx.fillText(txt,(beaconWidth/2)-((ctx.measureText(txt).width/2)),y);
     }
