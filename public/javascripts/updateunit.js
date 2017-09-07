@@ -224,7 +224,6 @@ function drawBeaconElement(ctx,d){
         ypos += 13;
     }
 
-    console.log('Total Cues:'+d.performance.cueCounter.total)
 
     function drawCenterText(txt,y){
         ctx.fillText(txt,(beaconWidth/2)-((ctx.measureText(txt).width/2)),y);
