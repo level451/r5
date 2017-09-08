@@ -16,8 +16,15 @@ function connect(ip) {
             {
                 type:'unitInfo',
                 mac:global.Mac,
-                pjson:require('./package.json')
-
+                ip: global.myuri,
+                settings:global.settings,
+                pjson:require('./package.json'),
+                status:{Battery: global.Battery,
+                        Pan: global.Pan,
+                        Signal: global.Sig,
+                        Temperature: global.Temperature,
+                        uptime:new Date()-global.settings.performance.startTime,
+                }
 
             }
             ),(err)=>{
@@ -84,7 +91,6 @@ function commandProcessor(c){
             break;
 
         case "exit":
-
             //process.exitCode = 100;
             process.exit(0); // exit normally
             break;
