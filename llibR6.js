@@ -218,6 +218,7 @@ exports.loadSettings = function(callback){
 
                 } else
                 {
+                    console.log(ll.ansi('inverse', 'failed to load resoltion :'+err))
                     readdefault()
                 }
 
