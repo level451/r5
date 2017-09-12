@@ -4,11 +4,11 @@
 
 require('child_process').exec("DISPLAY=:0 xdpyinfo  | grep 'dimensions:'", function (err, resp) {
     resp = resp.toString()
-    var resolution = resp.substring(resp.charAt(':'),resp.charAt('p')).trim()
+    var resolution = resp.substring(resp.indexOf(':'),resp.indexOf('p')).trim()
     console.log(resp)
     console.log(resolution)
-    console.log(resp.charAt(':'))
-    console.log(resp.charAt('p'))
+    console.log(resp.indexOf(':'))
+    console.log(resp.indexOf('p'))
     console.log(err)
 
 
