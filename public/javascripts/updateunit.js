@@ -266,14 +266,7 @@ function drawGauge(ctx,x,y,value,title,redstart,redstop,yellowstart,yellowstop,g
     }
 }
 
-function websocketsend(type,data){
 
-    var sendobj = {};
-    sendobj.type = type;
-    sendobj.data = data;
-    ws.send(JSON.stringify(sendobj));
-
-}
 function requestStatusBeacon(){
     websocketsend('requestStatusBeacon');
 }
