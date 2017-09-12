@@ -56,17 +56,7 @@ function startBrowser(){
         console.log(stdouts); // yields: ['foo\n', 'bar\n']
         console.log(stderrs); // yields: ['', '']
         console.log("browser started");
-        require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
-            resp = resp.toString()
-            var resolution = resp.substring(resp.charAt(':'),resp.charAt('p')).trim()
-            console.log(resp)
-            console.log(resolution)
-            console.log(resp.charAt(':'))
-            console.log(resp.charAt('p'))
-            console.log(err)
 
-
-        });
 
 
     });
