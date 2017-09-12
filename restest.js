@@ -4,7 +4,11 @@
 
 require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
     var resolution = resp.substring(resp.charAt(':'),resp.charAt('p')).trim()
+    console.log(resp)
     console.log(resolution)
+    console.log(resp.charAt(':'))
+    console.log(resp.charAt('p'))
     console.log(err)
+
 
 });
