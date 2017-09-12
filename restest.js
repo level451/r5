@@ -4,4 +4,6 @@
 
 require('child_process').exec('xandr', function (err, resp) {
     console.log(resp)
+    console.log(err)
+
 });
