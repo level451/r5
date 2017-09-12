@@ -182,39 +182,53 @@ exports.serialWrite = function(data) {
 
 
 exports.loadSettings = function(callback){
-    fs.readFile('settings', 'utf8', (err,filetxt) =>{
+// so lame -
+// first - look for settings (with no extion) - if that is found load it and return
+// next  see if we can read the screen resoltion -
+    // if we can look for a settings480x800 or whatever the resolution is - load it and return
+    // if we can read the resoltion or we can read the resoltion, but the settings480x800 isnt there
+    // just load settings.defaul and return
+
+
+
+
+
+    fs.readFile('settings', 'utf8', (err, filetxt) => {
         if (err) {
-            console.log ('settings not found - attemting to load from settings.default')
-            fs.readFile('settings.default', 'utf8', (err,filetxt) =>{
-                if (err) {
+            console.log('settings not found - looking at screen resolution')
+            require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
+                var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
+                if (!err){
+                    if (!err){
+                        console.log(ll.ansi('inverse','settings'+resolution+' Loaded!'))
+
+                        global.settings = JSON.parse(filetxt);
+                        addGlobalCounters();
+
+                        return callback();
 
 
-                    global.settings = {
-                        webServer: {
-                            listenPort: 3111
-                        },
-                        webSocket: {
-                            listenPort: 3112,
-                            maxConnections: 10,
-                            showConnectioninfo: false
-                        }
+                    } else
+                    {
+                        readdefault()
                     }
-                    exports.saveSettings(callback)
+
                 } else
                 {
-                    global.settings = JSON.parse(filetxt);
-                    addGlobalCounters();
-
-                    return callback();
-
-                    // exports.saveSettings(callback)
-
-
+                    readdefault()
                 }
 
+
+
             });
+
+
+
+
+
         }
-        else{
+        else {
+            console.log(ll.ansi('inverse','settings Loaded!'))
             global.settings = JSON.parse(filetxt);
             addGlobalCounters();
 
@@ -224,6 +238,39 @@ exports.loadSettings = function(callback){
 
 
     });
+function readdefault(){
+    fs.readFile('settings.default', 'utf8', (err, filetxt) => {
+        console.log(ll.ansi('inverse','settings.default  Loaded!'))
+        if (err) {
+
+
+            global.settings = {
+                webServer: {
+                    listenPort: 3111
+                },
+                webSocket: {
+                    listenPort: 3112,
+                    maxConnections: 10,
+                    showConnectioninfo: false
+                }
+            }
+            exports.saveSettings(callback)
+        } else {
+            global.settings = JSON.parse(filetxt);
+            addGlobalCounters();
+
+            return callback();
+
+            // exports.saveSettings(callback)
+
+
+        }
+
+    });
+}
+
+
+
 
 }
 function addGlobalCounters(){
