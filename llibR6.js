@@ -199,7 +199,7 @@ exports.loadSettings = function(callback){
             require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
                 var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
                 if (!err) {
-
+                    console.log('screen resolution detected:'+resolution)
                     fs.readFile('settings'+resolution, 'utf8', (err, filetxt) => {
 
                         if (!err) {
