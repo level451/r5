@@ -198,20 +198,23 @@ exports.loadSettings = function(callback){
             console.log('settings not found - looking at screen resolution')
             require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
                 var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
-                if (!err){
-                    if (!err){
-                        console.log(ll.ansi('inverse','settings'+resolution+' Loaded!'))
+                if (!err) {
 
-                        global.settings = JSON.parse(filetxt);
-                        addGlobalCounters();
+                    fs.readFile('settings'+resolution, 'utf8', (err, filetxt) => {
 
-                        return callback();
+                        if (!err) {
+                            console.log(ll.ansi('inverse', 'settings' + resolution + ' Loaded!'))
+
+                            global.settings = JSON.parse(filetxt);
+                            addGlobalCounters();
+
+                            return callback();
 
 
-                    } else
-                    {
-                        readdefault()
-                    }
+                        } else {
+                            readdefault()
+                        }
+                    });
 
                 } else
                 {
