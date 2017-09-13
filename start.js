@@ -20,6 +20,10 @@ function settingsLoaded(){
 
         webserver = require('./webserver')
         ws = require('./websocket')
+        if(os.type() != "Windows_NT"){
+                     gpiomodule.setupSwitches();
+
+        }
 
     }
 
