@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<script src="/javascripts/reconnectingWebsocket.js"> </script>
+<script src="/javascripts/selectSettings.js"> </script>
+
+
+
+<head>
+
+</head>
+<body bgcolor = "#FFFFFF" onload="load()">
+<h1>Select Settings File</h1>
+<div id='body'>
+
+</div>
+<select size="10" id="selectedSettingsFile">
+    <% var i = 0;
+    settings.availableSettings.forEach(function(x){%>
+
+    <option value = "<%=i%>"><%=x%></option>
+
+    <%++i;
+    })%>
+
+
+</select>
+
+
+</body>
+</html>
+<script>
+        settings=<%-JSON.stringify(settings)%>
+        wiz=<%-JSON.stringify(wiz)%>
+        wsUri = "ws://" + window.location.hostname + ":<%=wsport%>";
+
+</script>

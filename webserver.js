@@ -23,8 +23,14 @@ app.use(function(err, req, res, next) {
 
 app.get('/', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
-    res.render('r6.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });
-});
+    if (!global.settings.failedtoload) {
+        res.render('r6.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+    } else
+    {
+        res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+
+    }
+    });
 app.get('/cue', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
     res.render('cue.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });

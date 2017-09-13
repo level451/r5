@@ -190,65 +190,10 @@ exports.loadSettings = function(callback){
     // just load settings.defaul and return
 
 
-
-
-
     fs.readFile('settings', 'utf8', (err, filetxt) => {
-        if (err) {
-            console.log('settings not found - looking at screen resolution')
-            require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
-                var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
-                if (!err) {
-                    console.log('screen resolution detected:'+resolution)
-                    fs.readFile('settings'+resolution, 'utf8', (err, filetxt) => {
-
-                        if (!err) {
-                            console.log(ll.ansi('inverse', 'settings' + resolution + ' Loaded!'))
-
-                            global.settings = JSON.parse(filetxt);
-                            addGlobalCounters();
-
-                            return callback();
-
-
-                        } else {
-                            readdefault()
-                        }
-                    });
-
-                } else
-                {
-                    console.log(ll.ansi('inverse', 'failed to load resoltion :'+err))
-                    readdefault()
-                }
-
-
-
-            });
-
-
-
-
-
-        }
-        else {
-            console.log(ll.ansi('inverse','settings Loaded!'))
-            global.settings = JSON.parse(filetxt);
-            addGlobalCounters();
-
-            return callback();
-
-        }
-
-
-    });
-function readdefault(){
-    fs.readFile('settings.default', 'utf8', (err, filetxt) => {
-        console.log(ll.ansi('inverse','settings.default  Loaded!'))
-        if (err) {
-
-
+        if (err) {  console.log('settings not found - going to settings menu')
             global.settings = {
+                failedtoload: true,
                 webServer: {
                     listenPort: 3111
                 },
@@ -258,23 +203,111 @@ function readdefault(){
                     showConnectioninfo: false
                 }
             }
-            exports.saveSettings(callback)
-        } else {
-            global.settings = JSON.parse(filetxt);
+            settings.availableSettings = getAvailableSettingsFiles(function(x){
+                settings.availableSettings = x
+            })
             addGlobalCounters();
 
-            return callback();
+            return callback();}
 
-            // exports.saveSettings(callback)
-
-
-        }
-
-    });
-}
+        console.log(ll.ansi('inverse', 'Settings Loaded!'))
+        global.settings = JSON.parse(filetxt);
+        addGlobalCounters();
+        return callback();
 
 
 
+
+            });
+
+
+
+
+    return
+
+
+//     fs.readFile('settings', 'utf8', (err, filetxt) => {
+//         if (err) {
+//             console.log('settings not found - looking at screen resolution')
+//             require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
+//                 var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
+//                 if (!err) {
+//                     console.log('screen resolution detected:'+resolution)
+//                     fs.readFile('settings'+resolution, 'utf8', (err, filetxt) => {
+//
+//                         if (!err) {
+//                             console.log(ll.ansi('inverse', 'settings' + resolution + ' Loaded!'))
+//
+//                             global.settings = JSON.parse(filetxt);
+//                             addGlobalCounters();
+//
+//                             return callback();
+//
+//
+//                         } else {
+//                             readdefault()
+//                         }
+//                     });
+//
+//                 } else
+//                 {
+//                     console.log(ll.ansi('inverse', 'failed to load resoltion :'+err))
+//                     readdefault()
+//                 }
+//
+//
+//
+//             });
+//
+//
+//
+//
+//
+//         }
+//         else {
+//             console.log(ll.ansi('inverse','settings Loaded!'))
+//             global.settings = JSON.parse(filetxt);
+//             addGlobalCounters();
+//
+//             return callback();
+//
+//         }
+//
+//
+//     });
+// function readdefault(){
+//     fs.readFile('settings.default', 'utf8', (err, filetxt) => {
+//         console.log(ll.ansi('inverse','settings.default  Loaded!'))
+//         if (err) {
+//
+//
+//             global.settings = {
+//                 webServer: {
+//                     listenPort: 3111
+//                 },
+//                 webSocket: {
+//                     listenPort: 3112,
+//                     maxConnections: 10,
+//                     showConnectioninfo: false
+//                 }
+//             }
+//             exports.saveSettings(callback)
+//         } else {
+//             global.settings = JSON.parse(filetxt);
+//             addGlobalCounters();
+//
+//             return callback();
+//
+//             // exports.saveSettings(callback)
+//
+//
+//         }
+//
+//     });
+// }
+//
+//
+//
 
 }
 function addGlobalCounters(){
@@ -1413,6 +1446,19 @@ function getShowNames(cb) {
         data.forEach(function (data) {
             if (fs.lstatSync('public/show/' + data).isDirectory()) {
                 //console.log('Show found:' + data)
+                shownames.push(data);
+            }
+        })
+        shownames.sort();
+        if (cb){cb(shownames)}
+    })
+}
+function getAvailableSettingsFiles(cb) {
+    fs.readdir('./', (err, data) => {
+        var shownames = [];
+
+        data.forEach(function (data) {
+            if (data.substr(0,9) == 'settings.') {
                 shownames.push(data);
             }
         })

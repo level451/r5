@@ -7,11 +7,22 @@ const os = require('os');
 ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
 
 function settingsLoaded(){
-    console.log('settings file loaded to global.settings');
-    ll.getShowVersions(function(showVersion){
-        global.settings.showVersion = showVersion
-        ll.loadWiz(wizLoaded)
-    })
+    if (!global.settings.failedtoload){
+        console.log('settings file loaded to global.settings');
+        ll.getShowVersions(function(showVersion){
+            global.settings.showVersion = showVersion
+            ll.loadWiz(wizLoaded)
+        })
+
+    } else
+    {
+        //settings not loaded
+
+        webserver = require('./webserver')
+        ws = require('./websocket')
+
+    }
+
 
 }
 

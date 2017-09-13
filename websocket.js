@@ -47,7 +47,7 @@ function startBrowser(){
     // });
 
 
-    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+    execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
         if (err) {
             console.log(err);
            // throw err;
@@ -213,7 +213,12 @@ function wsData(data,id){
                 console.log('backlight set to:'+wiz.Backlight)
 
             }
-            ll.backlightOn(wiz.Backlight);
+            if (typeof(wiz) != 'undefined'){
+                ll.backlightOn(wiz.Backlight);
+            } else {
+                ll.backlightOn(100);
+            }
+
             break;
 
         case "fadeIn":
