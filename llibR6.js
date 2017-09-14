@@ -56,7 +56,7 @@ function updateBattTemp() {
         }
         else {
             global.Temperature = filetxt.replace(/[\n\r]/g, '');
-            console.log("Temperature of unit is: " + global.Temperature);
+           // console.log("Temperature of unit is: " + global.Temperature);
         }
     });
 }
@@ -76,10 +76,10 @@ function updateBattery(){
                     battVoltage = battVoltage/battCounter; //get the average reading
 
                     battCounter = 0; //clear it so we can start over
-                    console.log("Batt Averaged Raw Value: " + battVoltage);
+                    //console.log("Batt Averaged Raw Value: " + battVoltage);
                     global.Battery = (battVoltage * .003310466).toFixed(2);
                     battVoltage = 0;//now that we have reading, clear it
-                    console.log("Batt Averaged and Corrected Value: " + global.Battery);
+                    //console.log("Batt Averaged and Corrected Value: " + global.Battery);
 
                     // ###########################################################################################################
                     // ###########################################################################################################
@@ -116,7 +116,7 @@ function updateBattery(){
                     }
 
 
-                    console.log("Battery Voltage: " + global.Battery);
+                    //console.log("Battery Voltage: " + global.Battery);
                 }
 
 
@@ -649,33 +649,36 @@ exports.wifiCheck = function(){
     });
     rl.on('close',()=> {
         //console.log("End of File")
-        setTimeout(function(){exports.getIPAddres()}, 20000);// wait 20 seconds and then get ip address
-        if((currentSSID == wiz.Ssid) && (currentPASSWORD == wiz.Pass)){
 
+        if((currentSSID == wiz.Ssid) && (currentPASSWORD == wiz.Pass)){
+            exports.getIPAddres()
             //console.log("there is nothing in wifi that needs to be changed");
         }
         else{ // wiz.dat access point or passwords dont match settings
             getAccessPoints(function(accessPointList){
+                if(accessPointList.indexOf(wiz.Ssid) == -1){
+                    exports.getIPAddres()
+                    console.log(ll.ansi('inverse', 'Access Point Not Found:'+wiz.SSid));
+                    return;
+
+                }
+
                 console.log("Changing Wi-Fi settings");
                 fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
                     if (err) {
-                        return console.log(err);
+                        console.log(err);
+                        return
                     }
                     var result = data.replace(currentSSID, wiz.Ssid);
+                    result = result.replace(currentPASSWORD, wiz.Pass);
                     fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-                        if (err) return console.log(err);
-                        console.log("file contents replaced")
+                        if (err) {
+                            console.log(err);
+                            return
+                        }
 
-                        fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
-                            if (err) {
-                                return console.log(err);
-                            }
-                            var result = data.replace(currentPASSWORD, wiz.Pass);
-                            fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-                                if (err) return console.log(err);
-                                console.log("file contents replaced2")
-                            });
-                        });
+                        console.log("Wi-FI settings config file updated")
+
                     });
 
                     execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
@@ -688,6 +691,7 @@ exports.wifiCheck = function(){
                         console.log(stderrs); // yields: ['', '']
                         execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
                             // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                            setTimeout(function(){exports.getIPAddres()}, 20000);// wait 20 seconds and then get ip address
                             if (err) {
                                 console.log(err);
                                 throw err;
