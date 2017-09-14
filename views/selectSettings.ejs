@@ -11,7 +11,6 @@
 <h1 id="info">Select Settings File</h1>
 <h3> http://<%=settings.ipAddress%>:<%=settings.webServer.listenPort%></h3>
 
-<h3 id ="ip"> http://<%=settings.ipAddress%>:<%=settings.webServer.listenPort%></h3>
 <div id='body'>
 
 </div>
@@ -34,5 +33,5 @@
         settings=<%-JSON.stringify(settings)%>
         wiz=<%-JSON.stringify(wiz)%>
         wsUri = "ws://" + window.location.hostname + ":<%=wsport%>";
-        document.getElementById('ip').innerText='http://'+ window.location.hostname + ":<%=settings.webServer.listenPort%>";
+
 </script>
