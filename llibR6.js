@@ -721,7 +721,7 @@ function getAccessPoints(cb){
         }
 
 
-        })
+
         return cb(rv)
 
     });
