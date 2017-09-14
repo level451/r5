@@ -32,7 +32,6 @@ app.get('/', function (req, res) {
 
                 settings.ipAddress = add;
                 res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
-                console.log('addr: '+add);
                 //console.log(JSON.stringify(require('os').networkInterfaces(),null,4))
 
             });
@@ -40,7 +39,6 @@ app.get('/', function (req, res) {
         {
             settings.ipAddress = require('os').networkInterfaces().wlan0[0].address
             res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
-            console.log('addr: '+add);
         }
 
     }
