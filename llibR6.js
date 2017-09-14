@@ -709,7 +709,8 @@ function getAccessPoints(cb){
 
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
         console.log(resp)
-
+        var rv = resp.split('/n')
+        console.log(rv)
     });
 }
 exports.wifiandPanIdcheckandset= function(){
