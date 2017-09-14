@@ -31,6 +31,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
     getAccessPoints(function(aplist){
         console.log(aplist)
+        console.log(aplist[0])
         console.log('aplist length:'+aplist.length)
     });
     updateBattTemp();
