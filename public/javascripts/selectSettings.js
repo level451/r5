@@ -96,5 +96,5 @@ function confirm(){
     console.log(settings.availableSettings[sv.value])
     sv.remove();
     document.getElementById('info').innerText="Saving File ...";
-
+    document.getElementById('confirm').remove();
 }
