@@ -709,7 +709,9 @@ function getAccessPoints(cb){
 
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
         console.log(resp)
-        var rv = resp.replace(/ESSID:/g,'').split('/n').
+        var rv = resp.replace(/ESSID:/g,'')
+        console.log(rv)
+        rv = rv.split('/n')
         console.log(rv)
     });
 }
