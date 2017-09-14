@@ -639,63 +639,46 @@ exports.wifiCheck = function(){
         console.log(line);
         if(line.includes("ssid")){
             currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"')).trim();
-            console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
+            //console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
         }
         if(line.includes("psk")) {
             currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"')).trim();
-            console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
+            //console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
         }
 
-        // if (line.indexOf(':') != -1){ // make sure there is a :
-        //     // update the global.wiz object
-        //     global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
-        //
-        // } else
-        // {
-        //     console.log('Invalid line colon not found - ignoring:'+line);
-        // }
     });
     rl.on('close',()=> {
-        console.log("End of File")
+        //console.log("End of File")
         setTimeout(function(){exports.getIPAddres()}, 20000);// wait 20 seconds and then get ip address
         if((currentSSID == wiz.Ssid) && (currentPASSWORD == wiz.Pass)){
 
-            console.log("there is nothing in wifi that needs to be changed");
+            //console.log("there is nothing in wifi that needs to be changed");
         }
-        else{
+        else{ // wiz.dat access point or passwords dont match settings
+            getAccessPoints(function(accessPointList){
+                console.log("Changing Wi-Fi settings");
+                fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    var result = data.replace(currentSSID, wiz.Ssid);
+                    fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
+                        if (err) return console.log(err);
+                        console.log("file contents replaced")
 
-            console.log("need to change wifi stuff here");
-            fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
-                if (err) {
-                    return console.log(err);
-                }
-                var result = data.replace(currentSSID, wiz.Ssid);
-                fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-                    if (err) return console.log(err);
-                    console.log("file contents replaced")
-
-                    fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        var result = data.replace(currentPASSWORD, wiz.Pass);
-                        fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-                            if (err) return console.log(err);
-                            console.log("file contents replaced2")
+                        fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
+                            if (err) {
+                                return console.log(err);
+                            }
+                            var result = data.replace(currentPASSWORD, wiz.Pass);
+                            fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
+                                if (err) return console.log(err);
+                                console.log("file contents replaced2")
+                            });
                         });
                     });
-                });
 
-                execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
-                    if (err) {
-                        console.log(err);
-                        throw err;
-                    }
-
-                    console.log(stdouts); // yields: ['foo\n', 'bar\n']
-                    console.log(stderrs); // yields: ['', '']
-                    execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
-                        // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                    execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
                         if (err) {
                             console.log(err);
                             throw err;
@@ -703,10 +686,26 @@ exports.wifiCheck = function(){
 
                         console.log(stdouts); // yields: ['foo\n', 'bar\n']
                         console.log(stderrs); // yields: ['', '']
+                        execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                            // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
+                            if (err) {
+                                console.log(err);
+                                throw err;
+                            }
+
+                            console.log(stdouts); // yields: ['foo\n', 'bar\n']
+                            console.log(stderrs); // yields: ['', '']
+                        });
                     });
                 });
-            });
+
+
+            })
+
+
         }
+
+
     });
 }
 function getAccessPoints(cb){
