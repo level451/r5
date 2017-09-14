@@ -532,6 +532,17 @@ function wsData(data,id){
 
             break;
 
+        case "setsettings":
+
+            console.log('settings:'+data.data.settingsFile)
+            require('fs').copyFileSync(data.data.settingsFile,'./settings');
+            // restart the server
+            ws.send(JSON.stringify({object:'reloadPageDelay'}),'r6')
+
+            setTimeout(function(){
+                process.exit(100); // restart if started from app.js
+            },1000)
+            break;
 
         default:
             console.log('unknown datatype '+data.type)

@@ -39,7 +39,11 @@ function switchPress(s){
               sv.value =0}
             break;
         case 3:
+            websocketsend('setsettings',{settingsFile:settings.availableSettings[sv.value]});
             console.log(settings.availableSettings[sv.value])
+            sv.remove();
+            document.getElementById('info').innerText="Saving File ...";
+
             break;
         default:
     }
@@ -64,7 +68,14 @@ function websockstart(){
                     case "simbutton":
                         switchPress(x.data);
                         break;
-                    default:
+                    case "reloadPageDelay":
+                        document.getElementById('info').innerText="Success! Restarting Please Wait";
+                    console.log('reloading webpage - after 8 seconds')
+                        setTimeout(function(){
+                            location.reload();
+
+                        },8000)
+                        default:
                         console.log(x.object);
                     //  alert(x.object);
                 }

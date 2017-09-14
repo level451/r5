@@ -29,7 +29,7 @@ var battVoltage = 0;
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
     var execSeries = require('exec-series');
-
+    getAccessPoints();
     updateBattTemp();
     setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
 }
@@ -705,7 +705,13 @@ exports.wifiCheck = function(){
         }
     });
 }
+function getAccessPoints(cb){
 
+    require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
+        console.log(resp)
+
+    });
+}
 exports.wifiandPanIdcheckandset= function(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
         exports.wifiCheck();
