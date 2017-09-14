@@ -717,6 +717,7 @@ function getAccessPoints(cb){
         return cb(rv.split('\n').trim())
     });
 }
+
 exports.wifiandPanIdcheckandset= function(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
         exports.wifiCheck();
