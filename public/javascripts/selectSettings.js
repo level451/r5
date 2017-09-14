@@ -39,11 +39,7 @@ function switchPress(s){
               sv.value =0}
             break;
         case 3:
-            websocketsend('setsettings',{settingsFile:settings.availableSettings[sv.value]});
-            console.log(settings.availableSettings[sv.value])
-            sv.remove();
-            document.getElementById('info').innerText="Saving File ...";
-
+            confirm();
             break;
         default:
     }
@@ -94,4 +90,11 @@ function websocketsend(type,data){
     sendobj.data = data;
     ws.send(JSON.stringify(sendobj));
 }
+function confirm(){
+    console.log('confirm')
+    websocketsend('setsettings',{settingsFile:settings.availableSettings[sv.value]});
+    console.log(settings.availableSettings[sv.value])
+    sv.remove();
+    document.getElementById('info').innerText="Saving File ...";
 
+}
