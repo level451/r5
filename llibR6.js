@@ -31,7 +31,7 @@ if(os.type() != "Windows_NT") {
     var execSeries = require('exec-series');
     getAccessPoints(function(aplist){
         console.log(aplist)
-        console.log(aplist.length)
+        console.log('aplist length:'+aplist.length)
     });
     updateBattTemp();
     setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
@@ -711,7 +711,6 @@ exports.wifiCheck = function(){
 function getAccessPoints(cb){
 
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
-        console.log(resp)
         var rv = resp.replace(/ESSID:/g,'')
         rv = rv.split('/n')
         return cb(rv)
