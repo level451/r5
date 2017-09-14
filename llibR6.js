@@ -29,11 +29,6 @@ var battVoltage = 0;
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
     var execSeries = require('exec-series');
-    getAccessPoints(function(aplist){
-        console.log(aplist)
-        console.log(aplist[0])
-        console.log('aplist length:'+aplist.length)
-    });
     updateBattTemp();
     setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
 }

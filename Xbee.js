@@ -1,6 +1,11 @@
 /**
  * Created by steve on 6/14/2017.
  */
+
+var debug =  false
+console.log = {}
+console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('green','xbee ') + x + '\n');}}})();
+
 const llib = require("./llibR6");
 var state = "start";
 var timer;
