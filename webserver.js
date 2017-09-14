@@ -27,14 +27,22 @@ app.get('/', function (req, res) {
         res.render('r6.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
     } else
     {
-                require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+        if(os.type() == "Windows_NT"){
+            require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 
-                    settings.ipAddress = add;
-        res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
-                   console.log('addr: '+add);
-                   console.log(JSON.stringify(require('os').networkInterfaces(),null,4))
+                settings.ipAddress = add;
+                res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+                console.log('addr: '+add);
+                //console.log(JSON.stringify(require('os').networkInterfaces(),null,4))
 
-        });
+            });
+        }else
+        {
+            settings.ipAddress = require('os').networkInterfaces().wlan0[0].address
+            res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+            console.log('addr: '+add);
+        }
+
     }
     });
 app.get('/cue', function (req, res) {
