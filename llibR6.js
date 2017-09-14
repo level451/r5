@@ -715,8 +715,11 @@ function getAccessPoints(cb){
         console.log(resp)
         var rv = resp.replace(/ESSID:/g,'')
         rv = rv.split('\n')
-        rv.forEach(function(x){
-            x.trim();
+        for (var i=0;i>rv.length;++i){
+            rv = rv[i].trim();
+            rv = rv.replace(/"/g,'')
+        }
+
 
         })
         return cb(rv)
