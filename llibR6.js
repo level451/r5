@@ -1,5 +1,6 @@
 // const debug = true;
 // console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
+
 const showPath = 'public/show/' //also in websocket
 const fs = require('fs');
 const WebSocket = require('ws');
@@ -181,13 +182,6 @@ exports.serialWrite = function(data) {
 
 
 exports.loadSettings = function(callback){
-// so lame -
-// first - look for settings (with no extion) - if that is found load it and return
-// next  see if we can read the screen resoltion -
-    // if we can look for a settings480x800 or whatever the resolution is - load it and return
-    // if we can read the resoltion or we can read the resoltion, but the settings480x800 isnt there
-    // just load settings.defaul and return
-
 
     fs.readFile('settings', 'utf8', (err, filetxt) => {
         if (err) {  console.log('settings not found - going to settings menu')
@@ -218,96 +212,6 @@ exports.loadSettings = function(callback){
 
 
             });
-
-
-
-
-    return
-
-
-//     fs.readFile('settings', 'utf8', (err, filetxt) => {
-//         if (err) {
-//             console.log('settings not found - looking at screen resolution')
-//             require('child_process').exec("xdpyinfo  | grep 'dimensions:'", function (err, resp) {
-//                 var resolution = resp.substring(resp.indexOf(':')+1,resp.indexOf('p')).trim()
-//                 if (!err) {
-//                     console.log('screen resolution detected:'+resolution)
-//                     fs.readFile('settings'+resolution, 'utf8', (err, filetxt) => {
-//
-//                         if (!err) {
-//                             console.log(ll.ansi('inverse', 'settings' + resolution + ' Loaded!'))
-//
-//                             global.settings = JSON.parse(filetxt);
-//                             addGlobalCounters();
-//
-//                             return callback();
-//
-//
-//                         } else {
-//                             readdefault()
-//                         }
-//                     });
-//
-//                 } else
-//                 {
-//                     console.log(ll.ansi('inverse', 'failed to load resoltion :'+err))
-//                     readdefault()
-//                 }
-//
-//
-//
-//             });
-//
-//
-//
-//
-//
-//         }
-//         else {
-//             console.log(ll.ansi('inverse','settings Loaded!'))
-//             global.settings = JSON.parse(filetxt);
-//             addGlobalCounters();
-//
-//             return callback();
-//
-//         }
-//
-//
-//     });
-// function readdefault(){
-//     fs.readFile('settings.default', 'utf8', (err, filetxt) => {
-//         console.log(ll.ansi('inverse','settings.default  Loaded!'))
-//         if (err) {
-//
-//
-//             global.settings = {
-//                 webServer: {
-//                     listenPort: 3111
-//                 },
-//                 webSocket: {
-//                     listenPort: 3112,
-//                     maxConnections: 10,
-//                     showConnectioninfo: false
-//                 }
-//             }
-//             exports.saveSettings(callback)
-//         } else {
-//             global.settings = JSON.parse(filetxt);
-//             addGlobalCounters();
-//
-//             return callback();
-//
-//             // exports.saveSettings(callback)
-//
-//
-//         }
-//
-//     });
-// }
-//
-//
-//
-
 }
 function addGlobalCounters(){
     global.settings.performance = {}

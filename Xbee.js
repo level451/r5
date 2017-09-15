@@ -2,7 +2,7 @@
  * Created by steve on 6/14/2017.
  */
 
-var debug =  false
+var debug =  true
 console.log = {}
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('green','xbee ') + x + '\n');}}})();
 
