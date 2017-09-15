@@ -614,7 +614,11 @@ exports.backlightOff = function(){
 };
 
 exports.wifiCheck = function(){
-console.log()
+    if (!wiz.SSid){
+        console.log(ll.ansi('inverse', 'No wiz ssid found '));
+        return
+
+    }
     console.log(ll.ansi('inverse', 'wifi reconnect:'+wiz.SSid));
 
     try{
