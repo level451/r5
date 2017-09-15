@@ -520,7 +520,7 @@ exports.backlightOff = function(){
 };
 
 exports.wifiCheck = function(){
-    if (!wiz.SSid){
+    if (!wiz.Ssid){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
         return
 
