@@ -17,6 +17,7 @@ function settingsLoaded(){
     } else
     {
         //settings not loaded
+        console.log('settings NOT file loaded to global.settings');
 
         webserver = require('./webserver')
         ws = require('./websocket')

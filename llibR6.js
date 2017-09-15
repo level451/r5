@@ -1,5 +1,6 @@
-// const debug = true;
-// console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
+ const debug = true;
+var console = {}
+console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('blue','llib     ') + x + '\n');}}})();
 
 const showPath = 'public/show/' //also in websocket
 const fs = require('fs');
@@ -35,7 +36,8 @@ if(os.type() != "Windows_NT") {
 }
 
 udp(); // start the udp server
-getMACAddress(function(){
+
+ getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
     require('./ph').start();
 
@@ -700,6 +702,7 @@ function getMACAddress(cb){
             }
             else {
                 console.log('Some error occurred in getting MAC ', err, stderr);
+                return cb()
             }
         })
 
@@ -1343,6 +1346,7 @@ function udp()
 
 }
 function getWiz(show,cb){
+
     try{
         fs.accessSync('./public/show/'+show+'/wiz.dat')
     }catch(e){
