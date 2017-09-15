@@ -2,18 +2,18 @@
  * Created by todd on 9/12/2017.
  */
 
-var monitor = require('node-usb-detection');
-
-
-//console.log("Usb Devices:\n", monitor.list());
-
-monitor.add(function(device) {
-    console.log("added device:\n", device);
-});
-
-monitor.remove(function(device) {
-    console.log("removed device:\n", device);
-});
+// var monitor = require('node-usb-detection');
+//
+//
+// //console.log("Usb Devices:\n", monitor.list());
+//
+// monitor.add(function(device) {
+//     console.log("added device:\n", device);
+// });
+//
+// monitor.remove(function(device) {
+//     console.log("removed device:\n", device);
+// });
 
 //monitor.change(function(device) {
 //    console.log("device changed:\n", device);
@@ -25,3 +25,15 @@ monitor.remove(function(device) {
 // nano pi "480x800"
 
 //});
+
+var usbDetect = require('usb-detection');
+
+// Detect add/insert
+usbDetect.on('add', function(device) { console.log('add', device); });
+usbDetect.on('add:vid', function(device) { console.log('add', device); });
+usbDetect.on('add:vid:pid', function(device) { console.log('add', device); });
+
+// Detect remove
+usbDetect.on('remove', function(device) { console.log('remove', device); });
+usbDetect.on('remove:vid', function(device) { console.log('remove', device); });
+usbDetect.on('remove:vid:pid', function(device) { console.log('remove', device); });
