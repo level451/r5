@@ -195,9 +195,9 @@ function wsData(data,id){
             ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
             fs.writeFileSync('./public/show/show.def',data.data.ShowName) // switch to the new show
 
-
             ll.loadWiz(function(){
                 console.log('New show selected:'+settings.ShowName)
+                ll.wifiandPanIdcheckandset()
                 ws.send(JSON.stringify({object:'reload'}),'r6'); // send the reload to all the 'r6' webpages
 
             })
