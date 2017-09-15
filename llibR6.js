@@ -148,7 +148,7 @@ exports.openSerialPort = function(portname,cb)
     serialPort.on('data', function(data) {
       // console.log('*****************Serial Data Rec:'+data)
         if (global.demoMode){
-            console.log('Serial Data Ignored - in demo Mode')
+            //console.log('Serial Data Ignored - in demo Mode')
             return;
         }
         if(data.length <=5){  //lets just assume this data is xbee module data andd not from cs4
@@ -161,7 +161,7 @@ exports.openSerialPort = function(portname,cb)
                 cb(data)
             }
         }
-         console.log('Serial Data:'+data);
+         //console.log('Serial Data:'+data);
     });
 
 
@@ -614,6 +614,22 @@ exports.backlightOff = function(){
 };
 
 exports.wifiCheck = function(){
+console.log()
+    console.log(ll.ansi('inverse', 'wifi reconnect:'+wiz.SSid));
+
+    try{
+        fs.unlinkSync('/etc/NetworkManager/system-connections/show')
+    } catch(err){
+        console.log(err)
+    }
+    require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password"'+wiz.Pass+'" name show', function (err, resp) {
+        console.log(err)
+        console.log(resp)
+    });
+
+
+    }
+exports.wifiCheckold = function(){
     var currentSSID;
     var currentPASSWORD;
     if(wiz.Ssid == null){
@@ -666,11 +682,11 @@ exports.wifiCheck = function(){
                     }
                     var result = data.replace(currentSSID, wiz.Ssid);
                     result = result.replace(currentPASSWORD, wiz.Pass);
-                    fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-                        if (err) {
-                            console.log(err);
-                            return
-                        }
+                  // //  fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
+                  //       if (err) {
+                  //           console.log(err);
+                  //           return
+                  //       }
 
                         console.log("Wi-FI settings config file updated")
 
@@ -696,7 +712,6 @@ exports.wifiCheck = function(){
                             console.log(stderrs); // yields: ['', '']
                         });
                     });
-                });
 
 
             })
@@ -708,7 +723,7 @@ exports.wifiCheck = function(){
     });
 }
 function getAccessPoints(cb){
-
+//used
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
         console.log(resp)
         var rv = resp.replace(/ESSID:/g,'')

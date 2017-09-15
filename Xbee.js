@@ -22,7 +22,7 @@ var PanIDBlock =  0;
 exports.xbeeReceivedData = function(returnedData){
 
     clearTimeout(timer); //clear the timer as we have data
-    console.log('Timer Cleared:'+timer)
+    //console.log('Timer Cleared:'+timer)
     switch (state.substr(0,2)){
         case "ss":
             exports.xbeeGetsignalStrength(state, returnedData);
@@ -55,7 +55,7 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
         ssBlock = 1;
         setTimeout(function(){ssBlock=0}, 1400);
     }
-    console.log("at xbeegetsignalstrength: " + st + " ssBlock: " + ssBlock);
+    //console.log("at xbeegetsignalstrength: " + st + " ssBlock: " + ssBlock);
     if (cb){
         global.xbeeSignalCallBack = cb;
     }
@@ -108,7 +108,7 @@ exports.xbeeGetPanID = function(st,data,cb){
         PanIDBlock = 1;
         setTimeout(function(){PanIDBlock=0}, 1400);
     }
-    console.log("at xbeegetpanid:" + st + " panidbloce: " + PanIDBlock);
+   // console.log("at xbeegetpanid:" + st + " panidbloce: " + PanIDBlock);
     if (cb){
         global.xbeePanCallBack = cb;
     }
@@ -155,7 +155,7 @@ exports.xbeeSetPanID = function(st,data,id){
     newPanID = id;
     switch(st){
         case 666:
-            console.log("ERROR from XBEE SI");
+           // console.log("ERROR from XBEE SI");
             break;
         case 0:
             sendXbeeData("si1","+++");
@@ -163,7 +163,7 @@ exports.xbeeSetPanID = function(st,data,id){
         case "si1":
             if(data == "OK"){
                 sendXbeeData("si2","ATID" + newPanID + "\r"); // send out the new pan id
-                console.log(" at si2 getting ready to send data: " +newPanID);
+               // console.log(" at si2 getting ready to send data: " +newPanID);
             }
             else{
                 exports.xbeeGetsignalStrength(666,"error"); //if we dont get ok then something is wrong
@@ -203,7 +203,7 @@ function sendXbeeData(st, data){
     state = st;
     llib.serialWrite(data);
     timer =setTimeout(timedout, 1000);
-    console.log("setting timeout: State: "+ st + " Data: "+ data) ;
+   // console.log("setting timeout: State: "+ st + " Data: "+ data) ;
 }
 
 
