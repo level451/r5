@@ -1,4 +1,4 @@
-const debug = 1;
+const debug = true;
 const showPath = 'public/show/' //also in websocket
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
