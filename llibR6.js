@@ -1,6 +1,6 @@
-const debug = true;
+// const debug = true;
+// console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const showPath = 'public/show/' //also in websocket
-console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('magenta','llib     ') + x + '\n');}}})();
 const fs = require('fs');
 const WebSocket = require('ws');
 os = require('os');
