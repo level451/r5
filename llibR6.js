@@ -622,7 +622,7 @@ console.log()
     } catch(err){
         console.log(err)
     }
-    require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password"'+wiz.Pass+'" name show', function (err, resp) {
+    require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         console.log(err)
         console.log(resp)
     });
