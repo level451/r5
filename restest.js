@@ -34,6 +34,12 @@ usbDetect.on('add', function(device) {
     console.log('add', device);
     fs.exists('/media/usb0/show', function(exists) {
         console.log("folder exists ? " + exists);
+        if(exists =="true"){
+            console.log("We have a Show Dirextory -- do something");
+        }
+        else{
+            console.log("USB inserted but no Show Directory");
+        }
     });
 });
 //usbDetect.on('add:vid', function(device) { console.log('add', device); });
