@@ -33,7 +33,7 @@ var usbDetect = require('usb-detection');
 usbDetect.on('add', function(device) {
     console.log('add', device);
 
-    timerDirExists = setTimeout(function(){exports.checkFolderExists()},2000 );
+    timerDirExists = setTimeout(function(){exports.checkFolderExists()},3000 );
 
 });
 //usbDetect.on('add:vid', function(device) { console.log('add', device); });
