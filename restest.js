@@ -32,15 +32,9 @@ var usbDetect = require('usb-detection');
 // Detect add/insert
 usbDetect.on('add', function(device) {
     console.log('add', device);
-    for (var i = 0; i < 10000; i++){
-        if (fs.existsSync('/media/usb0/show')) {
-            console.log("We have a Show Directory -- do something");
 
-        }
-        else {
-            console.log("USB inserted but no Show Directory");
-        }
-    }
+    timerDirExists = setTimeout(function(){exports.checkFolderExists()},1000 );
+
 });
 //usbDetect.on('add:vid', function(device) { console.log('add', device); });
 //usbDetect.on('add:vid:pid', function(device) { console.log('add', device); });
@@ -52,3 +46,13 @@ usbDetect.on('remove', function(device) {
 });
 //usbDetect.on('remove:vid', function(device) { console.log('remove', device); });
 //usbDetect.on('remove:vid:pid', function(device) { console.log('remove', device); });
+exports.checkFolderExists = function(){
+    if (fs.existsSync('/media/usb0/show')) {
+        console.log("We have a Show Directory -- do something");
+
+    }
+    else {
+        console.log("USB inserted but no Show Directory");
+    }
+
+}
