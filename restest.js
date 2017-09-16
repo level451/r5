@@ -31,9 +31,9 @@ var usbDetect = require('usb-detection');
 
 // Detect add/insert
 usbDetect.on('add', function(device) {
-    console.log('add', device);
+    console.log("USB Inserted");
 
-    timerDirExists = setTimeout(function(){exports.checkFolderExists()},3000 );
+    timerDirExists = setTimeout(function(){exports.checkFolderExists()},3000 ); // wait for usbstick to be mounted
 
 });
 //usbDetect.on('add:vid', function(device) { console.log('add', device); });
@@ -41,7 +41,7 @@ usbDetect.on('add', function(device) {
 
 // Detect remove
 usbDetect.on('remove', function(device) {
-    console.log('remove', device);
+    console.log("USB Removed");
 
 });
 //usbDetect.on('remove:vid', function(device) { console.log('remove', device); });
