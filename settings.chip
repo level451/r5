@@ -1,9 +1,0 @@
-{
-    "webServer": {
-        "listenPort": 3111
-    },
-    "webSocket": {
-        "listenPort": 3112,
-        "maxConnections": 10
-    }
-}
