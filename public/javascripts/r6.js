@@ -945,6 +945,8 @@ function websockstart(){
                         break;
 
                     case "usb":
+
+                        websocketsend('backlightOn',{});
                         console.log('loading usb page')
                         window.location.assign("/usb");
                         break;
