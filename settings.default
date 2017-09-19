@@ -11,4 +11,11 @@
         "width":800,
         "rotation":0
     }
+    "startupImages":{
+        "splash":"splash.png"
+        "logo":"logo.bmp"
+
+
+
+    }
 }

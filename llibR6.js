@@ -232,11 +232,15 @@ exports.loadSettings = function(callback){
             })
             addGlobalCounters();
 
-            return callback();}
-
+            return callback();
+        }
+        //settings file loaded ok
         console.log(ll.ansi('inverse', 'Settings Loaded!'))
         global.settings = JSON.parse(filetxt);
         addGlobalCounters();
+        moveStartupImages(); // copy the images over to where the need to be for startup
+
+
         return callback();
 
 
@@ -244,6 +248,34 @@ exports.loadSettings = function(callback){
 
             });
 }
+function moveStartupImages() {
+    if (os.type() != "Windows_NT") {
+        if (settings.startupImages){
+            fs.copyFile('./localImages/'+settings.startupImages.splash,'/etc/splash.png',(err) =>{
+                if (err){
+                    console.log('Error copying spash.png:'+err)
+                }else {
+                    console.log('splash copied')
+
+                }
+
+            })
+            fs.copyFile('./localImages/'+settings.startupImages.logo,'/boot/logo.bmp',(err) =>{
+                if (err){
+                    console.log('Error copying logo.bmp:'+err)
+                }else {
+                    console.log('logo copied')
+
+                }
+
+            })
+
+        }
+
+
+    }
+}
+
 function addGlobalCounters(){
     global.settings.performance = {}
     settings.performance.startTime = new Date();
