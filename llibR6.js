@@ -40,7 +40,7 @@ if(os.type() != "Windows_NT") {
     // Detect add/insert
         usbDetect.on('add', function(device) {
             console.log("USB Inserted");
-            timerDirExists = setTimeout(function(){exports.checkFolderExists()},3000 ); // wait for usbstick to be mounted
+            timerDirExists = setTimeout(function(){checkFolderExists()},3000 ); // wait for usbstick to be mounted
         });
     //usbDetect.on('add:vid', function(device) { console.log('add', device); });
     //usbDetect.on('add:vid:pid', function(device) { console.log('add', device); });
@@ -53,7 +53,7 @@ if(os.type() != "Windows_NT") {
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
 }
 
- exports.checkFolderExists = function(){
+ function checkFolderExists() {
      if (fs.existsSync('/media/usb0/show')) {
          console.log("We have a Show Directory -- do something");
 
