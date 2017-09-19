@@ -824,7 +824,7 @@ if (!itemonly){
             yval = ((counter * (settings.webPage.height / (itemsToDisplay + 1)) * spacingMultiplier) + 20 * scale)
             if (yval > canvas.height * .25 && yval < canvas.height * .95) // dont display items too high or low
                 ctx.fillText(list[i], (settings.webPage.width / 2) - (ctx.measureText(list[i]).width / 2), yval);
-            console.log(yval)
+        //    console.log(yval)
         }
         if (yval <= canvas.height * .25) {
             drawup = true;
@@ -951,6 +951,10 @@ function websockstart(){
                         switchPress(x.data);
                         break;
                     case "cue":
+                        if (inSystemMenu == true){
+                            console.log('Cue ignored - in system menu')
+                            break;
+                        }
                         clearTimeout(fadeOutTimer);
                         if (slideHistoryMode == true && (new Date() - slideHistoyTimestamp) < 3000){
                             
