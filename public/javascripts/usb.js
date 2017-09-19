@@ -26,7 +26,7 @@ function switchPress(s){
     switch(s){
         case 2:
 
-            if ((sv.value*1) > 3){
+            if ((sv.value*1) >= 3){
                 } else {
 
                 ++sv.value
