@@ -60,7 +60,7 @@ if(os.type() != "Windows_NT") {
      }
      else {
          console.log("USB inserted but no Show Directory");
-     }
+     }false
 
  }
 
