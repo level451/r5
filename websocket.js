@@ -179,6 +179,11 @@ exports.send = function(data,id,binary)
 function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
+        case "usbSelected":
+            console.log('usb file selection:'+data.selection)
+            console.log('usb file selection:'+data.data.selection)
+            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+            break;
         case "simbutton":
             ws.send(JSON.stringify({object:'simbutton',data:data.data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages
             console.log('simulted button:'+data.data)
