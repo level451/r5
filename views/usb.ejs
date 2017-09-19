@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <script src="/javascripts/reconnectingWebsocket.js"> </script>
-<script src="/javascripts/selectSettings.js"> </script>
+<script src="/javascripts/usb.js"> </script>
 
 
 
@@ -16,10 +16,10 @@
 </div>
 <select size="10" id="selectedSettingsFile" style="font-size: 35px">
 
-    <option value = 1>test</option>
-
-
-
+    <option value = 0>Do nohing (exit)</option>
+    <option value = 1>Delete all & replace all</option>
+    <option value = 2>Replace ALL with usb</option>
+    <option value = 3>Replace NEWER with usb</option>
 </select>
 <br>
 <button id="confirm" onclick = 'confirm()'>Confirm</button>
