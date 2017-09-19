@@ -1,0 +1,19 @@
+{
+    "webServer": {
+        "listenPort": 3111
+    },
+    "webSocket": {
+        "listenPort": 3112,
+        "maxConnections": 10
+    },
+    "webPage":{
+        "height":600,
+        "width":1024,
+        "rotation":0
+    },
+        "startupImages":{
+            "splash":"splashBig.png",
+            "logo":"logobig.bmp"
+        }
+
+}
