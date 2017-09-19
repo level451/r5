@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<script src="/javascripts/reconnectingWebsocket.js"> </script>
+<script src="/javascripts/selectSettings.js"> </script>
+
+
+
+<head>
+
+</head>
+<body bgcolor = "#FFFFFF" onload="load()">
+<h1 id="info">Memory Card Inserted</h1>
+<h3> http://<%=settings.ipAddress%>:<%=settings.webServer.listenPort%></h3>
+
+<div id='body'>
+
+</div>
+<select size="10" id="selectedSettingsFile" style="font-size: 35px">
+    <% var i = 0;
+    settings.availableSettings.forEach(function(x){%>
+
+    <option value = "<%=i%>"><%=x%></option>
+
+    <%++i;
+    })%>
+
+
+</select>
+<br>
+<button id="confirm" onclick = 'confirm()'>Confirm</button>
+
+</body>
+</html>
+<script>
+        settings=<%-JSON.stringify(settings)%>
+        wiz=<%-JSON.stringify(wiz)%>
+        wsUri = "ws://" + window.location.hostname + ":<%=wsport%>";
+
+</script>

@@ -944,6 +944,9 @@ function websockstart(){
 
                         break;
 
+                    case "usb":
+                        window.location.assign("/usb");
+                        break;
                     case "reload":
                         location.reload();
                         break;

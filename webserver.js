@@ -43,6 +43,24 @@ app.get('/', function (req, res) {
 
     }
     });
+app.get('/usb', function (req, res) {
+    //   res.render('test.ejs', { title: 'LED' });
+
+        if(os.type() == "Windows_NT"){
+            require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+
+                settings.ipAddress = add;
+                res.render('usb.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+
+            });
+        }else
+        {
+            settings.ipAddress = require('os').networkInterfaces().wlan0[0].address
+            res.render('usb.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
+        }
+
+
+});
 app.get('/cue', function (req, res) {
     //   res.render('test.ejs', { title: 'LED' });
     res.render('cue.ejs', {wiz:global.wiz,settings:global.settings,wsport:settings.webSocket.listenPort });

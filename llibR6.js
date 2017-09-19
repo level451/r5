@@ -56,6 +56,7 @@ if(os.type() != "Windows_NT") {
  function checkFolderExists() {
      if (fs.existsSync('/media/usb0/show')) {
          console.log("We have a Show Directory -- do something");
+         ws.send(JSON.stringify({object:'usb'}),'r5');
 
      }
      else {
