@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <script src="/javascripts/reconnectingWebsocket.js"> </script>
 <script src="/javascripts/selectSettings.js"> </script>
-
+<link rel='stylesheet'  href='./css/usb.css'>
 
 
 <head>
 
 </head>
-<body bgcolor = "#FFFFFF" onload="load()">
+<body bgcolor = "#FFF8FF" onload="load()">
 <h1 id="info">Select Settings File</h1>
-<h3> http://<%=settings.ipAddress%>:<%=settings.webServer.listenPort%></h3>
+<h3 id = "infoIP"> http://<%=settings.ipAddress%>:<%=settings.webServer.listenPort%></h3>
 
 <div id='body'>
 
-</div>
-<select size="10" id="selectedSettingsFile" style="font-size: 35px">
+
+<select size="8" id="selectedSettingsFile" style="font-size: 25px">
     <% var i = 0;
     settings.availableSettings.forEach(function(x){%>
 
@@ -25,9 +25,10 @@
 
 
 </select>
-<br>
+</div>
+<div id=button">
 <button id="confirm" onclick = 'confirm()'>Confirm</button>
-
+</div>
 </body>
 </html>
 <script>
