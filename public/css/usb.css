@@ -1,7 +1,7 @@
 #selectedSettingsFile{
     background-color: lightyellow;
     margin-left: 100px  ;
-    width: 14em;
+    width: 15em;
     text-align: justify;
 }
 
@@ -15,10 +15,10 @@
 }
 
 #info{
-    margin-left: 130px;
+    margin-left: 100px;
 }
 
 #infoIP{
-    margin-left: 150px;
+    margin-left: 120px;
     margin-top:0px;
 }
