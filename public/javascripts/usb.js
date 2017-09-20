@@ -100,6 +100,8 @@ function confirm(){
     console.log('confirm')
 
     document.getElementById('info').innerText="Working Please Wait...";
+    document.getElementById('info1').innerText="";
+
     document.getElementById('confirm').remove();
     websocketsend('usbSelected',{selection:sv.value});
     sv.remove();
