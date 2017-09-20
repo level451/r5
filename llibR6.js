@@ -48,6 +48,8 @@ if(os.type() != "Windows_NT") {
     // Detect remove
         usbDetect.on('remove', function(device) {
             console.log("USB Removed");
+            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+
         });
 
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
@@ -1537,7 +1539,7 @@ function statusBeacon(){
 exports.copyFromUsb = function(s){
     switch (s){
         case "0":
-            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+         //   ws.send(JSON.stringify({object:'loadMain'}),'r6');
             break;
         case "1":
             break;
