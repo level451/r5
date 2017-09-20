@@ -1561,6 +1561,7 @@ exports.copyFromUsb = function(s){
 
 
             });
+            break;
     }
 
 }
