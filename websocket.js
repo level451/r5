@@ -180,8 +180,8 @@ function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
         case "usbSelected":
-            console.log('usb file selection:'+data.selection)
             console.log('usb file selection:'+data.data.selection)
+            ll.copyFromUsb(data.data.selection);
             ws.send(JSON.stringify({object:'loadMain'}),'r6');
             break;
         case "simbutton":

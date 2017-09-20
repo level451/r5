@@ -1534,3 +1534,19 @@ function statusBeacon(){
     },Math.random()*1500) // delay a random amount before transmiting - just in case
 
 }
+exports.copyFromUsb = function(s){
+    switch (s){
+        case "0":
+            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+            break;
+        case "1":
+            break;
+        case "2":
+            require('child_process').exec('cp -r /media/usb0/show  ./public/show/', function (err, resp) {
+            console.log(err)
+                console.log(resp)
+
+            });
+    }
+
+}
