@@ -98,11 +98,11 @@ function websocketsend(type,data){
 }
 function confirm(){
     console.log('confirm')
-    websocketsend('usbSelected',{selection:sv.value});
-    console.log(settings.availableSettings[sv.value])
-    sv.remove();
-    document.getElementById('info').innerText="Working Please Wait...";
 
-//    document.getElementById('info').innerText="Saving File ...";
-//    document.getElementById('confirm').remove();
+    document.getElementById('info').innerText="Working Please Wait...";
+    document.getElementById('confirm').remove();
+    console.log(settings.availableSettings[sv.value])
+    websocketsend('usbSelected',{selection:sv.value});
+    sv.remove();
+
 }
