@@ -1539,14 +1539,24 @@ function statusBeacon(){
 exports.copyFromUsb = function(s){
     switch (s){
         case "0":
-         //   ws.send(JSON.stringify({object:'loadMain'}),'r6');
+            ws.send(JSON.stringify({object:'loadMain'}),'r6');
             break;
         case "1":
+            require('child_process').exec('rm -rf ./public/show', function (err, resp) {
+
+                require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
+                    console.log(err)
+                                        ws.send(JSON.stringify({object:'finished'}),'r6');
+
+
+                });
+            });
+
             break;
         case "2":
             require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
-            console.log(err)
-                console.log(resp)
+                console.log(err)
+
                 ws.send(JSON.stringify({object:'finished'}),'r6');
 
 
