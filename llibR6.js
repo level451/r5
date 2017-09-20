@@ -1542,7 +1542,7 @@ exports.copyFromUsb = function(s){
         case "1":
             break;
         case "2":
-            require('child_process').exec('cp -r /media/usb0/show  ./public/show/', function (err, resp) {
+            require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
             console.log(err)
                 console.log(resp)
 
