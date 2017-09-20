@@ -67,6 +67,8 @@ function websockstart(){
                     case "simbutton":
                         switchPress(x.data);
                         break;
+                    case "finished":
+                        document.getElementById('info').innerText="Done! Remove USB";
                     case "reloadPageDelay":
                         document.getElementById('info').innerText="Success! Restarting Please Wait";
                     console.log('reloading webpage - after 8 seconds')
@@ -98,6 +100,8 @@ function confirm(){
     websocketsend('usbSelected',{selection:sv.value});
     console.log(settings.availableSettings[sv.value])
     sv.remove();
+    document.getElementById('info').innerText="Working Please Wait...";
+
 //    document.getElementById('info').innerText="Saving File ...";
 //    document.getElementById('confirm').remove();
 }

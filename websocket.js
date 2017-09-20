@@ -182,7 +182,7 @@ function wsData(data,id){
         case "usbSelected":
             console.log('usb file selection:'+data.data.selection)
             ll.copyFromUsb(data.data.selection);
-            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+            //ws.send(JSON.stringify({object:'loadMain'}),'r6');
             break;
         case "simbutton":
             ws.send(JSON.stringify({object:'simbutton',data:data.data}),'r6'); // send the simulate4d button press data to all the 'r6' webpages

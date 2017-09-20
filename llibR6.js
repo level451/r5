@@ -1547,6 +1547,8 @@ exports.copyFromUsb = function(s){
             require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
             console.log(err)
                 console.log(resp)
+                ws.send(JSON.stringify({object:'finished'}),'r6');
+
 
             });
     }
