@@ -1447,6 +1447,7 @@ function getWiz(show,cb){
 }
 
 function getShowNames(cb,path) {
+   console.log('asdfasdfasdf '+path)
     if (!path){
         path = 'public/show/';
     }
