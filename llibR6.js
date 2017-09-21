@@ -1609,7 +1609,9 @@ function linuxCopyDirectory(source,destination,cb){
     });
 
     ls.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
+        console.log(data.substring(data.indexOf('ir-chk=')))
+
+        //console.log(`stderr: ${data}`);
     });
 
     ls.on('close', (code) => {
