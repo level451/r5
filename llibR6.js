@@ -1607,7 +1607,7 @@ function linuxCopyDirectory(source,destination,cb){
     ls.stdout.on('data', (d) => {
        console.log(typeof(d))
         console.log(JSON.stringify(d,null,4))
-        var data = d.data.toString()
+        var data = d.toString()
         console.log(data.substring(data.indexOf('ir-chk=')))
         //console.log(`stdout: ${data}`);
     });
