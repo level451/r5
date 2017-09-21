@@ -1446,8 +1446,11 @@ function getWiz(show,cb){
     })
 }
 
-function getShowNames(cb) {
-    fs.readdir('public/show', (err, data) => {
+function getShowNames(cb,path) {
+    if (!path){
+        path = 'public/show';
+    }
+    fs.readdir(path, (err, data) => {
         var shownames = [];
         console.log(data)
         data.forEach(function (data) {
@@ -1473,7 +1476,7 @@ function getAvailableSettingsFiles(cb) {
         if (cb){cb(shownames)}
     })
 }
-exports.getShowVersions = function(cb){
+exports.getShowVersions = function(cb,path){
     var rv = {}
     getShowNames((shows)=>{
     var i = 0;
@@ -1493,7 +1496,7 @@ exports.getShowVersions = function(cb){
     }
 
 
-    })
+    },path)
  }
 function statusBeacon(){
 
@@ -1562,6 +1565,53 @@ exports.copyFromUsb = function(s){
 
             });
             break;
+        case "3":
+            copyUsbNewer();
+            break;
     }
+
+};
+function copyUsbNewer(){
+  //  const source = 'c:/level451/usbsim';
+  //  const destination = './public/show/';
+      const source = './public/show2';
+      const destination = './public/show/';
+
+    exports.getShowVersions(function(sourceShows){
+        console.log(JSON.stringify(sourceShows,null,4))
+
+        exports.getShowVersions(function(destinationShows){
+            console.log(JSON.stringify(destinationShows,null,4))
+            linuxCopyDirectory(source,destination,function(){console.log('++++++++++++++++++++++DONE+_+')
+
+            })
+
+
+        },destination)
+
+
+    },source)
+
+
+}
+exports.test = function(){
+    copyUsbNewer();
+}
+function linuxCopyDirectory(source,destination,cb){
+    const { spawn } = require('child_process');
+    const ls = spawn('rsync', ['-a', '--progress',source,destination]);
+
+    ls.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+
+    ls.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    ls.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+        return cb
+    });
 
 }
