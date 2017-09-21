@@ -1604,11 +1604,9 @@ function linuxCopyDirectory(source,destination,cb){
     const { spawn } = require('child_process');
     const ls = spawn('rsync', ['-a', '--progress',source,destination]);
 
-    ls.stdout.on('data', (d) => {
-       console.log(typeof(d))
-        console.log(JSON.stringify(d,null,4))
-        var data = d.toString()
-        console.log(data.substring(data.indexOf('ir-chk=')))
+    ls.stdout.on('data', (data) => {
+
+        console.log(data.toString().substring(data.indexOf('ir-chk=')+7))
         //console.log(`stdout: ${data}`);
     });
 
