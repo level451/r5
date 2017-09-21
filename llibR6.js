@@ -1,5 +1,5 @@
  const debug = true;
-var console = {}
+var console = {};
 console.log = (function () {return function (x) {if (debug) {process.stdout.write(ll.ansitime('blue','llib     ') + x + '\n');}}})();
 
 const showPath = 'public/show/' //also in websocket
@@ -586,6 +586,7 @@ exports.backlightOff = function(){
 exports.wifiCheck = function(){
     if (!wiz.Ssid){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
+        exports.getIPAddres();
         return
 
     }
@@ -597,6 +598,7 @@ exports.wifiCheck = function(){
         console.log(err)
     }
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
+        setTimeout(function(){exports.getIPAddres()}, 5000);// wait 5 seconds and then get ip address
         console.log(err)
         console.log(resp)
     });
@@ -779,6 +781,7 @@ exports.getIPAddres = function(){
     // we should connect to address[0] with the webserver
     //so lets grab it and make a global variable to
     //use elseware
+    console.log("We are at getIPAddresses");
     var interfaces = os.networkInterfaces();
     global.addresses = [];
     for (k in interfaces) {
@@ -1552,7 +1555,7 @@ exports.copyFromUsb = function(s){
 
                 require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
                     console.log(err)
-                                        ws.send(JSON.stringify({object:'finished'}),'r6');
+                    ws.send(JSON.stringify({object:'finished'}),'r6');
 
 
                 });
