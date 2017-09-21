@@ -1409,12 +1409,14 @@ function udp()
     udpSocket.bind(41235);
 
 }
-function getWiz(show,cb){
-
+function getWiz(show,cb,path){
+    if (!path){
+        path = './public/show/';
+    }
     try{
-        fs.accessSync('./public/show/'+show+'/wiz.dat')
+        fs.accessSync(path+show+'/wiz.dat')
     }catch(e){
-        console.log('./public/show/'+show+'/wiz.dat does not exist')
+        console.log(path+show+'/wiz.dat does not exist')
         cb({Version: -1})
         return;
     }
@@ -1423,7 +1425,7 @@ function getWiz(show,cb){
 
 
     const rl = readline.createInterface({
-        input: fs.createReadStream('./public/show/'+show+'/wiz.dat')
+        input: fs.createReadStream(path+show+'/wiz.dat')
     });
 
     rl.on('line', (line) => {
@@ -1447,9 +1449,8 @@ function getWiz(show,cb){
 }
 
 function getShowNames(cb,path) {
-   console.log('asdfasdfasdf '+path)
     if (!path){
-        path = 'public/show/';
+        path = './public/show/';
     }
     fs.readdir(path, (err, data) => {
         var shownames = [];
@@ -1494,7 +1495,7 @@ exports.getShowVersions = function(cb,path){
             {
                 cb(rv)
             }
-        })
+        },path)
     }
 
 
