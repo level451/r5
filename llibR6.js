@@ -1605,13 +1605,14 @@ function linuxCopyDirectory(source,destination,cb){
     const ls = spawn('rsync', ['-a', '--progress',source,destination]);
 
     ls.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+        console.log(data.substring(data.indexOf('ir-chk=')))
+        //console.log(`stdout: ${data}`);
     });
 
     ls.stderr.on('data', (data) => {
-        console.log(data.substring(data.indexOf('ir-chk=')))
 
-        //console.log(`stderr: ${data}`);
+
+        console.log(`stderr: ${data}`);
     });
 
     ls.on('close', (code) => {
