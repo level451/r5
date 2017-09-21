@@ -1607,7 +1607,7 @@ function linuxCopyDirectory(source,destination,cb){
     ls.stdout.on('data', (data) => {
         data=data.toString();
         if (data.indexOf('ir-chk=')!= -1){
-            console.log('('+data.substr(data.indexOf('ir-chk=')+7,12))
+            console.log('('+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
         }
 
         //console.log(`stdout: ${data}`);
