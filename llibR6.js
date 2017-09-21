@@ -1584,7 +1584,7 @@ function copyUsbNewer(){
         console.log(JSON.stringify(sourceShows,null,4))
 
        // exports.getShowVersions(function(destinationShows){
-            console.log(JSON.stringify(destinationShows,null,4))
+        //    console.log(JSON.stringify(destinationShows,null,4))
             linuxCopyDirectory(source,destination,function(){console.log('++++++++++++++++++++++DONE+_+')
 
          //   })
