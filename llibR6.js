@@ -1448,13 +1448,13 @@ function getWiz(show,cb){
 
 function getShowNames(cb,path) {
     if (!path){
-        path = 'public/show';
+        path = 'public/show/';
     }
     fs.readdir(path, (err, data) => {
         var shownames = [];
         console.log(data)
         data.forEach(function (data) {
-            if (fs.lstatSync('public/show/' + data).isDirectory()) {
+            if (fs.lstatSync(path + data).isDirectory()) {
                 //console.log('Show found:' + data)
                 shownames.push(data);
             }
@@ -1477,6 +1477,7 @@ function getAvailableSettingsFiles(cb) {
     })
 }
 exports.getShowVersions = function(cb,path){
+    console.log('getshowversions:'+path)
     var rv = {}
     getShowNames((shows)=>{
     var i = 0;
@@ -1574,7 +1575,7 @@ exports.copyFromUsb = function(s){
 function copyUsbNewer(){
   //  const source = 'c:/level451/usbsim';
   //  const destination = './public/show/';
-      const source = './public/show2';
+      const source = './public/show2/';
       const destination = './public/show/';
 
     exports.getShowVersions(function(sourceShows){
