@@ -525,6 +525,7 @@ exports.getUnitSettings = function(){
 
 exports.backlight = function(value,direction){
     var delay =0;
+    console.log("AT backlight: "+ "value: "+ value + "Direction: " + direction);
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
     backlightLevel = value;
