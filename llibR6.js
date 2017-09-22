@@ -21,7 +21,7 @@ global.testMode = false;
 global.demoMode = false;
 var timerBacklightOn;
 var timerBacklightOff;
-var timerBacklightTime;
+//var timerBacklightTime;
 var backlightLevel = 0;
 var backlightNanoPiMax = 100;
 var battTimer;
@@ -525,6 +525,8 @@ exports.getUnitSettings = function(){
 
 exports.backlight = function(value,direction){
     var delay =0;
+    clearTimeout(timerBacklightOn);
+    clearTimeout(timerBacklightOff);
     backlightLevel = value;
 //    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))) );
 
@@ -578,7 +580,7 @@ exports.backlight = function(value,direction){
 
 exports.backlightOn = function(value){
     console.log("just arrived at backlight up")
-    clearTimeout(timerBacklightTime); // already going off, so cleat this timer
+  //  clearTimeout(timerBacklightTime); // already going off, so clear this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
     if(value !=null){
@@ -592,7 +594,7 @@ exports.backlightOn = function(value){
 
 exports.backlightOff = function(){
     console.log("just arrived at backlight DOWN");
-    clearTimeout(timerBacklightTime); // already going off, so cleat this timer
+  //  clearTimeout(timerBacklightTime); // already going off, so cleat this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
     exports.backlight(backlightLevel,"down");
