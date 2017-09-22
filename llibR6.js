@@ -216,7 +216,6 @@ exports.serialWrite = function(data) {
 
 
 exports.loadSettings = function(callback){
-
     fs.readFile('settings', 'utf8', (err, filetxt) => {
         if (err) {  console.log('settings not found - going to settings menu')
             global.settings = {
@@ -547,7 +546,7 @@ exports.backlight = function(value,direction){
     }
 
     if(os.type() != "Windows_NT") {//don't do this on windows
-        if(backlightLevel <0){
+        if((backlightLevel <0) || (delay ===null)){
             return;
         }
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
