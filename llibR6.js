@@ -539,6 +539,7 @@ exports.backlight = function(value,direction){
         }
         else{
             clearTimeout(timerBacklightOn);
+            console.log(" clearTimeout(timerBacklightOn")
         }
 
     }
@@ -548,6 +549,10 @@ exports.backlight = function(value,direction){
             Delay = 5* wiz.FadeOut*Math.exp(1/(backlightLevel+1));
 
             timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
+        }
+        else{
+            clearTimeout(timerBacklightOff);
+            console.log(" clearTimeout(timerBacklightOff")
         }
 
     }
