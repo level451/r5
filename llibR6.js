@@ -530,6 +530,9 @@ exports.backlight = function(value,direction){
 
     if(direction == 'up'){
        backlightLevel +=1;
+        if(backlightLevel > wiz.Backlight*backlightNanoPiMax/100){//on startup level is max so turn it down to where it belongs
+            backlightLevel = wiz.Backlight*backlightNanoPiMax/100;
+        }
         if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
             delay = 5*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1)));//was 10
             if(delay > 4000){
@@ -561,6 +564,7 @@ exports.backlight = function(value,direction){
         if(backlightLevel <0){
             return;
         }
+
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
                 console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
