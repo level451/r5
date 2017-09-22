@@ -524,37 +524,47 @@ exports.getUnitSettings = function(){
 }
 
 exports.backlight = function(value,direction){
-    var delay;
+    var delay =0;
     backlightLevel = value;
 //    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))) );
 
     if(direction == 'up'){
        backlightLevel +=1;
-        if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
+        if(backlightLevel <= wiz.Backlight*backlightNanoPiMax/100){
             delay = 5*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1)));//was 10
             if(delay > 4000){
                 delay = 250;
             }
             timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
         }
+        else{
+            clearTimeout(timerBacklightOn);
+            console.log("clearTimeout(timerBacklightOn)");
+        }
     }
     else if(direction == 'down'){
         backlightLevel -=1;
-        if(backlightLevel > 0){
-            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")}, 5* wiz.FadeOut*Math.exp(1/(backlightLevel+1))); // was 10
+        if(backlightLevel >= 0){
+            Delay = 5* wiz.FadeOut*Math.exp(1/(backlightLevel+1));
+
+            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
+        }
+        else{
+            clearTimeout(timerBacklightOff);
+            console.log("clearTimeout(timerBacklightOff)");
         }
     }
 
     if(os.type() != "Windows_NT") {//don't do this on windows
-        if((backlightLevel <0) || (delay ===null)){
+        if((backlightLevel <0) || (typeof(Delay) ==null)){
             return;
         }
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-                console.log("error in writing to backlight" + "error: "+ err + " Delay: " + delay);
+                console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
             }
             else {
-                //console.log('The backlight value is now: ' + value);
+                console.log('The backlight value is now: ' + backlightlevel);
             }
         });
     }
