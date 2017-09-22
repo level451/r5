@@ -1474,6 +1474,7 @@ function getShowNames(cb,path) {
         path = './public/show/';
     }
     fs.readdir(path, (err, data) => {
+        console.log(err)
         var shownames = [];
         console.log(data)
         data.forEach(function (data) {

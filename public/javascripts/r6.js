@@ -122,6 +122,7 @@ function load() {
                 menuItem = 1;
                 drawMenuText(languageList, menuItem);
                 displayState = 'languageMenu'
+                inSystemMenu=true
             }
 
 
