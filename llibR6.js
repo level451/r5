@@ -525,9 +525,9 @@ exports.getUnitSettings = function(){
 
 exports.backlight = function(value,direction){
     var delay =0;
-    console.log("AT backlight: "+ "value: "+ value + "Direction: " + direction);
-    clearTimeout(timerBacklightOn);
-    clearTimeout(timerBacklightOff);
+    // console.log("AT backlight: "+ "value: "+ value + "Direction: " + direction);
+    // clearTimeout(timerBacklightOn);
+    // clearTimeout(timerBacklightOff);
     backlightLevel = value;
 //    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))) );
 
@@ -543,10 +543,10 @@ exports.backlight = function(value,direction){
             }
             timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
         }
-        else{
-            clearTimeout(timerBacklightOn);
-            console.log(" clearTimeout(timerBacklightOn")
-        }
+        // else{
+        //     clearTimeout(timerBacklightOn);
+        //     console.log(" clearTimeout(timerBacklightOn")
+        // }
 
     }
     else if(direction == 'down'){
@@ -556,10 +556,10 @@ exports.backlight = function(value,direction){
 
             timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
         }
-        else{
-            clearTimeout(timerBacklightOff);
-            console.log(" clearTimeout(timerBacklightOff")
-        }
+        // else{
+        //     clearTimeout(timerBacklightOff);
+        //     console.log(" clearTimeout(timerBacklightOff")
+        // }
 
     }
 
@@ -570,10 +570,10 @@ exports.backlight = function(value,direction){
 
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-                console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
+               // console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
             }
             else {
-                console.log('The backlight value is now: ' + backlightLevel);
+              //  console.log('The backlight value is now: ' + backlightLevel);
             }
         });
     }
