@@ -564,7 +564,7 @@ exports.backlight = function(value,direction){
                 console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
             }
             else {
-                console.log('The backlight value is now: ' + backlightlevel);
+                console.log('The backlight value is now: ' + backlightLevel);
             }
         });
     }
