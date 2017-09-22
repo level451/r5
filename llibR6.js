@@ -556,7 +556,7 @@ exports.backlight = function(value,direction){
     }
 
     if(os.type() != "Windows_NT") {//don't do this on windows
-        if((backlightLevel <0) || (typeof(Delay) ==null)){
+        if(backlightLevel <0){
             return;
         }
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
