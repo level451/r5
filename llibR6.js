@@ -29,7 +29,7 @@ var battCounter = 0;
 var battVoltage = 0;
  var steps = 20;
  var exponent = 0;
- var fadeoutTime = 0;
+ var fadeoutTime = [steps];
  var timerBacklightDown = [steps];
  const value = [steps];
 
@@ -611,10 +611,11 @@ function backLightDown(){
     console.log("exponent: " + exponent);
     fadeoutTime = wiz.FadeOut*1000/(steps-1) +1;
     for (var i = 0; i < steps; i++){
+        fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
          value[i]  = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
            // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
-        timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime, value[i]);
-            console.log("calc: " + i + " value: " + value[i] + " time delay: " + (wiz.FadeOut * 1000 / (steps - 1) * i) + 1 + " Wiz.Fadeout: " + wiz.FadeOut);
+        timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
+            console.log("calc: " + i + " value: " + value[i] + " time delay: " +fadeoutTime[i] + " Wiz.Fadeout: " + wiz.FadeOut);
     }
 
 }
