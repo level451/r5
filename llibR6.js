@@ -550,16 +550,14 @@ exports.backlight = function(value,direction){
 
     }
     else if(direction == 'down'){
-        backlightLevel -=1;
-        if(backlightLevel > 0){
-            Delay = 5* wiz.FadeOut*Math.exp(1/(backlightLevel+1));
-
-            timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
-        }
-        // else{
-        //     clearTimeout(timerBacklightOff);
-        //     console.log(" clearTimeout(timerBacklightOff")
+        backLightDown();
+        // backlightLevel -=1;
+        // if(backlightLevel > 0){
+        //     Delay = 5* wiz.FadeOut*Math.exp(1/(backlightLevel+1));
+        //
+        //     timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
         // }
+
 
     }
 
@@ -570,10 +568,10 @@ exports.backlight = function(value,direction){
 
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-               // console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
+                console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
             }
             else {
-              //  console.log('The backlight value is now: ' + backlightLevel);
+                console.log('The backlight value is now: ' + backlightLevel);
             }
         });
     }
@@ -600,6 +598,16 @@ exports.backlightOff = function(){
     clearTimeout(timerBacklightOff);
     exports.backlight(backlightLevel,"down");
 };
+
+function backLightDown(){
+    var steps = 20;
+    var timerBacklightDown = [steps];
+    var exponent = Math.log(wiz.Backlight*backlightNanoPiMax/100)/Math.log(1.6) //find exponent of max value
+    for (var i = 0; i < steps; i++){
+        timerBacklightDown[i] = setTimeout(function(){exports.backlight(Math.pow(1.6, (exponent -i*exponent/steps))) -.5},((wiz.FadeOut*1000/steps)*i) +1 );
+    }
+
+}
 
 exports.wifiCheck = function(){
     if (!wiz.Ssid){
