@@ -606,9 +606,11 @@ function backLightDown(){
     console.log(wiz.backlight + "  "+ backlightNanoPiMax);
     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(1.6)); //find exponent of max value
     console.log("exponent: " + exponent);
+    var value = Math.pow(1.6,exponent - i*exponent.steps);
     for (var i = 0; i < steps; i++){
-        timerBacklightDown[i] = setTimeout(function(){exports.backlight(Math.pow(1.6, (exponent -i*exponent/steps)))},((wiz.FadeOut*1000/steps)*i) +1 );
-        console.log("calc: " + i + "value: "+Math.pow(1.6, (exponent -i*exponent/steps)) -.5) ;
+        var value = Math.pow(1.6,exponent - i*exponent.steps);
+      //  timerBacklightDown[i] = setTimeout(function(){exports.backlight(Math.pow(1.6, (exponent -i*exponent/steps)))},((wiz.FadeOut*1000/steps)*i) +1 );
+        console.log("calc: " + i + "value: "+value );
     }
 
 }
