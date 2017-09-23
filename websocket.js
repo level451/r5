@@ -541,13 +541,18 @@ function wsData(data,id){
         case "setsettings":
 
             console.log('settings:'+data.data.settingsFile)
-            require('fs').copyFileSync(data.data.settingsFile,'./settings');
-            // restart the server
-            ws.send(JSON.stringify({object:'reloadPageDelay'}),'r6')
+            require('fs').copyFile(data.data.settingsFile,'./settings',(err)=>{
+                ws.send(JSON.stringify({object:'reloadPageDelay'}),'r6')
+                setTimeout(function(){
+                    process.exit(100); // restart if started from app.js
+                },1000)
 
-            setTimeout(function(){
-                process.exit(100); // restart if started from app.js
-            },1000)
+
+
+
+            });
+            // restart the server
+
             break;
 
         default:
