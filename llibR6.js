@@ -605,14 +605,14 @@ exports.backlightOff = function(){
 };
 
 function backLightDown(){
-
-    console.log(wiz.backlight + "  "+ backlightNanoPiMax);
-    exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(1.6)); //find exponent of max value
+    var logBase = 2;
+    console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
+    exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
     console.log("exponent: " + exponent);
 
     for (var i = 0; i < steps; i++){
         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
-         value[i]  = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
+         value[i]  = Math.pow(logBase,exponent - i*exponent/(steps-1))-1;
            // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
         timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
             console.log("calc: " + i + " value: " + value[i] + " time delay: " +fadeoutTime[i] + " Wiz.Fadeout: " + wiz.FadeOut);
