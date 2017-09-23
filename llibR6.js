@@ -605,6 +605,7 @@ function backLightDown(){
     var exponent = Math.log(wiz.Backlight*backlightNanoPiMax/100)/Math.log(1.6) //find exponent of max value
     for (var i = 0; i < steps; i++){
         timerBacklightDown[i] = setTimeout(function(){exports.backlight(Math.pow(1.6, (exponent -i*exponent/steps))) -.5},((wiz.FadeOut*1000/steps)*i) +1 );
+        console.log("calc: " + i + "value: "+Math.pow(1.6, (exponent -i*exponent/steps)) -.5)
     }
 
 }
