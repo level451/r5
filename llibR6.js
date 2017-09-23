@@ -29,7 +29,7 @@ var battCounter = 0;
 var battVoltage = 0;
  var steps = 20;
  var exponent = 0;
- var fadeoutTime = [steps];
+ const fadeoutTime = [steps];
  var timerBacklightDown = [steps];
  const value = [steps];
 
@@ -609,7 +609,7 @@ function backLightDown(){
     console.log(wiz.backlight + "  "+ backlightNanoPiMax);
     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(1.6)); //find exponent of max value
     console.log("exponent: " + exponent);
-    fadeoutTime = wiz.FadeOut*1000/(steps-1) +1;
+
     for (var i = 0; i < steps; i++){
         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
          value[i]  = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
