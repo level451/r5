@@ -27,6 +27,11 @@ var backlightNanoPiMax = 100;
 var battTimer;
 var battCounter = 0;
 var battVoltage = 0;
+ var steps = 20;
+ var exponent = 0;
+ var fadeoutTime = 0;
+ var timerBacklightDown = [steps];
+ const value = [steps];
 
 if(os.type() != "Windows_NT") {
     var com = require('serialport');
@@ -35,7 +40,7 @@ if(os.type() != "Windows_NT") {
     setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
 
 //this is for USB detection -- added 09/16/2017
-        var usbDetect = require('usb-detection');
+    var usbDetect = require('usb-detection');
 
     // Detect add/insert
         usbDetect.on('add', function(device) {
@@ -529,7 +534,7 @@ exports.backlight = function(value,direction){
     // clearTimeout(timerBacklightOn);
     // clearTimeout(timerBacklightOff);
     backlightLevel = value;
-//    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction + " delay is: "+  wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1))) );
+   console.log("Backlight request: " + backlightLevel + "  direction is: " + direction  );
 
     if(direction == 'up'){
        backlightLevel +=1;
@@ -600,19 +605,16 @@ exports.backlightOff = function(){
 };
 
 function backLightDown(){
-    var steps = 20;
-    var exponent = 0;
-    var fadeoutTime = 0;
-    var timerBacklightDown = [steps];
+
     console.log(wiz.backlight + "  "+ backlightNanoPiMax);
     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(1.6)); //find exponent of max value
     console.log("exponent: " + exponent);
-    var value = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
-    fadeoutTime = wiz.FadeOut*1000/steps;
+    fadeoutTime = wiz.FadeOut*1000/(steps-1) +1;
     for (var i = 0; i < steps; i++){
-        var value = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
-       timerBacklightDown[i] = setTimeout(function(){exports.backlight(value )},((wiz.FadeOut*1000/(steps-1))*i) +1 );
-        console.log("calc: " + i + " value: "+value +" time delay: "+ (wiz.FadeOut*1000/(steps-1)*i) +1  + " Wiz.Fadeout: " + wiz.FadeOut);
+         value[i]  = Math.pow(1.6,exponent - i*exponent/(steps-1))-1;
+           // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
+        timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime, value[i]);
+            console.log("calc: " + i + " value: " + value[i] + " time delay: " + (wiz.FadeOut * 1000 / (steps - 1) * i) + 1 + " Wiz.Fadeout: " + wiz.FadeOut);
     }
 
 }
