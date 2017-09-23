@@ -542,10 +542,31 @@ function wsData(data,id){
 
             console.log('settings:'+data.data.settingsFile)
             require('fs').copyFile(data.data.settingsFile,'./settings',(err)=>{
+
                 ws.send(JSON.stringify({object:'reloadPageDelay'}),'r6')
-                setTimeout(function(){
-                    process.exit(100); // restart if started from app.js
-                },1000)
+
+
+                if (!err){
+                    setTimeout(function(){
+                        process.exit(100); // restart if started from app.js
+                    },1000)
+
+
+                } else {
+                    console.log('Error - writing settings file:'+err)
+                   fs.unlink('./settings',(err)=>{
+                       setTimeout(function(){
+                           process.exit(100); // restart if started from app.js
+                       },1000)
+
+
+
+                   })
+
+
+
+
+                }
 
 
 
