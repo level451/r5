@@ -625,7 +625,7 @@ function backLightDown(){
 }
  function backLightUp(){
 
-     console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
+    // console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
      exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
   //   console.log("exponent: " + exponent);
 
