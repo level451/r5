@@ -571,7 +571,7 @@ exports.backlight = function(value,direction){
                 console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel);
             }
             else {
-                console.log('The backlight value is now: ' + backlightLevel);
+             //   console.log('The backlight value is now: ' + backlightLevel);
             }
         });
     }
@@ -611,7 +611,7 @@ function backLightDown(){
     var logBase = 2;
     console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
-    console.log("exponent: " + exponent);
+//    console.log("exponent: " + exponent);
 
     for (var i = 0; i < steps; i++){
         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
@@ -626,7 +626,7 @@ function backLightDown(){
      var logBase = 2;
      console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
      exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
-     console.log("exponent: " + exponent);
+  //   console.log("exponent: " + exponent);
 
      for (var i = 0; i <= steps; i++){
          fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
