@@ -27,7 +27,7 @@ var backlightNanoPiMax = 100;
 var battTimer;
 var battCounter = 0;
 var battVoltage = 0;
- var steps = 10;
+ var steps = 20;
  var exponent = 0;
  const fadeoutTime = [steps];
  var timerBacklightDown = [steps+1];
