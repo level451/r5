@@ -581,6 +581,10 @@ exports.backlightOn = function(value){
   //  clearTimeout(timerBacklightTime); // already going off, so clear this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
+    for(var i = 0; i<=steps; i++) {
+        clearTimeout(timerBacklightDown[i]);
+        clearTimeout(timerBacklightUp[i]);
+    }
     if(value !=null){
         exports.backlight(value*backlightNanoPiMax/100); // if no parameter just turn on backlight to the percentage indicated in value
     }
@@ -595,6 +599,10 @@ exports.backlightOff = function(){
   //  clearTimeout(timerBacklightTime); // already going off, so cleat this timer
     clearTimeout(timerBacklightOn);
     clearTimeout(timerBacklightOff);
+    for(var i = 0; i<=steps; i++) {
+        clearTimeout(timerBacklightDown[i]);
+        clearTimeout(timerBacklightUp[i]);
+    }
     exports.backlight(backlightLevel,"down");
 };
 
@@ -623,7 +631,7 @@ function backLightDown(){
          fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
          value[i]  = (Math.pow(logBase,exponent -(steps- i)*exponent/(steps))+.5).toFixed(0) ;
          // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
-         timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
+         timerBacklightUp[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
          console.log("calc: " + i + " value: " + value[i] + " time delay: " +fadeoutTime[i] + " Wiz.Fadeout: " + wiz.FadeOut);
      }
 
