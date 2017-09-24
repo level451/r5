@@ -629,7 +629,7 @@ function backLightDown(){
   //   console.log("exponent: " + exponent);
 
      for (var i = 0; i <= steps; i++){
-         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
+         fadeoutTime[i] = i*wiz.FadeIn*1000/(steps-1) +1;
          value[i]  = (Math.pow(logBase,exponent -(steps- i)*exponent/(steps))+.5).toFixed(0) ;
          // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
          timerBacklightUp[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
