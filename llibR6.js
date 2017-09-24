@@ -549,8 +549,6 @@ exports.backlight = function(value,direction){
        //      }
        //      timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
        //  }
-
-
     }
     else if(direction == 'down'){
         backLightDown();
@@ -560,8 +558,6 @@ exports.backlight = function(value,direction){
         //
         //     timerBacklightOff = setTimeout(function(){exports.backlight(backlightLevel, "down")},Delay); // was 10
         // }
-
-
     }
 
     if(os.type() != "Windows_NT") {//don't do this on windows
