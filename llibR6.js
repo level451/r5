@@ -30,7 +30,8 @@ var battVoltage = 0;
  var steps = 30;
  var exponent = 0;
  const fadeoutTime = [steps];
- var timerBacklightDown = [steps];
+ var timerBacklightDown = [steps+1];
+ var timerBacklightUp = [steps+1];
  const value = [steps];
 
 if(os.type() != "Windows_NT") {
