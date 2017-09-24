@@ -537,21 +537,19 @@ exports.backlight = function(value,direction){
    console.log("Backlight request: " + backlightLevel + "  direction is: " + direction  );
 
     if(direction == 'up'){
-       backlightLevel +=1;
-        if(backlightLevel > wiz.Backlight*backlightNanoPiMax/100){//on startup level is max so turn it down to where it belongs
-            backlightLevel = wiz.Backlight*backlightNanoPiMax/100;
-        }
-        if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
-            delay = 5*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1)));//was 10
-            if(delay > 4000){
-                delay = 250;
-            }
-            timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
-        }
-        // else{
-        //     clearTimeout(timerBacklightOn);
-        //     console.log(" clearTimeout(timerBacklightOn")
-        // }
+        backLightUp();
+       // backlightLevel +=1;
+       //  if(backlightLevel > wiz.Backlight*backlightNanoPiMax/100){//on startup level is max so turn it down to where it belongs
+       //      backlightLevel = wiz.Backlight*backlightNanoPiMax/100;
+       //  }
+       //  if(backlightLevel < wiz.Backlight*backlightNanoPiMax/100){
+       //      delay = 5*wiz.FadeIn*(Math.pow(10000,1/(backlightLevel+1)));//was 10
+       //      if(delay > 4000){
+       //          delay = 250;
+       //      }
+       //      timerBacklightOn = setTimeout(function(){exports.backlight(backlightLevel, "up")},delay );
+       //  }
+
 
     }
     else if(direction == 'down'){
@@ -612,13 +610,28 @@ function backLightDown(){
 
     for (var i = 0; i < steps; i++){
         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
-         value[i]  = Math.pow(logBase,exponent - i*exponent/(steps-1))-1;
+         value[i]  = (Math.pow(logBase,exponent - i*exponent/(steps-1))-1).toFixed(0);
            // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
         timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
             console.log("calc: " + i + " value: " + value[i] + " time delay: " +fadeoutTime[i] + " Wiz.Fadeout: " + wiz.FadeOut);
     }
 
 }
+ function backLightUp(){
+     var logBase = 2;
+     console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
+     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
+     console.log("exponent: " + exponent);
+
+     for (var i = 0; i <= steps; i++){
+         fadeoutTime[i] = i*wiz.FadeOut*1000/(steps-1) +1;
+         value[i]  = (Math.pow(logBase,exponent -(steps- i)*exponent/(steps))+.5).toFixed(0) ;
+         // timerBacklightDown[i] = setTimeout(function () {exports.backlight(value[i]);}, fadeoutTime);
+         timerBacklightDown[i]=   setTimeout(exports.backlight, fadeoutTime[i], value[i]);
+         console.log("calc: " + i + " value: " + value[i] + " time delay: " +fadeoutTime[i] + " Wiz.Fadeout: " + wiz.FadeOut);
+     }
+
+ }
 
 exports.wifiCheck = function(){
     if (!wiz.Ssid){
