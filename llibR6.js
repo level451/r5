@@ -640,7 +640,7 @@ function backLightDown(){
  }
 
 exports.wifiCheck = function(){
-    if (!wiz.Ssid){
+    if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
         exports.getIPAddres();
         return
@@ -1539,7 +1539,7 @@ function getAvailableSettingsFiles(cb) {
     })
 }
 exports.getShowVersions = function(cb,path){
-    console.log('getshowversions:'+path)
+    //console.log('getshowversions:'+path)
     var rv = {}
     getShowNames((shows)=>{
     var i = 0;
