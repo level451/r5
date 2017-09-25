@@ -1460,7 +1460,7 @@ function udp()
     });
 
     udpSocket.on('listening', () => {
-        udpSocket.addMembership('224.1.1.1');
+      //  udpSocket.addMembership('224.1.1.1');
         console.log("UDP Socket Address:"+udpSocket.address().address);
 
     });
