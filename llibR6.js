@@ -654,7 +654,7 @@ exports.wifiCheck = function(){
         console.log(err)
     }
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
-        setTimeout(function(){exports.getIPAddres()}, 5000);// wait 5 seconds and then get ip address
+        setTimeout(function(){exports.getIPAddres()}, 10000);// wait 5 seconds and then get ip address
         console.log(err)
         console.log(resp)
     });
