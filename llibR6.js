@@ -640,7 +640,7 @@ function backLightDown(){
  }
 
 exports.wifiCheck = function(){
-    if (!wiz.Ssid){
+    if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
         exports.getIPAddres();
         return
@@ -1460,14 +1460,40 @@ function udp()
     });
 
     udpSocket.on('listening', () => {
-        udpSocket.addMembership('224.1.1.1');
-        console.log("UDP Socket Address:"+udpSocket.address().address);
+        udpAddMembership(function(err){
+
+            console.log("UDP Socket Address:"+udpSocket.address().address);
+
+
+        })
+
 
     });
 
     udpSocket.bind(41235);
 
+    function udpAddMembership(cb){
+
+        setTimeout(function(){
+            try {
+                udpSocket.addMembership('224.1.1.1');
+            } catch (err){
+                if (err == 'ENODEV'){
+                    ('UDP add membership fail - retry in 5')
+                    udpAddMembership(cb)
+                 }
+
+            }
+            return cb()
+
+
+        },5000)
+
+
+
+    }
 }
+
 function getWiz(show,cb,path){
     if (!path){
         path = './public/show/';
@@ -1539,7 +1565,7 @@ function getAvailableSettingsFiles(cb) {
     })
 }
 exports.getShowVersions = function(cb,path){
-    console.log('getshowversions:'+path)
+    //console.log('getshowversions:'+path)
     var rv = {}
     getShowNames((shows)=>{
     var i = 0;
