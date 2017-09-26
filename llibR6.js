@@ -660,7 +660,7 @@ exports.wifiCheck = function(){
     });
 
 
-    }
+}
 // exports.wifiCheckold = function(){
 //     var currentSSID;
 //     var currentPASSWORD;
