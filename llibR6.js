@@ -1647,7 +1647,7 @@ exports.copyFromUsb = function(s){
             break;
         case "2":
            // require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
-                linuxCopyDirectory('./media/usb0/show',  './public/',function(){
+                linuxCopyDirectory('/media/usb0/show',  './public/',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
 
