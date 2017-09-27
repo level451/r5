@@ -1635,13 +1635,16 @@ exports.copyFromUsb = function(s){
             break;
         case "1":
             require('child_process').exec('rm -rf ./public/show', function (err, resp) {
-
-                require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
-                    console.log(err)
+                linuxCopyDirectory('/media/usb0/show',  './public/',function(){
                     ws.send(JSON.stringify({object:'finished'}),'r6');
+                })
 
-
-                });
+                // require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
+                //     console.log(err)
+                //     ws.send(JSON.stringify({object:'finished'}),'r6');
+                //
+                //
+                // });
             });
 
             break;
