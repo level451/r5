@@ -1647,9 +1647,14 @@ exports.copyFromUsb = function(s){
             break;
         case "2":
             require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
-                console.log(err)
+                linuxCopyDirectory('./media/usb0/show',  './public/',function(){
 
-                ws.send(JSON.stringify({object:'finished'}),'r6');
+                    ws.send(JSON.stringify({object:'finished'}),'r6');
+
+
+                })
+
+
 
 
             });
@@ -1668,6 +1673,7 @@ function copyUsbNewer(){
 
     exports.getShowVersions(function(sourceShows){
         console.log(JSON.stringify(sourceShows,null,4))
+
 
         exports.getShowVersions(function(destinationShows){
             console.log(JSON.stringify(destinationShows,null,4))
@@ -1694,6 +1700,7 @@ function linuxCopyDirectory(source,destination,cb){
         data=data.toString();
         if (data.indexOf('ir-chk=')!= -1){
             console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
+            ws.send(JSON.stringify({object:'status',status:data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
         }
 
         //console.log(`stdout: ${data}`);

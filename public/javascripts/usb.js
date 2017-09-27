@@ -70,6 +70,10 @@ function websockstart(){
                     case "finished":
                         document.getElementById('info').innerText="Done! Remove USB";
                         break;
+
+                    case "status":
+                        document.getElementById('info').innerText=evt.status;
+                        break;
                     case "reloadPageDelay":
                         document.getElementById('info').innerText="Success! Restarting Please Wait";
                     console.log('reloading webpage - after 8 seconds')
