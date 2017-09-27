@@ -1702,7 +1702,7 @@ function linuxCopyDirectory(source,destination,cb){
         console.log(data)
 
         if (data.indexOf('ir-chk=')!= -1){
-           console.log('-------'+data.substring(data.indexOf('xfr#'))
+           console.log('-------'+data.indexOf('xfr#'))
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'))}),'r6');
