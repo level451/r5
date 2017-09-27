@@ -1,11 +1,14 @@
+console.log('exit')
+process.exit(0)
+console.log('exit done ')
+
+
+
 ll = require('./llibR6');
 cp = require('./cueprocessor');
 const gpiomodule = require("./gpio");
 const os = require('os');
 
-console.log('exit')
-process.exit(0)
-console.log('exit done ')
 ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
 
 function settingsLoaded(){
