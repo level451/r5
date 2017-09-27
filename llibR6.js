@@ -1703,7 +1703,7 @@ function linuxCopyDirectory(source,destination,cb){
             console.log(data)
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
-            ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#='),data.indexOf(','))}),'r6');
+            ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#='),data.indexOf('ir-chk')-8)}),'r6');
 
         }
 
