@@ -1699,8 +1699,9 @@ function linuxCopyDirectory(source,destination,cb){
 
     ls.stdout.on('data', (data) => {
         data=data.toString();
+        console.log(data)
+
         if (data.indexOf('ir-chk=')!= -1){
-            console.log(data)
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),data.indexOf(','))}),'r6');
