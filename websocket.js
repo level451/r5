@@ -549,7 +549,7 @@ function wsData(data,id){
                 if (!err){
                     setTimeout(function(){
                         process.exit(100); // restart if started from app.js
-                    },1000)
+                    },2000)
 
 
                 } else {

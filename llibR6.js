@@ -1670,8 +1670,8 @@ exports.copyFromUsb = function(s){
 function copyUsbNewer(){
   //  const source = 'c:/level451/usbsim';
   //  const destination = './public/show/';
-      const source = '/media/usb0/show/';
-      const destination = './public/show/';
+      const source = '/media/usb0/show';
+      const destination = './public/show';
 
     exports.getShowVersions(function(sourceShows){
         console.log(JSON.stringify(sourceShows,null,4))
@@ -1707,8 +1707,15 @@ function copyUsbNewer(){
 
             }
             console.log('files to get:'+showsToGet);
+            if (showsToGet.length > 0){
+                global.listPointer = 0
+             linuxCopyDirectoryList(source,destination,showsToGet)
+            } else {
+                console.log('nothing to copy - nothing copied')
+                ws.send(JSON.stringify({object:'finished'}),'r6');
 
-//             linuxCopyDirectory(source,destination,function(){ws.send(JSON.stringify({object:'finished'}),'r6');},showsToGet)
+            }
+
 
 
         },destination)
@@ -1721,7 +1728,25 @@ function copyUsbNewer(){
 exports.test = function(){
     copyUsbNewer();
 }
-function linuxCopyDirectory(source,destination,cb,showsToGet){
+function linuxCopyDirectoryList(source,destination,list){
+
+    if (list.length < global.listPointer){
+        console.log('USB FINISHED')
+        ws.send(JSON.stringify({object:'finished'}),'r6');
+    }
+    console.log('USB Copy - working on '+list[global.listPointer])
+    linuxCopyDirectory(source+'/'+list[global.listPointer],destination+'/'+list[global.listPointer],function(){
+        console.log('USB Copy - finished '+list[global.listPointer])
+        ++global.listPointer
+        linuxCopyDirectoryList(source,destination,list)
+
+
+    })
+
+
+
+}
+function linuxCopyDirectory(source,destination,cb){
     console.log(source)
     console.log(destination)
     const { spawn } = require('child_process');
