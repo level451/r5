@@ -72,7 +72,7 @@ function websockstart(){
                         break;
 
                     case "status":
-                        document.getElementById('info').innerText=evt.status;
+                        document.getElementById('info').innerText=x.status;
                         break;
                     case "reloadPageDelay":
                         document.getElementById('info').innerText="Success! Restarting Please Wait";
