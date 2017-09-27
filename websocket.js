@@ -562,7 +562,6 @@ function wsData(data,id){
                        },1000)
 
 
-
                    })
 
 
