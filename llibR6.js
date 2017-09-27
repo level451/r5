@@ -1657,7 +1657,6 @@ exports.copyFromUsb = function(s){
 
 
 
-            });
             break;
         case "3":
             copyUsbNewer();
