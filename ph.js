@@ -3,7 +3,7 @@
  */
 const reconnectInterval = 5000
 exports.start = function(){
-
+        return
     connect('witzel.asuscomm.com:4691')
 }
 
