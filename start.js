@@ -1,10 +1,11 @@
-console.log('exit')
-process.exit(0)
-console.log('exit done ')
 
 
 
 ll = require('./llibR6');
+console.log('exit')
+process.exit(0)
+console.log('exit done ')
+
 cp = require('./cueprocessor');
 const gpiomodule = require("./gpio");
 const os = require('os');
