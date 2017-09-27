@@ -1730,7 +1730,7 @@ exports.test = function(){
 }
 function linuxCopyDirectoryList(source,destination,list){
 
-    if (list.length < global.listPointer){
+    if (list.length <= global.listPointer){
         console.log('USB FINISHED')
         ws.send(JSON.stringify({object:'finished'}),'r6');
         return;
