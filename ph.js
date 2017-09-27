@@ -95,6 +95,10 @@ function commandProcessor(c){
             //process.exitCode = 100;
             process.exit(0); // exit normally
             break;
+        case "restart":
+            //process.exitCode = 100;
+            process.exit(100); // exit normally
+            break;
 
         default:
             console.log('PH Command Processor - unknown command:'+c.command)
