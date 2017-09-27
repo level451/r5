@@ -547,9 +547,11 @@ function wsData(data,id){
 
 
                 if (!err){
+                    console.log('setting exit timer')
                     setTimeout(function(){
+                        console.log('exit timer fired')
                         process.exit(100); // restart if started from app.js
-                    },2000)
+                    },1000)
 
 
                 } else {

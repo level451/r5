@@ -71,7 +71,8 @@ function websockstart(){
                             location.reload();
 
                         },10000)
-                        default:
+                        break;
+                    default:
                         console.log(x.object);
                     //  alert(x.object);
                 }
