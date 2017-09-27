@@ -1667,7 +1667,7 @@ exports.copyFromUsb = function(s){
 function copyUsbNewer(){
   //  const source = 'c:/level451/usbsim';
   //  const destination = './public/show/';
-      const source = './public/show2/';
+      const source = '/media/usb0/show/';
       const destination = './public/show/';
 
     exports.getShowVersions(function(sourceShows){
@@ -1676,9 +1676,36 @@ function copyUsbNewer(){
 
         exports.getShowVersions(function(destinationShows){
             console.log(JSON.stringify(destinationShows,null,4))
-            linuxCopyDirectory(source,destination,function(){console.log('++++++++++++++++++++++DONE+_+')
+            // compare the versions.
+            var showsToGet = []
+            for (var sourceShow in sourceShows){
+                if (destinationShows[sourceShow] == null){
+                    console.log('Show '+sourceShow+' not on Unit - Copying')
+                    showsToGet.push(sourceShow)
 
-            })
+                } else
+                {
+                    if (sourceShows[sourceShow] > destinationShows[sourceShow]){
+                        console.log('Show '+sourceShow+' NEWER than on Unit - Copying')
+                        showsToGet.push(sourceShow)
+
+
+                    } else
+                    {
+                        console.log('Show '+sourceShow+' NOT newer - ignoring')
+
+
+                    }
+                }
+
+
+
+
+
+            }
+            console.log('files to get:'+showsToGet);
+
+//             linuxCopyDirectory(source,destination,function(){ws.send(JSON.stringify({object:'finished'}),'r6');},showsToGet)
 
 
         },destination)
@@ -1691,7 +1718,7 @@ function copyUsbNewer(){
 exports.test = function(){
     copyUsbNewer();
 }
-function linuxCopyDirectory(source,destination,cb){
+function linuxCopyDirectory(source,destination,cb,showsToGet){
     console.log(source)
     console.log(destination)
     const { spawn } = require('child_process');
@@ -1699,7 +1726,7 @@ function linuxCopyDirectory(source,destination,cb){
 
     ls.stdout.on('data', (data) => {
         data=data.toString();
-        console.log(data)
+        //console.log(data)
 
         if (data.indexOf('xfr#')!= -1){
            console.log('-------'+data.indexOf('xfr#'))
