@@ -1733,6 +1733,7 @@ function linuxCopyDirectoryList(source,destination,list){
     if (list.length < global.listPointer){
         console.log('USB FINISHED')
         ws.send(JSON.stringify({object:'finished'}),'r6');
+        return;
     }
     console.log('USB Copy - working on '+list[global.listPointer])
     linuxCopyDirectory(source+list[global.listPointer],destination+list[global.listPointer],function(){
@@ -1757,7 +1758,7 @@ function linuxCopyDirectory(source,destination,cb){
         //console.log(data)
 
         if (data.indexOf('xfr#')!= -1){
-           console.log('-------'+data.indexOf('xfr#'))
+        //   console.log('-------'+data.indexOf('xfr#'))
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
          //   ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
             ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
