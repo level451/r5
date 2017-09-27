@@ -1635,7 +1635,7 @@ exports.copyFromUsb = function(s){
             break;
         case "1":
             require('child_process').exec('rm -rf ./public/show', function (err, resp) {
-                linuxCopyDirectory('/media/usb0/show',  './public/',function(){
+                linuxCopyDirectory('/media/usb0/show',  './public',function(){
                     ws.send(JSON.stringify({object:'finished'}),'r6');
                 })
 
@@ -1650,7 +1650,7 @@ exports.copyFromUsb = function(s){
             break;
         case "2":
            // require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
-                linuxCopyDirectory('/media/usb0/show',  './public/',function(){
+                linuxCopyDirectory('/media/usb0/show',  './public',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
 
@@ -1670,8 +1670,8 @@ exports.copyFromUsb = function(s){
 function copyUsbNewer(){
   //  const source = 'c:/level451/usbsim';
   //  const destination = './public/show/';
-      const source = '/media/usb0/show';
-      const destination = './public/show';
+      const source = '/media/usb0/show/';
+      const destination = './public/show/';
 
     exports.getShowVersions(function(sourceShows){
         console.log(JSON.stringify(sourceShows,null,4))
@@ -1735,7 +1735,7 @@ function linuxCopyDirectoryList(source,destination,list){
         ws.send(JSON.stringify({object:'finished'}),'r6');
     }
     console.log('USB Copy - working on '+list[global.listPointer])
-    linuxCopyDirectory(source+'/'+list[global.listPointer],destination+'/'+list[global.listPointer],function(){
+    linuxCopyDirectory(source+list[global.listPointer],destination+list[global.listPointer],function(){
         console.log('USB Copy - finished '+list[global.listPointer])
         ++global.listPointer
         linuxCopyDirectoryList(source,destination,list)
