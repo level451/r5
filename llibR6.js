@@ -1646,7 +1646,7 @@ exports.copyFromUsb = function(s){
 
             break;
         case "2":
-            require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
+           // require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
                 linuxCopyDirectory('./media/usb0/show',  './public/',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
@@ -1693,6 +1693,8 @@ exports.test = function(){
     copyUsbNewer();
 }
 function linuxCopyDirectory(source,destination,cb){
+    console.log(source)
+    console.log(destination)
     const { spawn } = require('child_process');
     const ls = spawn('rsync', ['-a', '--progress',source,destination]);
 
