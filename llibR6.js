@@ -89,10 +89,12 @@ if(os.type() != "Windows_NT") {
  }
 
 exports.stopBrowser = function(){
-console.log('browser kill:'+browser.pid)
-childProcess.exec('pkill chromium-browse')
-    browser.kill('SIGINT');
+    if(os.type() != "Windows_NT") {
 
+        console.log('browser kill:' + browser.pid)
+        childProcess.exec('pkill chromium-browse')
+        browser.kill('SIGINT');
+    }
 }
  exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
