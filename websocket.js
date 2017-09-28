@@ -27,7 +27,8 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
         console.log("Websocket Server Listening on Port:"+settings.webSocket.listenPort);
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
             ll.setVolumeGain()
-            setTimeout(startBrowser,1000);
+            startBrowser()
+//            setTimeout(startBrowser,1000);
              setTimeout(function(){ll.backlight(100)},1100);
         }
     }
@@ -62,17 +63,6 @@ function startBrowser(){
 
 
     });
-
-    // execSeries(['amixer sset DAC 192'], (err, stdouts, stderrs) => {//sets volume to max
-    //     if (err) {
-    //         console.log(err);
-    //         throw err;
-    //     }
-    //
-    //     console.log(stdouts); // yields: ['foo\n', 'bar\n']
-    //     console.log(stderrs); // yields: ['', '']
-    //     console.log("Audio level set");
-    // });
 
 
 }

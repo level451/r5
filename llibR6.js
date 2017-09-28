@@ -15,7 +15,7 @@ const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
 const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2;
 const macAddress2 = "/sys/class/net/wlan1/address"; // this is for nanopi 2
-const { exec } = require('child_process');
+const { childProcess } = require('child_process');
 
 
 global.testMode = false;
@@ -34,6 +34,7 @@ var steps = 20;
  const fadeoutTime = [steps];
  var timerBacklightDown = [steps+1];
  var timerBacklightUp = [steps+1];
+
  const value = [steps];
 
 if(os.type() != "Windows_NT") {
@@ -64,7 +65,7 @@ if(os.type() != "Windows_NT") {
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
 }
  exports.setVolumeGain = function(){
-     exec('amixer sset DAC 192', (err, stdouts, stderrs) => {//sets volume to max
+     childProcess.exec('amixer sset DAC 192', (err, stdouts, stderrs) => {//sets volume to max
          if (err) {
              console.log(err);
              throw err;
@@ -72,12 +73,32 @@ if(os.type() != "Windows_NT") {
 
          console.log(stdouts); // yields: ['foo\n', 'bar\n']
          console.log(stderrs); // yields: ['', '']
-         console.log("Audio level set");
+         console.log("****Audio level set");
      });
 
 
  }
-exports.usbDisconnect = function(restart){
+exports.startBrowser = function(){
+const browser = childProcess.spawn
+
+     execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+         if (err) {
+             console.log(err);
+             // throw err;
+         }
+
+         console.log(stdouts); // yields: ['foo\n', 'bar\n']
+         console.log(stderrs); // yields: ['', '']
+         console.log("browser started");
+
+
+
+     });
+
+
+ }
+
+ exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
     webserver.close();
     if (typeof(usbDetect) != 'undefined'){
