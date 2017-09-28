@@ -80,7 +80,6 @@ if(os.type() != "Windows_NT") {
  }
 exports.startBrowser = function(){
 
-
      //browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ', (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
     browser =  childProcess.spawn('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ');
 
