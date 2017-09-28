@@ -124,7 +124,6 @@ exports.stopBrowser = function(){
      else {
          console.log("USB inserted but no Show Directory");
      }
-
  }
 
 udp(); // start the udp server
