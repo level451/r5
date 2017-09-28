@@ -68,10 +68,14 @@ exports.usbDisconnect = function(cb){
     if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
-        if (cb){return cb()}
+        if (cb){
+            console.log('callback')
+            return cb()}
     } else
     {
-        if (cb){return cb()}
+        if (cb){
+            console.log('callback')
+            return cb()}
     }
 
 }
