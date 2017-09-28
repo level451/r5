@@ -16,7 +16,7 @@ const showPath = 'public/show/' // also in llibR6
 //Set up Web socket for a connection
 //exports.start = function(wscallback,port){
 var WebSocketServer = require('ws').Server;
-
+const { exec } = require('child_process');
 //Set up the web socket here..
 wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,res){
     //  console.log(wss.url);
@@ -27,12 +27,27 @@ wss = new WebSocketServer({port: settings.webSocket.listenPort}, function(err,re
     {
         console.log("Websocket Server Listening on Port:"+settings.webSocket.listenPort);
         if(os.type() != 'Windows_NT') { //if now windows, then open web browser and point it to us
-             setTimeout(startBrowser,1000);
+            setVolumeGain()
+            setTimeout(startBrowser,1000);
              setTimeout(function(){llibR6.backlight(100)},1100);
         }
     }
 });
 
+function setVolumeGain(){
+    exec('amixer sset DAC 192', (err, stdouts, stderrs) => {//sets volume to max
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+
+        console.log(stdouts); // yields: ['foo\n', 'bar\n']
+        console.log(stderrs); // yields: ['', '']
+        console.log("Audio level set");
+    });
+
+
+}
 function startBrowser(){
      const execSeries = require('exec-series');
     //
@@ -62,16 +77,16 @@ function startBrowser(){
 
     });
 
-    execSeries(['amixer sset DAC 192'], (err, stdouts, stderrs) => {//sets volume to max
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-
-        console.log(stdouts); // yields: ['foo\n', 'bar\n']
-        console.log(stderrs); // yields: ['', '']
-        console.log("Audio level set");
-    });
+    // execSeries(['amixer sset DAC 192'], (err, stdouts, stderrs) => {//sets volume to max
+    //     if (err) {
+    //         console.log(err);
+    //         throw err;
+    //     }
+    //
+    //     console.log(stdouts); // yields: ['foo\n', 'bar\n']
+    //     console.log(stderrs); // yields: ['', '']
+    //     console.log("Audio level set");
+    // });
 
 
 }
