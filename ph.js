@@ -64,8 +64,6 @@ function connect(ip) {
 function commandProcessor(c){
     switch (c.command) {
         case "updateFirmware":
-            ll.stopBrowser()
-            ll.usbDisconnect();
             updateFirmware();
             break;
 
