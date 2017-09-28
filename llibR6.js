@@ -67,6 +67,7 @@ exports.usbDisconnect = function(){
     if (usbDetect){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
+        process.exit(100)
     }
 
 }
