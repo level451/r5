@@ -65,7 +65,7 @@ if(os.type() != "Windows_NT") {
 exports.usbDisconnect = function(){
     console.log('usbdisconnect')
     webserver.close();
-    if (usbDetect){
+    if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
     }
