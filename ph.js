@@ -92,10 +92,12 @@ function commandProcessor(c){
 
         case "exit":
             //process.exitCode = 100;
+            ll.usbDisconnect();
             process.exit(0); // exit normally
             break;
         case "restart":
             //process.exitCode = 100;
+            ll.usbDisconnect();
             process.exit(100); // exit normally
             break;
 
@@ -110,7 +112,8 @@ function updateFirmware(cb){
 
 
         } else {
-          setTimeout(function(){
+            ll.usbDisconnect();
+            setTimeout(function(){
               process.exit(100); // restart if started from app.js
           },2000)
 

@@ -548,6 +548,7 @@ function wsData(data,id){
 
                 if (!err){
                     console.log('setting exit timer')
+                    ll.usbDisconnect();
                     setTimeout(function(){
                         console.log('exit timer fired')
                         process.exit(100); // restart if started from app.js
@@ -557,6 +558,7 @@ function wsData(data,id){
                 } else {
                     console.log('Error - writing settings file:'+err)
                    fs.unlink('./settings',(err)=>{
+                       ll.usbDisconnect();
                        setTimeout(function(){
                            process.exit(100); // restart if started from app.js
                        },1000)

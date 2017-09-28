@@ -43,26 +43,31 @@ if(os.type() != "Windows_NT") {
     setInterval(function(){updateBattTemp()},300000); //update global.Battery and global.Temperature every 5 minutes
 
 //this is for USB detection -- added 09/16/2017
-//     var usbDetect = require('usb-detection');
-//
-//     // Detect add/insert
-//         usbDetect.on('add', function(device) {
-//             console.log("USB Inserted");
-//             timerDirExists = setTimeout(function(){checkFolderExists()},3000 ); // wait for usbstick to be mounted
-//         });
-//     //usbDetect.on('add:vid', function(device) { console.log('add', device); });
-//     //usbDetect.on('add:vid:pid', function(device) { console.log('add', device); });
-//
-//     // Detect remove
-//         usbDetect.on('remove', function(device) {
-//             console.log("USB Removed");
-//             ws.send(JSON.stringify({object:'loadMain'}),'r6');
-//
-//         });
+    var usbDetect = require('usb-detection');
+
+    // Detect add/insert
+        usbDetect.on('add', function(device) {
+            console.log("USB Inserted");
+            timerDirExists = setTimeout(function(){checkFolderExists()},3000 ); // wait for usbstick to be mounted
+        });
+    //usbDetect.on('add:vid', function(device) { console.log('add', device); });
+    //usbDetect.on('add:vid:pid', function(device) { console.log('add', device); });
+
+    // Detect remove
+        usbDetect.on('remove', function(device) {
+            console.log("USB Removed");
+            ws.send(JSON.stringify({object:'loadMain'}),'r6');
+
+        });
 
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
 }
+exports.usbDisconnect = function(){
+    if (usbDetect){
+        usbDetect.stopMonitoring();
+    }
 
+}
  function checkFolderExists() {
      if (fs.existsSync('/media/usb0/show')) {
          console.log("We have a Show Directory -- do something");
