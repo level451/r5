@@ -588,7 +588,7 @@ exports.backlight = function(value,direction){
 
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
-                console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel + " wiz.fadeout: "+ wiz.FadeIn );
+                console.log("error in writing to backlight " + "error: "+ err + " Delay: " + delay + " backlightlevel: "+ backlightLevel + " wiz.fadein: "+ wiz.FadeIn+ " fadeout: " + wiz.FadeOut );
             }
             else {
              //   console.log('The backlight value is now: ' + backlightLevel);
