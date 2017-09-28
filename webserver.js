@@ -101,7 +101,6 @@ exports.formatDate =  function(date) {
 }
 exports.close = function(){
     server.close();
-    server = null;
     console.log('webserver down')
 }
 

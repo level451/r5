@@ -99,7 +99,7 @@ exports.stopBrowser = function(){
 }
  exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
-    webserver.close();
+    //webserver.close();
     if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
