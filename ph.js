@@ -106,10 +106,8 @@ function updateFirmware(cb){
 
 
         } else {
-            ll.usbDisconnect();
-            setTimeout(function(){
-              process.exit(100); // restart if started from app.js
-          },2000)
+            ll.stopBrowser()
+            ll.usbDisconnect(true);
 
 
         }
