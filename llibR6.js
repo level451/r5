@@ -379,7 +379,10 @@ exports.loadWiz = function(callback){
     global.wiz={
         Baudrate:115200,
         PanID:301,
-        Scroll:'up'
+        Scroll:'up',
+        Backlight:80,
+        FadeIn:1,
+        FadeOut:2
     };
     try{
         settings.ShowName = fs.readFileSync('./public/show/show.def','utf8');
