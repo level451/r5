@@ -38,7 +38,7 @@ var steps = 20;
  const value = [steps];
 
 if(os.type() != "Windows_NT") {
-    ll.startBrowser()
+    exports.startBrowser()
     var com = require('serialport');
     var execSeries = require('exec-series');
     updateBattTemp();

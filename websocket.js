@@ -543,12 +543,14 @@ function wsData(data,id){
 
                 if (!err){
                     console.log('setting exit timer')
+                    ll.stopBrowser()
                     ll.usbDisconnect(true);
 
 
                 } else {
                     console.log('Error - writing settings file:'+err)
                    fs.unlink('./settings',(err)=>{
+                       ll.stopBrowser()
                        ll.usbDisconnect(true);
 
 
