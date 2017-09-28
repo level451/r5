@@ -57,7 +57,7 @@ function connect(ip) {
     });
     ws.on('close', function () {
 
-        console.log('websocket closed')
+//        console.log('websocket closed')
 
         retry()
     })
@@ -74,7 +74,7 @@ function connect(ip) {
 
     });
     function retry(){
-        console.log('Connection Failed - retry in:'+reconnectInterval/1000)
+       // console.log('Connection Failed - retry in:'+reconnectInterval/1000)
 
         clearTimeout(retryTimeout)
         retryTimeout = setTimeout(
