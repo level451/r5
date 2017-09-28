@@ -220,7 +220,7 @@ function wsData(data,id){
             wiz.Backlight = data.data.backlight;
             console.log('backlight set to:'+wiz.Backlight)
 
-            if (typeof(wiz) != 'undefined'){
+            if (typeof(wiz.Backlight) != 'undefined'){
                 ll.backlightOn(wiz.Backlight);
             } else {
                 ll.backlightOn(100);
