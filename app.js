@@ -27,7 +27,7 @@ function startApp()
         console.log('process exit code ' + code);
     });
     child.on('exit', (code)=> {
-        // console.log('on exit')
+         console.log('on exit')
         // if (code == 100){
         //     // special case for updating
         //     startApp()
