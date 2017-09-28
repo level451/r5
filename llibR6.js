@@ -363,15 +363,8 @@ exports.saveSettings = function(callback){
 exports.loadWiz = function(callback){
     console.log(ll.ansi('inverse','Software Version:'+pjson.version))
 
-    // default wiz values go here
-    global.wiz={
-        Baudrate:115200,
-        PanID:301,
-        Scroll:'up',
-        Backlight:80,
-        FadeIn:1,
-        FadeOut:2
-    };
+    // default wiz values go in start.js
+
     try{
         settings.ShowName = fs.readFileSync('./public/show/show.def','utf8');
     } catch (err) {

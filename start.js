@@ -6,7 +6,14 @@ ll = require('./llibR6');
 cp = require('./cueprocessor');
 const gpiomodule = require("./gpio");
 const os = require('os');
-
+global.wiz={
+    Baudrate:115200,
+    PanID:301,
+    Scroll:'up',
+    Backlight:80,
+    FadeIn:1,
+    FadeOut:2
+};
 ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
 
 function settingsLoaded(){
@@ -20,6 +27,7 @@ function settingsLoaded(){
     } else
     {
         //settings not loaded
+
         console.log('settings NOT file loaded to global.settings');
 
         webserver = require('./webserver')
