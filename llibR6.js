@@ -63,7 +63,9 @@ if(os.type() != "Windows_NT") {
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
 }
 exports.usbDisconnect = function(){
+    console.log('usbdisconnect')
     if (usbDetect){
+        console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
     }
 
