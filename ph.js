@@ -107,7 +107,6 @@ function updateFirmware(cb){
             ll.stopBrowser()
             ll.usbDisconnect(true);
 
-
         }
         console.log(resp)
 
