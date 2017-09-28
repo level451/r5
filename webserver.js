@@ -37,7 +37,13 @@ app.get('/', function (req, res) {
             });
         }else
         {
-            settings.ipAddress = require('os').networkInterfaces().wlan0[0].address
+            try{
+                settings.ipAddress = require('os').networkInterfaces().wlan0[0].address
+            } catch(err)
+                {
+                    settings.ipAddress='';
+                }
+
             res.render('selectSettings.ejs', {wiz: global.wiz, settings: global.settings, wsport: settings.webSocket.listenPort});
         }
 
