@@ -559,10 +559,16 @@ function wsData(data,id){
                 } else {
                     console.log('Error - writing settings file:'+err)
                    fs.unlink('./settings',(err)=>{
-                       ll.usbDisconnect();
-                       setTimeout(function(){
-                           process.exit(100); // restart if started from app.js
-                       },1000)
+                       ll.usbDisconnect(function(){
+
+                           setTimeout(function(){
+                               process.exit(100); // restart if started from app.js
+                           },1000)
+
+
+
+                           }
+                       );
 
 
                    })
