@@ -548,12 +548,16 @@ function wsData(data,id){
 
                 if (!err){
                     console.log('setting exit timer')
-                    ll.usbDisconnect();
-                    setTimeout(function(){
-                        console.log('exit timer fired')
+                    ll.usbDisconnect(function(){
 
-                        process.exit(100); // restart if started from app.js
-                    },2000)
+                            setTimeout(function(){
+                                process.exit(100); // restart if started from app.js
+                            },1000)
+
+
+
+                        }
+                    );
 
 
                 } else {
