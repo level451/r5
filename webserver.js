@@ -74,7 +74,7 @@ app.use(function(req, res, next) {
     res.status(404).send('Sorry cant find that!');
 });
 
-var server = app.listen(settings.webServer.listenPort, function () {
+ server = app.listen(settings.webServer.listenPort, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log(ll.ansi('brightBlue','Webserver listening at http://localhost:'+settings.webServer.listenPort));
@@ -92,6 +92,11 @@ exports.formatDate =  function(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     //  return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
     return strTime;
+}
+exports.close = function(){
+    server.close();
+    server = null;
+    console.log('webserver down')
 }
 
 

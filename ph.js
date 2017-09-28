@@ -93,12 +93,16 @@ function commandProcessor(c){
         case "exit":
             //process.exitCode = 100;
             ll.usbDisconnect();
-            process.exit(0); // exit normally
+            setTimeout(function(){
+                process.exit(0); // restart if started from app.js
+            },1000)
             break;
         case "restart":
             //process.exitCode = 100;
             ll.usbDisconnect();
-            process.exit(100); // exit normally
+            setTimeout(function(){
+                process.exit(100); // restart if started from app.js
+            },1000)
             break;
 
         default:

@@ -64,10 +64,10 @@ if(os.type() != "Windows_NT") {
 }
 exports.usbDisconnect = function(){
     console.log('usbdisconnect')
+    webserver.close();
     if (usbDetect){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
-        process.exit(100)
     }
 
 }
