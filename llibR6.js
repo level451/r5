@@ -1755,7 +1755,8 @@ function linuxCopyDirectoryList(source,destination,list){
         return;
     }
     console.log('USB Copy - working on '+list[global.listPointer])
-    linuxCopyDirectory(source+list[global.listPointer],destination+list[global.listPointer],function(){
+    linuxCopyDirectory(source+list[global.listPointer],destination,function(){
+    //    linuxCopyDirectory(source+list[global.listPointer],destination+list[global.listPointer],function(){
         console.log('USB Copy - finished '+list[global.listPointer])
         ++global.listPointer
         linuxCopyDirectoryList(source,destination,list)
