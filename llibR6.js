@@ -62,20 +62,22 @@ if(os.type() != "Windows_NT") {
 
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
 }
-exports.usbDisconnect = function(cb){
+exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
     webserver.close();
     if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
-        if (cb){
-            console.log('callback')
-            return cb()}
+        if (restart){
+            console.log('restart')
+            process.exit(100)
+        }
     } else
     {
-        if (cb){
-            console.log('callback')
-            return cb()}
+        if (restart){
+            console.log('restart')
+            process.exit(100)
+        }
     }
 
 }
