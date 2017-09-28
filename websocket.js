@@ -213,7 +213,7 @@ function wsData(data,id){
             break;
         case "backlightOn":
 
-            if (!data.data.backlight){
+            if (data.data.backlight == 0){
                 data.data.backlight = 1
             }
             console.log('backlight ON called:'+JSON.stringify(data.data.backlight))
