@@ -553,7 +553,7 @@ function wsData(data,id){
                         console.log('exit timer fired')
 
                         process.exit(100); // restart if started from app.js
-                    },1000)
+                    },2000)
 
 
                 } else {
