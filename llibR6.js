@@ -393,7 +393,6 @@ exports.loadWiz = function(callback){
 
         }
 
-
     }
 
     getShowNames((showNames) =>{
