@@ -85,6 +85,7 @@ function connect(ip) {
     }
 }
 function commandProcessor(c){
+    console.log('commandProcessor:'+c.command)
     switch (c.command) {
         case "updateFirmware":
             updateFirmware();

@@ -98,7 +98,8 @@ exports.startBrowser = function(){
 
  }
 exports.stopBrowser = function(){
-browser.kill();
+console.log('browser kill')
+    browser.kill();
 
 }
  exports.usbDisconnect = function(restart){
