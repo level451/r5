@@ -15,7 +15,7 @@ const battADC = "/sys/bus/iio/devices/iio:device0/in_voltage3_raw";// using ADC 
 const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nanopi 2
 const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2;
 const macAddress2 = "/sys/class/net/wlan1/address"; // this is for nanopi 2
-const { childProcess } = require('child_process');
+const childProcess = require('child_process');
 
 
 global.testMode = false;
