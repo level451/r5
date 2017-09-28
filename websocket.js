@@ -217,7 +217,10 @@ function wsData(data,id){
                 data.data.backlight = 1
             }
             console.log('backlight ON called:'+JSON.stringify(data.data.backlight))
-            wiz.Backlight = data.data.backlight;
+            if (data.data.backlight){
+                wiz.Backlight = data.data.backlight;
+            }
+
             console.log('backlight set to:'+wiz.Backlight)
 
             if (typeof(wiz.Backlight) != 'undefined'){
