@@ -100,6 +100,9 @@ function commandProcessor(c){
         case "stopBrowser":
            ll.stopBrowser()
             break;
+        case "startBrowser":
+            ll.startBrowser()
+            break;
 
         case "restart":
             //process.exitCode = 100;

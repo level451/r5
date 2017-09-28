@@ -38,7 +38,7 @@ var steps = 20;
  const value = [steps];
 
 if(os.type() != "Windows_NT") {
-
+    ll.startBrowser()
     var com = require('serialport');
     var execSeries = require('exec-series');
     updateBattTemp();
@@ -274,6 +274,7 @@ exports.serialWrite = function(data) {
 
 
 exports.loadSettings = function(callback){
+
     fs.readFile('settings', 'utf8', (err, filetxt) => {
         if (err) {  console.log('settings not found - going to settings menu')
             global.settings = {
