@@ -39,7 +39,7 @@ var steps = 20;
  exports.startBrowser = function(){
 
      //browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ',function(){
-     browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ ',function(){
+     browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk --ash-copy-host-background-at-boot http://localhost:3111/ ',function(){
      console.log('killed browser')
 
      });
