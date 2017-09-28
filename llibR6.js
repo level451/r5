@@ -120,7 +120,6 @@ exports.stopBrowser = function(){
      if (fs.existsSync('/media/usb0/show')) {
          console.log("We have a Show Directory -- do something");
          ws.send(JSON.stringify({object:'usb'}),'r5');
-
      }
      else {
          console.log("USB inserted but no Show Directory");
