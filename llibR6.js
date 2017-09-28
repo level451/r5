@@ -86,8 +86,9 @@ exports.startBrowser = function(){
 
  }
 exports.stopBrowser = function(){
-console.log('browser kill')
-    browser.kill();
+console.log('browser kill:'+browser.pid)
+
+    browser.kill('SIGINT');
 
 }
  exports.usbDisconnect = function(restart){
