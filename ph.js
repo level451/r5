@@ -5,38 +5,14 @@ const reconnectInterval = 5000
 exports.start = function(){
     connect('witzel.asuscomm.com:4691')
 }
-
+var ws
 function connect(ip) {
     var retryTimeout;
     const WebSocket = require('ws')
-    var ws = new WebSocket('ws://' + ip)
+    ws = new WebSocket('ws://' + ip)
 
     ws.on('open', function open() {
-        ws.send(JSON.stringify(
-            {
-                type:'unitInfo',
-                mac:global.Mac,
-                ip: global.myuri,
-                settings:global.settings,
-                pjson:require('./package.json'),
-                status:{Battery: global.Battery,
-                        Pan: global.Pan,
-                        Signal: global.Sig,
-                        Temperature: global.Temperature,
-                        uptime:new Date()-global.settings.performance.startTime,
-                }
-
-            }
-            ),(err)=>{
-            if (!err){
-                process.stdout.write(':)')
-            } else
-            {
-                console.log('PH - socket send error:'+err)
-            }
-
-
-        })
+        sendUnitInfo()
 
         // 2nd - connect to the remote unit and get its file list
 //            ws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
@@ -44,6 +20,7 @@ function connect(ip) {
     });
 
     ws.on('message', function incoming(data) {
+        console.log('onmessage')
         var d = JSON.parse(data);
         switch (d.type) {
             case "command":
@@ -103,10 +80,14 @@ function commandProcessor(c){
         case "startBrowser":
             ll.startBrowser()
             break;
-
+        case "requestUnitInfo":
+            sendUnitInfo()
+            break;
         case "restart":
             //process.exitCode = 100;
             ll.usbDisconnect();
+            ll.stopBrowser()
+
             setTimeout(function(){
                 process.exit(100); // restart if started from app.js
             },1000)
@@ -133,5 +114,34 @@ function updateFirmware(cb){
         console.log(resp)
 
     });
+
+}
+function sendUnitInfo(){
+
+    ws.send(JSON.stringify(
+        {
+            type:'unitInfo',
+            mac:global.Mac,
+            ip: global.myuri,
+            settings:global.settings,
+            pjson:require('./package.json'),
+            status:{Battery: global.Battery,
+                Pan: global.Pan,
+                Signal: global.Sig,
+                Temperature: global.Temperature,
+                uptime:new Date()-global.settings.performance.startTime,
+            }
+
+        }
+    ),(err)=>{
+        if (!err){
+            process.stdout.write(':)')
+        } else
+        {
+            console.log('PH - socket send error:'+err)
+        }
+
+
+    })
 
 }

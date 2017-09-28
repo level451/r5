@@ -70,7 +70,7 @@ function websockstart(){
                         setTimeout(function(){
                             location.reload();
 
-                        },10000)
+                        },3000)
                         break;
                     default:
                         console.log(x.object);
