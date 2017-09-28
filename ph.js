@@ -103,6 +103,7 @@ function updateFirmware(cb){
     require('child_process').exec('git pull', function (err, resp) {
         if (resp == 'Already up-to-date.\n'){
         } else {
+            console.log(resp)
             ll.stopBrowser()
             ll.usbDisconnect(true);
 
