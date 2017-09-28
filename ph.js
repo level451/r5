@@ -97,6 +97,10 @@ function commandProcessor(c){
                 process.exit(0); // restart if started from app.js
             },1000)
             break;
+        case "stopBrowser":
+           ll.stopBrowser()
+            break;
+
         case "restart":
             //process.exitCode = 100;
             ll.usbDisconnect();

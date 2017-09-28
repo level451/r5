@@ -16,7 +16,7 @@ const sysTemp = "/sys/class/hwmon/hwmon0/device/temp_label";  // this is for nan
 const macAddress = "/sys/class/net/wlan0/address"; // this is for nanopi 2;
 const macAddress2 = "/sys/class/net/wlan1/address"; // this is for nanopi 2
 const childProcess = require('child_process');
-
+var browser
 
 global.testMode = false;
 global.demoMode = false;
@@ -79,17 +79,17 @@ if(os.type() != "Windows_NT") {
 
  }
 exports.startBrowser = function(){
-const browser = childProcess.spawn
 
-     execSeries(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
-         if (err) {
-             console.log(err);
-             // throw err;
-         }
 
-         console.log(stdouts); // yields: ['foo\n', 'bar\n']
-         console.log(stderrs); // yields: ['', '']
-         console.log("browser started");
+     browser =  childProcess.exec(['DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ '], (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
+         // if (err) {
+         //     console.log(err);
+         //     // throw err;
+         // }
+         //
+         // console.log(stdouts); // yields: ['foo\n', 'bar\n']
+         // console.log(stderrs); // yields: ['', '']
+         // console.log("browser started");
 
 
 
@@ -97,7 +97,10 @@ const browser = childProcess.spawn
 
 
  }
+exports.stopBrowser = function(){
+browser.kill();
 
+}
  exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
     webserver.close();
