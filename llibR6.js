@@ -38,9 +38,9 @@ var steps = 20;
  const value = [steps];
  exports.startBrowser = function(){
 
-     //browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ', (err, stdouts, stderrs) => {//finally starts up withD DOSPLAY:0  -- WHO KNOWS WHY?
-     browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ',function(){
-         console.log('killed browser')
+     //browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:'+settings.webServer.listenPort+'/ ',function(){
+     browser =  childProcess.exec('DISPLAY=:0 sudo -u fa chromium-browser --incognito --kiosk http://localhost:3111/ ',function(){
+     console.log('killed browser')
 
      });
 
