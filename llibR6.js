@@ -363,7 +363,7 @@ exports.saveSettings = function(callback){
 }
 exports.loadWiz = function(callback){
     console.log(ll.ansi('inverse','Software Version:'+pjson.version))
-
+    global.wiz = [];
     // default wiz values go in start.js
 
     try{
@@ -399,7 +399,7 @@ exports.loadWiz = function(callback){
         const rl = readline.createInterface({
             input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
         });
-        global.wiz = [];
+
         rl.on('line', (line) => {
             global.wiz = [];
             if (line.indexOf(':') != -1){ // make sure there is a :
