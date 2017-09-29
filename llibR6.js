@@ -401,6 +401,7 @@ exports.loadWiz = function(callback){
         });
 
         rl.on('line', (line) => {
+            global.wiz = [];
             if (line.indexOf(':') != -1){ // make sure there is a :
                 // update the global.wiz object
                 //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
