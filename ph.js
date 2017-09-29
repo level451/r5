@@ -5,22 +5,22 @@ const reconnectInterval = 5000
 exports.start = function(){
     connect('witzel.asuscomm.com:4691')
 }
-var ws
+var phws
 function connect(ip) {
     var retryTimeout;
     const WebSocket = require('ws')
-    ws = new WebSocket('ws://' + ip)
+    phws = new WebSocket('ws://' + ip)
 
-    ws.on('open', function open() {
+    phws.on('open', function open() {
         sendUnitInfo()
 
         // 2nd - connect to the remote unit and get its file list
-//            ws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
+//            phws.send(JSON.stringify({type:'getfiles',data:localFiles,show:show}));
 
     });
 
-    ws.on('message', function incoming(data) {
-        console.log('onmessage')
+    phws.on('message', function incoming(data) {
+
         var d = JSON.parse(data);
         switch (d.type) {
             case "command":
@@ -32,13 +32,13 @@ function connect(ip) {
         }
 
     });
-    ws.on('close', function () {
+    phws.on('close', function () {
 
 //        console.log('websocket closed')
 
         retry()
     })
-    ws.on('error', function (err) {
+    phws.on('error', function (err) {
         if (err.code == 'ECONNREFUSED' || err.code =='ETIMEDOUT'){
             retry()
         } else
@@ -130,7 +130,7 @@ function updateFirmware(cb){
 }
 function sendUnitInfo(){
 
-    ws.send(JSON.stringify(
+    phws.send(JSON.stringify(
         {
             type:'unitInfo',
             mac:global.Mac,
