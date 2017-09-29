@@ -67,11 +67,11 @@ var unitCommands = {
     requestUnitInfo:"Refresh!"
 }
 if (require('os').type() != "Windows_NT"){
-    unitCommands + unitCommands + {
+    unitCommands = Object.assign(unitCommands , {
         stopBrowser:'Stop Browser',
         startBrowser:'Start Browser'
 
-    }
+    })
 }
 function commandProcessor(c){
     switch (c.command) {
