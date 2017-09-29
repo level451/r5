@@ -66,7 +66,10 @@ var unitCommands = {
     restart:"Restart!",
     requestUnitInfo:"Refresh!",
     exit:"Exit",
-    keyEnter:"Enter"
+    keyEnter:"Enter",
+    keyLeft:"Left/Down",
+    keyRight:"Right/Up",
+    keyAdminMenu:'Admin Menu'
 }
 if (require('os').type() != "Windows_NT"){
     unitCommands = Object.assign(unitCommands , {
@@ -101,8 +104,18 @@ function commandProcessor(c){
             //process.exitCode = 100;
             ll.stopBrowser()
             ll.usbDisconnect(true);
+            break;
         case "keyEnter":
             ws.send(JSON.stringify({object:'simbutton',data:3}),'r6')
+            break;
+        case "keyLeft":
+            ws.send(JSON.stringify({object:'simbutton',data:1}),'r6')
+            break;
+        case "keyRight":
+            ws.send(JSON.stringify({object:'simbutton',data:2}),'r6')
+            break;
+        case "keyAdminMenu":
+            ws.send(JSON.stringify({object:'simbutton',data:6}),'r6')
             break;
 
 
