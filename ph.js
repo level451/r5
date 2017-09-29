@@ -85,12 +85,11 @@ function commandProcessor(c){
             break;
         case "restart":
             //process.exitCode = 100;
-            ll.usbDisconnect();
             ll.stopBrowser()
+            ll.usbDisconnect(true);
 
-            setTimeout(function(){
-                process.exit(100); // restart if started from app.js
-            },1000)
+
+
             break;
 
 
