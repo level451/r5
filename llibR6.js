@@ -399,7 +399,7 @@ exports.loadWiz = function(callback){
         const rl = readline.createInterface({
             input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
         });
-
+        global.wiz = [];
         rl.on('line', (line) => {
             global.wiz = [];
             if (line.indexOf(':') != -1){ // make sure there is a :
