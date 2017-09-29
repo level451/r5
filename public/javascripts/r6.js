@@ -135,6 +135,10 @@ function load() {
 
 }
 function switchPress(s){
+    // setTimeout(function(){
+    //     captureCanvas()
+    //
+    // },100)
     if (s == 6) {
         clearTimeout(backlightTimer);
         clearTimeout(volTimer);
@@ -1058,7 +1062,7 @@ function captureCanvas(){
     websocketsend('canvas',
         {
             //data:canvas.toDataURL("image/png")
-            data:canvas.toDataURL("image/webp")
+            data:canvas.toDataURL("image/webp",0)
         })
 
 }

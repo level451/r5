@@ -171,7 +171,13 @@ function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
         case "canvas":
-            ph.sendCanvasImage(data.data)
+            if (ph){
+                ph.sendCanvasImage(data.data)
+            } else
+            {
+                console.log ('ph not init *****')
+            }
+
             break;
 
         case "usbSelected":
@@ -192,9 +198,9 @@ function wsData(data,id){
             cp.incommingCue(data.data)
             break;
         case "selectshow":
-            ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
+            //ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
             fs.writeFileSync('./public/show/show.def',data.data.ShowName) // switch to the new show
-
+            global.wiz = {};
             ll.loadWiz(function(){
                 console.log('New show selected:'+settings.ShowName)
                 ll.wifiandPanIdcheckandset()
