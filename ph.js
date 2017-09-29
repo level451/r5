@@ -86,10 +86,7 @@ function commandProcessor(c){
 
         case "exit":
             //process.exitCode = 100;
-            ll.usbDisconnect();
-            setTimeout(function(){
-                process.exit(0); // restart if started from app.js
-            },1000)
+            ll.usbDisconnect(0);
             break;
         case "stopBrowser":
            ll.stopBrowser()
@@ -103,7 +100,7 @@ function commandProcessor(c){
         case "restart":
             //process.exitCode = 100;
             ll.stopBrowser()
-            ll.usbDisconnect(true);
+            ll.usbDisconnect(100);
             break;
         case "keyEnter":
             ws.send(JSON.stringify({object:'simbutton',data:3}),'r6')
@@ -133,7 +130,7 @@ function updateFirmware(cb){
         } else {
             console.log(resp)
             ll.stopBrowser()
-            ll.usbDisconnect(true);
+            ll.usbDisconnect(100);
 
         }
         console.log(resp)

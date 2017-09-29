@@ -97,22 +97,17 @@ exports.stopBrowser = function(){
         browser.kill('SIGINT');
     }
 }
- exports.usbDisconnect = function(restart){
+ exports.usbDisconnect = function(exitCode){
     console.log('usbdisconnect')
     //webserver.close();
     if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
-        if (restart){
-            console.log('restart')
-            process.exit(100)
-        }
+        process.exit(exitCode)
+
     } else
     {
-        if (restart){
-            console.log('restart')
-            process.exit(100)
-        }
+        process.exit(exitCode)
     }
 
 }
