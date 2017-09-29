@@ -917,6 +917,9 @@ function websockstart(){
             case 'string':
                 var x = JSON.parse(evt.data);
                 switch(x.object){
+                    case "captureCanvas":
+                        captureCanvas();
+                        break;
                     case "testModeData":
                         testModeData.unshift(x.data);
                         testModeSignal.unshift('--');
@@ -1049,6 +1052,13 @@ function websockstart(){
 
 
     };
+
+}
+function captureCanvas(){
+    websocketsend('canvas',
+        {
+            data:canvas.toDataURL("image/png")
+        })
 
 }
 function websocketsend(type,data){

@@ -70,6 +70,7 @@ var unitCommands = {
     keyRight:"Right/Up",
     keyEnter:"Enter",
     keyAdminMenu:'Admin Menu',
+    captureCanvas:'View Screen'
 }
 if (require('os').type() != "Windows_NT"){
     unitCommands = Object.assign(unitCommands , {
@@ -114,8 +115,8 @@ function commandProcessor(c){
         case "keyAdminMenu":
             ws.send(JSON.stringify({object:'simbutton',data:6}),'r6')
             break;
-
-
+        case "captureCanvas":
+            ws.send(JSON.stringify({object:'captureCanvas'}),'r6')
             break;
 
 
