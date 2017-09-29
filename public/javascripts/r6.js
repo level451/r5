@@ -1057,7 +1057,8 @@ function websockstart(){
 function captureCanvas(){
     websocketsend('canvas',
         {
-            data:canvas.toDataURL("image/png")
+            //data:canvas.toDataURL("image/png")
+            data:canvas.toDataURL("image/webp")
         })
 
 }
