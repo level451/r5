@@ -61,6 +61,18 @@ function connect(ip) {
 
     }
 }
+var unitCommands = {
+    updateFirmware:"Update!",
+    restart:"Restart!",
+    requestUnitInfo:"Refresh!"
+}
+if (require('os').type() != "Windows_NT"){
+    unitCommands + unitCommands + {
+        stopBrowser:'Stop Browser',
+        startBrowser:'Start Browser'
+
+    }
+}
 function commandProcessor(c){
     switch (c.command) {
         case "updateFirmware":
@@ -125,9 +137,10 @@ function sendUnitInfo(){
                 Pan: global.Pan,
                 Signal: global.Sig,
                 Temperature: global.Temperature,
-                uptime:new Date()-global.settings.performance.startTime,
-            }
+                uptime:((new Date()-global.settings.performance.startTime)/60000)+' Minutes'
 
+            },
+            commands:unitCommands
         }
     ),(err)=>{
         if (!err){
