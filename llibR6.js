@@ -7,7 +7,6 @@ const fs = require('fs');
 const WebSocket = require('ws');
 os = require('os');
 xbee = require("./Xbee");
-ph = require('./ph')
 const readline = require('readline');
 var pjson = require('./package.json');
 list = [] // list for files to get
@@ -98,17 +97,22 @@ exports.stopBrowser = function(){
         browser.kill('SIGINT');
     }
 }
- exports.usbDisconnect = function(exitCode){
+ exports.usbDisconnect = function(restart){
     console.log('usbdisconnect')
-    //webserver.close();
+    webserver.close();
     if (typeof(usbDetect) != 'undefined'){
         console.log('usbstopmonitoring')
         usbDetect.stopMonitoring();
-        process.exit(exitCode)
-
+        if (restart){
+            console.log('restart')
+            process.exit(100)
+        }
     } else
     {
-        process.exit(exitCode)
+        if (restart){
+            console.log('restart')
+            process.exit(100)
+        }
     }
 
 }
@@ -116,17 +120,19 @@ exports.stopBrowser = function(){
      if (fs.existsSync('/media/usb0/show')) {
          console.log("We have a Show Directory -- do something");
          ws.send(JSON.stringify({object:'usb'}),'r5');
+
      }
      else {
          console.log("USB inserted but no Show Directory");
      }
+
  }
 
 udp(); // start the udp server
 
  getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
-    ph.start();
+    require('./ph').start();
 
     }); // gets Mac address to gloabel.Mac
 
@@ -363,7 +369,7 @@ exports.saveSettings = function(callback){
 }
 exports.loadWiz = function(callback){
     console.log(ll.ansi('inverse','Software Version:'+pjson.version))
-   // global.wiz = [];
+
     // default wiz values go in start.js
 
     try{
@@ -401,7 +407,6 @@ exports.loadWiz = function(callback){
         });
 
         rl.on('line', (line) => {
-            global.wiz = [];
             if (line.indexOf(':') != -1){ // make sure there is a :
                 // update the global.wiz object
                 //global.wiz[line.substr(0,line.indexOf(':'))]=line.substr(line.indexOf(':')+1).replace(' ','');
