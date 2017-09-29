@@ -101,7 +101,9 @@ function commandProcessor(c){
             //process.exitCode = 100;
             ll.stopBrowser()
             ll.usbDisconnect(true);
-
+        case "keyEnter":
+            ws.send(JSON.stringify({object:'simbutton',data:3}),'r6')
+            break;
 
 
             break;
