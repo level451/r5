@@ -169,3 +169,8 @@ function sendUnitInfo(){
     })
 
 }
+exports.sendCanvasImage = function(data){
+    console.log('ph captured image')
+    phws.send(JSON.stringify({type:'canvasImage',data:data.data, mac:global.Mac }))
+
+}

@@ -7,6 +7,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 os = require('os');
 xbee = require("./Xbee");
+ph = require('./ph')
 const readline = require('readline');
 var pjson = require('./package.json');
 list = [] // list for files to get
@@ -125,7 +126,7 @@ udp(); // start the udp server
 
  getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
-    require('./ph').start();
+    ph.start();
 
     }); // gets Mac address to gloabel.Mac
 

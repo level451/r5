@@ -170,6 +170,10 @@ exports.send = function(data,id,binary)
 function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
+        case "canvas":
+            ph.sendCanvasImage(data.data)
+            break;
+
         case "usbSelected":
             console.log('usb file selection:'+data.data.selection)
             ll.copyFromUsb(data.data.selection);
