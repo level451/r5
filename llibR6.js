@@ -401,7 +401,7 @@ exports.loadWiz = function(callback){
             settings.ShowName = showNames[0];
             console.log('because there is no show.def - the show  is set to first show found - ' + showNames[0]);
         }
-
+        global.wiz = [];
         const rl = readline.createInterface({
             input: fs.createReadStream('./public/show/'+settings.ShowName+'/wiz.dat')
         });
