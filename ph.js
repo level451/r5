@@ -64,7 +64,9 @@ function connect(ip) {
 var unitCommands = {
     updateFirmware:"Update!",
     restart:"Restart!",
-    requestUnitInfo:"Refresh!"
+    requestUnitInfo:"Refresh!",
+    exit:"Exit",
+    keyEnter:"Enter"
 }
 if (require('os').type() != "Windows_NT"){
     unitCommands = Object.assign(unitCommands , {
