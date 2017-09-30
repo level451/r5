@@ -171,7 +171,7 @@ function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
         case "canvas":
-            if (ph){
+            if (typeof(ph) != 'undefined') {
                 ph.sendCanvasImage(data.data)
             } else
             {
