@@ -70,6 +70,8 @@ if(os.type() != "Windows_NT") {
         usbDetect.on('remove', function(device) {
             console.log("USB Removed");
             ws.send(JSON.stringify({object:'loadMain'}),'r6');
+            exports.stopBrowser()
+            exports.usbDisconnect(100);
 
         });
 
@@ -1595,8 +1597,6 @@ exports.copyFromUsb = function(s){
                 linuxCopyDirectory('/media/usb0/show',  './public',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
-                    exports.stopBrowser()
-                    exports.usbDisconnect(100);
 
                 })
 
