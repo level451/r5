@@ -1508,9 +1508,10 @@ function getShowNames(cb,path) {
     fs.readdir(path, (err, data) => {
         console.log(err)
         var shownames = [];
-        console.log(data)
+        console.log('**'+data)
         data.forEach(function (data) {
             if (fs.lstatSync(path + data).isDirectory()) {
+               if(fs)
                 //console.log('Show found:' + data)
                 shownames.push(data);
             }
