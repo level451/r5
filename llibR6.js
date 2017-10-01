@@ -1159,7 +1159,7 @@ exports.getShowFrom = function(show,ip,cb){
 
                             fs.writeFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                                 if (err){
-                                    console.log(err);
+                                    console.log('file write error:'+err);
                                 }
                                 process.stdout.write('-');
                                 if (!file.split){ // no need to update the file if its a split file
@@ -1175,7 +1175,7 @@ exports.getShowFrom = function(show,ip,cb){
                             // split file - add these pieces to the file
                             fs.appendFile(showPath+file.relativePath, file.data, 'base64', function(err) {
                                 if (err){
-                                    console.log(err);
+                                    console.log('file append error'+err);
                                 }
                                 process.stdout.write('*');
                                 if (file.last){ // update the file date when split file is complete
@@ -1519,7 +1519,10 @@ function getShowNames(cb,path) {
         path = './public/show/';
     }
     fs.readdir(path, (err, data) => {
-        console.log(err)
+        if (err){
+            console.log('read path get show names error'+err)
+        }
+
         var shownames = [];
         data.forEach(function (data) {
             if (fs.lstatSync(path + data).isDirectory()) {
@@ -1739,8 +1742,8 @@ function linuxCopyDirectoryList(source,destination,list){
 
 }
 function linuxCopyDirectory(source,destination,cb){
-    console.log(source)
-    console.log(destination)
+//    console.log(source)
+//    console.log(destination)
     const { spawn } = require('child_process');
     const ls = spawn('rsync', ['-a', '--progress',source,destination]);
 

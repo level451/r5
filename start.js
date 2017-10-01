@@ -18,7 +18,6 @@ ll.loadSettings(settingsLoaded); // calls settingsLoaded when done
 
 function settingsLoaded(){
     if (!global.settings.failedtoload){
-        console.log('settings file loaded to global.settings');
         ll.getShowVersions(function(showVersion){
             global.settings.showVersion = showVersion
             ll.loadWiz(wizLoaded)
