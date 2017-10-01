@@ -1595,8 +1595,8 @@ exports.copyFromUsb = function(s){
                 linuxCopyDirectory('/media/usb0/show',  './public',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
-                    ll.stopBrowser()
-                    ll.usbDisconnect(100);
+                    exports.stopBrowser()
+                    exports.usbDisconnect(100);
 
                 })
 
