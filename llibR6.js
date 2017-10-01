@@ -692,7 +692,7 @@ function wifiCheck(){
         return
 
     }
-    console.log(ll.ansi('inverse', 'wifi reconnect:'+wiz.Ssid));
+    console.log(ll.ansi('inverse', 'Attempting to connect to wifi:'+wiz.Ssid));
 
     try{
         fs.unlinkSync('/etc/NetworkManager/system-connections/show')
