@@ -84,7 +84,7 @@ if(os.type() != "Windows_NT") {
              throw err;
          }
 
-         console.log(stdouts); // yields: ['foo\n', 'bar\n']
+         //console.log(stdouts); // shows junk
          console.log(stderrs); // yields: ['', '']
          console.log("****Audio level set");
      });
@@ -513,7 +513,7 @@ String.prototype.rpad = function(length) {
 }
 
 exports.getUnitSettings = function(){
-    console.log("We are getUnitSettings");
+
     if(os.type() == "Windows_NT"){// if a windows system, then we can return nothing
 
         require('dns').lookup(require('os').hostname(), function (err, add, fam) {
@@ -692,7 +692,7 @@ function wifiCheck(){
         return
 
     }
-    console.log(ll.ansi('inverse', 'wifi reconnect:'+wiz.SSid));
+    console.log(ll.ansi('inverse', 'wifi reconnect:'+wiz.Ssid));
 
     try{
         fs.unlinkSync('/etc/NetworkManager/system-connections/show')
@@ -803,7 +803,6 @@ function getIPAddress(){
     // we should connect to address[0] with the webserver
     //so lets grab it and make a global variable to
     //use elseware
-    console.log("We are at getIPAddresses");
     var interfaces = os.networkInterfaces();
     global.addresses = [];
     for (k in interfaces) {
