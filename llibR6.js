@@ -692,19 +692,27 @@ function wifiCheck(){
         return
 
     }
-    console.log(ll.ansi('inverse', 'Attempting to connect to wifi:'+wiz.Ssid));
+    console.log(ll.ansi('bold', 'Attempting to connect to wifi:'+wiz.Ssid));
 
-    try{
-        fs.unlinkSync('/etc/NetworkManager/system-connections/show')
-    } catch(err){
-        console.log(err)
-    }
+    // try{
+    //     fs.unlinkSync('/etc/NetworkManager/system-connections/show')
+    // } catch(err){
+    //     console.log(err)
+    // }
+
+    require('child_process').exec('rm /etc/NetworkManager/system-connections/show*', function (err, resp) {cd /r5})
+
+
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
             getIPAddress()
         }, 20000);// wait 5 seconds and then get ip address
-        console.log(err)
-        console.log(resp)
+
+        if (err){
+            console.log(ll.ansi('inverse', 'Failed to connect to wifi:'+wiz.Ssid));
+        }
+        // console.log(err)
+        // console.log(resp)
     });
 
 
