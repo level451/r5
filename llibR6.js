@@ -704,7 +704,6 @@ function wifiCheck(){
     require('child_process').exec('rm /etc/NetworkManager/system-connections/show*', function (err, resp) {
 
 
-
     })
 
 
