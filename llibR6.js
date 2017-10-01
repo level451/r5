@@ -700,7 +700,11 @@ function wifiCheck(){
     //     console.log(err)
     // }
 
-    require('child_process').exec('rm /etc/NetworkManager/system-connections/show*', function (err, resp) {cd /r5})
+    require('child_process').exec('rm /etc/NetworkManager/system-connections/show*', function (err, resp) {
+
+
+
+    })
 
 
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
