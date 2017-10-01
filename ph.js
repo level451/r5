@@ -176,7 +176,13 @@ exports.sendCanvasImage = function(data){
 }
 exports.sendtoPH = function(d){
     d.mac = global.Mac
-    phws.send(JSON.stringify(d))
+    try{
+        phws.send(JSON.stringify(d))
+    } catch(err){
+
+        console.log(err)
+    }
+
 
 }
 exports.sendUnitInfo = function(){

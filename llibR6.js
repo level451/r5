@@ -1508,15 +1508,21 @@ function getShowNames(cb,path) {
     fs.readdir(path, (err, data) => {
         console.log(err)
         var shownames = [];
-        console.log('**'+data)
         data.forEach(function (data) {
             if (fs.lstatSync(path + data).isDirectory()) {
-               if(fs)
+               try{
+                   fs.accessSync(path+data+'/wiz.dat')
+                   shownames.push(data);
+
+               }catch(err){
+                   console.log(ll.ansi('inverse', 'No wiz.dat found for:'+data))
+
+               }
                 //console.log('Show found:' + data)
-                shownames.push(data);
             }
         })
         shownames.sort();
+        console.log('Shownames:'+shownames)
         if (cb){cb(shownames)}
     })
 }
