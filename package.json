@@ -1,6 +1,6 @@
 {
   "name": "R6",
-  "version": "0.8.23",
+  "version": "0.8.24",
   "dependencies": {
     "ejs": "^2.5.5",
     "exec-series": "*",

@@ -699,7 +699,11 @@ exports.wifiCheck = function(){
         console.log(err)
     }
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
-        setTimeout(function(){exports.getIPAddres()}, 10000);// wait 5 seconds and then get ip address
+        setTimeout(function(){
+            exports.getIPAddres()
+
+
+        }, 10000);// wait 5 seconds and then get ip address
         console.log(err)
         console.log(resp)
     });
@@ -1589,6 +1593,7 @@ exports.copyFromUsb = function(s){
         case "1":
             require('child_process').exec('rm -rf ./public/show/', function (err, resp) {
                 linuxCopyDirectory('/media/usb0/show',  './public',function(){
+
                     ws.send(JSON.stringify({object:'finished'}),'r6');
                 })
 
