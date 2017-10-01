@@ -124,7 +124,6 @@ exports.stopBrowser = function(){
      }
  }
 
-udp(); // start the udp server
 
  getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
@@ -686,9 +685,9 @@ function backLightDown(){
  }
 
 exports.wifiCheck = function(){
-    return
      if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
+
         exports.getIPAddres();
         return
 
@@ -703,7 +702,6 @@ exports.wifiCheck = function(){
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
             exports.getIPAddres()
-
 
         }, 10000);// wait 5 seconds and then get ip address
         console.log(err)
@@ -792,6 +790,7 @@ function getMACAddress(cb){
 
 }
 exports.getIPAddres = function(){
+    udp() // start the UDP server after the nework is up
     //iterate through all of the system IPv4 addresses
     // we should connect to address[0] with the webserver
     //so lets grab it and make a global variable to
