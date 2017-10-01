@@ -1,3 +1,9 @@
+// var _log = console.log
+// console.log = function() {
+// //    logOfConsole.push({method: 'log', arguments: arguments});
+//     return _log.apply(console, arguments);
+// };
+
 var pagename ='r6';
 var events = [];
 var inttimer = null;
@@ -893,6 +899,7 @@ function websockstart(){
     ws = new ReconnectingWebSocket(wsUri);
     ws.onopen = function(evt){
         console.log("websocket connected");
+        sendtoPHserver({test:'test'})
         websocketsend('setwebpage',{pagename:pagename});
         if (typeof(fully) == 'object') {
             // running from fully kiosk browse
@@ -1610,4 +1617,10 @@ function drawUpdateUnit(){
 }
 
     ctx.stroke();
+}
+function sendtoPHserver(d){
+    websocketsend('sendtoPHserver',d);
+}
+function sendtoPHclient(d){
+    websocketsend('sendtoPHclient',d);
 }

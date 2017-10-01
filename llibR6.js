@@ -684,7 +684,8 @@ function backLightDown(){
  }
 
 exports.wifiCheck = function(){
-    if (!wiz.Ssid || wiz.Ssid == 'undefined'){
+    return
+     if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
         exports.getIPAddres();
         return
@@ -705,99 +706,7 @@ exports.wifiCheck = function(){
 
 
 }
-// exports.wifiCheckold = function(){
-//     var currentSSID;
-//     var currentPASSWORD;
-//     if(wiz.Ssid == null){
-//         wiz.Ssid = "None";
-//     }
-//     if(wiz.Pass == null){
-//         wiz.Pass = "None";
-//     }
-//     wiz.Ssid = wiz.Ssid.trim();
-//     wiz.Pass = wiz.Pass.trim();
-//     console.log("wiz.ssid " + wiz.Ssid + " length "+ wiz.Ssid.length);
-//     console.log("wiz.Pass "+ wiz.Pass + " length " + wiz.Pass.length);
-//     const rl = readline.createInterface({
-//         input: fs.createReadStream('/etc/wpa_supplicant/wpa_supplicant.conf')
-//     });
-//
-//     rl.on('line', (line) => {
-//         console.log(line);
-//         if(line.includes("ssid")){
-//             currentSSID=line.substring(line.lastIndexOf("ssid=")+6,line.lastIndexOf('"')).trim();
-//             //console.log("current ssid: "+ currentSSID  + " length: " + currentSSID.length );
-//         }
-//         if(line.includes("psk")) {
-//             currentPASSWORD = line.substring(line.lastIndexOf("psk=") + 5, line.lastIndexOf('"')).trim();
-//             //console.log("current Password: "+ currentPASSWORD + " length: " + currentPASSWORD.length);
-//         }
-//
-//     });
-//     rl.on('close',()=> {
-//         //console.log("End of File")
-//
-//         if((currentSSID == wiz.Ssid) && (currentPASSWORD == wiz.Pass)){
-//             exports.getIPAddres()
-//             //console.log("there is nothing in wifi that needs to be changed");
-//         }
-//         else{ // wiz.dat access point or passwords dont match settings
-//             getAccessPoints(function(accessPointList){
-//                 if(accessPointList.indexOf(wiz.Ssid) == -1){
-//                     exports.getIPAddres()
-//                     console.log(ll.ansi('inverse', 'Access Point Not Found:'+wiz.SSid));
-//                     return;
-//
-//                 }
-//
-//                 console.log("Changing Wi-Fi settings");
-//                 fs.readFile('/etc/wpa_supplicant/wpa_supplicant.conf', 'utf8', function (err,data) {
-//                     if (err) {
-//                         console.log(err);
-//                         return
-//                     }
-//                     var result = data.replace(currentSSID, wiz.Ssid);
-//                     result = result.replace(currentPASSWORD, wiz.Pass);
-//                   // //  fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', result, 'utf8', function (err) {
-//                   //       if (err) {
-//                   //           console.log(err);
-//                   //           return
-//                   //       }
-//
-//                         console.log("Wi-FI settings config file updated")
-//
-//                     });
-//
-//                     execSeries(['sudo /sbin/ifdown wlan0'], (err, stdouts, stderrs) => {//
-//                         if (err) {
-//                             console.log(err);
-//                             throw err;
-//                         }
-//
-//                         console.log(stdouts); // yields: ['foo\n', 'bar\n']
-//                         console.log(stderrs); // yields: ['', '']
-//                         execSeries(['sudo /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
-//                             // execSeries(['sudo  -u fa  /sbin/ifup wlan0'], (err, stdouts, stderrs) => {//
-//                             setTimeout(function(){exports.getIPAddres()}, 20000);// wait 20 seconds and then get ip address
-//                             if (err) {
-//                                 console.log(err);
-//                                 throw err;
-//                             }
-//
-//                             console.log(stdouts); // yields: ['foo\n', 'bar\n']
-//                             console.log(stderrs); // yields: ['', '']
-//                         });
-//                     });
-//
-//
-//             })
-//
-//
-//         }
-//
-//
-//     });
-// }
+
 function getAccessPoints(cb){
 //used
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {

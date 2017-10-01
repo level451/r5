@@ -174,3 +174,8 @@ exports.sendCanvasImage = function(data){
     phws.send(JSON.stringify({type:'canvasImage',data:data.data, mac:global.Mac }))
 
 }
+exports.sendtoPH = function(d){
+    d.mac = global.Mac
+    phws.send(JSON.stringify(d))
+
+}

@@ -170,13 +170,13 @@ exports.send = function(data,id,binary)
 function wsData(data,id){
     const fs = require('fs');
     switch(data.type) {
+        case "sendtoPHclient":
+        case "sendtoPHserver":
+            ph.sendtoPH(data)
+                break;
         case "canvas":
-            if (typeof(ph) != 'undefined') {
+
                 ph.sendCanvasImage(data.data)
-            } else
-            {
-                console.log ('ph not init *****')
-            }
 
             break;
 
