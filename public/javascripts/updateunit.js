@@ -206,7 +206,7 @@ function drawBeaconElement(ctx,d){
             ctx.fillStyle = 'red';
         }
 
-        drawCenterText('Sync Status:'+((d.willSync > 0 )?d.willSync+ ' Will ':'')+((d.willNotSync > 0 )?d.willNotSync+ ' Cannot ':''),125)
+        drawCenterText('Status:'+((d.willSync > 0 )?d.willSync+ ' Will ':'')+((d.willNotSync > 0 )?d.willNotSync+ ' Cannot ':'')+'Sync',125)
 
     }
 

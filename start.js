@@ -49,6 +49,9 @@ function wizLoaded(){
     if(os.type() != "Windows_NT"){
         ll.openSerialPort('/dev/ttyAMA3',cp.incommingCue); // send all data from serialport to the cue processor
         gpiomodule.setupSwitches();
-        ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
+
     }
+
+    ll.wifiandPanIdcheckandset();// puts pan id and wifi in correct mode for the show
+    // this also start udp() and gets the system ip address
 }

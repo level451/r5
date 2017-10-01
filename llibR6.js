@@ -684,11 +684,11 @@ function backLightDown(){
 
  }
 
-exports.wifiCheck = function(){
+function wifiCheck(){
      if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
 
-        exports.getIPAddres();
+        getIPAddress();
         return
 
     }
@@ -701,7 +701,7 @@ exports.wifiCheck = function(){
     }
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
-            exports.getIPAddres()
+            getIPAddress()
 
         }, 10000);// wait 5 seconds and then get ip address
         console.log(err)
@@ -728,7 +728,7 @@ function getAccessPoints(cb){
 
 exports.wifiandPanIdcheckandset= function(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
-        exports.wifiCheck();
+        wifiCheck();
         xbee.xbeeGetPanID(0, 0, function (Pan) {
             wiz.PanID = wiz.PanID.trim();
             Pan = Pan.trim();
@@ -744,7 +744,15 @@ exports.wifiandPanIdcheckandset= function(){
         });
 
 
-    }}
+    } else
+    {
+        udp() //
+        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+            global.myuri = add;
+            console.log('My IP Address 0 is: ' + global.myuri );
+        });
+    }
+}
 
 function getMACAddress(cb){
     if(os.type() != "Windows_NT") {//dont do this on windows!
@@ -789,7 +797,7 @@ function getMACAddress(cb){
     }
 
 }
-exports.getIPAddres = function(){
+function getIPAddress(){
     udp() // start the UDP server after the nework is up
     //iterate through all of the system IPv4 addresses
     // we should connect to address[0] with the webserver
