@@ -179,3 +179,6 @@ exports.sendtoPH = function(d){
     phws.send(JSON.stringify(d))
 
 }
+exports.sendUnitInfo = function(){
+    sendUnitInfo()
+}

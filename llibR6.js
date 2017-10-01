@@ -797,7 +797,8 @@ function getMACAddress(cb){
 
 }
 function getIPAddress(){
-    udp() // start the UDP server after the nework is up
+
+
     //iterate through all of the system IPv4 addresses
     // we should connect to address[0] with the webserver
     //so lets grab it and make a global variable to
@@ -815,6 +816,8 @@ function getIPAddress(){
     }
     global.myuri = addresses[0];
     console.log('My IP Address 0 is: ' + global.myuri );
+    udp() // start the UDP server after the nework is up
+    ph.sendUnitInfo();
 }
 
 exports.dirToObject = function(show,cb){
