@@ -702,7 +702,7 @@ function wifiCheck(){
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
             getIPAddress()
-        }, 14000);// wait 5 seconds and then get ip address
+        }, 20000);// wait 5 seconds and then get ip address
         console.log(err)
         console.log(resp)
     });
