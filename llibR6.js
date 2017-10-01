@@ -1595,6 +1595,9 @@ exports.copyFromUsb = function(s){
                 linuxCopyDirectory('/media/usb0/show',  './public',function(){
 
                     ws.send(JSON.stringify({object:'finished'}),'r6');
+                    ll.stopBrowser()
+                    ll.usbDisconnect(100);
+
                 })
 
                 // require('child_process').exec('cp -R /media/usb0/show  ./public/', function (err, resp) {
