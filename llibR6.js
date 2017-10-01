@@ -1313,7 +1313,6 @@ exports.getShowFrom = function(show,ip,cb){
 function udp()
 {
 
-    process.stdout.write('UDP server started and listening \n')
     const dgram = require('dgram');
     const udpSocket = dgram.createSocket({type:'udp4',reuseAddr:true});
     udpSocket.on('error', (err) => {
@@ -1429,8 +1428,10 @@ function udp()
 
     udpSocket.on('listening', () => {
         udpAddMembership(function(err){
+            console.log('UDP server (unit - unit sync and status) started and listening')
+            //process.stdout.write('UDP server (unit - unit sync and status) started and listening \n')
 
-            console.log("UDP Socket Address:"+udpSocket.address().address);
+
 
 
         })
