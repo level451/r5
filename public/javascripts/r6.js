@@ -1194,6 +1194,9 @@ function drawUnitStatus(unitinfo,data){
 
     }else
     {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         img = new Image();
         console.log('Loading Unit Status Image');
         img.onload = function () {
