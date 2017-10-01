@@ -80,13 +80,13 @@ if(os.type() != "Windows_NT") {
  exports.setVolumeGain = function(){
      childProcess.exec('amixer sset DAC 192', (err, stdouts, stderrs) => {//sets volume to max
          if (err) {
-             console.log(err);
-             throw err;
+             console.log('Error runing amixer:'+err);
+             //throw err;
          }
 
          //console.log(stdouts); // shows junk
-         console.log(stderrs); // yields: ['', '']
-         console.log("****Audio level set");
+
+         console.log("Audio level set");
      });
 
 
@@ -115,8 +115,9 @@ exports.stopBrowser = function(){
 
 }
  function checkFolderExists() {
+     // happens on usb insert
      if (fs.existsSync('/media/usb0/show')) {
-         console.log("We have a Show Directory -- do something");
+         console.log("We have a Show Directory -- launching USB file copy webpage");
          ws.send(JSON.stringify({object:'usb'}),'r5');
      }
      else {
@@ -723,7 +724,7 @@ function wifiCheck(){
 }
 
 function getAccessPoints(cb){
-//used
+//not used
     require('child_process').exec('iwlist wlan0 scan | grep "ESSID"', function (err, resp) {
         console.log(resp)
         var rv = resp.replace(/ESSID:/g,'')
