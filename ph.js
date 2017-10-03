@@ -1,7 +1,7 @@
 /**
  * Created by todd on 8/24/2017.
  */
-const reconnectInterval = 5000
+const reconnectInterval = 15000
 exports.start = function(){
     //connect('witzel.asuscomm.com:4691')
     connect('witzel.asuscomm.com:80')
