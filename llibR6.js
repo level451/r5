@@ -686,6 +686,7 @@ function backLightDown(){
  }
 
 function wifiCheck(){
+    ph.stop();
      if (!wiz.Ssid || wiz.Ssid == 'undefined'){
         console.log(ll.ansi('inverse', 'No wiz ssid found '));
 
@@ -710,6 +711,7 @@ function wifiCheck(){
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
             getIPAddress()
+            ph.start();
         }, 20000);// wait 5 seconds and then get ip address
 
         if (err){

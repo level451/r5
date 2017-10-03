@@ -6,6 +6,9 @@ exports.start = function(){
     //connect('witzel.asuscomm.com:4691')
     connect('witzel.asuscomm.com:80')
 }
+exports.stop = function(){
+    phws.close()
+}
 var phws
 function connect(ip) {
     var retryTimeout;
@@ -35,13 +38,14 @@ function connect(ip) {
     });
     phws.on('close', function () {
 
-//        console.log('websocket closed')
+        console.log('websocket closed')
 
         retry()
     })
     phws.on('error', function (err) {
+        retry()
         if (err.code == 'ECONNREFUSED' || err.code =='ETIMEDOUT'){
-            retry()
+
         } else
         {
             console.log('Error - PH websocket client:' + JSON.stringify(err));
@@ -53,7 +57,7 @@ function connect(ip) {
     });
     function retry(){
        // console.log('Connection Failed - retry in:'+reconnectInterval/1000)
-
+        phws.close()
         clearTimeout(retryTimeout)
         retryTimeout = setTimeout(
            function(){
