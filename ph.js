@@ -3,7 +3,8 @@
  */
 const reconnectInterval = 5000
 exports.start = function(){
-    connect('witzel.asuscomm.com:4691')
+    //connect('witzel.asuscomm.com:4691')
+    connect('witzel.asuscomm.com:80')
 }
 var phws
 function connect(ip) {
