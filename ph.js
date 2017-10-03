@@ -1,7 +1,7 @@
 /**
  * Created by todd on 8/24/2017.
  */
-const reconnectInterval = 15000
+const reconnectInterval = 5000
 exports.start = function(){
     //connect('witzel.asuscomm.com:4691')
     connect('witzel.asuscomm.com:80')
@@ -58,8 +58,8 @@ function connect(ip) {
     function retry(){
        // console.log('Connection Failed - retry in:'+reconnectInterval/1000)
         phws.close()
-        //clearTimeout(retryTimeout)
-        retryTimeout = setInterval(
+        clearTimeout(retryTimeout)
+        retryTimeout = setTimeout(
            function(){
             connect(ip)
         },reconnectInterval)
