@@ -203,8 +203,12 @@ function wsData(data,id){
             global.wiz = {};
             ll.loadWiz(function(){
                 console.log('New show selected:'+settings.ShowName)
-                ll.wifiandPanIdcheckandset()
                 ws.send(JSON.stringify({object:'reload'}),'r6'); // send the reload to all the 'r6' webpages
+                setTimeout(function(){
+                        ll.wifiandPanIdcheckandset()
+                    }
+                ,3000)
+
 
             })
             break;
