@@ -1759,7 +1759,6 @@ function linuxCopyDirectory(source,destination,cb){
           //  ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
             ws.send(JSON.stringify({object:'status',status:"Working: \n "+ "Progress: "+data.substring(data.indexOf('%')- 4,data.indexOf('%')+1) + '\n'+ "Files Coppied: " +data.substring(data.indexOf('xfr#')+ 3,data.indexOf(','))}));
         }
-
         //console.log(`stdout: ${data}`);
     });
 
