@@ -1756,8 +1756,8 @@ function linuxCopyDirectory(source,destination,cb){
         //   console.log('-------'+data.indexOf('xfr#'))
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
          //   ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
-            ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
-
+          //  ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
+            ws.send(JSON.stringify({object:'status',status:"Working: <br> "+data.substring(data.indexOf('%')- 4,data.indexOf('%'))}));
         }
 
         //console.log(`stdout: ${data}`);
