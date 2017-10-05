@@ -1746,7 +1746,7 @@ function linuxCopyDirectory(source,destination,cb){
 //    console.log(source)
 //    console.log(destination)
     const { spawn } = require('child_process');
-    const ls = spawn('rsync', ['-a', '--progress',source,destination]);
+    const ls = spawn('rsync', ['-a', '--info=progress2',source,destination]);
 
     ls.stdout.on('data', (data) => {
         data=data.toString();
