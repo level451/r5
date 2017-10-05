@@ -1757,7 +1757,7 @@ function linuxCopyDirectory(source,destination,cb){
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
          //   ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
           //  ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
-            ws.send(JSON.stringify({object:'status',status:"Working: \n "+ "Progress: "+data.substring(data.indexOf('%')- 4,data.indexOf('%')+1) + '\n'+ "Files Coppied: " +data.substring(data.indexOf('xfr#')+ 4,data.lastIndexOf(',') )}));
+            ws.send(JSON.stringify({object:'status',status:"Working: \n "+ "Progress: "+data.substring(data.indexOf('%')- 4,data.indexOf('%')+1) + '\n'+ "Files Copied: " +data.substring(data.indexOf('xfr#')+ 4,data.lastIndexOf(',') )}));
         }
         //console.log(`stdout: ${data}`);
     });
