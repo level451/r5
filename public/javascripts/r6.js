@@ -15,7 +15,8 @@ var volTimer = 0;
 var backlightTimer = 0;
 var fadeOutTimer = -1;
 var specialMode = '';
-const masterSystemMenu = ['Exit','Select Language','Select Show','Unit Status','Test Mode','Demo Mode','Update Unit','Storage Maintenance'];
+const masterSystemMenu = ['Exit','Select Language','Select Show','Unit Status','Test Mode','Demo Mode','Update Unit','Maintenance'];
+const maintenanceMenu = ['Exit','Clear Settings','Erase Current Show','Erase All Shows']
 var inSystemMenu = false;
 var slideHistoryPointer = 0;
 var slideHistory = [];
@@ -647,6 +648,11 @@ if (audioState == 'idle' || displayState == 'userMenu') {
                                 displayState = 'UpdateUnit';
                                 drawUpdateUnit();
                                 break;
+                            case 'Maintenance':
+                                menuItem = 1;
+                                drawMenuText(maintenanceMenu, menuItem);
+                                displayState = 'maintenanceMenu';
+                                break;
 
                             default:
                                 console.log('unprocessed system menu item:' + systemMenu[menuItem - 1])
@@ -766,7 +772,105 @@ if (audioState == 'idle' || displayState == 'userMenu') {
 
         case 'adjustingvolume':
             console.log('should not happen - adjust volume')
+        case 'maintenanceMenu':
+            switch (s) {
+                case 1:
+                    --menuItem;
+                    if (menuItem < 1) {
+                        menuItem = 1;
+                    }
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(maintenanceMenu, menuItem);
 
+                    break;
+                case 2:
+                    ++menuItem;
+                    if (menuItem > maintenanceMenu.length) {
+                        menuItem = maintenanceMenu.length;
+                    }
+                    console.log('menuitem:' + menuItem);
+                    drawMenuText(maintenanceMenu, menuItem);
+
+                    break;
+                case 3:
+                    //  selected
+                    displayState = 'idle';
+                    inSystemMenu = false; //this blocks ques from executing when true
+                    speed = 150;
+                    //console.log('show/'+wiz.ShowName+'/'+languageList[menuItem-1]+'/AUDA1.mp3');
+                    wiz.Directory = languageList[menuItem - 1];
+                    websocketsend('setDirectory', {directory: wiz.Directory}); // turn on backlight
+
+                    //   audio = new Audio('show/'+wiz.ShowName+'/'+wiz.Directory+'/AUDA0.mp3');
+                    //   audio.play();
+
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    drawMenuText(maintenanceMenu, menuItem, true);
+                    setTimeout(function () {
+                        ctx.fillStyle = "#000000";
+
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }, speed * 1);
+                    setTimeout(function () {
+                        drawMenuText(maintenanceMenu, menuItem, true);
+                    }, speed * 2);
+                    setTimeout(function () {
+                        ctx.fillStyle = "#000000";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }, speed * 3);
+                    setTimeout(function () {
+                        drawMenuText(maintenanceMenu, menuItem, true);
+                    }, speed * 4);
+                    setTimeout(function () {
+                       switch (menuItem){
+                           case 1:
+                                // exit to main menu
+                               displayState = 'idle'
+                               inSystemMenu = false; //this blocks ques from executing when true
+                               ctx.fillStyle = "#000000";
+                               ctx.fillRect(0, 0, canvas.width, canvas.height);
+                               websocketsend('fadeOut',{}); // turn off backlight
+
+
+
+
+                               return;
+                               break;
+                           case 2:
+                               // deletesettings
+                               websocketsend('deleteSettings',{});
+                               break;
+                           case 3:
+                               websocketsend('deleteShow',{show: wiz.ShowName});
+                               break;
+                           case 4:
+                               websocketsend('deleteAllShows',{});
+                               break;
+
+
+                           default:
+                               console.log('Maint Menu selection:'+menuItem)
+
+                       }
+                        drawMenuText(['Please Wait - Restarting'], 1,true);
+
+
+                    }, speed * 5)
+
+                    break;
+                case 6:
+                    // special menu code - go to system menu
+                    menuItem = 1;
+                    displayState = 'systemMenu';
+                    ctx.globalAlpha = 1;
+
+                    drawMenuText(systemMenu, menuItem);
+                    break;
+
+
+            }
+            break;
     }
 } else{
     // audioState != idle
@@ -979,6 +1083,13 @@ function websockstart(){
                     case "reload":
                         location.reload();
                         break;
+                    case "reloaddelay":
+                        setTimeout(function(){
+                            location.reload();
+                        },3000)
+
+                        break;
+
                     case "simbutton":
                         switchPress(x.data);
                         break;
