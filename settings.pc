@@ -7,13 +7,13 @@
         "maxConnections": 10
     },
     "webPage":{
-        "height":480,
-        "width":800,
+        "height":600,
+        "width":1024,
         "rotation":0
     },
     "startupImages":{
         "splash":"splash.png",
         "logo":"logo.bmp",
-        "unitinfo":"status800X480.jpg"
+        "unitinfo":"status1024X600.jpg"
     }
 }
