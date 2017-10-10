@@ -15,7 +15,7 @@ var volTimer = 0;
 var backlightTimer = 0;
 var fadeOutTimer = -1;
 var specialMode = '';
-const systemMenu = ['Exit','Select Language','Select Show','Unit Status','Test Mode','Demo Mode','Update Unit',];
+const masterSystemMenu = ['Exit','Select Language','Select Show','Unit Status','Test Mode','Demo Mode','Update Unit','Storage Maintenance'];
 var inSystemMenu = false;
 var slideHistoryPointer = 0;
 var slideHistory = [];
@@ -79,6 +79,10 @@ function load() {
             case 'q':
                 switchPress(6);
                 break;
+            case 'w':
+                switchPress(7);
+                break;
+
         }
 
 
@@ -145,7 +149,7 @@ function switchPress(s){
     //     captureCanvas()
     //
     // },100)
-    if (s == 6) {
+    if (s == 6 || s == 7) {
         clearTimeout(backlightTimer);
         clearTimeout(volTimer);
         clearTimeout(welcomeImageTimeout);
@@ -179,8 +183,15 @@ function switchPress(s){
         menuItem = 1;
         displayState = 'systemMenu';
         ctx.globalAlpha = 1;
+        if (s == 6){
+            systemMenu = masterSystemMenu.slice(0,3);
+        } else
+        {
+            systemMenu = masterSystemMenu;
+        }
 
         drawMenuText(systemMenu, menuItem);
+
 
         return;
 
