@@ -1232,7 +1232,7 @@ function drawUnitStatus(unitinfo,data){
 //            img.src = '/images/'+settings.startupImages.unitinfo;
 //        }else
   //      {
-            img.src = '/images/status800x480.jpg';
+            img.src = '/images/status1024x600.jpg';
   //      }
 
 
