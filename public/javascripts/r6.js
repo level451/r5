@@ -1228,12 +1228,12 @@ function drawUnitStatus(unitinfo,data){
             ctx.fillText(wiz.Ssid, 600,392);
         };
         img.src = '/images/icaption status screen.jpg';
-        if (settings.startupImages.unitinfo){
-            img.src = '/images/'+settings.startupImages.unitinfo;
-        }else
-        {
-            img.src = '/images/icaption status screen.jpg';
-        }
+//        if (settings.startupImages.unitinfo){
+//            img.src = '/images/'+settings.startupImages.unitinfo;
+//        }else
+  //      {
+            img.src = '/images/status800x480.jpg';
+  //      }
 
 
 
