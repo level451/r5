@@ -13,7 +13,8 @@
     },
         "startupImages":{
             "splash":"splash.png",
-            "logo":"logo.bmp"
+            "logo":"logo.bmp",
+            "unitinfo":"status800X480.jpg"
         }
 
 }
