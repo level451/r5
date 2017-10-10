@@ -1746,20 +1746,24 @@ function linuxCopyDirectory(source,destination,cb){
 //    console.log(source)
 //    console.log(destination)
     const { spawn } = require('child_process');
-    const ls = spawn('rsync', ['-a', '--progress',source,destination]);
+    const ls = spawn('rsync', ['-a', '--info=progress2',source,destination]);
 
     ls.stdout.on('data', (data) => {
         data=data.toString();
         //console.log(data)
 
-        if (data.indexOf('xfr#')!= -1){
+        if (data.indexOf('xfr#')<= data.lastIndexOf(',')){
         //   console.log('-------'+data.indexOf('xfr#'))
             //console.log(data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')')))
          //   ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('ir-chk=')+7,data.indexOf(')'))}),'r6');
-            ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
-
+          //  ws.send(JSON.stringify({object:'status',status:"Working - "+data.substring(data.indexOf('xfr#'),7,data.indexOf(')'))}),'r6');
+            if(data.indexOf('%') != -1) {
+                ws.send(JSON.stringify({
+                    object: 'status',
+                    status: "Working: \n " + "Progress: " + data.substring(data.indexOf('%') - 4, data.indexOf('%') + 1) + '\n' + "Files Copied: " + data.substring(data.indexOf('xfr#') + 4, data.lastIndexOf(','))
+                }));
+            }
         }
-
         //console.log(`stdout: ${data}`);
     });
 
