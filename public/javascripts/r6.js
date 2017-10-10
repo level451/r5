@@ -1227,7 +1227,7 @@ function drawUnitStatus(unitinfo,data){
 
             ctx.fillText(wiz.Ssid, 600,392);
         };
-        img.src = '/show/icaption status screen.jpg';
+        img.src = '/images/icaption status screen.jpg';
 
 
     }
