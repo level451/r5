@@ -583,9 +583,11 @@ function wsData(data,id){
             break;
         case "deleteSettings":
             fs.unlinkSync('settings')
+            if(os.type() == 'Windows_NT') {
 
-            ws.send(JSON.stringify({object:'reloaddelay'}),'r6'); // send the reload to all the 'r6' webpages
-            ll.usbDisconnect(100);
+                ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+            }
+             ll.usbDisconnect(100);
 
             break;
         case "deleteShow":
