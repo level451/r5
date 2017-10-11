@@ -567,7 +567,6 @@ function wsData(data,id){
                        ll.stopBrowser()
                        ll.usbDisconnect(100);
 
-
                    })
 
 
