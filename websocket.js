@@ -567,7 +567,6 @@ function wsData(data,id){
                        ll.stopBrowser()
                        ll.usbDisconnect(100);
 
-
                    })
 
 
@@ -580,6 +579,61 @@ function wsData(data,id){
 
             });
             // restart the server
+
+            break;
+        case "deleteSettings":
+            fs.unlinkSync('settings')
+            if(os.type() == 'Windows_NT') {
+
+                ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+            }
+             ll.usbDisconnect(100);
+
+            break;
+        case "deleteShow":
+            //fs.unlinkSync('settings')
+
+            if(os.type() != 'Windows_NT') {
+
+                require('child_process').exec('rm -rf ./public/show/' + data.data.show + '/', function (err, resp) {
+                    console.log('data.data.show' + data.data.show)
+
+                    ll.usbDisconnect(100);
+
+                })
+            }else
+            {
+                require('child_process').exec('echo y|rmdir /s "./public/show/' + data.data.show + '/"', function (err, resp) {
+                    console.log('data.data.show' + data.data.show)
+                    console.log (err)
+                    console.log (resp)
+                     ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+                     ll.usbDisconnect(100);
+                })
+
+            }
+            break;
+        case "deleteAllShows":
+            //fs.unlinkSync('settings')
+            if(os.type() != 'Windows_NT') {
+
+                require('child_process').exec('rm -rf ./public/show/', function (err, resp) {
+                    console.log('data.data.show' + data.data.show)
+
+                    ll.usbDisconnect(100);
+
+                })
+            }else
+            {
+                require('child_process').exec('echo y|rmdir /s "./public/show/"', function (err, resp) {
+                    console.log('data.data.show' + data.data.show)
+                    console.log (err)
+                    console.log (resp)
+                    ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+                    ll.usbDisconnect(100);
+                })
+
+            }
 
             break;
 
