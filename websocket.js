@@ -596,7 +596,7 @@ function wsData(data,id){
 
                 require('child_process').exec('rm -rf ./public/show/' + data.data.show + '/', function (err, resp) {
                     console.log('data.data.show' + data.data.show)
-                    ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+
                     ll.usbDisconnect(100);
 
                 })
@@ -618,7 +618,7 @@ function wsData(data,id){
 
                 require('child_process').exec('rm -rf ./public/show/', function (err, resp) {
                     console.log('data.data.show' + data.data.show)
-                    ws.send(JSON.stringify({object: 'reloaddelay'}), 'r6'); // send the reload to all the 'r6' webpages
+
                     ll.usbDisconnect(100);
 
                 })
