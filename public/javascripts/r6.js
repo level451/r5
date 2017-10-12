@@ -1381,8 +1381,8 @@ function HDMIFade(){
     // opacity += 1/(fps*wiz.FadeIn);
     opacity +=.06;
     console.log(opacity);
-    if(opacity >=1){
-        canvas.style.opacity = 1;
+    if(opacity >=.1){
+        canvas.style.opacity = .1;
         console.log("Finished");
         return
     }
