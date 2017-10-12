@@ -1375,25 +1375,29 @@ function drawUnitStatus(unitinfo,data){
     }
 
 }
+
+function HDMIFade(){
+    fps = 1000/60;
+    // opacity += 1/(fps*wiz.FadeIn);
+    opacity +=.06;
+    console.log(opacity);
+    if(opacity >=1){
+        canvas.style.opacity = 1;
+        console.log("Finished");
+        return
+    }
+    canvas.style.opacity = opacity;
+    setTimeout(HDMIFade(),fps);
+    return;
+}
 function fadeIn(t){
     if (fadeTime == 0 || displayState != 'fadeinslide'){
 
             return
     }
-  //  if(settings.noCanvasFade){
-        fps = 1000/60;
-       // opacity += 1/(fps*wiz.FadeIn);
-        opacity +=.06;
-        console.log(opacity);
-        if(opacity >=1){
-            canvas.style.opacity = 1;
-            console.log("Finished");
-            return
-        }
-        canvas.style.opacity = opacity;
-        setTimeout(fadeIn(0),fps);
-        return;
-  //  }
+    opacity=0;
+    HDMIFade();
+    return;
 
     if (!startTime) {
         startTime = t;
