@@ -98,7 +98,7 @@ function load() {
 
     welcomeImage.onerror = function(){
         console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
-        displayError('No shows un unit - insert usb or use unit to unit update')
+        displayError('No shows on unit - insert usb or use unit to unit update')
 
         // errorImage = new Image();
         // errorImage.onload = function(){

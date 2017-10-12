@@ -1528,6 +1528,8 @@ function getShowNames(cb,path) {
     fs.readdir(path, (err, data) => {
         if (err){
             console.log('read path get show names error'+err)
+            cb([]);
+            return
         }
 
         var shownames = [];
