@@ -1011,6 +1011,7 @@ function getNextFile() {
             })
             break;
         case'get':
+
             ws.send(JSON.stringify({object:'getFile',file:list[fileListCounter]}),'updateunit');
             global.getFileRetries = 0;
             global.getFileTimeout = setInterval(function(){

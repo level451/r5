@@ -38,7 +38,7 @@ function connect(ip) {
     });
     phws.on('close', function () {
 
-        console.log('websocket closed')
+        //console.log('websocket closed')
 
         retry()
     })

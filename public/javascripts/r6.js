@@ -28,7 +28,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCavasFade = false;
+
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -98,52 +98,66 @@ function load() {
 
     welcomeImage.onerror = function(){
         console.log ('welcome image failure:'+'show/'+wiz.ShowName+'/Welcome.jpg')
-        displayError('Welcome image failed to load:'+welcomeImage.src)
+        displayError('No shows un unit - insert usb or use unit to unit update')
+
+        // errorImage = new Image();
+        // errorImage.onload = function(){
+        //     welcomeImage = errorImage;
+        //     afterWelcomeImageLoaded()
+        //
+        // }
+        // errorImage.src='images/status800x480.jpg'
 
     };
     welcomeImage.onload = function() {
-        setTimeout(function(){
-            websocketsend('requestunitstatus',{});
-            console.log('requested unit status')
-        },17000);
-
-        ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
-        displayState = 'welcomeImage';
-        audioState = 'idle';
-        websocketsend('fadeIn', {});
-        languageList = getLanguages();
-
-        welcomeImageTimeout = setTimeout(function()
-        {
-            if (wiz.StartUp && wiz.StartUp == 0) {
-                wiz.Directory = wiz.Service0;
-                websocketsend('fadeOut', {});
-                setTimeout(function(){
-                    if (displayState == 'welcomeImage')
-                    {
-                        ctx.fillStyle = "#000000";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        displayState = 'idle';
-
-                    }
-                },wiz.FadeOut)
-
-            } else {
-
-                menuItem = 1;
-                drawMenuText(languageList, menuItem);
-                displayState = 'languageMenu'
-                inSystemMenu=true
-            }
 
 
-        },wiz.OnTime*100
-        )
+        afterWelcomeImageLoaded()
 
-
-        //websockstart();
     }
 
+}
+function afterWelcomeImageLoaded(){
+    setTimeout(function(){
+        websocketsend('requestunitstatus',{});
+        console.log('requested unit status')
+    },17000);
+
+    ctx.drawImage(welcomeImage,0,0,canvas.width,canvas.height)
+    displayState = 'welcomeImage';
+    audioState = 'idle';
+    websocketsend('fadeIn', {});
+    languageList = getLanguages();
+
+    welcomeImageTimeout = setTimeout(function()
+    {
+        if (wiz.StartUp && wiz.StartUp == 0) {
+            wiz.Directory = wiz.Service0;
+            websocketsend('fadeOut', {});
+            setTimeout(function(){
+                if (displayState == 'welcomeImage')
+                {
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    displayState = 'idle';
+
+                }
+            },wiz.FadeOut)
+
+        } else {
+
+            menuItem = 1;
+            drawMenuText(languageList, menuItem);
+            displayState = 'languageMenu'
+            inSystemMenu=true
+        }
+
+
+    },wiz.OnTime*100
+    )
+
+
+    //websockstart();
 }
 function switchPress(s){
     // setTimeout(function(){
@@ -1014,7 +1028,7 @@ function websockstart(){
     ws = new ReconnectingWebSocket(wsUri);
     ws.onopen = function(evt){
         console.log("websocket connected");
-        sendtoPHserver({test:'test'})
+        //sendtoPHserver({test:'test'})
         websocketsend('setwebpage',{pagename:pagename});
         if (typeof(fully) == 'object') {
             // running from fully kiosk browse
@@ -1737,6 +1751,8 @@ function drawUpdateUnit(){
     if (!wiz.IPAddress){
         ctx.fillText('Unable to obtain unit ipaddress - requesting ...', 50,120);
         ctx.fillText('Press any button and try again', 50,160);
+        ctx.fillText('Unit to Unit update is active', 50,200);
+
         websocketsend('requestunitstatus',{});
     } else
     {
@@ -1746,8 +1762,10 @@ function drawUpdateUnit(){
         ctx.fillText('http://'+wiz.IPAddress+':'+settings.webServer.listenPort+'/updateunit', 50,160);
         ctx.strokeStyle="white";
 
-        ctx.fillText('In a web browser to upload or update show files', 50,200);
-}
+        ctx.fillText('In a web browser to upload or monitor progress', 50,200);
+        ctx.fillText('Unit to Unit update is active', 50,240);
+
+    }
 
     ctx.stroke();
 }
