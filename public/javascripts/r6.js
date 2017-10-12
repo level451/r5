@@ -1386,7 +1386,7 @@ function fadeIn(t){
             element.style.opacity = 1;
             return
         }
-        element.style.opacity = opacity;
+        csanvas.style.opacity = opacity;
         setTimeout(fadeIn(0),fps);
         return;
     }
