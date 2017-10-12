@@ -1243,7 +1243,6 @@ function displaySlide(d) {
 
     } else {
         // display without the fade
-        console.log('display slide:' + d);
         displayState = 'fadeinslide'; // set mode to fadein
         ctx.fillStyle = "black";
         ctx.globalAlpha = 1;
@@ -1261,10 +1260,16 @@ function displaySlide(d) {
             }, (wiz.FadeOut * 1000))
 
         }, (wiz.OnTime * 1000))
-        var pinchZoom = new ImgTouchCanvas({
-            canvas: canvas,
-            path: '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d,
-        });
+        img = new Image();
+        img.src = '/show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d;
+
+        console.log('nofade image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d);
+        img.onload = function () {
+            console.log('asdfhere')
+            ctx.globalAlpha = 1;
+            drawImage()
+
+        };
     };
 
 
