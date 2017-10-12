@@ -1375,9 +1375,20 @@ function drawUnitStatus(unitinfo,data){
 
 }
 function fadeIn(t){
-        if (fadeTime == 0 || displayState != 'fadeinslide'){
+    if (fadeTime == 0 || displayState != 'fadeinslide'){
 
             return
+    }
+    if(noCanvasFade){
+        fps = 1000/60;
+        opacity += 1/(fps*wiz.FadeIn)
+        if(opacity >=1){
+            element.style.opacity = 1;
+            return
+        }
+        element.style.opacity = opacity;
+        setTimeout(fadeIn(0),fps);
+        return;
     }
 
     if (!startTime) {
