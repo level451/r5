@@ -24,7 +24,7 @@ var demoModePointer = 0;
 var opacity=0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCanvasFade = false;
+  //  settings.noCanvasFade = false;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -1226,15 +1226,15 @@ function displaySlide(d) {
             fadeTime = wiz.FadeIn * 1000;
             startTime = false;
             websocketsend('fadeIn', {});
-// start test
-            ctx.globalAlpha =1;
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            //ctx.globalAlpha = (t-startTime) /fadeTime;
-            canvas.style.opacity  = 0
-            drawImage();
-// end test
+// // start test
+//             ctx.globalAlpha =1;
+//             ctx.fillStyle = "#000000";
+//             ctx.fillRect(0, 0, canvas.width, canvas.height);
+//
+//             //ctx.globalAlpha = (t-startTime) /fadeTime;
+//             canvas.style.opacity  = 0
+//             drawImage();
+// // end test
             fadeIn();
             console.log('fading in')
 
@@ -1395,22 +1395,21 @@ function fadeIn(t){
 
             return
     }
-    opacity=0;
-    HDMIFade();
-    return;
+    // opacity=0;
+    // HDMIFade();
+    // return;
 
     if (!startTime) {
         startTime = t;
-    //console.log('starttime'+startTime)
     }
-    // ctx.globalAlpha =1;
-    // ctx.fillStyle = "#000000";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //
-    // ctx.globalAlpha = (t-startTime) /fadeTime;
-    // drawImage();
+    ctx.globalAlpha =1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.globalAlpha = (t-startTime) /fadeTime;
+    drawImage();
     canvas.style.opacity = (t-startTime) /fadeTime;
-     console.log((t-startTime) /fadeTime)
+     //console.log((t-startTime) /fadeTime)
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeIn)
     } else{
