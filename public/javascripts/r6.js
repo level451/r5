@@ -21,6 +21,7 @@ var testModeData=[];
 var testModeSignal=[];
 var demoMode = false;
 var demoModePointer = 0;
+var opacity=0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
     settings.noCanvasFade = false;
