@@ -1385,7 +1385,7 @@ function HDMIFade(){
         console.log("Finished");
         return
     }
-    canvas.style.opacity = .6;//opacity;
+    canvas.style.opacity = opacity;
 
     setTimeout(HDMIFade(),fps);
     return;
