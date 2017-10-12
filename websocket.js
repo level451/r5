@@ -562,10 +562,10 @@ function wsData(data,id){
 
 
                 } else {
-                    console.log('Error - writing settings file:'+err)
+                    console.log('****************Error - writing settings file:'+err)
                    fs.unlink('./settings',(err)=>{
-                       ll.stopBrowser()
-                       ll.usbDisconnect(100);
+                   //   ll.stopBrowser()
+                   //    ll.usbDisconnect(100);
 
                    })
 

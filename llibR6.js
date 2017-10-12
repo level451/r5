@@ -390,12 +390,16 @@ exports.loadWiz = function(callback){
         }
 
     }
-
     getShowNames((showNames) =>{
         wiz.allShowsAvailable = showNames
         if (settings && !settings.ShowName) {
             settings.ShowName = showNames[0];
             console.log('because there is no show.def - the show  is set to first show found - ' + showNames[0]);
+        }
+        if (settings.ShowName == null){
+            // there are no shows in the show directory
+            callback();
+            return;
         }
 
         const rl = readline.createInterface({
@@ -415,6 +419,7 @@ exports.loadWiz = function(callback){
         });
         rl.on('close',()=> {
             // add a list of available shows to wiz
+
             if (callback){callback();}
         })
         console.log('wiz.dat file from ./public/show/'+settings.ShowName+' loaded to global.wiz');
