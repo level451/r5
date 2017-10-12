@@ -1378,7 +1378,7 @@ function drawUnitStatus(unitinfo,data){
 
 function HDMIFade(){
     fps = 1000/60;
-    opacity += 1/(fps*wiz.FadeIn);
+    opacity += 1/(fps*wiz.FadeIn*5);
     console.log(opacity);
     if(opacity >=1){
         canvas.style.opacity = 1;
