@@ -1383,10 +1383,10 @@ function fadeIn(t){
         fps = 1000/60;
         opacity += 1/(fps*wiz.FadeIn)
         if(opacity >=1){
-            element.style.opacity = 1;
+            canvas.style.opacity = 1;
             return
         }
-        csanvas.style.opacity = opacity;
+        canvas.style.opacity = opacity;
         setTimeout(fadeIn(0),fps);
         return;
     }
