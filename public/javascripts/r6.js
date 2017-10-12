@@ -1202,7 +1202,7 @@ function websocketsend(type,data){
     ws.send(JSON.stringify(sendobj));
 }
 function displaySlide(d) {
-    if (settings.noCavasFade == false) {
+    if (settings.noCanvasFade == false) {
         console.log('display slide:' + d);
         displayState = 'fadeinslide'; // set mode to fadein
         ctx.fillStyle = "black";
