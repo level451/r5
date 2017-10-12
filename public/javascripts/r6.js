@@ -1381,7 +1381,8 @@ function fadeIn(t){
     }
     if(noCanvasFade){
         fps = 1000/60;
-        opacity += 1/(fps*wiz.FadeIn)
+       // opacity += 1/(fps*wiz.FadeIn);
+        opacity +=.06;
         if(opacity >=1){
             canvas.style.opacity = 1;
             return
