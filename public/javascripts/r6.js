@@ -23,7 +23,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCanvasFade = true;
+    settings.noCanvasFade = false;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -1379,7 +1379,7 @@ function fadeIn(t){
 
             return
     }
-    if(settings.noCanvasFade){
+  //  if(settings.noCanvasFade){
         fps = 1000/60;
        // opacity += 1/(fps*wiz.FadeIn);
         opacity +=.06;
@@ -1392,7 +1392,7 @@ function fadeIn(t){
         canvas.style.opacity = opacity;
         setTimeout(fadeIn(0),fps);
         return;
-    }
+  //  }
 
     if (!startTime) {
         startTime = t;
