@@ -1,8 +1,3 @@
-// var _log = console.log
-// console.log = function() {
-// //    logOfConsole.push({method: 'log', arguments: arguments});
-//     return _log.apply(console, arguments);
-// };
 
 var pagename ='r6';
 var events = [];
@@ -28,7 +23,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-
+    settings.noCanvasFade = false;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -1230,6 +1225,15 @@ function displaySlide(d) {
             fadeTime = wiz.FadeIn * 1000;
             startTime = false;
             websocketsend('fadeIn', {});
+// start test
+            ctx.globalAlpha =1;
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            //ctx.globalAlpha = (t-startTime) /fadeTime;
+            canvas.style.opacity  = 0
+            drawImage();
+// end test
             fadeIn();
             console.log('fading in')
 
@@ -1265,7 +1269,6 @@ function displaySlide(d) {
 
         console.log('nofade image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d);
         img.onload = function () {
-            console.log('asdfhere')
             ctx.globalAlpha = 1;
             drawImage()
 
@@ -1381,12 +1384,14 @@ function fadeIn(t){
         startTime = t;
     //console.log('starttime'+startTime)
     }
-    ctx.globalAlpha =1;
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.globalAlpha = (t-startTime) /fadeTime;
-    drawImage();
+    // ctx.globalAlpha =1;
+    // ctx.fillStyle = "#000000";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //
+    // ctx.globalAlpha = (t-startTime) /fadeTime;
+    // drawImage();
+    canvas.style.opacity = (t-startTime) /fadeTime;
+     console.log((t-startTime) /fadeTime)
     if (!startTime || t-startTime < fadeTime ){
         requestAnimationFrame(fadeIn)
     } else{
