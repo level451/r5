@@ -1383,8 +1383,10 @@ function fadeIn(t){
         fps = 1000/60;
        // opacity += 1/(fps*wiz.FadeIn);
         opacity +=.06;
+        console.log(opacity);
         if(opacity >=1){
             canvas.style.opacity = 1;
+            console.log("Finished");
             return
         }
         canvas.style.opacity = opacity;
