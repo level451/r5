@@ -746,9 +746,7 @@ function getAccessPoints(cb){
 
 exports.wifiandPanIdcheckandset= function(){
     if(os.type() != "Windows_NT") {//dont do this on windows!
-        if (wiz.PanID == undefined){
-            return;
-        }
+
         wifiCheck();
         xbee.xbeeGetPanID(0, 0, function (Pan) {
             wiz.PanID = wiz.PanID.trim();

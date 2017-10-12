@@ -8,7 +8,7 @@ const gpiomodule = require("./gpio");
 const os = require('os');
 global.wiz={
     Baudrate:115200,
-    PanID:301,
+    PanID:'301',
     Scroll:'up',
     Backlight:80,
     FadeIn:1,
