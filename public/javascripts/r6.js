@@ -23,7 +23,7 @@ var demoMode = false;
 var demoModePointer = 0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
-    settings.noCanvasFade = false;
+    settings.noCanvasFade = true;
 
     disp = document.getElementById('display');
     angle = parseInt(settings.webPage.rotation) ;
@@ -1379,7 +1379,7 @@ function fadeIn(t){
 
             return
     }
-    if(noCanvasFade){
+    if(settings.noCanvasFade){
         fps = 1000/60;
        // opacity += 1/(fps*wiz.FadeIn);
         opacity +=.06;
