@@ -1,4 +1,5 @@
 {
+    "noCanvasFade":false,
     "webServer": {
         "listenPort": 3111
     },
