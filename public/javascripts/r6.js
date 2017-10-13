@@ -1409,10 +1409,10 @@ function fadeIn(t){
 
             return
     }
- //   canvas.style.opacity=0;
- //   canvas.style.transition = "opacity 2s";
- //    HDMIFade();
- //    return;
+    canvas.style.opacity=0;
+    canvas.style.transition = "opacity 2s";
+     HDMIFade();
+     return;
 
     if (!startTime) {
         startTime = t;
