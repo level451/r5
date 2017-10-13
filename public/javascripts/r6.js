@@ -1386,18 +1386,31 @@ function HDMIFade(){
     //     console.log("Finished");
     //     return
     // }
-    canvas.style.opacity = 1;
-  //  canvas.style.transition = "opacity 3s";
+    ctx.globalAlpha =1;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+
+    drawImage();
+
+    canvas.style.transition = "opacity 1s";
+    canvas.style.opacity = 1;
+    hdmiTimer = setTimeout(function(){HDMIoff();},3000);
 
 
 }
+
+function HDMIoff(){
+    canvas.style.opacity = 0;
+}
+
 function fadeIn(t){
     if (fadeTime == 0 || displayState != 'fadeinslide'){
 
             return
     }
-     opacity=0;
+    canvas.style.opacity=0;
+    canvas.style.transition = "opacity 2s";
      HDMIFade();
      return;
 
