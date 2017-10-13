@@ -1387,8 +1387,8 @@ function HDMIFade(){
     //     return
     // }
     canvas.style.opacity = 1;
-    canvas.style.transition = "opacity 3s";
-    return;
+  //  canvas.style.transition = "opacity 3s";
+
 
 
 }
