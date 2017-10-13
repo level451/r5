@@ -1021,8 +1021,8 @@ function getFont(fontSize) {
 }
 
 function websockstart(){
-    ws = new WebSocket(wsUri);
-   // ws = new ReconnectingWebSocket(wsUri);
+
+    ws = new ReconnectingWebSocket(wsUri);
     ws.onopen = function(evt){
         console.log("websocket connected");
         //sendtoPHserver({test:'test'})
