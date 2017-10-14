@@ -660,7 +660,10 @@ exports.backlightOff = function(){
 };
 
 function backLightDown(){
-return;
+
+    if(settings.backlightControl == false){
+        return; //if we don't want to control the backlight get out
+    }
   //  console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
     exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
 //    console.log("exponent: " + exponent);
@@ -675,7 +678,10 @@ return;
 
 }
  function backLightUp(){
-return;
+
+    if(settings.backlightControl == false){
+        return; //if we don't want to control the backlight get out
+    }
     // console.log(wiz.Backlight + "  "+ backlightNanoPiMax);
      exponent = (Math.log(wiz.Backlight*backlightNanoPiMax/100))/(Math.log(logBase)); //find exponent of max value
   //   console.log("exponent: " + exponent);
