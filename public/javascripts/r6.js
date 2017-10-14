@@ -22,6 +22,8 @@ var testModeSignal=[];
 var demoMode = false;
 var demoModePointer = 0;
 var opacity=0;
+var fadeTimer=0;
+var fadeTimerOut=0;
 const userMenu = ['Exit','Volume','Brightness'];
 function load() {
   //  settings.noCanvasFade = false;
@@ -1377,7 +1379,7 @@ function drawUnitStatus(unitinfo,data){
 
 }
 
-function HDMIFade(){
+function fadeIn(){
     // fps = 1000/30;
     // opacity += 1/(fps*wiz.FadeIn);
     // console.log(opacity);
@@ -1386,99 +1388,107 @@ function HDMIFade(){
     //     console.log("Finished");
     //     return
     // }
+    clearTimeout(fadeTimer);
+    clearTimeout(fadeTimerOut);
+    canvas.style.opacity=0;
     ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-
     drawImage();
-
+    var fadeTimeIn = ("opacity " + wiz.FadeIn*2 + "s ease-in-out").toString();
     canvas.style.transition = "opacity 1s";
     canvas.style.opacity = 1;
-    hdmiTimer = setTimeout(function(){HDMIoff();},3000);
+    displayState = 'displayslide'; // set mode to show
+    fadeTimer = setTimeout(function(){fadeOff();},wiz.OnTime*1000);
 
 
 }
 
-function HDMIoff(){
+function fadeOff(){
+    console.log('fade out');
+    websocketsend('fadeOut',{});
+    var fadeTimeOut = ("opacity " + wiz.FadeOut + "s ease-in-out").toString();
+    canvas.style.transition = fadeTimeOut;
     canvas.style.opacity = 0;
-}
 
-function fadeIn(t){
-    if (fadeTime == 0 || displayState != 'fadeinslide'){
-
-            return
-    }
-    canvas.style.opacity=0;
-    canvas.style.transition = "opacity 2s";
-     HDMIFade();
-     return;
-
-    if (!startTime) {
-        startTime = t;
-    }
-    ctx.globalAlpha =1;
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.globalAlpha = (t-startTime) /fadeTime;
-    drawImage();
-    canvas.style.opacity = (t-startTime) /fadeTime;
-     //console.log((t-startTime) /fadeTime)
-    if (!startTime || t-startTime < fadeTime ){
-        requestAnimationFrame(fadeIn)
-    } else{
-        console.log ('fade done displayslide');
-        displayState = 'displayslide'; // set mode to show
-        clearTimeout(fadeOutTimer); // clear the fade if it is already set from another slide
-        fadeOutTimer = setTimeout(function(){
-           console.log('fadeout timer set');
-            if (displayState == 'displayslide')
-            {
-                displayState = 'fadeoutslide'; // set mode to fadein
-                ctx.globalAlpha = 1;
-                fadeTime = wiz.FadeOut*1000;
-                startTime = false;
-                console.log('fade out');
-                websocketsend('fadeOut',{});
-
-                fadeOut();
-
-
-            }
-
-        },(wiz.OnTime*1000))
-    }
-
-
-
-}
-function fadeOut(t){
-
-    if (fadeTime == 0  || displayState != 'fadeoutslide' ){
-        return
-    }
-
-    if (!startTime) {
-        startTime = t;
-        console.log('starttime'+startTime)
-    }
-    ctx.globalAlpha =1;
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1.01- ((t-startTime) /fadeTime);
-
-    drawImage();
-    if (!startTime || t-startTime < fadeTime ){
-        requestAnimationFrame(fadeOut)
-    } else{
-        ctx.globalAlpha =1;
+    fadeTimerOut = setTimeout(function(){ctx.globalAlpha =1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        displayState = 'idle'; // set mode to idle
-    }
+        displayState = 'idle'; },wiz.FadeOut*1000);
 
 }
+
+// function fadeIn(t){
+//     if (fadeTime == 0 || displayState != 'fadeinslide'){
+//
+//             return
+//     }
+//
+//     if (!startTime) {
+//         startTime = t;
+//     }
+//     ctx.globalAlpha =1;
+//     ctx.fillStyle = "#000000";
+//     ctx.fillRect(0, 0, canvas.width, canvas.height);
+//
+//     ctx.globalAlpha = (t-startTime) /fadeTime;
+//     drawImage();
+//     canvas.style.opacity = (t-startTime) /fadeTime;
+//      //console.log((t-startTime) /fadeTime)
+//     if (!startTime || t-startTime < fadeTime ){
+//         requestAnimationFrame(fadeIn)
+//     } else{
+//         console.log ('fade done displayslide');
+//         displayState = 'displayslide'; // set mode to show
+//         clearTimeout(fadeOutTimer); // clear the fade if it is already set from another slide
+//         fadeOutTimer = setTimeout(function(){
+//            console.log('fadeout timer set');
+//             if (displayState == 'displayslide')
+//             {
+//                 displayState = 'fadeoutslide'; // set mode to fadein
+//                 ctx.globalAlpha = 1;
+//                 fadeTime = wiz.FadeOut*1000;
+//                 startTime = false;
+//                 console.log('fade out');
+//                 websocketsend('fadeOut',{});
+//
+//                 fadeOut();
+//
+//
+//             }
+//
+//         },(wiz.OnTime*1000))
+//     }
+//
+//
+//
+// }
+// function fadeOut(t){
+//
+//     if (fadeTime == 0  || displayState != 'fadeoutslide' ){
+//         return
+//     }
+//
+//     if (!startTime) {
+//         startTime = t;
+//         console.log('starttime'+startTime)
+//     }
+//     ctx.globalAlpha =1;
+//     ctx.fillStyle = "#000000";
+//     ctx.fillRect(0, 0, canvas.width, canvas.height);
+//     ctx.globalAlpha = 1.01- ((t-startTime) /fadeTime);
+//
+//     drawImage();
+//     if (!startTime || t-startTime < fadeTime ){
+//         requestAnimationFrame(fadeOut)
+//     } else{
+//         ctx.globalAlpha =1;
+//         ctx.fillStyle = "#000000";
+//         ctx.fillRect(0, 0, canvas.width, canvas.height);
+//         displayState = 'idle'; // set mode to idle
+//     }
+//
+// }
 function playVideo(d){
     video.type = "video/mp4";
 
@@ -1488,6 +1498,7 @@ function playVideo(d){
         console.log("playback can begin");
         displayState = 'playvideo'; // set mode to video -
         audioState = 'playvideo';
+        canvas.style.opacity=1;//added with new fade routines
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         video.volume = wiz.Volume/100;
         video.play()

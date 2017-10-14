@@ -1,5 +1,5 @@
 {
-    "backlightControl":true
+    "backlightControl":true,
     "noCanvasFade":false,
     "webServer": {
         "listenPort": 3111
