@@ -1395,7 +1395,7 @@ function fadeIn(){
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawImage();
-    var fadeTimeIn = ("opacity " + wiz.FadeIn*2 + "s ease-in-out").toString();
+    var fadeTimeIn = ("opacity " + wiz.FadeIn + "s ease-in-out").toString();
     canvas.style.transition = "opacity 1s";
     canvas.style.opacity = 1;
     displayState = 'displayslide'; // set mode to show
