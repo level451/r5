@@ -101,7 +101,7 @@ function sendcuebutton() {
         packet = "AUDC" + cue + ".mp3";
     }
     if (document.getElementById('video').checked){
-        packet = "Slide" + cue + ".mp4";
+        packet = "video" + cue + ".mp4";
     }
 
     totalpacket = "          " + showname + " " + "GO" + " " + packet + "\n\r";

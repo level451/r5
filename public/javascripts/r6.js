@@ -1389,7 +1389,7 @@ function fadeIn(){
     //     return
     // }
     clearTimeout(fadeTimer);
-    clearTimeout(fadeTimerOut);
+    clearTimeout(fadeOutTimer);
     canvas.style.opacity=0;
     ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
@@ -1411,7 +1411,7 @@ function fadeOff(){
     canvas.style.transition = fadeTimeOut;
     canvas.style.opacity = 0;
 
-    fadeTimerOut = setTimeout(function(){ctx.globalAlpha =1;
+    fadeOutTimer = setTimeout(function(){ctx.globalAlpha =1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         displayState = 'idle'; },wiz.FadeOut*1000);
