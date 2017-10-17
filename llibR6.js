@@ -617,6 +617,9 @@ exports.backlight = function(value,direction){
         if(backlightLevel <0){
             return;
         }
+        if(settings.backlightControl == false){
+            return; //if we don't want to control the backlight get out
+        }
 
         fs.writeFile('/dev/backlight-1wire', backlightLevel, (err) => {
             if (err) {
