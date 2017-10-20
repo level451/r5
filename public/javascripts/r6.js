@@ -1128,6 +1128,9 @@ function websockstart(){
 
                         }
                         if (displayState == 'playvideo'){
+                            ctx.globalAlpha = 1; // erase the screen after the backlight is off
+                            ctx.fillStyle = "#000000";
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
                             video.pause()
                             audioState='idle'
                             displayState='idle'
@@ -1218,10 +1221,12 @@ function displaySlide(d) {
     if (settings.noCanvasFade == false) {
         console.log('display slide:' + d);
         displayState = 'fadeinslide'; // set mode to fadein
-        ctx.fillStyle = "black";
-        ctx.globalAlpha = 1;
 
+
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height); // clear the screen
+
         img = new Image();
         console.log('image:' + 'show/' + wiz.ShowName + '/' + wiz.Directory + '/' + d);
         img.onload = function () {
@@ -1507,7 +1512,8 @@ function playVideo(d){
     video.onended = function(){
         console.log("playback ended");
         websocketsend('fadeOut',{});
-        setTimeout(function(){        ctx.globalAlpha = 1; // erase the screen after the backlight is off
+        setTimeout(function(){
+            ctx.globalAlpha = 1; // erase the screen after the backlight is off
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         },wiz.FadeOut*1000);
