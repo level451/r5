@@ -1393,7 +1393,7 @@ function fadeIn(){
     //     console.log("Finished");
     //     return
     // }
-    clearTimeout(fadeTimer);
+    clearTimeout(fadeFinishTimer);
     clearTimeout(fadeOutTimer);
     canvas.style.opacity=0;
     ctx.globalAlpha =1;
@@ -1417,7 +1417,7 @@ function fadeOff(){
     canvas.style.opacity = 0;
 
   ////  fadeOutTimer = setTimeout(function(){ctx.globalAlpha =1;
-    fadeTimer = setTimeout(function(){ctx.globalAlpha =1;
+    fadeFinishedTimer = setTimeout(function(){ctx.globalAlpha =1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         displayState = 'idle'; },wiz.FadeOut*1000);
