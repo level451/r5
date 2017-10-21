@@ -1410,7 +1410,7 @@ function fadeIn(){
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawImage();
     var fadeTimeIn = ("opacity " + wiz.FadeIn + "s ease-in-out").toString();
-    canvas.style.transition = "opacity 1s";
+    canvas.style.transition = fadeTimeIn;
     canvas.style.opacity = 1;
     displayState = 'displayslide'; // set mode to show
     fadeOutTimer = setTimeout(function(){fadeOff();},wiz.OnTime*1000);
