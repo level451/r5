@@ -1134,8 +1134,10 @@ function websockstart(){
                             ctx.fillStyle = "#000000";
                             ctx.fillRect(0, 0, canvas.width, canvas.height);
                             video.pause()
+                            video.src ='';
                             audioState='idle'
                             displayState='idle'
+
 
                         }
                         console.log('cue - data:'+x.data);
