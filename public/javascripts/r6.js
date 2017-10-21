@@ -166,7 +166,8 @@ function switchPress(s){
         clearTimeout(backlightTimer);
         clearTimeout(volTimer);
         clearTimeout(welcomeImageTimeout);
-
+        clearTimeout(fadeOutTimer);
+        clearTimeout(fadeFinishedTimer);
 
         if (displayState == 'playvideo'){
             video.pause()
