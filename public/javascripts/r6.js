@@ -1395,7 +1395,7 @@ function fadeIn(){
     //     console.log("Finished");
     //     return
     // }
-    clearTimeout(fadeFinishTimer);
+    clearTimeout(fadeFinishedTimer);
     clearTimeout(fadeOutTimer);
     canvas.style.opacity=0;
     ctx.globalAlpha =1;
