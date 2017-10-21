@@ -1135,6 +1135,7 @@ function websockstart(){
                             ctx.fillRect(0, 0, canvas.width, canvas.height);
                             video.pause()
                             video.src ='';
+
                             audioState='idle'
                             displayState='idle'
 
