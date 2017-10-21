@@ -1404,7 +1404,7 @@ function fadeIn(){
     canvas.style.transition = "opacity 1s";
     canvas.style.opacity = 1;
     displayState = 'displayslide'; // set mode to show
-    fadeTimer = setTimeout(function(){fadeOff();},wiz.OnTime*1000);
+    fadeOutTimer = setTimeout(function(){fadeOff();},wiz.OnTime*1000);
 
 
 }
@@ -1416,7 +1416,8 @@ function fadeOff(){
     canvas.style.transition = fadeTimeOut;
     canvas.style.opacity = 0;
 
-    fadeOutTimer = setTimeout(function(){ctx.globalAlpha =1;
+  ////  fadeOutTimer = setTimeout(function(){ctx.globalAlpha =1;
+    fadeTimer = setTimeout(function(){ctx.globalAlpha =1;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         displayState = 'idle'; },wiz.FadeOut*1000);
