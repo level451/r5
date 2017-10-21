@@ -1407,8 +1407,10 @@ function fadeIn(){
     canvas.style.opacity=0;
     ctx.globalAlpha =1;
     ctx.fillStyle = "#000000";
+    console.log("at line 1410");
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawImage();
+    console.log("at line 1413");
     var fadeTimeIn = ("opacity " + wiz.FadeIn + "s ease-in-out").toString();
     canvas.style.transition = fadeTimeIn;
     canvas.style.opacity = 1;
