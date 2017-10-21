@@ -1521,6 +1521,7 @@ function playVideo(d){
         },wiz.FadeOut*1000);
         audioState = 'idle';
         displayState = 'idle'; // set mode to video -
+        video.src ='';
     };
     video.onerror = function(){
         console.log('video onerror')
