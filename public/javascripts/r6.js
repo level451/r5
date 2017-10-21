@@ -1130,14 +1130,15 @@ function websockstart(){
 
                         }
                         if (displayState == 'playvideo'){
+                            audioState='idle';
+                            displayState='idle';
+
                             ctx.globalAlpha = 1; // erase the screen after the backlight is off
                             ctx.fillStyle = "#000000";
                             ctx.fillRect(0, 0, canvas.width, canvas.height);
                             video.pause();
                             video.src ='';
 
-                            audioState='idle';
-                            displayState='idle';
 
 
                         }
