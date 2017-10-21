@@ -1534,13 +1534,16 @@ function playVideo(d){
         video.src ='';
     };
     video.onerror = function(){
-        console.log('video onerror')
-        websocketsend('fadeOut',{});
-        ctx.globalAlpha = 1; // erase the screen after the backlight is off
+        if (displayState == 'playvideo'){
+            console.log('video onerror')
+            websocketsend('fadeOut',{});
+            ctx.globalAlpha = 1; // erase the screen after the backlight is off
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        displayState = 'idle'; // set mode to video -
+            displayState = 'idle'; // set mode to video -
+
+        }
 
     }
     video.src = 'show/'+wiz.ShowName+'/'+wiz.Directory+'/'+d
