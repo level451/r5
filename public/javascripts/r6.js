@@ -1113,7 +1113,7 @@ function websockstart(){
                             console.log('Cue ignored - in system menu')
                             break;
                         }
-                        clearTimeout(fadeOutTimer);
+
                         if (slideHistoryMode == true && (new Date() - slideHistoyTimestamp) < 3000){
                             
                             console.log('In slide history mode - new slide < 3 sec - delaying cue')
@@ -1149,7 +1149,8 @@ function websockstart(){
                             switch (x.type)
                             {
                                 case 'slide':
-
+                                    clearTimeout(fadeOutTimer);
+                                    clearTimeout(fadeFinishedTimer);
                                     slideHistoryPointer = 0; // reset review slide pointer
                                     if (!demoMode) // dont add to slide history in demo mode
                                     {
@@ -1161,9 +1162,12 @@ function websockstart(){
                                     break;
                                 case 'audio':
                                     playAudio(x.data);
+
                                     break;
                                 case 'video':
                                     playVideo(x.data);
+                                    clearTimeout(fadeOutTimer);
+                                    clearTimeout(fadeFinishedTimer);
                                     break;
                                 default:
                                     console.log('Unhandled extension:'+x.type);
