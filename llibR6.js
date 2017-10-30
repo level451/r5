@@ -130,10 +130,10 @@ exports.stopBrowser = function(){
 
  getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
-     if(os.type() == "Windows_NT") {
+
         // start ph on windows - on linuxz  start after the pan crap
          ph.start();
-     }
+
     }); // gets Mac address to gloabel.Mac
 
 
@@ -729,7 +729,7 @@ function wifiCheck(){
     require('child_process').exec('nmcli device wifi connect '+wiz.Ssid+' password "'+wiz.Pass+'" name show', function (err, resp) {
         setTimeout(function(){
             getIPAddress()
-            ph.start();
+            // ph.start(); should auto restart -
         }, 20000);// wait 5 seconds and then get ip address
 
         if (err){
