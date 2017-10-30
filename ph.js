@@ -43,8 +43,8 @@ function connect(ip) {
         retry()
     })
     phws.on('error', function (err) {
-        retry()
         if (err.code == 'ECONNREFUSED' || err.code =='ETIMEDOUT'){
+            retry()
 
         } else
         {
