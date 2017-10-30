@@ -76,6 +76,8 @@ if(os.type() != "Windows_NT") {
         });
 
 // ^^^^^^^^^   this is for USB detection -- added 09/16/2017
+} else {
+
 }
  exports.setVolumeGain = function(){
      childProcess.exec('amixer sset DAC 192', (err, stdouts, stderrs) => {//sets volume to max
@@ -128,8 +130,10 @@ exports.stopBrowser = function(){
 
  getMACAddress(function(){
     console.log('MAC Obtained - starting PH')
-    ph.start();
-
+     if(os.type() == "Windows_NT") {
+        // start ph on windows - on linuxz  start after the pan crap
+         ph.start();
+     }
     }); // gets Mac address to gloabel.Mac
 
 
