@@ -57,6 +57,7 @@ function connect(ip) {
     });
     function retry(){
        // console.log('Connection Failed - retry in:'+reconnectInterval/1000)
+        console.log('********************* PH RETRYS')
         phws.close()
         clearTimeout(retryTimeout)
         retryTimeout = setTimeout(
