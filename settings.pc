@@ -16,6 +16,6 @@
     "startupImages":{
         "splash":"splash.png",
         "logo":"logo.bmp",
-        "unitinfo":"status1024X600.jpg"
+        "unitinfo":"status1024x600.jpg"
     }
 }
