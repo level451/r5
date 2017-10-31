@@ -85,7 +85,8 @@ exports.xbeeGetsignalStrength = function(st,data,cb){
             break;
 
         case "ss2"://this data is the signal strength
-            SIGNALstrength = data;
+          //  SIGNALstrength = data;
+            SIGNALstrength = "-" + parseInt(data, 16) + " Db";
             sendXbeeData("ss3","ATCN\r");//clear AT mode
             break;
         case "ss3":
