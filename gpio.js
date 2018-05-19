@@ -46,7 +46,7 @@ var switch2;
 var switch3;
 var audioControl
 var switchBlock = 0;
-if(os.type() != "Windows_NT") {
+if(os.type() != "Windows_NT" || false) {
     var Gpio = require('onoff').Gpio,
         //  led = new Gpio(59, 'out'),
         //   button = new Gpio(78, 'in', 'both');
